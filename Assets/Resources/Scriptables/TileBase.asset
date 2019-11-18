@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3f8b9cd5512547499b57c0dcc537c75, type: 3}
+  m_Name: TileBase
+  m_EditorClassIdentifier: 
+  tileBase_cfgs:
+  - id: 1
+    tilebase: {fileID: 11400000, guid: 97d47650d5e8fa947aef7cfba45994fc, type: 2}
+  - id: 2
+    tilebase: {fileID: 11400000, guid: 335f3c25ce22aef468660164c8bdb36b, type: 2}
+  - id: 3
+    tilebase: {fileID: 11400000, guid: 9d360bb280bb25f4a97914cab3569e35, type: 2}
+  - id: 4
+    tilebase: {fileID: 11400000, guid: c7b01fa5e1e0512428cd2a1d3b02ec8d, type: 2}
+  - id: 5
+    tilebase: {fileID: 11400000, guid: 88871f698672dd341b9d95a72c3f6703, type: 2}
+  - id: 6
+    tilebase: {fileID: 11400000, guid: 13ed7d73a9b2eab40a7fb7f53c7a04a4, type: 2}
+  - id: -1
+    tilebase: {fileID: 11400000, guid: 4951c9b14505a9a4fb5e8bc8deb760c1, type: 2}
+  - id: 7
+    tilebase: {fileID: 11400000, guid: eadfee27d09129c4ab6112bf4cd46dc8, type: 2}

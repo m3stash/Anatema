@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Inventory
+  - InventoryToolbar
+  - TileSelector
+  - InventoryContainer
+  - WorldMap
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - PostProcessing
+  - Player
+  - Map
+  - Block
+  - Background
+  - LightMap
+  - Items
+  - WallMap
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Backgroud
+    uniqueID: 1841303577
+    locked: 0
+  - name: WallMap
+    uniqueID: 2482271949
+    locked: 0
+  - name: Map
+    uniqueID: 2373834787
+    locked: 0
+  - name: Player
+    uniqueID: 1077892909
+    locked: 0
+  - name: Items
+    uniqueID: 81745725
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: LightMap
+    uniqueID: 1127240023
+    locked: 0
