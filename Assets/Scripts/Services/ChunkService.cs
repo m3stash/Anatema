@@ -76,6 +76,8 @@ public class ChunkService : MonoBehaviour {
         return usedChunk.Find(chunk => chunk.indexX == posX && chunk.indexY == posY);
     }
     public void Init(int chunkSize, Dictionary<int, TileBase> _tilebaseDictionary, int[,] tilesWorldMap, int[,] tilesLightMap, GameObject player, LightService lightService, int[,] tilesShadowMap) {
+        boundX = tilesWorldMap.GetUpperBound(0);
+        boundY = tilesWorldMap.GetUpperBound(1);
         playerCam = player.GetComponentInChildren<Camera>();
         halfChunk = chunkSize / 2;
         this.player = player;
@@ -89,9 +91,10 @@ public class ChunkService : MonoBehaviour {
         cacheChunkData = new ChunkDataModel[boundX, boundY];
         CreatePoolChunk(20, 52);
     }
+    // to do refacto ca pour ne pas l'appeler avant ????
     public void CreateChunksFromMaps(int[,] tilesMap, int chunkSize) {
-        chunkXLength = boundX + 1 / chunkSize;
-        chunkYLength = boundY + 1 / chunkSize;
+        chunkXLength = (tilesMap.GetUpperBound(0) + 1) / chunkSize;
+        chunkYLength = (tilesMap.GetUpperBound(1) + 1) / chunkSize;
         int[,][,] tilesMapChunksArray = new int[chunkXLength, chunkYLength][,];
         for (var chkX = 0; chkX < chunkXLength; chkX++) {
             for (var chkY = 0; chkY < chunkYLength; chkY++) {
