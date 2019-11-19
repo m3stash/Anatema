@@ -52,7 +52,6 @@ public class ChunkService : MonoBehaviour {
         if (oldPosX != currentPlayerChunkX || oldPosY != currentPlayerChunkY) {
             var chuncksToDesactivate = usedChunk.FindAll(chunk => Mathf.Abs(chunk.indexX - currentPlayerChunkX) >= maxChunkGapWithPlayerX || Mathf.Abs(chunk.indexY - currentPlayerChunkY) >= maxChunkGapWithPlayerY);
             chuncksToDesactivate.ForEach(chunk => PlayerIsTooFar(chunk));
-            
         }
         if (currentPlayerChunkX > oldPosX) { // right
             StartCoroutine(StartPool(currentPlayerChunkX + 1, currentPlayerChunkY));

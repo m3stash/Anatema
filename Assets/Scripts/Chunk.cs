@@ -33,6 +33,8 @@ public class Chunk : MonoBehaviour {
         CycleDay.RefreshIntensity += RefreshShadowMap;
         WorldManager.RefreshLight += RefreshShadowMap;
         if (!firstInitialisation) {
+            tileMapTileMapScript.hasAlreadyInit = true;
+            wallTileMapScript.hasAlreadyInit = true;
             RefreshTiles();
         }
     }
@@ -47,9 +49,11 @@ public class Chunk : MonoBehaviour {
                     tilemapShadow.SetColor(new Vector3Int(x, y, 0), new Color(0, 0, 0, 0));
                 } else {
                     if (light <= shadow && light < 100) {
-                        tilemapShadow.SetColor(new Vector3Int(x, y, 0), new Color(0, 0, 0, (float)light * 0.01f));
+                        tilemapShadow.SetColor(new Vector3Int(x, y, 0), new Color(0, 0, 0, 0));
+                        // tilemapShadow.SetColor(new Vector3Int(x, y, 0), new Color(0, 0, 0, (float)light * 0.01f));
                     } else {
-                        tilemapShadow.SetColor(new Vector3Int(x, y, 0), new Color(0, 0, 0, (float)shadow * 0.01f));
+                        // tilemapShadow.SetColor(new Vector3Int(x, y, 0), new Color(0, 0, 0, (float)shadow * 0.01f));
+                        tilemapShadow.SetColor(new Vector3Int(x, y, 0), new Color(0, 0, 0, 0));
                     }
                 }
             }
@@ -91,6 +95,7 @@ public class Chunk : MonoBehaviour {
         tilemapWall.SetTiles(positions, tileArrayWall);
     }
     void Start() {
+        // !! call just one time afer instanciate !!
         InitColliders();
         firstInitialisation = false;
         RefreshTiles();

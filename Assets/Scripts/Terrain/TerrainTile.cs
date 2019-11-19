@@ -21,9 +21,11 @@ namespace UnityEngine.Tilemaps {
             for (int yd = -1; yd <= 1; yd++) {
                 for (int xd = -1; xd <= 1; xd++) {
                     Vector3Int position = new Vector3Int(location.x + xd, location.y + yd, location.z);
-                    if (TileValue(tileMap, position)) {
+                    // utilité ???
+                    /*if (TileValue(tileMap, position)) {
                         tileMap.RefreshTile(position);
-                    }
+                    }*/
+                    tileMap.RefreshTile(position);
                 }
             }
         }
