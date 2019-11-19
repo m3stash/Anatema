@@ -77,8 +77,6 @@ public class ChunkService : MonoBehaviour {
     }
     public void Init(int chunkSize, Dictionary<int, TileBase> _tilebaseDictionary, int[,] tilesWorldMap, int[,] tilesLightMap, GameObject player, LightService lightService, int[,] tilesShadowMap) {
         playerCam = player.GetComponentInChildren<Camera>();
-        boundX = tilesMapChunks.GetUpperBound(0);
-        boundY = tilesMapChunks.GetUpperBound(1);
         halfChunk = chunkSize / 2;
         this.player = player;
         worldMapTransform = GameObject.FindGameObjectWithTag("WorldMap").gameObject.transform;
@@ -92,8 +90,8 @@ public class ChunkService : MonoBehaviour {
         CreatePoolChunk(20, 52);
     }
     public void CreateChunksFromMaps(int[,] tilesMap, int chunkSize) {
-        chunkXLength = (tilesMap.GetUpperBound(0) + 1) / chunkSize;
-        chunkYLength = (tilesMap.GetUpperBound(1) + 1) / chunkSize;
+        chunkXLength = boundX + 1 / chunkSize;
+        chunkYLength = boundY + 1 / chunkSize;
         int[,][,] tilesMapChunksArray = new int[chunkXLength, chunkYLength][,];
         for (var chkX = 0; chkX < chunkXLength; chkX++) {
             for (var chkY = 0; chkY < chunkYLength; chkY++) {
@@ -183,6 +181,8 @@ public class ChunkService : MonoBehaviour {
         unUsedChunk.RemoveAt(0);
         Chunk ck = usedChunk[usedChunk.Count - 1];
         GameObject chunkGo = ck.gameObject;
+        ck.indexX = chunkPosX;
+        ck.indexY = chunkPosY;
         int worldPosX = chunkPosX * chunkSize;
         int worldPosY = chunkPosY * chunkSize;
         ck.indexXWorldPos = worldPosX;
@@ -191,13 +191,10 @@ public class ChunkService : MonoBehaviour {
         // ck.player = player;
         ck.tilesMap = tilesMapChunks[chunkPosX, chunkPosY]; // ToDo régler le pb de out of range !!!!!!!!! => voir si pas out of bound
         var chunkData = GetChunkData(chunkPosX, chunkPosY);
-        var boundX = tilesWorldMap.GetUpperBound(0);
-        var boundY = tilesWorldMap.GetUpperBound(1);
         ck.tileMapTileMapScript.Init(worldPosX, worldPosY, tilesWorldMap, chunkData.tilemapData, boundX, boundY);
         ck.wallTileMapScript.Init(worldPosX, worldPosY, wallTilesMap, chunkData.wallmapData, boundX, boundY);
         ck.shadowTileMapScript.Init(worldPosX, worldPosY, tilesShadowMap, chunkData.shadowmapData, boundX, boundY);
-        ck.indexX = chunkPosX;
-        ck.indexY = chunkPosY;
+
         chunkGo.SetActive(true);
     }
     private void PlayerIsTooFar(Chunk ck) {
