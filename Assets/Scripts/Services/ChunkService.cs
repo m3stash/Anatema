@@ -91,7 +91,6 @@ public class ChunkService : MonoBehaviour {
         cacheChunkData = new ChunkDataModel[boundX, boundY];
         CreatePoolChunk(20, 52);
     }
-    // to do refacto ca pour ne pas l'appeler avant ????
     public void CreateChunksFromMaps(int[,] tilesMap, int chunkSize) {
         chunkXLength = (tilesMap.GetUpperBound(0) + 1) / chunkSize;
         chunkYLength = (tilesMap.GetUpperBound(1) + 1) / chunkSize;
