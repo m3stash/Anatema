@@ -345,28 +345,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9123636811157445896, guid: 97357c54794fec444bfa71dc409bd48b,
         type: 3}
-      propertyPath: CollisionModule.m_Bounce.scalar
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9123636811157445896, guid: 97357c54794fec444bfa71dc409bd48b,
-        type: 3}
-      propertyPath: CollisionModule.m_EnergyLossOnCollision.scalar
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9123636811157445896, guid: 97357c54794fec444bfa71dc409bd48b,
-        type: 3}
-      propertyPath: CollisionModule.minKillSpeed
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 9123636811157445896, guid: 97357c54794fec444bfa71dc409bd48b,
-        type: 3}
-      propertyPath: CollisionModule.maxKillSpeed
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 9123636811157445899, guid: 97357c54794fec444bfa71dc409bd48b,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 600
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97357c54794fec444bfa71dc409bd48b, type: 3}
