@@ -32,6 +32,7 @@ public class Chunk : MonoBehaviour {
     private void OnEnable() {
         CycleDay.RefreshIntensity += RefreshShadowMap;
         WorldManager.RefreshLight += RefreshShadowMap;
+        ChunkService.RefreshLight += RefreshShadowMap;
         if (!firstInitialisation) {
             tileMapTileMapScript.hasAlreadyInit = true;
             wallTileMapScript.hasAlreadyInit = true;
@@ -64,6 +65,7 @@ public class Chunk : MonoBehaviour {
         alreadyVisible = false;
         WorldManager.RefreshLight -= RefreshShadowMap;
         CycleDay.RefreshIntensity -= RefreshShadowMap;
+        ChunkService.RefreshLight -= RefreshShadowMap;
     }
     private void RefreshTiles() {
         Vector3Int[] positions = new Vector3Int[chunkSize * chunkSize];

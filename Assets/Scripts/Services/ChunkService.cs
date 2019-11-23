@@ -42,11 +42,14 @@ public class ChunkService : MonoBehaviour {
     private int chunkYLength;
     private int oldPosX;
     private int oldPosY;
+    private int oldPlayerPosX;
+    private int oldPlayerPosY;
+    private GameObject[,] tilesObjetMap;
+    // event
+    public delegate void LightEventHandler(int intensity);
+    public static event LightEventHandler RefreshLight;
 
     public void FixedUpdate() {
-        ManageChunkPoolFromPlayerPos();
-    }
-    private void ManageChunkPoolFromPlayerPos() {
         currentPlayerChunkX = (int)player.transform.position.x / chunkSize;
         currentPlayerChunkY = (int)player.transform.position.y / chunkSize;
         if (oldPosX != currentPlayerChunkX || oldPosY != currentPlayerChunkY) {
@@ -63,8 +66,18 @@ public class ChunkService : MonoBehaviour {
         } else if (currentPlayerChunkY < oldPosY) { // bottom
             StartCoroutine(StartPool(currentPlayerChunkX, currentPlayerChunkY - 1));
         }
+        // dynamic light
+        var playerX = (int)player.transform.position.x;
+        var playerY = (int)player.transform.position.y;
+        if (oldPlayerPosX != playerX || oldPlayerPosY != playerY) {
+            lightService.RecursivDeleteLight(oldPlayerPosX, oldPlayerPosY, true, tilesObjetMap);
+            lightService.RecursivAddNewLight(playerX, playerY, 0);
+        }
         oldPosX = currentPlayerChunkX;
         oldPosY = currentPlayerChunkY;
+        oldPlayerPosX = (int)player.transform.position.x;
+        oldPlayerPosY = (int)player.transform.position.y;
+        RefreshLight(CycleDay.GetIntensity());
     }
     public void SetWallMap(int[,] map) {
         wallTilesMap = map;
@@ -75,7 +88,7 @@ public class ChunkService : MonoBehaviour {
     public Chunk GetChunk(int posX, int posY) {
         return usedChunk.Find(chunk => chunk.indexX == posX && chunk.indexY == posY);
     }
-    public void Init(int chunkSize, Dictionary<int, TileBase> _tilebaseDictionary, int[,] tilesWorldMap, int[,] tilesLightMap, GameObject player, LightService lightService, int[,] tilesShadowMap) {
+    public void Init(int chunkSize, Dictionary<int, TileBase> _tilebaseDictionary, int[,] tilesWorldMap, int[,] tilesLightMap, GameObject player, LightService lightService, int[,] tilesShadowMap, GameObject[,] tilesObjetMap) {
         boundX = tilesWorldMap.GetUpperBound(0);
         boundY = tilesWorldMap.GetUpperBound(1);
         playerCam = player.GetComponentInChildren<Camera>();
@@ -89,6 +102,7 @@ public class ChunkService : MonoBehaviour {
         this.lightService = lightService;
         this.tilesShadowMap = tilesShadowMap;
         cacheChunkData = new ChunkDataModel[boundX, boundY];
+        this.tilesObjetMap = tilesObjetMap;
         CreatePoolChunk(20, 52);
     }
     public void CreateChunksFromMaps(int[,] tilesMap, int chunkSize) {
@@ -157,6 +171,8 @@ public class ChunkService : MonoBehaviour {
         // spawn player on center start chunk
         oldPosX = xStart;
         oldPosY = yStart;
+        oldPlayerPosX = xStart * chunkSize + (chunkSize / 2);
+        oldPlayerPosY = yStart * chunkSize + (chunkSize / 2);
         player.transform.position = new Vector3(xStart * chunkSize + (chunkSize / 2), yStart * chunkSize + (chunkSize / 2), 0);
     }
     private ChunkDataModel GetChunkData(int PosX, int PosY) {

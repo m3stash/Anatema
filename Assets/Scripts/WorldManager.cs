@@ -40,7 +40,7 @@ public class WorldManager : MonoBehaviour {
         CreateWorldMap();
         CreateLightMap();
         CreatePlayer();
-        chunkService.Init(chunkSize, tilebaseDictionary, tilesWorldMap, tilesLightMap, player, lightService, tilesShadowMap);
+        chunkService.Init(chunkSize, tilebaseDictionary, tilesWorldMap, tilesLightMap, player, lightService, tilesShadowMap, tilesObjetMap);
         lightService.Init(tilesWorldMap, tilesLightMap, wallTilesMap, tilesShadowMap);
         GetPlayer(player);
     }
@@ -86,7 +86,7 @@ public class WorldManager : MonoBehaviour {
     }
     public void DeleteItem(int posX, int posY) {
         if (tilesObjetMap[posX, posY].name == "item_11(Clone)") { // toDo changer cette merde
-            lightService.RecursivDeleteLight(posX, posY, true);
+            lightService.RecursivDeleteLight(posX, posY, true, tilesObjetMap);
             RefreshLight(CycleDay.GetIntensity());
         }
         tilesObjetMap[posX, posY] = null;
@@ -105,7 +105,7 @@ public class WorldManager : MonoBehaviour {
     public void AddTile(int x, int y, int id) {
         Chunk currentChunk = ManageChunkTile(x, y, id);
         currentChunk.SetTile(new Vector3Int(x % chunkSize, y % chunkSize, 0), tilebaseDictionary[id]);
-        lightService.RecursivAddShadow(x, y);
+        lightService.RecursivAddShadow(x, y, tilesObjetMap);
         RefreshLight(CycleDay.GetIntensity());
         RefreshChunkNeightboorTiles(x, y, currentChunk.tilemapTile);
     }
