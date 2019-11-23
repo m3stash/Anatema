@@ -17,13 +17,12 @@ public class BackgroundParallaxManager : MonoBehaviour {
 
     // TO DO voir a remplacer le player par transform de la camera !!
 
-    void Start() {
-        instance = this;
-        WorldManager.SetPlayer += SetPlayer;
+    private void OnEnable() {
+        WorldManager.GetPlayer += SetPlayer;
     }
 
     private void OnDestroy() {
-        WorldManager.SetPlayer -= SetPlayer;
+        WorldManager.GetPlayer -= SetPlayer;
     }
     private void SetPlayer(GameObject player) {
         this.player = player;

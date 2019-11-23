@@ -28,7 +28,7 @@ public class WorldManager : MonoBehaviour {
     public delegate void LightEventHandler(int intensity);
     public static event LightEventHandler RefreshLight;
     public delegate void PlayerLoaded(GameObject player);
-    public static event PlayerLoaded SetPlayer;
+    public static event PlayerLoaded GetPlayer;
 
     private void InitFolders() {
         FileManager.ManageFolder("chunk-data");
@@ -42,6 +42,7 @@ public class WorldManager : MonoBehaviour {
         CreatePlayer();
         chunkService.Init(chunkSize, tilebaseDictionary, tilesWorldMap, tilesLightMap, player, lightService, tilesShadowMap);
         lightService.Init(tilesWorldMap, tilesLightMap, wallTilesMap, tilesShadowMap);
+        GetPlayer(player);
     }
     private void InitResources() {
         chunkService = gameObject.GetComponent<ChunkService>();
@@ -72,7 +73,6 @@ public class WorldManager : MonoBehaviour {
     private void CreatePlayer() {
         player = Instantiate((GameObject)Resources.Load("Prefabs/Characters/Player/Player"), new Vector3(0, 0, 0), transform.rotation);
         tile_selector.GetComponent<TileSelector>().Init(player, this, wallTilesMap, tilesWorldMap, tilesObjetMap);
-        SetPlayer(player);
     }
     public void AddItem(int posX, int posY, InventoryItem item) {
         var id = item.config.id;
