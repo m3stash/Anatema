@@ -33,7 +33,7 @@ SpriteAtlas:
     - {fileID: 2800000, guid: b0b5f6c7c8139704791ca26283c9c401, type: 3}
     - {fileID: 2800000, guid: 054c4fc2752957d4eabfbaee13659100, type: 3}
     - {fileID: 2800000, guid: c921e2726ecc0284a85ab94742304590, type: 3}
-    totalSpriteSurfaceArea: 27648
+    totalSpriteSurfaceArea: 27392
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
@@ -65,7 +65,6 @@ SpriteAtlas:
   - {fileID: -2250979663647398285, guid: c921e2726ecc0284a85ab94742304590, type: 3}
   - {fileID: 1684332461669216695, guid: c921e2726ecc0284a85ab94742304590, type: 3}
   - {fileID: 1943859967494798541, guid: c921e2726ecc0284a85ab94742304590, type: 3}
-  - {fileID: 4162261161075656089, guid: c921e2726ecc0284a85ab94742304590, type: 3}
   - {fileID: -6252486248573733601, guid: c921e2726ecc0284a85ab94742304590, type: 3}
   - {fileID: 4840285518514534099, guid: c921e2726ecc0284a85ab94742304590, type: 3}
   - {fileID: -7463445084774042835, guid: c921e2726ecc0284a85ab94742304590, type: 3}
@@ -174,7 +173,6 @@ SpriteAtlas:
   - dirt_30
   - dirt_31
   - dirt_34
-  - dirt_35
   - dirt_9
   - dirt_8
   - dirt_5
