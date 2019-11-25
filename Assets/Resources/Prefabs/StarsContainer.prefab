@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 396948115319034117}
   - component: {fileID: 396948115319034118}
-  m_Layer: 12
+  m_Layer: 19
   m_Name: StarsContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ PrefabInstance:
     - target: {fileID: 7655441474817332801, guid: 898f0035e69464a45859612c9b79a699,
         type: 3}
       propertyPath: m_Layer
-      value: 12
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 7655441474817332802, guid: 898f0035e69464a45859612c9b79a699,
         type: 3}
@@ -120,6 +120,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7655441474817332800, guid: 898f0035e69464a45859612c9b79a699,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -581260933
+      objectReference: {fileID: 0}
+    - target: {fileID: 7655441474817332800, guid: 898f0035e69464a45859612c9b79a699,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: -2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 898f0035e69464a45859612c9b79a699, type: 3}
@@ -150,7 +160,7 @@ PrefabInstance:
     - target: {fileID: 7655441474817332801, guid: 898f0035e69464a45859612c9b79a699,
         type: 3}
       propertyPath: m_Layer
-      value: 12
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 7655441474817332802, guid: 898f0035e69464a45859612c9b79a699,
         type: 3}
@@ -206,6 +216,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7655441474817332800, guid: 898f0035e69464a45859612c9b79a699,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -581260933
+      objectReference: {fileID: 0}
+    - target: {fileID: 7655441474817332800, guid: 898f0035e69464a45859612c9b79a699,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: -2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 898f0035e69464a45859612c9b79a699, type: 3}

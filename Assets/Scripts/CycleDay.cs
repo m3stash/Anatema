@@ -48,11 +48,16 @@ public class CycleDay : MonoBehaviour {
             } else {
             }*/
             currentHour = timerDay / 60 / 60;
+            // currentHour = 24;
             SetIntensity(currentHour);
             SetGlobalColor(currentHour);
             if (lastHour != currentHour) {
                 lastHour = currentHour;
-                RefreshIntensity(intensity);
+                if (RefreshIntensity != null) {
+                    RefreshIntensity(intensity);
+                }
+                //lastHour = 24;
+                //RefreshIntensity(70);
             }
             timerDay = currentHour == 24 ? 0 : timerDay += convertedInRealSecond;
             yield return new WaitForSeconds(1);
@@ -63,22 +68,22 @@ public class CycleDay : MonoBehaviour {
         switch (currentHour) {
             case 0:
                 intensity = 70;
-                sunIntensity = 0f;
+                sunIntensity = 0.10f;
                 // intensity = 80;
                 break;
             case 1:
                 intensity = 70;
-                sunIntensity = 0f;
+                sunIntensity = 0.10f;
                 // intensity = 80;
                 break;
             case 2:
                 intensity = 70;
-                sunIntensity = 0f;
+                sunIntensity = 0.10f;
                 // intensity = 80;
                 break;
             case 3:
                 intensity = 70;
-                sunIntensity = 0f;
+                sunIntensity = 0.10f;
                 break;
             case 4:
                 intensity = 60;
@@ -134,7 +139,7 @@ public class CycleDay : MonoBehaviour {
                 break;
             case 24:
                 intensity = 70;
-                sunIntensity = 0f;
+                sunIntensity = 0.10f;
                 // intensity = 80;
                 break;
             default:
@@ -145,8 +150,9 @@ public class CycleDay : MonoBehaviour {
     }
 
     private void SetGlobalColor(int currentHour) {
-        if (currentHour >= 22 && currentHour <= 24 || currentHour >= 0 && currentHour < 4) {
-            newColor = new Color32(0, 0, 0, 255);
+        if (currentHour > 22 && currentHour <= 24 || currentHour >= 0 && currentHour < 4) {
+            // newColor = new Color32(0, 0, 0, 255);
+            newColor = new Color32(255, 255, 255, 255);
             // Debug.Log("nuit");
         } else if (currentHour >= 4 && currentHour < 7) {
             newColor = new Color32(135, 135, 135, 255);
@@ -161,7 +167,7 @@ public class CycleDay : MonoBehaviour {
             // Debug.Log("fin journée");
         } else {
             // >= 19 && < 22
-            newColor = new Color32(60, 50, 50, 255);
+            newColor = new Color32(120, 120, 120, 255);
             // Debug.Log("crepuscule");
         }
     }

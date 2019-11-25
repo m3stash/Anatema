@@ -26,14 +26,14 @@ TagManager:
   - LightMap
   - Items
   - WallMap
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Rain
+  - Light
+  - Background_1
+  - Background_2
+  - Background_3
+  - Background_4
+  - Background_5
+  - Background_6
   - 
   - 
   - 
@@ -43,8 +43,23 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Backgroud
+  - name: Background_6
+    uniqueID: 3713706363
+    locked: 0
+  - name: Background_5
     uniqueID: 1841303577
+    locked: 0
+  - name: Background_4
+    uniqueID: 2121079681
+    locked: 0
+  - name: Background_3
+    uniqueID: 1700894127
+    locked: 0
+  - name: Background_2
+    uniqueID: 2870152187
+    locked: 0
+  - name: Background_1
+    uniqueID: 2872836161
     locked: 0
   - name: Default
     uniqueID: 0
@@ -63,4 +78,10 @@ TagManager:
     locked: 0
   - name: Items
     uniqueID: 81745725
+    locked: 0
+  - name: Light
+    uniqueID: 3940043855
+    locked: 0
+  - name: Rain
+    uniqueID: 3850902871
     locked: 0
