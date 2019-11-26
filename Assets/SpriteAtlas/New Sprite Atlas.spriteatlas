@@ -33,7 +33,7 @@ SpriteAtlas:
     - {fileID: 2800000, guid: b0b5f6c7c8139704791ca26283c9c401, type: 3}
     - {fileID: 2800000, guid: 054c4fc2752957d4eabfbaee13659100, type: 3}
     - {fileID: 2800000, guid: c921e2726ecc0284a85ab94742304590, type: 3}
-    totalSpriteSurfaceArea: 27392
+    totalSpriteSurfaceArea: 27136
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
@@ -125,7 +125,6 @@ SpriteAtlas:
   - {fileID: 5702724985220472881, guid: b0b5f6c7c8139704791ca26283c9c401, type: 3}
   - {fileID: 5072507827120830229, guid: b0b5f6c7c8139704791ca26283c9c401, type: 3}
   - {fileID: -5828345164146098060, guid: b0b5f6c7c8139704791ca26283c9c401, type: 3}
-  - {fileID: -2722158126048396277, guid: b0b5f6c7c8139704791ca26283c9c401, type: 3}
   - {fileID: -3195439900336056700, guid: b0b5f6c7c8139704791ca26283c9c401, type: 3}
   - {fileID: 8776541420018148519, guid: b0b5f6c7c8139704791ca26283c9c401, type: 3}
   - {fileID: -7783269891256060886, guid: b0b5f6c7c8139704791ca26283c9c401, type: 3}
@@ -233,7 +232,6 @@ SpriteAtlas:
   - wall_dirt_23
   - wall_dirt_20
   - wall_dirt_21
-  - wall_dirt_35
   - wall_dirt_26
   - wall_dirt_34
   - wall_dirt_27
