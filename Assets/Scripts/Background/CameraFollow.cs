@@ -22,7 +22,7 @@ public class CameraFollow : MonoBehaviour {
         this.player = player;
     }
 
-    void FixedUpdate() {
+    void Update() {
         if (!player)
             return;
         float posX = Mathf.SmoothDamp(transform.position.x, player.transform.position.x, ref velocity.x, smoothTimeX);

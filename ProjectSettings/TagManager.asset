@@ -34,7 +34,7 @@ TagManager:
   - Background_4
   - Background_5
   - Background_6
-  - 
+  - Objects
   - 
   - 
   - 
@@ -72,6 +72,9 @@ TagManager:
     locked: 0
   - name: LightMap
     uniqueID: 1127240023
+    locked: 0
+  - name: Objects
+    uniqueID: 425719475
     locked: 0
   - name: Player
     uniqueID: 1077892909
