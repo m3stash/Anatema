@@ -121,7 +121,7 @@ public class LevelGenerator : MonoBehaviour {
         }
         int newLight = 0;
         if (tile > 0) {
-            newLight = lastLight + 15;
+            newLight = lastLight + 10;
         } else {
             if (wallTile > 0) {
                 newLight = lastLight + 5;

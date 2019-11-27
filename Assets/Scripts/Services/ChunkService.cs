@@ -141,7 +141,7 @@ public class ChunkService : MonoBehaviour {
             GameObject chunk = Instantiate((GameObject)Resources.Load("Prefabs/Chunk"), new Vector3(0, 0, 0), transform.rotation);
             chunk.transform.parent = worldMapTransform;
             Chunk ck = chunk.GetComponent<Chunk>();
-            IsVisible isVisibleScript = ck.tilemapTile.GetComponent<IsVisible>();
+            IsVisible isVisibleScript = ck.GetComponent<IsVisible>();
             isVisibleScript.cam = playerCam;
             isVisibleScript.chunk = ck;
             ck.tileMapTileMapScript = ck.tilemapTile.GetComponent<TileMapScript>();

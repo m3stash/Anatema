@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InfiniteMove : MonoBehaviour
-{
+public class InfiniteMove : MonoBehaviour {
     [SerializeField] private float speed;
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         this.transform.Translate(Vector3.right * this.speed * Time.deltaTime);
     }
 

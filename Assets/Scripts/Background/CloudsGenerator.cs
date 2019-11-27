@@ -32,7 +32,7 @@ public class CloudsGenerator : MonoBehaviour {
         while (true) {
             if (this.activeClouds.Count < this.quantity) {
                 this.GenerateCloud();
-                yield return new WaitForSeconds(5);
+                yield return new WaitForSeconds(20);
             } else {
                 yield return new WaitForSeconds(1);
             }
@@ -42,9 +42,7 @@ public class CloudsGenerator : MonoBehaviour {
     private void GenerateCloud() {
         Sprite cloudSprite = this.cloudsSprites[Random.Range(0, this.cloudsSprites.Length)];
         Vector2 position = new Vector2(-this.offsetX, Random.Range(0f, this.height));
-        float size = Random.Range(this.minSize, this.maxSize);
         GameObject cloud = null;
-
         if (this.availableClouds.Count > 0) {
             cloud = this.availableClouds[0];
             cloud.SetActive(true);
@@ -52,15 +50,11 @@ public class CloudsGenerator : MonoBehaviour {
         } else {
             cloud = Instantiate(this.cloudPrefab, position, Quaternion.identity, this.transform);
         }
-
         SpriteRenderer renderer = cloud.GetComponent<SpriteRenderer>();
         renderer.sprite = cloudSprite;
         renderer.flipX = Random.Range(0, 2) == 0;
-
+        cloud.transform.localPosition = new Vector2(-30, Random.Range(-11, 11));
         cloud.GetComponent<InfiniteMove>().SetSpeed(Random.Range(this.minSpeed, this.maxSpeed));
-
-        cloud.transform.localScale = new Vector2(size, size);
-
         this.activeClouds.Add(cloud);
     }
 }
