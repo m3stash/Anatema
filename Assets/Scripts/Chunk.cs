@@ -59,6 +59,7 @@ public class Chunk : MonoBehaviour {
         }
     }
     private void OnDisable() {
+        tilemapWall.ClearAllTiles();
         tilemapTile.ClearAllTiles(); // for tile not refresh (display with bad sprite number!!)
         alreadyVisible = false;
         CycleDay.RefreshIntensity -= RefreshShadowMap;
