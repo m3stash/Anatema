@@ -53,7 +53,7 @@ public class CloudsGenerator : MonoBehaviour {
         SpriteRenderer renderer = cloud.GetComponent<SpriteRenderer>();
         renderer.sprite = cloudSprite;
         renderer.flipX = Random.Range(0, 2) == 0;
-        cloud.transform.localPosition = new Vector2(-30, Random.Range(-11, 11));
+        cloud.transform.localPosition = new Vector2(-30, Random.Range(-7, 11));
         cloud.GetComponent<InfiniteMove>().SetSpeed(Random.Range(this.minSpeed, this.maxSpeed));
         this.activeClouds.Add(cloud);
     }

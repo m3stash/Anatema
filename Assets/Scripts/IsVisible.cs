@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 public class IsVisible : MonoBehaviour {
-    public Renderer m_Renderer;
+    private Renderer m_Renderer;
     public Chunk chunk;
     public Camera cam;
     void Start() {
