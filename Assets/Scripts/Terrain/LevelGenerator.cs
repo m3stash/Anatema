@@ -22,7 +22,7 @@ public class LevelGenerator : MonoBehaviour {
         // generate irons
         // MapFunctions.GenerateIrons(worldMap);
         // add grass
-        // worldMap = MapFunctions.AddGrassOntop(worldMap);
+        worldMap = MapFunctions.AddGrassOntop(worldMap);
     }
     public void GenerateObjectsWorldMap(int[,] map) { }
     private bool IsOnBound(int x, int y, int BoundX, int boundY) {
@@ -78,13 +78,13 @@ public class LevelGenerator : MonoBehaviour {
         for (var x = 0; x < tilesWorldMap.GetUpperBound(0); x++) {
             // top to bottom
             for (var y = boundY; y > 0; y--) {
-                if (tilesWorldMap[x, y] == 0 && !IsOutOfBound(x, y - 1, tilesWorldMap) && tilesWorldMap[x, y - 1] > 0 || tilesWorldMap[x, y - 1] <= 1) {
+                if (tilesWorldMap[x, y] == 0 && !IsOutOfBound(x, y - 1, tilesWorldMap) && tilesWorldMap[x, y - 1] > 0 || tilesWorldMap[x, y - 1] <= 255) {
                     tilesShadowMap[x, y - 1] = GetAmountLight(tilesWorldMap[x, y - 1], wallTilesMap[x, y - 1], tilesShadowMap[x, y]);
                 }
             }
             // bottom to top
             for (var y = 0; y < boundY; y++) {
-                if (tilesWorldMap[x, y] == 0 && !IsOutOfBound(x, y + 1, tilesWorldMap) && tilesWorldMap[x, y + 1] > 0 || tilesWorldMap[x, y + 1] <= 1) {
+                if (tilesWorldMap[x, y] == 0 && !IsOutOfBound(x, y + 1, tilesWorldMap) && tilesWorldMap[x, y + 1] > 0 || tilesWorldMap[x, y + 1] <= 255) {
                     var newLight = GetAmountLight(tilesWorldMap[x, y + 1], wallTilesMap[x, y + 1], tilesShadowMap[x, y]);
                     var topLight = tilesShadowMap[x, y + 1];
                     tilesShadowMap[x, y + 1] = newLight <= topLight ? newLight : topLight;
@@ -94,7 +94,7 @@ public class LevelGenerator : MonoBehaviour {
         for (var y = boundY; y > 0; y--) {
             // left to right
             for (var x = 0; x < boundX; x++) {
-                if (tilesWorldMap[x, y] == 0 && !IsOutOfBound(x + 1, y, tilesWorldMap) && tilesWorldMap[x + 1, y] > 0 || tilesWorldMap[x + 1, y] <= 1) {
+                if (tilesWorldMap[x, y] == 0 && !IsOutOfBound(x + 1, y, tilesWorldMap) && tilesWorldMap[x + 1, y] > 0 || tilesWorldMap[x + 1, y] <= 255) {
                     var newLight = GetAmountLight(tilesWorldMap[x + 1, y], wallTilesMap[x + 1, y], tilesShadowMap[x, y]);
                     var rightLight = tilesShadowMap[x + 1, y];
                     tilesShadowMap[x + 1, y] = newLight <= rightLight ? newLight : rightLight;
@@ -102,7 +102,7 @@ public class LevelGenerator : MonoBehaviour {
             }
             // right to left
             for (var x = boundX; x > 0; x--) {
-                if (tilesWorldMap[x, y] == 0 && !IsOutOfBound(x - 1, y, tilesWorldMap) && tilesWorldMap[x - 1, y] > 0 || tilesWorldMap[x - 1, y] <= 1) {
+                if (tilesWorldMap[x, y] == 0 && !IsOutOfBound(x - 1, y, tilesWorldMap) && tilesWorldMap[x - 1, y] > 0 || tilesWorldMap[x - 1, y] <= 255) {
                     var newLight = GetAmountLight(tilesWorldMap[x - 1, y], wallTilesMap[x - 1, y], tilesShadowMap[x, y]);
                     var rightLight = tilesShadowMap[x - 1, y];
                     tilesShadowMap[x - 1, y] = newLight <= rightLight ? newLight : rightLight;

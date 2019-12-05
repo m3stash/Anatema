@@ -212,7 +212,6 @@ public class ChunkService : MonoBehaviour {
         ck.tileMapTileMapScript.Init(worldPosX, worldPosY, tilesWorldMap, chunkData.tilemapData, boundX, boundY);
         ck.wallTileMapScript.Init(worldPosX, worldPosY, wallTilesMap, chunkData.wallmapData, boundX, boundY);
         ck.shadowTileMapScript.Init(worldPosX, worldPosY, tilesShadowMap, chunkData.shadowmapData, boundX, boundY);
-
         chunkGo.SetActive(true);
     }
     private void PlayerIsTooFar(Chunk ck) {

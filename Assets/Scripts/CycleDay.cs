@@ -6,23 +6,35 @@ using System;
 
 
 public class CycleDay : MonoBehaviour {
-    [SerializeField] Light sun;
-    public int startHour = 8;
-    public int durationDayOnMinute;
-    [SerializeField]private int currentHour = 0;
+    [SerializeField] private Light AmbiantLight;
+    [SerializeField] private int startHour = 8;
+    [SerializeField] private int durationDayOnMinute;
+    [SerializeField] private int currentHour = 0;
+    [SerializeField] private GameObject sphere;
+    [SerializeField] private GameObject[] moon;
+    [SerializeField] private GameObject sun;
     private readonly int secondInDay = 86400;
     private static int timerDay = 0;
     private int convertedInRealSecond;
     private static int intensity = 0;
     private Tilemap tileLightMap;
     private Color32 newColor;
-    private float sunIntensity;
+    private float AmbiantIntensity;
+    private int lastHour = -1;
+    private Light[] moonLight;
+    private float moonIntensity;
+    private Material[] moonMat;
     // event
     public delegate void CycleDayHandler(int intenisty);
     public static event CycleDayHandler RefreshIntensity;
-    public int lastHour = -1;
 
     void Start() {
+        moonMat = new Material[2];
+        moonLight = new Light[2];
+        moonLight[0] = moon[0].GetComponentInChildren<Light>();
+        moonMat[0] = moon[0].GetComponent<Renderer>().material;
+        moonLight[1] = moon[1].GetComponentInChildren<Light>();
+        moonMat[1] = moon[1].GetComponent<Renderer>().material;
         tileLightMap = GetComponentInChildren<Tilemap>();
         timerDay = startHour * 60 * 60;
         ConvertTime();
@@ -39,27 +51,32 @@ public class CycleDay : MonoBehaviour {
         return timerDay;
     }
     void Update() {
-        sun.color = Color.Lerp(sun.color, newColor, Time.deltaTime);
-        sun.intensity = Mathf.Lerp(sun.intensity, sunIntensity, Time.deltaTime);
+        AmbiantLight.color = Color.Lerp(AmbiantLight.color, newColor, Time.deltaTime);
+        AmbiantLight.intensity = Mathf.Lerp(AmbiantLight.intensity, AmbiantIntensity, Time.deltaTime);
+        moonMat[0].color = Color.Lerp(moonMat[0].color, new Color(moonMat[0].color.a, moonMat[0].color.b, moonMat[1].color.g, moonIntensity), Time.deltaTime);
+        moonLight[0].intensity = Mathf.Lerp(moonLight[0].intensity, moonIntensity, Time.deltaTime);
+        moonMat[1].color = Color.Lerp(moonMat[1].color, new Color(moonMat[1].color.a, moonMat[1].color.b, moonMat[1].color.g, moonIntensity), Time.deltaTime);
+        moonLight[1].intensity = Mathf.Lerp(moonLight[1].intensity, moonIntensity, Time.deltaTime);
     }
+
     private IEnumerator DayNightCycle() {
         while (true) {
-            /*if(currentHour > 17 && currentHour <= 24 || currentHour >= 0 && currentHour < 6) {
+            var hour = timerDay / 60 / 60;
+            if (hour == 24) {
+                currentHour = 0;
+                timerDay = 0;
             } else {
-            }*/
-            currentHour = timerDay / 60 / 60;
-            // currentHour = 24;
-            SetIntensity(currentHour);
-            SetGlobalColor(currentHour);
+                currentHour = hour;
+            }
             if (lastHour != currentHour) {
+                SetIntensity(currentHour);
+                SetGlobalColor(currentHour);
                 lastHour = currentHour;
                 if (RefreshIntensity != null) {
                     RefreshIntensity(intensity);
                 }
-                //lastHour = 24;
-                //RefreshIntensity(70);
             }
-            timerDay = currentHour == 24 ? 0 : timerDay += convertedInRealSecond;
+            timerDay += convertedInRealSecond;
             yield return new WaitForSeconds(1);
         }
     }
@@ -68,83 +85,97 @@ public class CycleDay : MonoBehaviour {
         switch (currentHour) {
             case 0:
                 intensity = 70;
-                sunIntensity = 0.10f;
-                // intensity = 80;
+                AmbiantIntensity = 0.10f;
+                moonIntensity = 1.5f;
                 break;
             case 1:
                 intensity = 70;
-                sunIntensity = 0.10f;
-                // intensity = 80;
+                AmbiantIntensity = 0.10f;
+                moonIntensity = 1.5f;
                 break;
             case 2:
                 intensity = 70;
-                sunIntensity = 0.10f;
-                // intensity = 80;
+                AmbiantIntensity = 0.10f;
+                moonIntensity = 1.5f;
                 break;
             case 3:
                 intensity = 70;
-                sunIntensity = 0.10f;
+                AmbiantIntensity = 0.10f;
+                moonIntensity = 1.2f;
                 break;
             case 4:
                 intensity = 60;
-                sunIntensity = 0.13f;
+                AmbiantIntensity = 0.13f;
+                moonIntensity = 0.9f;
                 break;
             case 5:
                 intensity = 50;
-                sunIntensity = 0.26f;
+                AmbiantIntensity = 0.26f;
+                moonIntensity = 0.7f;
                 break;
             case 6:
                 intensity = 40;
-                sunIntensity = 0.33f;
+                AmbiantIntensity = 0.33f;
+                moonIntensity = 0.4f;
                 break;
             case 7:
                 intensity = 30;
-                sunIntensity = 0.46f;
+                AmbiantIntensity = 0.46f;
+                moonIntensity = 0.3f;
                 break;
             case 8:
                 intensity = 20;
-                sunIntensity = 0.59f;
+                AmbiantIntensity = 0.59f;
+                moonIntensity = 0;
                 break;
             case 9:
                 intensity = 10;
-                sunIntensity = 0.72f;
+                AmbiantIntensity = 0.72f;
+                moonIntensity = 0;
                 break;
             case 17:
                 intensity = 10;
-                sunIntensity = 0.85f;
+                AmbiantIntensity = 0.85f;
+                moonIntensity = 0;
                 break;
             case 18:
                 intensity = 20;
-                sunIntensity = 0.72f;
+                AmbiantIntensity = 0.72f;
+                moonIntensity = 0;
                 break;
             case 19:
                 intensity = 30;
-                sunIntensity = 0.59f;
+                AmbiantIntensity = 0.59f;
+                moonIntensity = 0.3f;
                 break;
             case 20:
                 intensity = 40;
-                sunIntensity = 0.46f;
+                AmbiantIntensity = 0.46f;
+                moonIntensity = 0.6f;
                 break;
             case 21:
                 intensity = 50;
-                sunIntensity = 0.33f;
+                AmbiantIntensity = 0.33f;
                 break;
             case 22:
                 intensity = 60;
-                sunIntensity = 0.26f;
+                AmbiantIntensity = 0.26f;
+                moonIntensity = 0.9f;
                 break;
             case 23:
                 intensity = 70;
-                sunIntensity = 0.13f;
+                AmbiantIntensity = 0.13f;
+                moonIntensity = 1.2f;
                 break;
             case 24:
                 intensity = 70;
-                sunIntensity = 0.10f;
-                // intensity = 80;
+                AmbiantIntensity = 0.10f;
+                moonIntensity = 1.5f;
                 break;
             default:
                 intensity = 0;
-                sunIntensity = 1;
+                AmbiantIntensity = 1;
+                moonIntensity = 0f;
                 break;
         }
     }
