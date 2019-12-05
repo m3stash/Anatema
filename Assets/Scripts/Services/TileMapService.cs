@@ -99,6 +99,13 @@ public static class TileMapService {
         };
     }
 
+    private static bool CheckId(int currentId, int neightboorId) {
+        if (currentId == 1 && neightboorId == 2 || currentId == 2 && neightboorId == 1) {
+            return true;
+        }
+        return (neightboorId > 0 && currentId == neightboorId) ? true : false;
+    }
+
     public static void SetTileMapData(int PosX, int PosY, int x, int y, int[,] tilesWorldMap, TileDataModel tileDataModel, int boundX, int boundY) {
         var currentTilePosX = PosX + x;
         var currentTilePosY = PosY + y;
@@ -106,35 +113,31 @@ public static class TileMapService {
         int xMore = currentTilePosX + 1;
         int yMore = currentTilePosY + 1;
         int yLess = currentTilePosY - 1;
+        var currentId = tilesWorldMap[currentTilePosX, currentTilePosY];
         int maskTilemap = 0;
         if (yMore <= boundY) {
-            maskTilemap += tilesWorldMap[currentTilePosX, yMore] > 0 ? 1 : 0;
+            maskTilemap += CheckId(currentId, tilesWorldMap[currentTilePosX, yMore]) ? 1 : 0;
         }
         if (xMore <= boundX) {
-            maskTilemap += tilesWorldMap[xMore, currentTilePosY] > 0 ? 4 : 0;
-
+            maskTilemap += CheckId(currentId, tilesWorldMap[xMore, currentTilePosY]) ? 4 : 0;
             if (yMore <= boundY) {
-                maskTilemap += tilesWorldMap[xMore, yMore] > 0 ? 2 : 0;
+                maskTilemap += CheckId(currentId, tilesWorldMap[xMore, yMore]) ? 2 : 0;
             }
-
             if (yLess > -1) {
-                maskTilemap += tilesWorldMap[xMore, yLess] > 0 ? 8 : 0;
+                maskTilemap += CheckId(currentId, tilesWorldMap[xMore, yLess]) ? 8 : 0;
             }
         }
-
         if (yLess > -1) {
-            maskTilemap += tilesWorldMap[currentTilePosX, yLess] > 0 ? 16 : 0;
+            maskTilemap += CheckId(currentId, tilesWorldMap[currentTilePosX, yLess]) ? 16 : 0;
         }
-
         if (xLess > -1) {
-            maskTilemap += tilesWorldMap[xLess, currentTilePosY] > 0 ? 64 : 0;
-
+            maskTilemap += CheckId(currentId, tilesWorldMap[xLess, currentTilePosY]) ? 64 : 0;
             if (yLess > -1) {
-                maskTilemap += tilesWorldMap[xLess, yLess] > 0 ? 32 : 0;
+                maskTilemap += CheckId(currentId, tilesWorldMap[xLess, yLess]) ? 32 : 0;
             }
 
             if (yMore <= boundY) {
-                maskTilemap += tilesWorldMap[xLess, yMore] > 0 ? 128 : 0;
+                maskTilemap += CheckId(currentId, tilesWorldMap[xLess, yMore]) ? 128 : 0;
             }
         }
         maskTilemap = GetMaskByOriginal(maskTilemap);

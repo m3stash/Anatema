@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8254098533886125058}
   - component: {fileID: 8509296452609266085}
-  m_Layer: 12
+  m_Layer: 22
   m_Name: mountains_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -67,7 +68,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1841303577
-  m_SortingLayer: -1
+  m_SortingLayer: -5
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: b602a3ed40dd18f4b8043afa72f5a842, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
