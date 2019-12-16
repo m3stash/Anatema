@@ -58,7 +58,6 @@ public class CycleDay : MonoBehaviour {
         moonMat[1].color = Color.Lerp(moonMat[1].color, new Color(moonMat[1].color.a, moonMat[1].color.b, moonMat[1].color.g, moonIntensity), Time.deltaTime);
         moonLight[1].intensity = Mathf.Lerp(moonLight[1].intensity, moonIntensity, Time.deltaTime);
     }
-
     private IEnumerator DayNightCycle() {
         while (true) {
             var hour = timerDay / 60 / 60;
@@ -68,6 +67,7 @@ public class CycleDay : MonoBehaviour {
             } else {
                 currentHour = hour;
             }
+            // currentHour = 12;
             if (lastHour != currentHour) {
                 SetIntensity(currentHour);
                 SetGlobalColor(currentHour);
