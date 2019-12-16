@@ -22,7 +22,6 @@ public class Player : MonoBehaviour {
     public float duration = 1.0F;*/
 
     void Start() {
-
         toolbar = GameObject.FindGameObjectWithTag("InventoryToolbar").GetComponent<InventoryToolbar>();
         rg2d = gameObject.GetComponent<Rigidbody2D>();
         anim = gameObject.GetComponent<Animator>();

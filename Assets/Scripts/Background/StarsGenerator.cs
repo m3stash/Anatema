@@ -8,15 +8,47 @@ public class StarsGenerator : MonoBehaviour {
     [SerializeField] private int quantity;
     [SerializeField] private float range;
 
-    // Start is called before the first frame update
-    void Start() {
+    private void OnEnable() {
+        CycleDay.RefreshIntensity += ChangeZindex;
         this.GenerateStars(starParticle);
         this.GenerateStars(starParticle2);
     }
 
+    private void OnDisable() {
+        CycleDay.RefreshIntensity -= ChangeZindex;
+    }
+
+    private void ChangeZindex(int intensity) {
+        switch (intensity) {
+            case 0:
+                transform.position = new Vector3(transform.position.x, transform.position.y, -18);
+                break;
+            case 10:
+                transform.position = new Vector3(transform.position.x, transform.position.y, -18);
+                break;
+            case 20:
+                transform.position = new Vector3(transform.position.x, transform.position.y, -8);
+                break;
+            case 30:
+                transform.position = new Vector3(transform.position.x, transform.position.y, -14);
+                break;
+            case 40:
+                transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+                break;
+            case 50:
+                transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+                break;
+            case 60:
+                transform.position = new Vector3(transform.position.x, transform.position.y, 2);
+                break;
+            case 70:
+                transform.position = new Vector3(transform.position.x, transform.position.y, 2);
+                break;
+        }
+    }
+
     private void Update() {
         transform.Rotate(Vector3.up * 1.5f * Time.deltaTime);
-
     }
 
     private void GenerateStars(ParticleSystem system) {
