@@ -5,7 +5,7 @@ using UnityEngine;
 public class ManageItems : MonoBehaviour {
 
     public static ManageItems Instance;
-    private static GameObject block, item;
+    private static GameObject item;
     private static Dictionary<int, Item_cfg> itmCfgDict;
 
     private void Start() {
@@ -30,7 +30,9 @@ public class ManageItems : MonoBehaviour {
 
     public static void CreateItemOnMap(int x, int y, int id) {
         Instance.ManageDictionary(id);
-        GameObject itemGo = Instantiate(item, new Vector3(x + 0.5f, y + 0.5f, 0), item.transform.rotation);
+        // GameObject itemGo = Instantiate(item, new Vector3(x + 0.5f, y + 0.5f, 0), item.transform.rotation);
+        var item = (GameObject)Resources.Load("Prefabs/items/item_" + id);
+        GameObject itemGo = Instantiate(item, new Vector3(x , y, 0), item.transform.rotation);
         itemGo.GetComponent<Item>().config = itmCfgDict[id];
     }
 

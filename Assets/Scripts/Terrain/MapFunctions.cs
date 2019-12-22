@@ -10,6 +10,50 @@ public class MapFunctions {
             tilemap.ClearAllTiles();
     }
 
+    public static int[,] AddTrees(int[,] worldMap, int[,] objectsMap) {
+        var heightMap = worldMap.GetUpperBound(1);
+        var widthMap = worldMap.GetUpperBound(0);
+        // toDo voir a gérer les bordures du monde pour pas calculer dans le vide
+        // left to right
+        var newTreeGap = -1;
+        var xEnd = widthMap - 5;
+        var xStart = 5;
+        var gapBetweenTrees = 5;
+        for (int x = xStart; x < xEnd; x++) {
+            if(x < newTreeGap) {
+                continue;
+            }
+            // top to bottom
+            for (int y = heightMap - 50; y > heightMap - 250; y--) {
+                if (worldMap[x, y] == 1) {
+                    // si current != 0 && gauche et droite != 0 continu sinon on ne va pas plus bas !
+                    if (worldMap[x - 1, y] == 1 && worldMap[x + 1, y] == 1) {
+                        var empty = true;
+                        // tree collider => x = 3 && y = 5
+                        for (int xx = x - 1; xx <= x + 1; xx++) {
+                            if (!empty) {
+                                break;
+                            }
+                            for (int yy = y + 1; yy <= y + 5; yy++) {
+                                if (worldMap[xx, yy] > 0) {
+                                    empty = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if (empty) {
+                            objectsMap[x, y + 1] = 22; // toDo voir a trouver l'id de l'arbre juste pour essai!
+                            var newXGap = x + gapBetweenTrees;
+                            newTreeGap = newXGap < xEnd ? newXGap : -1; // min gap between 2 trees
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+        return objectsMap;
+    }
+
     public static int[,] AddGrassOntop(int[,] map) {
         var heightMap = map.GetUpperBound(1);
         var widthMap = map.GetUpperBound(0);
