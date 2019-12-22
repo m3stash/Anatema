@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7831594fe0efaa740b17121f812c2541, type: 3}
+  m_Name: SpeedPotion
+  m_EditorClassIdentifier: 
+  id: 1
+  prefab: {fileID: 4405146219834199482, guid: 41abe6f2e9ad06d44bd3eec8f34fedbf, type: 3}
+  displayName: Speed Potion
+  icon: {fileID: 0}
+  poolSize: 5
+  stackable: 1
+  stackLimit: 10
+  width: 0
+  height: 0
+  placeable: 0
