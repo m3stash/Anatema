@@ -23,6 +23,8 @@ public class ChunkService : MonoBehaviour {
     private int[,] tilesWorldMap;
     private int[,] wallTilesMap;
     private int[,] tilesShadowMap;
+    private int[,] objectsMap;
+    private GameObject[,] tilesObjetMap;
     private Dictionary<int, TileBase> tilebaseDictionary;
     private Transform worldMapTransform;
     private float waitingTimeAfterCreateChunk = 0.1f;
@@ -44,7 +46,6 @@ public class ChunkService : MonoBehaviour {
     private int oldPosY;
     private int oldPlayerPosX;
     private int oldPlayerPosY;
-    private GameObject[,] tilesObjetMap;
     // event
     public delegate void LightEventHandler(int intensity);
     public static event LightEventHandler RefreshLight;
@@ -88,7 +89,7 @@ public class ChunkService : MonoBehaviour {
     public Chunk GetChunk(int posX, int posY) {
         return usedChunk.Find(chunk => chunk.indexX == posX && chunk.indexY == posY);
     }
-    public void Init(int chunkSize, Dictionary<int, TileBase> _tilebaseDictionary, int[,] tilesWorldMap, int[,] tilesLightMap, GameObject player, LightService lightService, int[,] tilesShadowMap, GameObject[,] tilesObjetMap) {
+    public void Init(int chunkSize, Dictionary<int, TileBase> _tilebaseDictionary, int[,] tilesWorldMap, int[,] tilesLightMap, GameObject player, LightService lightService, int[,] tilesShadowMap, GameObject[,] tilesObjetMap, int[,] objectsMap) {
         boundX = tilesWorldMap.GetUpperBound(0);
         boundY = tilesWorldMap.GetUpperBound(1);
         playerCam = player.GetComponentInChildren<Camera>();
@@ -103,6 +104,7 @@ public class ChunkService : MonoBehaviour {
         this.tilesShadowMap = tilesShadowMap;
         cacheChunkData = new ChunkDataModel[boundX, boundY];
         this.tilesObjetMap = tilesObjetMap;
+        this.objectsMap = objectsMap;
         CreatePoolChunk(20, 52);
     }
     public void CreateChunksFromMaps(int[,] tilesMap, int chunkSize) {
@@ -150,6 +152,7 @@ public class ChunkService : MonoBehaviour {
             chunk.gameObject.SetActive(false);
             ck.tilesLightMap = tilesLightMap;
             ck.wallTilesMap = wallTilesMap;
+            ck.objectsMap = objectsMap;
             ck.chunkSize = chunkSize;
             ck.lightService = lightService;
             ck.tilebaseDictionary = tilebaseDictionary;

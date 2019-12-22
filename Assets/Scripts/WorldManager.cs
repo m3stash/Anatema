@@ -16,6 +16,7 @@ public class WorldManager : MonoBehaviour {
     private int[,] tilesShadowMap;
     private int[,] tilesWorldMap;
     private int[,] wallTilesMap;
+    private int[,] objectsMap;
     private GameObject[,] tilesObjetMap;
     private Dictionary<int, TileBase> tilebaseDictionary;
     private Dictionary<int, Item_cfg> ObjectbaseDictionary;
@@ -40,7 +41,7 @@ public class WorldManager : MonoBehaviour {
         CreateWorldMap();
         CreateLightMap();
         CreatePlayer();
-        chunkService.Init(chunkSize, tilebaseDictionary, tilesWorldMap, tilesLightMap, player, lightService, tilesShadowMap, tilesObjetMap);
+        chunkService.Init(chunkSize, tilebaseDictionary, tilesWorldMap, tilesLightMap, player, lightService, tilesShadowMap, tilesObjetMap, objectsMap);
         lightService.Init(tilesWorldMap, tilesLightMap, wallTilesMap, tilesShadowMap);
         GetPlayer(player);
     }
@@ -65,8 +66,9 @@ public class WorldManager : MonoBehaviour {
     private void CreateWorldMap() {
         tilesWorldMap = new int[worldSizeX, worldSizeY];
         wallTilesMap = new int[worldSizeX, worldSizeY];
-        tilesObjetMap = new GameObject[worldSizeX, worldSizeY];
-        levelGenerator.GenerateTilesWorldMap(tilesWorldMap, wallTilesMap);
+        objectsMap = new int[worldSizeX, worldSizeY];
+        tilesObjetMap = new GameObject[worldSizeX, worldSizeY]; // toDo voir a virer cette merde et plutot utiliser : objectsMap!!
+        levelGenerator.GenerateTilesWorldMap(tilesWorldMap, wallTilesMap, objectsMap);
         chunkService.SetWallMap(wallTilesMap);
         chunkService.CreateChunksFromMaps(tilesWorldMap, chunkSize);
     }

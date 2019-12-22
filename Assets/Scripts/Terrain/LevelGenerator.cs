@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 public class LevelGenerator : MonoBehaviour {
 
-    public void GenerateTilesWorldMap(int[,] worldMap, int[,] wallTilesMap) {
+    public void GenerateTilesWorldMap(int[,] worldMap, int[,] wallTilesMap, int[,] objectsMap) {
         MapSettings middleMapSettings = Instantiate((MapSettings)Resources.Load("Scriptables/MapSettings/MiddleLayer"));
         MapSettings bottomMapSettings = Instantiate((MapSettings)Resources.Load("Scriptables/MapSettings/BottomLayer"));
 
@@ -21,6 +21,9 @@ public class LevelGenerator : MonoBehaviour {
             middleMapSettings.maxPathChange, middleMapSettings.roughness, middleMapSettings.windyness, (int)startPosX3);
         // generate irons
         // MapFunctions.GenerateIrons(worldMap);
+        // toDO attention à générer les colines avant les arbres!
+        // add trees
+        objectsMap = MapFunctions.AddTrees(worldMap, objectsMap);
         // add grass
         worldMap = MapFunctions.AddGrassOntop(worldMap);
     }

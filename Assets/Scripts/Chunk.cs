@@ -17,6 +17,7 @@ public class Chunk : MonoBehaviour {
     public int[,] tilesMap;
     public int[,] tilesLightMap;
     public int[,] tilesShadowMap;
+    public int[,] objectsMap;
     public GameObject[,] tilesObjetMap;
     public GameObject player;
     public Dictionary<int, TileBase> tilebaseDictionary;
@@ -39,6 +40,18 @@ public class Chunk : MonoBehaviour {
             RefreshTiles();
         }
     }
+
+    private void generateObjectsMap() {
+        for (var x = 0; x < chunkSize; x++) {
+            for (var y = 0; y < chunkSize; y++) {
+                if(objectsMap[indexXWorldPos + x, indexYWorldPos + y] == 22) {
+                    // Instantiate().GetComponent<DragAndDropItem>()
+                    ManageItems.CreateItemOnMap(indexXWorldPos + x, indexYWorldPos + y, 22);
+                }
+            }
+        }
+    }
+
     private void RefreshShadowMap(int intensity) {
         if (!isChunkVisible)
             return;
@@ -123,6 +136,7 @@ public class Chunk : MonoBehaviour {
         if (isVisible && !alreadyVisible) {
             alreadyVisible = true;
             tc2d.enabled = true;
+            generateObjectsMap();
             RefreshShadowMap(CycleDay.GetIntensity());
         }
     }
