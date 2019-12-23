@@ -20,12 +20,13 @@ public class Item : MonoBehaviour
     public int height;
     public string furnitureType;
 
-    // MINE
-    [SerializeField] private ItemConfig configuration;
-    [SerializeField] private ItemPool associatedPool;
+    // KEEP only this properties bellow
+    private ItemConfig configuration;
+    private ItemPool associatedPool;
     private int stacks;
 
     void Start() {
+        // All this function can be clean because only Setup() is used
         currentStack = currentStack == 0 ? 1 : currentStack;
         gameObject.GetComponent<SpriteRenderer>().sprite = config.sprite;
         nameDisplay = config.name;
@@ -52,6 +53,11 @@ public class Item : MonoBehaviour
         } else {
             Destroy(this.gameObject);
         }
+    }
+
+    public virtual void Use()
+    {
+        Debug.Log("Use method not implemented");
     }
 
     public ItemConfig GetConfig() {
