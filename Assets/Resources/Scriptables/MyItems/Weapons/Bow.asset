@@ -9,17 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7831594fe0efaa740b17121f812c2541, type: 3}
-  m_Name: SpeedPotion
+  m_Script: {fileID: 11500000, guid: d20e6376174d74d95a7925adc23d141c, type: 3}
+  m_Name: Sword
   m_EditorClassIdentifier: 
-  id: 1
-  prefab: {fileID: 4405146219834199482, guid: 41abe6f2e9ad06d44bd3eec8f34fedbf, type: 3}
-  displayName: Speed Potion
+  id: 0
+  prefab: {fileID: 0}
+  displayName: 
   icon: {fileID: 0}
-  pooleable: 1
-  poolSize: 5
-  stackable: 1
-  stackLimit: 10
+  pooleable: 0
+  poolSize: 1
+  stackable: 0
+  stackLimit: 0
   width: 0
   height: 0
   placeable: 0
+  damage: 0
+  durability: 0

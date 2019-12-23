@@ -22,6 +22,10 @@ public class ItemPool : Pool<Item>
         base.Setup(item, config.GetPoolSize());
     }
 
+    /// <summary>
+    /// Override GetOne() to avoid to do setup later but we could do in ItemManager if we want
+    /// </summary>
+    /// <returns>Item already configured</returns>
     public override Item GetOne() {
         Item item = base.GetOne();
         item.Setup(this.config, this);
