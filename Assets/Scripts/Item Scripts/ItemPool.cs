@@ -25,6 +25,7 @@ public class ItemPool : Pool<Item>
     public override Item GetOne() {
         Item item = base.GetOne();
         item.Setup(this.config, this);
+        item.gameObject.SetActive(true);
         return item;
     }
 }

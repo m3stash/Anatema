@@ -16,6 +16,7 @@ MonoBehaviour:
   prefab: {fileID: 4405146219834199482, guid: 41abe6f2e9ad06d44bd3eec8f34fedbf, type: 3}
   displayName: Life Potion
   icon: {fileID: 0}
+  pooleable: 1
   poolSize: 5
   stackable: 1
   stackLimit: 10
