@@ -13,13 +13,6 @@ public enum Type
     Furniture,
 };
 
-public enum Stacks {
-    potions = 10,
-    consumables = 99,
-    blocks = 5, // 999
-    weapons = 1,
-}
-
 public enum FurnitureType {
     None,
     Light,

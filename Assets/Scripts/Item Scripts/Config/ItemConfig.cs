@@ -91,3 +91,11 @@ public class ItemConfig : ScriptableObject
         return this.pooleable;
     }
 }
+
+public enum Stacks
+{
+    potions = 10,
+    consumables = 99,
+    blocks = 5, // 999
+    weapons = 1,
+}
