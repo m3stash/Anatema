@@ -23,4 +23,5 @@ MonoBehaviour:
   width: 0
   height: 0
   placeable: 0
+  scale: {x: 0.5, y: 0.5}
   type: 0

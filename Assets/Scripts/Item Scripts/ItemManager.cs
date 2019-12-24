@@ -56,7 +56,7 @@ public class ItemManager : MonoBehaviour
         } else if(itemConfig){
             GameObject obj = Instantiate(itemConfig.GetPrefab());
             item = obj.GetComponent<Item>();
-            item.Setup(itemConfig);
+            item.Setup(itemConfig, 1);
             return item;
         } else {
             Debug.LogErrorFormat("Item with id {0} not found in database", itemIdx);

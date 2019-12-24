@@ -40,6 +40,13 @@ public class ItemConfig : ScriptableObject
 
     [SerializeField] private bool placeable;
 
+    /////////////////////////////////////
+
+    [Tooltip("Properties used to configure item state when pickable mode")]
+    [Header("Pickable State Settings")]
+
+    [SerializeField] private Vector2 scale; // Represent the scale size of item when it's pickable
+
     public int GetId() {
         return this.id;
     }
@@ -83,6 +90,10 @@ public class ItemConfig : ScriptableObject
     public bool IsPooleable()
     {
         return this.pooleable;
+    }
+
+    public Vector2 GetPickableScale() {
+        return this.scale;
     }
 }
 

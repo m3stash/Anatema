@@ -15,7 +15,7 @@ public class ItemPool : Pool<Item>
 
         GameObject obj = Instantiate(config.GetPrefab(), this.transform);
         Item item = obj.GetComponent<Item>();
-        item.Setup(this.config, this);
+        item.Setup(this.config, 1, this);
 
         obj.name = config.GetDisplayName();
         obj.SetActive(false);
