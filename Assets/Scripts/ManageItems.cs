@@ -33,13 +33,13 @@ public class ManageItems : MonoBehaviour {
         // GameObject itemGo = Instantiate(item, new Vector3(x + 0.5f, y + 0.5f, 0), item.transform.rotation);
         var item = (GameObject)Resources.Load("Prefabs/items/item_" + id);
         GameObject itemGo = Instantiate(item, new Vector3(x , y, 0), item.transform.rotation);
-        itemGo.GetComponent<Item>().config = itmCfgDict[id];
+        //itemGo.GetComponent<Item>().config = itmCfgDict[id];
     }
 
     public static GameObject CreateItem(int id) {
         Instance.ManageDictionary(id);
         GameObject itemGo = Instantiate(item, Vector3.zero, item.transform.rotation);
-        itemGo.GetComponent<Item>().config = itmCfgDict[id];
+        //itemGo.GetComponent<Item>().config = itmCfgDict[id];
         return itemGo;
     }
 

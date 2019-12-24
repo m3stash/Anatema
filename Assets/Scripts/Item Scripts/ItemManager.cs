@@ -23,12 +23,16 @@ public class ItemManager : MonoBehaviour
         // Initialize item database with all item configs
         this.itemDatabase = new List<ItemConfig>(Resources.LoadAll<ItemConfig>("Scriptables/MyItems")).ToDictionary((ItemConfig item) => item.GetId(), item => item);
 
+        // Check all items validity
+        foreach(KeyValuePair<int, ItemConfig> arg in this.itemDatabase)
+        {
+            this.CheckItemValidity(arg.Value);
+        }
+
         // Initialize pools foreach item which are pooleable
         this.pools = this.itemDatabase
             .Where((KeyValuePair<int, ItemConfig> arg) => arg.Value.IsPooleable())
             .ToDictionary(pair => pair.Key, pair => this.CreatePool(pair.Value));
-
-        Debug.Log(this.pools.Count);
     }
 
     private void Update() {
@@ -48,13 +52,11 @@ public class ItemManager : MonoBehaviour
         Item item = null;
 
         if (pool) {
-            Debug.Log("Item get from a pool");
             item = pool.GetOne();
         } else if(itemConfig){
-            Debug.Log("Item instantiated in runtime");
             GameObject obj = Instantiate(itemConfig.GetPrefab());
             item = obj.GetComponent<Item>();
-            item.Setup(itemConfig, null);
+            item.Setup(itemConfig);
             return item;
         } else {
             Debug.LogErrorFormat("Item with id {0} not found in database", itemIdx);
@@ -63,11 +65,42 @@ public class ItemManager : MonoBehaviour
         return item;
     }
 
-    private ItemPool CreatePool(ItemConfig config)
+    /// <summary>
+    /// Create a pool for a specific item config
+    /// </summary>
+    /// <param name="itemConfig">Item config</param>
+    /// <returns></returns>
+    private ItemPool CreatePool(ItemConfig itemConfig)
     {
-        GameObject poolContainer = new GameObject("Pool of : " + config.GetDisplayName());
+        GameObject poolContainer = new GameObject("Pool of : " + itemConfig.GetDisplayName());
+        poolContainer.transform.parent = this.transform;
+
         ItemPool pool = poolContainer.AddComponent<ItemPool>();
-        pool.Setup(config);
+        pool.Setup(itemConfig);
+
         return pool;
+    }
+
+    /// <summary>
+    /// Used check item config validity to avoid problem later
+    /// Do all controls here
+    /// </summary>
+    /// <param name="itemConfig">Item to check</param>
+    private void CheckItemValidity(ItemConfig itemConfig)
+    {
+        if(!itemConfig.GetPrefab())
+        {
+            Debug.LogErrorFormat("Item config with id {0} haven't prefab", itemConfig.GetId());
+        }
+
+        if (itemConfig.GetDisplayName() == "")
+        {
+            Debug.LogErrorFormat("Item config with id {0} haven't display name", itemConfig.GetId());
+        }
+
+        if (!itemConfig.GetIcon())
+        {
+            Debug.LogErrorFormat("Item config with id {0} haven't icon", itemConfig.GetId());
+        }
     }
 }

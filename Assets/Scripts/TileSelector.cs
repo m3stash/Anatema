@@ -66,7 +66,7 @@ public class TileSelector : MonoBehaviour {
                         if (tilesWorldMap[posX, posY] == 0) {
                             spriteRender.color = Color.white;
                             if (onClick)
-                                AddBlock(posX, posY, inventoryService.seletedItem.config.id);
+                                AddBlock(posX, posY, inventoryService.seletedItem.config.GetId());
                         } else {
                             spriteRender.color = Color.red;
                         }
@@ -119,7 +119,7 @@ public class TileSelector : MonoBehaviour {
     }
 
     private void ActiveSelectorSize() {
-        selector.transform.localScale = new Vector3(inventoryService.seletedItem.config.width, inventoryService.seletedItem.config.height, 0);
+        selector.transform.localScale = new Vector3(inventoryService.seletedItem.config.GetWidth(), inventoryService.seletedItem.config.GetHeight(), 0);
     }
 
     private void ActiveSelector(float tsX, float tsY) {

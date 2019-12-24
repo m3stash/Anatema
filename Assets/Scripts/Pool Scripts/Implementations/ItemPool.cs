@@ -15,21 +15,11 @@ public class ItemPool : Pool<Item>
 
         GameObject obj = Instantiate(config.GetPrefab(), this.transform);
         Item item = obj.GetComponent<Item>();
+        item.Setup(this.config, this);
 
         obj.name = config.GetDisplayName();
         obj.SetActive(false);
 
         base.Setup(item, config.GetPoolSize());
-    }
-
-    /// <summary>
-    /// Override GetOne() to avoid to do setup later but we could do in ItemManager if we want
-    /// </summary>
-    /// <returns>Item already configured</returns>
-    public override Item GetOne() {
-        Item item = base.GetOne();
-        item.Setup(this.config, this);
-        item.gameObject.SetActive(true);
-        return item;
     }
 }

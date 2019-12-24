@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d20e6376174d74d95a7925adc23d141c, type: 3}
-  m_Name: Sword
+  m_Name: Bow
   m_EditorClassIdentifier: 
-  id: 0
-  prefab: {fileID: 0}
-  displayName: 
-  icon: {fileID: 0}
+  id: 2
+  prefab: {fileID: 8281143061814350013, guid: f4ad907856b87974583c3d5696a82514, type: 3}
+  displayName: Bow
+  icon: {fileID: 21300000, guid: 4b243fcec88d17a44ac6a2b4dad47ed9, type: 3}
   pooleable: 0
   poolSize: 1
   stackable: 0

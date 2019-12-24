@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Weapon configuration", menuName = "Item/Weapon")]
 public class WeaponConfig : ItemConfig
 {
-    [Space]
     [Header("Weapon Configuration")]
     [SerializeField] private float damage;
 

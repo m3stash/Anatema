@@ -38,7 +38,7 @@ public class InventoryService : MonoBehaviour {
     public static bool CanStack(GameObject currentCell, GameObject movingCell) {
         var currentCellConf = currentCell.GetComponent<InventoryItem>();
         var movingCellConf = movingCell.GetComponent<InventoryItem>();
-        if((int)(movingCellConf.config.stacks) == 1 || (int)(currentCellConf.config.stacks) == 1) {
+        if((int)(movingCellConf.config.GetStackLimit()) == 1 || (int)(currentCellConf.config.GetStackLimit()) == 1) {
             Instance.inventoryToolbar.RefreshSelectedItem();
             return false;
         }

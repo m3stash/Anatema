@@ -24,19 +24,13 @@ public class ItemConfig : ScriptableObject
 
     /////////////////////////////////////
 
-    [Space]
-
     [Header("Stack Settings")]
 
     [SerializeField] private bool stackable;
 
     [SerializeField] private Stacks stackLimit;
 
-    [Space]
-
     /////////////////////////////////////
-
-    [Space]
 
     [Header("Common Settings")]
 

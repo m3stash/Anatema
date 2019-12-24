@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4405146219834199483}
-  - component: {fileID: 7810006062268796249}
   - component: {fileID: 2129007704028549441}
+  - component: {fileID: 826028530582359273}
   m_Layer: 14
   m_Name: Potion
   m_TagString: Untagged
@@ -32,29 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7810006062268796249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4405146219834199482}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdf32bb42d2bfa1428a1c2c442b6c677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nameDisplay: 
-  id: 0
-  config: {fileID: 0}
-  maxStacks: 0
-  currentStack: 0
-  type: 
-  width: 0
-  height: 0
-  furnitureType: 
-  configuration: {fileID: 0}
-  associatedPool: {fileID: 0}
 --- !u!212 &2129007704028549441
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -105,3 +82,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &826028530582359273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4405146219834199482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9419fc10a0eda4f62b2b6a20ac3d38ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameDisplay: 
+  id: 0
+  config: {fileID: 0}
+  maxStacks: 0
+  currentStack: 0
+  type: 
+  width: 0
+  height: 0
+  furnitureType: 
+  configuration: {fileID: 0}
+  associatedPool: {fileID: 0}
+  stacks: 0
+  destroyParticle: {fileID: 0}

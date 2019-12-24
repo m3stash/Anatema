@@ -40,6 +40,8 @@ public class Pool<T>: MonoBehaviour where T : MonoBehaviour
 
         this.usedObjects.Add(obj);
 
+        obj.gameObject.SetActive(true);
+
         return obj;
     }
 

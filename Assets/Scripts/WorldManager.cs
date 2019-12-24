@@ -77,7 +77,7 @@ public class WorldManager : MonoBehaviour {
         tile_selector.GetComponent<TileSelector>().Init(player, this, wallTilesMap, tilesWorldMap, tilesObjetMap);
     }
     public void AddItem(int posX, int posY, InventoryItem item) {
-        var id = item.config.id;
+        var id = item.config.GetId();
         // toDo faire un pool d'objet déjà instancié!
         var go = Instantiate((GameObject)Resources.Load("Prefabs/Items/item_" + id), new Vector3(posX + 0.5f, posY + 0.5f, 0), transform.rotation);
         tilesObjetMap[posX, posY] = go;
