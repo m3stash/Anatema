@@ -13,63 +13,74 @@ public class Item : MonoBehaviour
     [SerializeField] private ItemPool associatedPool;
 
     [Header("Item Configuration")]
-    [SerializeField] private int stacks;
+    [SerializeField] protected int stacks;
 
-    private new Collider2D collider;
-    private new Rigidbody2D rigidbody;
+    [SerializeField] protected new Rigidbody2D rigidbody;
+    [SerializeField] protected new Collider2D collider;
+    [SerializeField] protected new SpriteRenderer renderer;
 
-    private Vector2 defaultScale; // Used to reset scale when come back to his pool (Put it in ItemConfig ???)
+    [SerializeField] private Vector2 defaultScale; // Used to reset scale when come back to his pool (Put it in ItemConfig ???)
+    [SerializeField] private string defaultTag;
+    [SerializeField] private Sprite defaultPrefabSprite;
 
-    private void Start()
-    {
+    public virtual void Setup(ItemConfig config, int stacks, ItemPool associatedPool = null) {
+        // Get components references
+        this.rigidbody = GetComponent<Rigidbody2D>();
         this.collider = GetComponent<Collider2D>();
-    }
+        this.renderer = GetComponent<SpriteRenderer>();
 
-    public virtual void Setup(ItemConfig config, int stacks, ItemPool associatedPool = null)
-    {
         this.configuration = config;
         this.associatedPool = associatedPool;
         this.stacks = stacks;
         this.transform.name = this.configuration.GetDisplayName();
         this.defaultScale = this.transform.localScale;
+        this.defaultTag = this.transform.tag;
+        this.defaultPrefabSprite = this.renderer.sprite;
 
         // Do all other things in function of config....
     }
 
-    public virtual void Destroy()
-    {
-        if (this.associatedPool)
-        {
+    /// <summary>
+    /// Used to remove object from the map
+    /// If object was get from a pool it is return to it;
+    /// If object is just an simple instantiation it'll be destroyed completely
+    /// </summary>
+    public virtual void Destroy() {
+        if (this.associatedPool) {
             Destroy(this.rigidbody);
             this.transform.localScale = this.defaultScale;
+            this.transform.tag = this.defaultTag;
+            this.renderer.sprite = this.defaultPrefabSprite;
             this.associatedPool.ReturnObject(this);
-        }
-        else
-        {
+        } else {
             Destroy(this.gameObject);
         }
     }
 
-    public virtual void TransformToPickableItem()
-    {
-        this.collider.isTrigger = false;
+    /// <summary>
+    /// Convert your item to a pickable item on the world
+    /// </summary>
+    public void TransformToPickableItem() {
+        // Check rigidbody in case of item already have rigidbody in prefab
+        if (!this.rigidbody) {
+            this.rigidbody = this.gameObject.AddComponent<Rigidbody2D>();
+        }
+
         this.transform.localScale = this.configuration.GetPickableScale();
-        this.rigidbody = this.gameObject.AddComponent<Rigidbody2D>();
-        // Maybe pass tag to "Pickable" to detect all pickable item easily from player
+        this.renderer.sprite = this.configuration.GetIcon();
+        this.transform.tag = "Pickable";
+        this.transform.parent = null;
     }
 
-    public virtual void Use()
-    {
+    public virtual void Use() {
         Debug.Log("Use method not implemented");
     }
 
-    public ItemConfig GetConfig()
-    {
+    public ItemConfig GetConfig() {
         return this.configuration;
     }
 
-    public int GetStacks()
-    {
+    public int GetStacks() {
         return this.stacks;
     }
 }

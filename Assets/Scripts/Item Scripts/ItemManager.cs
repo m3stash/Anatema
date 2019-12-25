@@ -13,7 +13,6 @@ public class ItemManager : MonoBehaviour
     private void Awake() {
         if (instance == null) {
             instance = this;
-            DontDestroyOnLoad(this);
         } else {
             Destroy(this);
         }
@@ -35,18 +34,12 @@ public class ItemManager : MonoBehaviour
             .ToDictionary(pair => pair.Key, pair => this.CreatePool(pair.Value));
     }
 
-    private void Update() {
-        if(Input.GetKeyDown(KeyCode.T)) {
-            this.GetOne(1);
-        }
-    }
-
     /// <summary>
-    /// Get a reference of specific item given by his id.
-    /// Get item from pool if it is pooleable else it's instantiated
+    /// Create a reference of specific item given by his id.
+    /// Create item from pool if it is pooleable else it's instantiated
     /// </summary>
     /// <param name="itemIdx">Item index of scriptable item config (uniq)</param>
-    public Item GetOne(int itemIdx) {
+    public Item CreateItem(int itemIdx) {
         ItemPool pool = this.pools[itemIdx];
         ItemConfig itemConfig = this.itemDatabase[itemIdx];
         Item item = null;
@@ -62,6 +55,31 @@ public class ItemManager : MonoBehaviour
             Debug.LogErrorFormat("Item with id {0} not found in database", itemIdx);
         }
 
+        return item;
+    }
+
+    /// <summary>
+    /// Create a reference of specific item given by his id at specific position.
+    /// Create item from pool if it is pooleable else it's instantiated
+    /// </summary>
+    /// <param name="itemIdx">Item index of scriptable item config (uniq)</param>
+    /// <param name="position">Position to create item</param>
+    public Item CreateItem(int itemIdx, Vector3 position) {
+        Item item = this.CreateItem(itemIdx);
+        item.transform.position = position;
+        return item;
+    }
+
+    /// <summary>
+    /// Create a reference of specific item given by his id at specific position with specific rotation.
+    /// Create item from pool if it is pooleable else it's instantiated
+    /// </summary>
+    /// <param name="itemIdx">Item index of scriptable item config (uniq)</param>
+    /// <param name="position">Position to create item</param>
+    /// <param name="rotation">Rotation of item</param>
+    public Item CreateItem(int itemIdx, Vector3 position, Quaternion rotation) {
+        Item item = this.CreateItem(itemIdx, position);
+        item.transform.rotation = rotation;
         return item;
     }
 

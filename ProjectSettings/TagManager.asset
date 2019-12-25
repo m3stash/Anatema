@@ -9,6 +9,7 @@ TagManager:
   - TileSelector
   - InventoryContainer
   - WorldMap
+  - Pickable
   layers:
   - Default
   - TransparentFX

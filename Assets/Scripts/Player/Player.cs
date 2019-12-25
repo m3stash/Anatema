@@ -22,14 +22,15 @@ public class Player : MonoBehaviour {
     public float duration = 1.0F;*/
 
     void Start() {
-        toolbar = GameObject.FindGameObjectWithTag("InventoryToolbar").GetComponent<InventoryToolbar>();
+        //toolbar = GameObject.FindGameObjectWithTag("InventoryToolbar").GetComponent<InventoryToolbar>();
         rg2d = gameObject.GetComponent<Rigidbody2D>();
         anim = gameObject.GetComponent<Animator>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) {
-        if(collision.gameObject.name == "Item(Clone)") {
-            toolbar.AddItem(collision.gameObject);
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.collider.CompareTag("Pickable")) {
+            collision.collider.GetComponent<Item>().Destroy();
+            // TODO add item to inventory
         }
     }
 
@@ -42,6 +43,11 @@ public class Player : MonoBehaviour {
     void Update() {
         /*float lerp = Mathf.PingPong(Time.time, duration) / duration;
         RenderSettings.skybox.SetColor("_Tint", Color.Lerp(colorStart, colorEnd, lerp));*/
+
+        if (Input.GetKeyDown(KeyCode.T)) {
+            Item item = ItemManager.instance.CreateItem(4, this.transform.position + this.transform.TransformDirection(new Vector3(1, 1, 0)));
+        }
+
 
         var getAxis = Input.GetAxis("Horizontal");
 
