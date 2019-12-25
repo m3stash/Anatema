@@ -23,8 +23,7 @@ public class ItemManager : MonoBehaviour
         this.itemDatabase = new List<ItemConfig>(Resources.LoadAll<ItemConfig>("Scriptables/MyItems")).ToDictionary((ItemConfig item) => item.GetId(), item => item);
 
         // Check all items validity
-        foreach(KeyValuePair<int, ItemConfig> arg in this.itemDatabase)
-        {
+        foreach (KeyValuePair<int, ItemConfig> arg in this.itemDatabase) {
             this.CheckItemValidity(arg.Value);
         }
 
@@ -39,18 +38,19 @@ public class ItemManager : MonoBehaviour
     /// Create item from pool if it is pooleable else it's instantiated
     /// </summary>
     /// <param name="itemIdx">Item index of scriptable item config (uniq)</param>
-    public Item CreateItem(int itemIdx) {
+    /// <param name="status">Status to init item (ACTIVE, PICKABLE, INACTIVE)</param>
+    public Item CreateItem(int itemIdx, ItemStatus status) {
         ItemPool pool = this.pools[itemIdx];
         ItemConfig itemConfig = this.itemDatabase[itemIdx];
         Item item = null;
 
         if (pool) {
             item = pool.GetOne();
-        } else if(itemConfig){
+            item.Setup(itemConfig, status, 1, pool);
+        } else if (itemConfig) {
             GameObject obj = Instantiate(itemConfig.GetPrefab());
             item = obj.GetComponent<Item>();
-            item.Setup(itemConfig, 1);
-            return item;
+            item.Setup(itemConfig, status, 1);
         } else {
             Debug.LogErrorFormat("Item with id {0} not found in database", itemIdx);
         }
@@ -64,8 +64,9 @@ public class ItemManager : MonoBehaviour
     /// </summary>
     /// <param name="itemIdx">Item index of scriptable item config (uniq)</param>
     /// <param name="position">Position to create item</param>
-    public Item CreateItem(int itemIdx, Vector3 position) {
-        Item item = this.CreateItem(itemIdx);
+    /// <param name="status">Status to init item (ACTIVE, PICKABLE, INACTIVE)</param>
+    public Item CreateItem(int itemIdx, ItemStatus status, Vector3 position) {
+        Item item = this.CreateItem(itemIdx, status);
         item.transform.position = position;
         return item;
     }
@@ -77,8 +78,9 @@ public class ItemManager : MonoBehaviour
     /// <param name="itemIdx">Item index of scriptable item config (uniq)</param>
     /// <param name="position">Position to create item</param>
     /// <param name="rotation">Rotation of item</param>
-    public Item CreateItem(int itemIdx, Vector3 position, Quaternion rotation) {
-        Item item = this.CreateItem(itemIdx, position);
+    /// <param name="status">Status to init item (ACTIVE, PICKABLE, INACTIVE)</param>
+    public Item CreateItem(int itemIdx, ItemStatus status, Vector3 position, Quaternion rotation) {
+        Item item = this.CreateItem(itemIdx, status, position);
         item.transform.rotation = rotation;
         return item;
     }
@@ -88,8 +90,7 @@ public class ItemManager : MonoBehaviour
     /// </summary>
     /// <param name="itemConfig">Item config</param>
     /// <returns></returns>
-    private ItemPool CreatePool(ItemConfig itemConfig)
-    {
+    private ItemPool CreatePool(ItemConfig itemConfig) {
         GameObject poolContainer = new GameObject("Pool of : " + itemConfig.GetDisplayName());
         poolContainer.transform.parent = this.transform;
 
@@ -104,20 +105,16 @@ public class ItemManager : MonoBehaviour
     /// Do all controls here
     /// </summary>
     /// <param name="itemConfig">Item to check</param>
-    private void CheckItemValidity(ItemConfig itemConfig)
-    {
-        if(!itemConfig.GetPrefab())
-        {
+    private void CheckItemValidity(ItemConfig itemConfig) {
+        if (!itemConfig.GetPrefab()) {
             Debug.LogErrorFormat("Item config with id {0} haven't prefab", itemConfig.GetId());
         }
 
-        if (itemConfig.GetDisplayName() == "")
-        {
+        if (itemConfig.GetDisplayName() == "") {
             Debug.LogErrorFormat("Item config with id {0} haven't display name", itemConfig.GetId());
         }
 
-        if (!itemConfig.GetIcon())
-        {
+        if (!itemConfig.GetIcon()) {
             Debug.LogErrorFormat("Item config with id {0} haven't icon", itemConfig.GetId());
         }
     }

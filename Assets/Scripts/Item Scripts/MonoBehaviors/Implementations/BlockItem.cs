@@ -4,17 +4,25 @@ using UnityEngine;
 
 public class BlockItem : Item
 {
-    private void OnEnable() {
-        StartCoroutine(this.DestroyIt());
+    private float currentDurability; // in percent (ex: 100% of durability)
+
+    public override void Setup(ItemConfig config, ItemStatus status, int stacks, ItemPool associatedPool = null) {
+        // Do default setup
+        base.Setup(config, status, stacks, associatedPool);
+
+        // Do setup of my private properties
+        this.currentDurability = 100;
     }
 
-    private void OnDisable() {
-        StopAllCoroutines();
-    }
+    /// <summary>
+    /// Hit this block to decrease its durability
+    /// </summary>
+    /// <param name="damage">Damage to apply</param>
+    public void Hit(float damage) {
+        this.currentDurability -= damage;
 
-    private IEnumerator DestroyIt() {
-        yield return new WaitForSeconds(3);
-        Debug.Log("Destroy it");
-        this.TransformToPickableItem();
+        if(this.currentDurability <= 0) {
+            this.TransformToPickableItem();
+        }
     }
 }

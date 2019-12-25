@@ -72,16 +72,15 @@ SpriteRenderer:
   m_SortingLayerID: 81745725
   m_SortingLayer: 6
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1943859967494798541, guid: c921e2726ecc0284a85ab94742304590,
-    type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 8.76, y: 8.76}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &8963984612378182586
@@ -102,7 +101,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1, y: 1}
-    newSize: {x: 8.76, y: 8.76}
+    newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -124,10 +123,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   configuration: {fileID: 0}
   associatedPool: {fileID: 0}
-  stacks: 0
-  rigidbody: {fileID: 0}
-  collider: {fileID: 0}
-  renderer: {fileID: 0}
-  defaultScale: {x: 0, y: 0}
-  defaultTag: 
-  defaultPrefabSprite: {fileID: 0}

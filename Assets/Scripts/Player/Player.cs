@@ -44,8 +44,9 @@ public class Player : MonoBehaviour {
         /*float lerp = Mathf.PingPong(Time.time, duration) / duration;
         RenderSettings.skybox.SetColor("_Tint", Color.Lerp(colorStart, colorEnd, lerp));*/
 
+        // It's just an example of item manager to create a dirt block at specific position
         if (Input.GetKeyDown(KeyCode.T)) {
-            Item item = ItemManager.instance.CreateItem(4, this.transform.position + this.transform.TransformDirection(new Vector3(1, 1, 0)));
+            ItemManager.instance.CreateItem(4, ItemStatus.ACTIVE, this.transform.position + this.transform.TransformDirection(new Vector3(1, 1, 0)));
         }
 
 

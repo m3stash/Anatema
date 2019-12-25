@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Dirt
   m_EditorClassIdentifier: 
   id: 4
-  prefab: {fileID: 4405146219834199482, guid: 41abe6f2e9ad06d44bd3eec8f34fedbf, type: 3}
+  prefab: {fileID: 4915791588426460112, guid: ede4cbc9fe7f4704b89c4a6a403c8c61, type: 3}
   displayName: Dirt
   icon: {fileID: 5634026908348037240, guid: c921e2726ecc0284a85ab94742304590, type: 3}
   pooleable: 1
@@ -25,3 +25,4 @@ MonoBehaviour:
   placeable: 1
   scale: {x: 0.5, y: 0.5}
   blockType: 0
+  durability: 100

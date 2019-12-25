@@ -12,8 +12,8 @@ public class Item : MonoBehaviour
     [SerializeField] private ItemConfig configuration;
     [SerializeField] private ItemPool associatedPool;
 
-    [Header("Item Configuration")]
-    [SerializeField] protected int stacks;
+    protected int stacks;
+    protected ItemStatus status;
 
     [SerializeField] protected new Rigidbody2D rigidbody;
     [SerializeField] protected new Collider2D collider;
@@ -23,7 +23,7 @@ public class Item : MonoBehaviour
     [SerializeField] private string defaultTag;
     [SerializeField] private Sprite defaultPrefabSprite;
 
-    public virtual void Setup(ItemConfig config, int stacks, ItemPool associatedPool = null) {
+    public virtual void Setup(ItemConfig config, ItemStatus status, int stacks, ItemPool associatedPool = null) {
         // Get components references
         this.rigidbody = GetComponent<Rigidbody2D>();
         this.collider = GetComponent<Collider2D>();
@@ -36,8 +36,24 @@ public class Item : MonoBehaviour
         this.defaultScale = this.transform.localScale;
         this.defaultTag = this.transform.tag;
         this.defaultPrefabSprite = this.renderer.sprite;
+        this.status = status;
 
-        // Do all other things in function of config....
+        // Manage default status
+        switch (this.status) {
+            case ItemStatus.ACTIVE:
+                this.gameObject.SetActive(true);
+                break;
+
+            case ItemStatus.PICKABLE:
+                this.gameObject.SetActive(true);
+                this.TransformToPickableItem();
+                break;
+
+            case ItemStatus.INACTIVE:
+                this.gameObject.SetActive(false);
+                break;
+        }
+
     }
 
     /// <summary>
@@ -51,6 +67,7 @@ public class Item : MonoBehaviour
             this.transform.localScale = this.defaultScale;
             this.transform.tag = this.defaultTag;
             this.renderer.sprite = this.defaultPrefabSprite;
+            this.status = ItemStatus.INACTIVE;
             this.associatedPool.ReturnObject(this);
         } else {
             Destroy(this.gameObject);
@@ -72,8 +89,19 @@ public class Item : MonoBehaviour
         this.transform.parent = null;
     }
 
+    /// <summary>
+    /// Need to be implemented to be specific per item
+    /// </summary>
     public virtual void Use() {
         Debug.Log("Use method not implemented");
+    }
+
+    /// <summary>
+    /// Used to show or hide item
+    /// </summary>
+    /// <param name="visible"></param>
+    public virtual void SetVisible(bool visible) {
+        this.gameObject.SetActive(visible);
     }
 
     public ItemConfig GetConfig() {
@@ -83,4 +111,15 @@ public class Item : MonoBehaviour
     public int GetStacks() {
         return this.stacks;
     }
+
+    public ItemStatus GetStatus() {
+        return this.status;
+    }
+}
+
+public enum ItemStatus
+{
+    ACTIVE,
+    INACTIVE,
+    PICKABLE
 }

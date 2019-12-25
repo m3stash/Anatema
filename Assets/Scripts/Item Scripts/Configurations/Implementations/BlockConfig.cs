@@ -7,9 +7,14 @@ public class BlockConfig : ItemConfig
 {
     [Header("Block Configuration")]
     [SerializeField] private BlockType blockType;
+    [SerializeField] private int durability;
 
     public BlockType GetBlockType() {
         return this.blockType;
+    }
+
+    public int GetDurability() {
+        return this.durability;
     }
 }
 
