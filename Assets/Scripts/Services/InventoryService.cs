@@ -23,12 +23,13 @@ public class InventoryService : MonoBehaviour {
     }
 
     private void Start() {
+        /*
         inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
         inventoryToolbar = GameObject.FindGameObjectWithTag("InventoryToolbar").GetComponent<InventoryToolbar>();
         var itemGo = ManageItems.CreateItem(4);
         inventoryToolbar.AddItem(itemGo);
         var itemGo2 = ManageItems.CreateItem(11); // TODO a enlever juste pour tester (torche)
-        inventoryToolbar.AddItem(itemGo2);
+        inventoryToolbar.AddItem(itemGo2);*/
     }
 
     public static void RefreshToolBar() {

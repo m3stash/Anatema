@@ -19,7 +19,6 @@ public class WorldManager : MonoBehaviour {
     private int[,] objectsMap;
     private GameObject[,] tilesObjetMap;
     private Dictionary<int, TileBase> tilebaseDictionary;
-    private Dictionary<int, Item_cfg> ObjectbaseDictionary;
     private Sprite[] block_sprites;
     public int worldSizeX;
     public int worldSizeY;
@@ -77,11 +76,11 @@ public class WorldManager : MonoBehaviour {
         tile_selector.GetComponent<TileSelector>().Init(player, this, wallTilesMap, tilesWorldMap, tilesObjetMap);
     }
     public void AddItem(int posX, int posY, InventoryItem item) {
-        var id = item.config.GetId();
-        // toDo faire un pool d'objet déjà instancié!
-        var go = Instantiate((GameObject)Resources.Load("Prefabs/Items/item_" + id), new Vector3(posX + 0.5f, posY + 0.5f, 0), transform.rotation);
-        tilesObjetMap[posX, posY] = go;
-        if (id == 11) {
+        FurnitureItem newItem = ItemManager.instance.CreateItem(7, ItemStatus.ACTIVE, new Vector3(posX + 0.5f, posY + 0.5f, 0)) as FurnitureItem;
+        FurnitureConfig config = newItem.GetConfig() as FurnitureConfig;
+        tilesObjetMap[posX, posY] = newItem.gameObject;
+
+        if (config.GetFurnitureType().Equals(FurnitureType.Light)) {
             lightService.RecursivAddNewLight(posX, posY, 0);
             RefreshLight(CycleDay.GetIntensity());
         }
@@ -93,7 +92,7 @@ public class WorldManager : MonoBehaviour {
         }
         tilesObjetMap[posX, posY] = null;
         Destroy(tilesObjetMap[posX, posY]);
-        ManageItems.CreateItemOnMap(posX, posY, 11);
+        ItemManager.instance.CreateItem(7, ItemStatus.PICKABLE, new Vector3(posX, posY));
     }
     public void DeleteTile(int x, int y) {
         var id = tilesWorldMap[x, y];
@@ -101,7 +100,7 @@ public class WorldManager : MonoBehaviour {
         currentChunk.SetTile(new Vector3Int(x % chunkSize, y % chunkSize, 0), null);
         lightService.RecursivDeleteShadow(x, y);
         RefreshLight(CycleDay.GetIntensity());
-        ManageItems.CreateItemOnMap(x, y, id);
+        ItemManager.instance.CreateItem(id, ItemStatus.PICKABLE, new Vector3(x + 0.5f, y + 0.5f)); // Todo 0.5f is equals to an half block size (Refactor it)
         RefreshChunkNeightboorTiles(x, y, currentChunk.tilemapTile);
     }
     public void AddTile(int x, int y, int id) {

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class TileSelector : MonoBehaviour {
+public class TileSelector : MonoBehaviour
+{
 
     private Ray ray;
     private Camera cam;
@@ -13,7 +14,7 @@ public class TileSelector : MonoBehaviour {
     private Vector2 currentTile;
     private GameObject player;
     private WorldManager worldManager;
-    private InventoryService inventoryService;
+    //private InventoryService inventoryService;
     private SpriteRenderer spriteRender;
     private int[,] wallTilesMap;
     private int[,] tilesWorldMap;
@@ -32,7 +33,7 @@ public class TileSelector : MonoBehaviour {
         wallTilesMap = _wallTilesMap;
         tilesWorldMap = _tilesWorldMap;
         tilesObjetMap = _tilesObjetMap;
-        //StartCoroutine("InitSelector");
+        StartCoroutine("InitSelector");
     }
 
     private void DisableCursor() {
@@ -42,7 +43,7 @@ public class TileSelector : MonoBehaviour {
         tile_dig_3.SetActive(false);
     }
 
-    IEnumerator InitSelector() {
+    /*IEnumerator InitSelector() {
         while (true) {
             if (Input.GetMouseButtonUp(0)) {
                 DisableCursor();
@@ -66,7 +67,7 @@ public class TileSelector : MonoBehaviour {
                         if (tilesWorldMap[posX, posY] == 0) {
                             spriteRender.color = Color.white;
                             if (onClick)
-                                AddBlock(posX, posY, inventoryService.seletedItem.config.GetId());
+                                AddBlock(posX, posY, 4);
                         } else {
                             spriteRender.color = Color.red;
                         }
@@ -116,10 +117,88 @@ public class TileSelector : MonoBehaviour {
             }
             yield return new WaitForSeconds(0.01f);
         }
+    } */
+
+    // This is temporary as long as inventory system will not have been refactored
+    IEnumerator InitSelector() {
+        yield return new WaitForSeconds(3);
+        while (true) {
+            if (Input.GetMouseButtonUp(0)) {
+                DisableCursor();
+                onClick = false;
+            }
+            if (Input.GetMouseButtonDown(0)) {
+                onClick = true;
+            }
+            // toDo refaire tout le system et récupérer les différents tiles, object, wall afin de comparer les valeurs et ne plus utiliser le hit!
+            ray = cam.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, Vector2.zero);
+            var tsX = (int)hit.point.x + 0.5f;
+            var tsY = (int)hit.point.y + 0.5f;
+            var posX = (int)ray.origin.x;
+            var posY = (int)ray.origin.y;
+
+            string tmpType = "Tool"; // Change this to test other cases
+
+            // ToDo passer par un ENUM
+            switch (tmpType) {
+                case "Block":
+                    ActiveSelector((int)ray.origin.x + 0.5f, (int)ray.origin.y + 0.5f);
+                    if (tilesWorldMap[posX, posY] == 0) {
+                        spriteRender.color = Color.white;
+                        if (onClick)
+                            AddBlock(posX, posY, 4);
+                    } else {
+                        spriteRender.color = Color.red;
+                    }
+                    break;
+                case "Crafting":
+                    ActiveSelector(tsX, tsY);
+                    break;
+                case "Tool":
+                    if (tilesWorldMap[posX, posY] > 0) {
+                        ActiveSelector(tsX, tsY);
+                        spriteRender.color = Color.white;
+                        if (onClick) {
+                            if (tilesObjetMap[posX, posY] != null) {
+                                DeleteItem(posX, posY);
+                            } else {
+                                DeleteTile(hit);
+                            }
+                            // tester si tile ou torche !
+                        }
+                    } else {
+                        DisableCursor();
+                        selector.SetActive(false);
+                    }
+                    break;
+                case "Furniture":
+                    if (tilesWorldMap[posX, posY] > 0) {
+                        ActiveSelector(tsX, tsY);
+                        spriteRender.color = Color.white;
+                        if (onClick) {
+                            Debug.Log("posX" + posX);
+                            Debug.Log("posY" + posY);
+                            AddConsummable(null, posX, posY);
+                        }
+                    } else {
+                        DisableCursor();
+                        selector.SetActive(false);
+                    }
+                    break;
+                default:
+                    DisableCursor();
+                    selector.SetActive(false);
+                    break;
+            }
+
+            yield return null;
+        }
     }
 
     private void ActiveSelectorSize() {
-        selector.transform.localScale = new Vector3(inventoryService.seletedItem.config.GetWidth(), inventoryService.seletedItem.config.GetHeight(), 0);
+        //selector.transform.localScale = new Vector3(inventoryService.seletedItem.config.GetWidth(), inventoryService.seletedItem.config.GetHeight(), 0);
+        selector.transform.localScale = new Vector3(1, 1, 0);
     }
 
     private void ActiveSelector(float tsX, float tsY) {
@@ -160,7 +239,7 @@ public class TileSelector : MonoBehaviour {
     private void AddBlock(int x, int y, int id) {
         if (timeClick > 0.4f && onClick) {
             worldManager.AddTile(x, y, id);
-            inventoryService.RemoveItem();
+            //inventoryService.RemoveItem();
         }
         if (onClick) {
             timeClick += Time.deltaTime;
