@@ -4,7 +4,6 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Collider2D))]
 public class Item : MonoBehaviour
 {
     // KEEP only this properties bellow
@@ -26,7 +25,6 @@ public class Item : MonoBehaviour
     public virtual void Setup(ItemConfig config, ItemStatus status, int stacks, ItemPool associatedPool = null) {
         // Get components references
         this.rigidbody = GetComponent<Rigidbody2D>();
-        this.collider = GetComponent<Collider2D>();
         this.renderer = GetComponent<SpriteRenderer>();
 
         this.configuration = config;

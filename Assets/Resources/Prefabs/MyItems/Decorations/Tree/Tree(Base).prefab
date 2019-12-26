@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8051069697303480611}
-  - component: {fileID: 203600195457365034}
   - component: {fileID: 323620726239770702}
+  - component: {fileID: 8557912851257795488}
   m_Layer: 24
-  m_Name: item_22
+  m_Name: Tree(Base)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,33 +26,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5505926547673054016}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 184.5491, y: 858.5638, z: -151.3908}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &203600195457365034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5505926547673054016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdf32bb42d2bfa1428a1c2c442b6c677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nameDisplay: 
-  id: 0
-  config: {fileID: 11400000, guid: c43d9f46c9d67564fb5d9a3de63e1d80, type: 2}
-  maxStacks: 0
-  currentStack: 0
-  type: 
-  width: 0
-  height: 0
-  furnitureType: 
 --- !u!212 &323620726239770702
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -97,9 +76,29 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 8.76, y: 8.76}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8557912851257795488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5505926547673054016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a399b1004cce84b9f800800ff94a5282, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  configuration: {fileID: 0}
+  associatedPool: {fileID: 0}
+  rigidbody: {fileID: 0}
+  collider: {fileID: 0}
+  renderer: {fileID: 0}
+  defaultScale: {x: 0, y: 0}
+  defaultTag: 
+  defaultPrefabSprite: {fileID: 0}

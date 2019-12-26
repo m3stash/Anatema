@@ -21,7 +21,7 @@ public class TileSelector : MonoBehaviour {
 
     public void Init(GameObject _player, WorldManager _worldManager, int[,] _wallTilesMap, int[,] _tilesWorldMap, GameObject[,] _tilesObjetMap) {
         worldManager = _worldManager;
-        inventoryService = GameObject.FindGameObjectWithTag("InventoryContainer").GetComponent<InventoryService>();
+        //inventoryService = GameObject.FindGameObjectWithTag("InventoryContainer").GetComponent<InventoryService>();
         player = _player;
         cam = player.GetComponentInChildren<Camera>();
         tile_dig_1 = gameObject.transform.GetChild(0).gameObject;
@@ -32,7 +32,7 @@ public class TileSelector : MonoBehaviour {
         wallTilesMap = _wallTilesMap;
         tilesWorldMap = _tilesWorldMap;
         tilesObjetMap = _tilesObjetMap;
-        StartCoroutine("InitSelector");
+        //StartCoroutine("InitSelector");
     }
 
     private void DisableCursor() {
