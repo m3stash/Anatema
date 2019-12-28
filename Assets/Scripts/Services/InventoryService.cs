@@ -5,7 +5,6 @@ using UnityEngine;
 public class InventoryService : MonoBehaviour {
 
     public InventoryToolbar inventoryToolbar;
-    private Inventory inventory;
     public InventoryItem seletedItem;
     public static InventoryService Instance;
 
@@ -33,11 +32,11 @@ public class InventoryService : MonoBehaviour {
     }
 
     public static void RefreshToolBar() {
-        Instance.inventoryToolbar.RefreshSelectedItem();
+        //Instance.inventoryToolbar.RefreshSelectedItem();
     }
 
     public static bool CanStack(GameObject currentCell, GameObject movingCell) {
-        var currentCellConf = currentCell.GetComponent<InventoryItem>();
+        /*var currentCellConf = currentCell.GetComponent<InventoryItem>();
         var movingCellConf = movingCell.GetComponent<InventoryItem>();
         if((int)(movingCellConf.config.GetStackLimit()) == 1 || (int)(currentCellConf.config.GetStackLimit()) == 1) {
             Instance.inventoryToolbar.RefreshSelectedItem();
@@ -66,7 +65,7 @@ public class InventoryService : MonoBehaviour {
             }
             
         }
-        Instance.inventoryToolbar.RefreshSelectedItem();
+        Instance.inventoryToolbar.RefreshSelectedItem();*/
         return true;
     }
 
