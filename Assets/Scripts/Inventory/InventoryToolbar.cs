@@ -72,7 +72,7 @@ public class InventoryToolbar : MonoBehaviour {
     }
 
     public void AddItem(GameObject item) {
-        foreach (Transform child in transform) {
+        /*foreach (Transform child in transform) {
             var itmOnGround = item.GetComponent<Item>();
             var itemCfg = itmOnGround.GetConfig();
             // if already have item
@@ -96,11 +96,11 @@ public class InventoryToolbar : MonoBehaviour {
                 Destroy(item);
                 break;
             }
-        }
+        }*/
     }
 
     public void RemoveItem() {
-        var inventoryItem = cells[currentPos].transform.GetChild(0).gameObject.GetComponent<InventoryItem>();
+        /*var inventoryItem = cells[currentPos].transform.GetChild(0).gameObject.GetComponent<InventoryItem>();
         var currentStack = inventoryItem.currentStack;
         inventoryItem.currentStack--;
         if (currentStack > 1) {
@@ -108,6 +108,6 @@ public class InventoryToolbar : MonoBehaviour {
         }
         else {
             Destroy(cells[currentPos].transform.GetChild(0).gameObject);
-        }
+        }*/
     }
 }
