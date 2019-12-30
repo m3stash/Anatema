@@ -6,13 +6,14 @@ public class InventoryManager : MonoBehaviour
 {
     [Header("Fields to complete manually")]
     [SerializeField] private GameObject inventoryCanvas;
-    [SerializeField] private GameObject slotContainerPanel;
+    [SerializeField] private Transform inventorySlotContainer;
+    [SerializeField] private GameObject slotItemPrefab;
 
-    private InventoryItem[] slots;
+    private List<InventoryItem> items;
+    private InventoryCell[] cells;
 
     public static InventoryManager instance;
 
-    // Start is called before the first frame update
     void Awake()
     {
         if (instance)
@@ -23,72 +24,99 @@ public class InventoryManager : MonoBehaviour
         {
             instance = this;
         }
+    }
 
-        this.slots = this.slotContainerPanel.GetComponentsInChildren<InventoryItem>();
+    private void Start()
+    {
+        this.items = new List<InventoryItem>();
+        this.cells = this.inventorySlotContainer.GetComponentsInChildren<InventoryCell>();
+
+        // Subscribe to click event on inventory cell
+        InventoryCell.NotifyClickEvent += this.CellClicked;
+    }
+
+    private void OnDestroy()
+    {
+        InventoryCell.NotifyClickEvent -= this.CellClicked;
     }
 
     public void SwitchDisplay()
     {
         this.inventoryCanvas.SetActive(!this.inventoryCanvas.activeSelf);
     }
-
+      
     public bool AddItem(Item item)
     {
-        InventoryItem slot = null;
-
+        // If item is stackable try to find if we can stack it
         if (item.GetConfig().IsStackable())
         {
-            slot = this.GetSlotWithItem(item);
+            InventoryItem inventoryItem = this.GetExistingInventoryItem(item);
 
-            if (slot)
+            // If same item found in inventory and can be stacked so stack it
+            if (inventoryItem)
             {
-                slot.Stack(item.GetStacks());
+                inventoryItem.Stack(item.GetStacks());
                 return true;
             }
         }
 
-        slot = this.GetEmptySlot();
+        // If item isn't stackable or it couldn't be stacked so try to add it
+        InventoryCell cell = this.GetEmptyCell();
 
-        if (slot)
+        if (cell)
         {
-            slot.Setup(item);
+            // Create new inventory item in this cell and setup it
+            GameObject obj = Instantiate(this.slotItemPrefab, cell.transform);
+            InventoryItem inventoryItem = obj.GetComponent<InventoryItem>();
+
+            inventoryItem.Setup(item);
+
+            this.items.Add(inventoryItem);
+
+            // Refresh cell to update inventory item reference
+            cell.Refresh();
+
             return true;
         }
 
 
-        Debug.Log("No slot found to add item");
+        Debug.Log("No cell found to add item");
         return false;
     }
 
-    public void RemoveItem(Item item)
+    private InventoryCell GetEmptyCell()
     {
-        // TODO
-    }
-
-    private InventoryItem GetEmptySlot()
-    {
-        foreach (InventoryItem slot in this.slots)
+        foreach (InventoryCell cell in this.cells)
         {
-            if (!slot.GetAssociatedItem())
+            // If a cell haven't inventory item reference, it's free cell
+            if (!cell.GetInventoryItem())
             {
-                return slot;
+                return cell;
             }
         }
 
         return null;
     }
 
-    private InventoryItem GetSlotWithItem(Item item)
+    private InventoryItem GetExistingInventoryItem(Item item)
     {
-        foreach (InventoryItem slot in this.slots)
+        foreach (InventoryItem inventoryItem in this.items)
         {
+            bool itemFoundById = item.GetConfig().GetId().Equals(inventoryItem.GetItem().GetConfig().GetId());
+
             // Check if its same item and addition of stacks is less than stackLimit
-            if (slot.GetAssociatedItem() && item.GetConfig().GetId().Equals(slot.GetAssociatedItem().GetConfig().GetId()) && (slot.GetAssociatedItem().GetStacks() + item.GetStacks() <= item.GetConfig().GetStackLimit()))
+            if (itemFoundById && inventoryItem.GetItem().CanStack(item.GetStacks()))
             {
-                return slot;
+                return inventoryItem;
             }
         }
 
         return null;
+    }
+
+    private void CellClicked(InventoryCell cell)
+    {
+        Debug.Log("Cell cliked");
+        // Maybe display an action menu on this cell ?
     }
 }

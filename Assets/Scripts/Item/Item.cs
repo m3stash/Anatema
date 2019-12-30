@@ -126,6 +126,11 @@ public class Item : MonoBehaviour
         this.stacks += quantityToAdd;
     }
 
+    public bool CanStack(int quantityToAdd)
+    {
+        return this.stacks + quantityToAdd <= this.configuration.GetStackLimit();
+    }
+
     public ItemStatus GetStatus() {
         return this.status;
     }

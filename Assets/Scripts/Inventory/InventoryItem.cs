@@ -5,49 +5,43 @@ using System;
 using UnityEngine.UI;
 using TMPro;
 
+[RequireComponent(typeof(Item))]
 public class InventoryItem : MonoBehaviour
 {
+    [Header("Fields below are filled in runtime")]
     [SerializeField] private TextMeshProUGUI quantityText;
     [SerializeField] private Image iconImage;
+    [SerializeField] private Item item;
 
-    private Item item;
-
-    private void Awake() {
+    private void Awake()
+    {
+        this.quantityText = GetComponentInChildren<TextMeshProUGUI>();
+        this.iconImage = GetComponentInChildren<Image>();
+        this.item = GetComponent<Item>();
     }
 
-    public void Setup(Item item) {
-        this.item = this.gameObject.AddComponent<Item>();
+    public void Setup(Item item)
+    {
         this.item.Setup(item);
         this.UpdateUI();
     }
 
-    public void Stack(int quantityToAdd) {
+    public void Stack(int quantityToAdd)
+    {
         this.item.AddStacks(quantityToAdd);
         this.UpdateUI();
     }
 
-    public Item GetItem() {
+    public Item GetItem()
+    {
         return this.item;
     }
 
-    public void RemoveItem() {
-        Destroy(this.item);
-    }
-
-    public Item GetAssociatedItem() {
-        return this.item;
-    }
-
-    private void UpdateUI() {
-        if (this.item) {
-            this.quantityText.text = this.item.GetStacks().ToString();
-            this.iconImage.color = new Color(1, 1, 1, 1);
-            this.iconImage.sprite = this.item.GetConfig().GetIcon();
-        } else {
-            this.quantityText.text = "";
-            this.iconImage.sprite = null;
-            this.iconImage.color = new Color(0, 0, 0, 0);
-        }
+    private void UpdateUI()
+    {
+        this.quantityText.text = this.item.GetStacks().ToString();
+        this.iconImage.color = new Color(1, 1, 1, 1);
+        this.iconImage.sprite = this.item.GetConfig().GetIcon();
     }
 }
 
