@@ -23,12 +23,13 @@ public class InventoryService : MonoBehaviour {
     }
 
     private void Start() {
+        /*
         inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
         inventoryToolbar = GameObject.FindGameObjectWithTag("InventoryToolbar").GetComponent<InventoryToolbar>();
         var itemGo = ManageItems.CreateItem(4);
         inventoryToolbar.AddItem(itemGo);
         var itemGo2 = ManageItems.CreateItem(11); // TODO a enlever juste pour tester (torche)
-        inventoryToolbar.AddItem(itemGo2);
+        inventoryToolbar.AddItem(itemGo2);*/
     }
 
     public static void RefreshToolBar() {
@@ -38,7 +39,7 @@ public class InventoryService : MonoBehaviour {
     public static bool CanStack(GameObject currentCell, GameObject movingCell) {
         var currentCellConf = currentCell.GetComponent<InventoryItem>();
         var movingCellConf = movingCell.GetComponent<InventoryItem>();
-        if((int)(movingCellConf.config.stacks) == 1 || (int)(currentCellConf.config.stacks) == 1) {
+        if((int)(movingCellConf.config.GetStackLimit()) == 1 || (int)(currentCellConf.config.GetStackLimit()) == 1) {
             Instance.inventoryToolbar.RefreshSelectedItem();
             return false;
         }

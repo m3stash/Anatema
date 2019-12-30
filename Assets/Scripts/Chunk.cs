@@ -45,8 +45,7 @@ public class Chunk : MonoBehaviour {
         for (var x = 0; x < chunkSize; x++) {
             for (var y = 0; y < chunkSize; y++) {
                 if(objectsMap[indexXWorldPos + x, indexYWorldPos + y] == 22) {
-                    // Instantiate().GetComponent<DragAndDropItem>()
-                    ManageItems.CreateItemOnMap(indexXWorldPos + x, indexYWorldPos + y, 22);
+                    ItemManager.instance.CreateItem(6, ItemStatus.ACTIVE, new Vector3(indexXWorldPos + x, indexYWorldPos + y));
                 }
             }
         }

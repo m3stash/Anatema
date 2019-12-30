@@ -74,12 +74,12 @@ public class InventoryToolbar : MonoBehaviour {
     public void AddItem(GameObject item) {
         foreach (Transform child in transform) {
             var itmOnGround = item.GetComponent<Item>();
-            var itemCfg = itmOnGround.config;
+            var itemCfg = itmOnGround.GetConfig();
             // if already have item
             if (child.transform.childCount > 0) {
                 var inventoryItem = child.transform.GetChild(0).gameObject.GetComponent<InventoryItem>();
                 if (inventoryItem.config.name == itemCfg.name && inventoryItem.currentStack < inventoryItem.maxStacks) {
-                    inventoryItem.currentStack = inventoryItem.currentStack + itmOnGround.currentStack;
+                    inventoryItem.currentStack = inventoryItem.currentStack + itmOnGround.GetStacks();
                     inventoryItem.text.text = inventoryItem.maxStacks > 1 ? (inventoryItem.currentStack).ToString() : "";
                     Destroy(item);
                     break;
@@ -89,10 +89,9 @@ public class InventoryToolbar : MonoBehaviour {
                 GameObject itemGo = Instantiate(inventoryItemGo);
                 var newInventoryItem = itemGo.GetComponent<InventoryItem>();
                 var itemOnGround = item.GetComponent<Item>();
-                newInventoryItem.config = itemOnGround.config;
-                var newInventoryItemMaxStacks = (int)Enum.Parse(typeof(Stacks), newInventoryItem.config.stacks.ToString());
-                newInventoryItem.currentStack = itemOnGround.currentStack;
-                newInventoryItem.text.text = newInventoryItemMaxStacks > 1 ? itemOnGround.currentStack.ToString() : "";
+                newInventoryItem.config = itemOnGround.GetConfig();
+                newInventoryItem.currentStack = itemOnGround.GetStacks();
+                newInventoryItem.text.text = itemOnGround.GetConfig().GetStackLimit() > 1 ? itemOnGround.GetStacks().ToString() : "";
                 itemGo.transform.parent = child.transform;
                 Destroy(item);
                 break;
