@@ -14,50 +14,48 @@ public class InventoryCell : MonoBehaviour
     public delegate void OnClick(InventoryCell cell);
     public static event OnClick NotifyClickEvent;
 
-    private void Awake()
-    {
+    public delegate void OnItemChanged(InventoryCell cell);
+    public static event OnItemChanged NotifyItemChanged;
+
+    private void Awake() {
         this.button = GetComponent<Button>();
     }
 
-    private void Start()
-    {
+    private void Start() {
         this.button.onClick.AddListener(() => this.NotifyClick());
     }
 
-    private void NotifyClick()
-    {
+    private void NotifyClick() {
         // Notify if this cell contains an item and event handler have atleast one subscriber
-        if(this.inventoryItem && NotifyClickEvent != null)
-        {
+        if (this.inventoryItem && NotifyClickEvent != null) {
             NotifyClickEvent(this);
         }
     }
 
-    public void Refresh()
-    {
+    public void RefreshItemReference() {
         this.inventoryItem = GetComponentInChildren<InventoryItem>();
+
+        NotifyItemChanged?.Invoke(this);
     }
 
     public void UpdateItem(InventoryItemData item) {
-        if(item != null && item.GetConfig() != null) {
-            if(!inventoryItem) {
+        if (item != null && item.GetConfig() != null) {
+            if (!inventoryItem) {
                 GameObject obj = Instantiate(this.slotItemPrefab, this.transform);
                 this.inventoryItem = obj.GetComponent<InventoryItem>();
             }
 
             inventoryItem.Setup(item);
-        } else if(((item != null && item.GetConfig() == null) || item == null) && inventoryItem) {
+        } else if (((item != null && item.GetConfig() == null) || item == null) && inventoryItem) {
             Destroy(this.inventoryItem.gameObject);
         }
     }
 
-    public InventoryItem GetInventoryItem()
-    {
+    public InventoryItem GetInventoryItem() {
         return this.inventoryItem;
     }
 
-    private void OnDestroy()
-    {
+    private void OnDestroy() {
         this.button.onClick.RemoveAllListeners();
     }
 }

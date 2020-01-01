@@ -96,8 +96,8 @@ public class DragAndDropCell : MonoBehaviour, IDropHandler
             sourceCell.UpdateMyItem();
 
             // Refresh sourceCell and currentCell
-            sourceCell.GetComponent<InventoryCell>().Refresh();
-            GetComponent<InventoryCell>().Refresh();
+            sourceCell.GetComponent<InventoryCell>().RefreshItemReference();
+            GetComponent<InventoryCell>().RefreshItemReference();
         }
     }
 

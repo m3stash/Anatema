@@ -37,11 +37,13 @@ public class InventoryManager : MonoBehaviour
 
         // Subscribe to click event on inventory cell
         InventoryCell.NotifyClickEvent += this.CellClicked;
+        InventoryCell.NotifyItemChanged += this.ItemChangedInCell;
     }
 
     private void OnDestroy()
     {
         InventoryCell.NotifyClickEvent -= this.CellClicked;
+        InventoryCell.NotifyItemChanged -= this.ItemChangedInCell;
     }
 
     public void SwitchDisplay()
@@ -132,9 +134,28 @@ public class InventoryManager : MonoBehaviour
         return null;
     }
 
+    private int GetCellIdx(InventoryCell cell) {
+        for(int i = 0; i < this.cells.Length; i++) {
+            if(this.cells[i] == cell) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     private void CellClicked(InventoryCell cell)
     {
-        Debug.Log("Cell cliked");
         // Maybe display an action menu on this cell ?
+    }
+
+    private void ItemChangedInCell(InventoryCell cell) {
+        int cellIdx = this.GetCellIdx(cell);
+
+        if(cellIdx != -1) {
+            this.itemDatas[cellIdx] = cell.GetInventoryItem() ? cell.GetInventoryItem().GetItem() : null;
+        } else {
+            Debug.LogError("Cell idx not found");
+        }
     }
 }
