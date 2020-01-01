@@ -6,7 +6,9 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class InventoryCell : MonoBehaviour
 {
+    [SerializeField] private GameObject slotItemPrefab;
     [SerializeField] private InventoryItem inventoryItem;
+
     private Button button;
 
     public delegate void OnClick(InventoryCell cell);
@@ -34,6 +36,19 @@ public class InventoryCell : MonoBehaviour
     public void Refresh()
     {
         this.inventoryItem = GetComponentInChildren<InventoryItem>();
+    }
+
+    public void UpdateItem(InventoryItemData item) {
+        if(item != null && item.GetConfig() != null) {
+            if(!inventoryItem) {
+                GameObject obj = Instantiate(this.slotItemPrefab, this.transform);
+                this.inventoryItem = obj.GetComponent<InventoryItem>();
+            }
+
+            inventoryItem.Setup(item);
+        } else if(((item != null && item.GetConfig() == null) || item == null) && inventoryItem) {
+            Destroy(this.inventoryItem.gameObject);
+        }
     }
 
     public InventoryItem GetInventoryItem()

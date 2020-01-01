@@ -5,24 +5,22 @@ using System;
 using UnityEngine.UI;
 using TMPro;
 
-[RequireComponent(typeof(Item))]
 public class InventoryItem : MonoBehaviour
 {
     [Header("Fields below are filled in runtime")]
     [SerializeField] private TextMeshProUGUI quantityText;
     [SerializeField] private Image iconImage;
-    [SerializeField] private Item item;
+    [SerializeField] private InventoryItemData item;
 
     private void Awake()
     {
         this.quantityText = GetComponentInChildren<TextMeshProUGUI>();
         this.iconImage = GetComponentInChildren<Image>();
-        this.item = GetComponent<Item>();
     }
 
-    public void Setup(Item item)
+    public void Setup(InventoryItemData item)
     {
-        this.item.Setup(item);
+        this.item = item;
         this.UpdateUI();
     }
 
@@ -32,7 +30,7 @@ public class InventoryItem : MonoBehaviour
         this.UpdateUI();
     }
 
-    public Item GetItem()
+    public InventoryItemData GetItem()
     {
         return this.item;
     }

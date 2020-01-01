@@ -7,13 +7,13 @@ public class InventoryManager : MonoBehaviour
     [Header("Fields to complete manually")]
     [SerializeField] private GameObject inventoryCanvas;
     [SerializeField] private Transform inventorySlotContainer;
-    [SerializeField] private GameObject slotItemPrefab;
+    [SerializeField] private Transform toolbarSlotContainer;
 
     [Header("Inventory slots")]
     [SerializeField] private InventoryItemData[] itemDatas;
     private int inventorySize = 16;
+    private int toolbarSize = 8;
 
-    private List<InventoryItem> items;
     private InventoryCell[] cells;
 
     public static InventoryManager instance;
@@ -27,14 +27,13 @@ public class InventoryManager : MonoBehaviour
         else
         {
             instance = this;
+            this.itemDatas = new InventoryItemData[this.inventorySize + this.toolbarSize];
         }
     }
 
     private void Start()
     {
-        this.itemDatas = new InventoryItemData[this.inventorySize];
-        this.items = new List<InventoryItem>();
-        this.cells = this.inventorySlotContainer.GetComponentsInChildren<InventoryCell>();
+        this.UpdateCells();
 
         // Subscribe to click event on inventory cell
         InventoryCell.NotifyClickEvent += this.CellClicked;
@@ -50,74 +49,23 @@ public class InventoryManager : MonoBehaviour
         this.inventoryCanvas.SetActive(!this.inventoryCanvas.activeSelf);
     }
 
-    //public bool AddItem(Item item)
-    //{
-    //    // If item is stackable try to find if we can stack it
-    //    if (item.GetConfig().IsStackable())
-    //    {
-    //        InventoryItem inventoryItem = this.GetExistingInventoryItem(item);
+    private void RefreshUI() {
+        for(int i = 0; i < this.cells.Length; i++) {
+            this.cells[i].UpdateItem(this.itemDatas[i]);
+        }
+    }
 
-    //        // If same item found in inventory and can be stacked so stack it
-    //        if (inventoryItem)
-    //        {
-    //            inventoryItem.Stack(item.GetStacks());
-    //            return true;
-    //        }
-    //    }
+    private void UpdateCells() {
+        this.cells = new InventoryCell[this.inventorySize + this.toolbarSize];
 
-    //    // If item isn't stackable or it couldn't be stacked so try to add it
-    //    InventoryCell cell = this.GetEmptyCell();
+        for (int i = 0; i < this.toolbarSlotContainer.childCount; i++) {
+            this.cells[i] = this.toolbarSlotContainer.GetChild(i).GetComponent<InventoryCell>();
+        }
 
-    //    if (cell)
-    //    {
-    //        // Create new inventory item in this cell and setup it
-    //        GameObject obj = Instantiate(this.slotItemPrefab, cell.transform);
-    //        InventoryItem inventoryItem = obj.GetComponent<InventoryItem>();
-
-    //        inventoryItem.Setup(item);
-
-    //        this.items.Add(inventoryItem);
-
-    //        // Refresh cell to update inventory item reference
-    //        cell.Refresh();
-
-    //        return true;
-    //    }
-
-
-    //    Debug.Log("No cell found to add item");
-    //    return false;
-    //}
-
-    //private InventoryCell GetEmptyCell()
-    //{
-    //    foreach (InventoryCell cell in this.cells)
-    //    {
-    //        // If a cell haven't inventory item reference, it's free cell
-    //        if (!cell.GetInventoryItem())
-    //        {
-    //            return cell;
-    //        }
-    //    }
-
-    //    return null;
-    //}
-
-    //private InventoryItem GetExistingInventoryItem(Item item)
-    //{
-    //    foreach (InventoryItem inventoryItem in this.items)
-    //    {
-    //        bool itemFoundById = item.GetConfig().GetId().Equals(inventoryItem.GetItem().GetConfig().GetId());
-
-    //        // Check if its same item and addition of stacks is less than stackLimit
-    //        if (itemFoundById && inventoryItem.GetItem().CanStack(item.GetStacks()))
-    //        {
-    //            return inventoryItem;
-    //        }
-    //    }
-
-    //    return null;
-    //}
+        for (int i = 0; i < this.inventorySlotContainer.childCount; i++) {
+            this.cells[i + this.toolbarSize] = this.inventorySlotContainer.GetChild(i).GetComponent<InventoryCell>();
+        }
+    }
 
     public bool AddItem(Item item)
     {
@@ -130,6 +78,7 @@ public class InventoryManager : MonoBehaviour
             if (inventoryItemData != null)
             {
                 inventoryItemData.AddStacks(item.GetStacks());
+                this.RefreshUI();
                 return true;
             }
         }
@@ -141,7 +90,7 @@ public class InventoryManager : MonoBehaviour
         {
             // Create new inventory item in this cell and setup it
             this.itemDatas[freeSlotIdx] = new InventoryItemData(item.GetConfig(), item.GetStacks(), 100);
-
+            this.RefreshUI();
             return true;
         }
 
@@ -155,7 +104,7 @@ public class InventoryManager : MonoBehaviour
     {
         for (int i = 0; i < this.itemDatas.Length; i++)
         {
-            if (this.itemDatas[i].GetConfig() == null)
+            if ((this.itemDatas[i] != null && this.itemDatas[i].GetConfig() == null) || this.itemDatas[i] == null)
             {
                 return i;
             }
@@ -168,7 +117,7 @@ public class InventoryManager : MonoBehaviour
     {
         for(int i = 0; i < this.itemDatas.Length; i++)
         {
-            if(this.itemDatas[i].GetConfig() != null)
+            if(this.itemDatas[i] != null && this.itemDatas[i].GetConfig() != null)
             {
                 bool itemFoundById = item.GetConfig().GetId().Equals(this.itemDatas[i].GetConfig().GetId());
 
