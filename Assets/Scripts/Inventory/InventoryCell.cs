@@ -17,6 +17,9 @@ public class InventoryCell : MonoBehaviour
     public delegate void OnItemChanged(InventoryCell cell);
     public static event OnItemChanged NotifyItemChanged;
 
+    public delegate void OnItemDrop(InventoryCell cell);
+    public static event OnItemDrop NotifyItemDrop;
+
     private void Awake() {
         this.button = GetComponent<Button>();
     }
@@ -36,6 +39,10 @@ public class InventoryCell : MonoBehaviour
         this.inventoryItem = GetComponentInChildren<InventoryItem>();
 
         NotifyItemChanged?.Invoke(this);
+    }
+
+    public void DropItem() {
+        NotifyItemDrop?.Invoke(this);
     }
 
     public void UpdateItem(InventoryItemData item) {

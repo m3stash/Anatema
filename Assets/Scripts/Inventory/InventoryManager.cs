@@ -38,12 +38,14 @@ public class InventoryManager : MonoBehaviour
         // Subscribe to click event on inventory cell
         InventoryCell.NotifyClickEvent += this.CellClicked;
         InventoryCell.NotifyItemChanged += this.ItemChangedInCell;
+        InventoryCell.NotifyItemDrop += this.DropItem;
     }
 
     private void OnDestroy()
     {
         InventoryCell.NotifyClickEvent -= this.CellClicked;
         InventoryCell.NotifyItemChanged -= this.ItemChangedInCell;
+        InventoryCell.NotifyItemDrop -= this.DropItem;
     }
 
     public void SwitchDisplay()
@@ -154,6 +156,23 @@ public class InventoryManager : MonoBehaviour
 
         if(cellIdx != -1) {
             this.itemDatas[cellIdx] = cell.GetInventoryItem() ? cell.GetInventoryItem().GetItem() : null;
+        } else {
+            Debug.LogError("Cell idx not found");
+        }
+    }
+
+    private void DropItem(InventoryCell cell) {
+        int cellIdx = this.GetCellIdx(cell);
+
+        if (cellIdx != -1) {
+            // Create item in world
+            InventoryItemData itemData = cell.GetInventoryItem().GetItem();
+            Item item = ItemManager.instance.CreateItem(itemData.GetConfig().GetId(), ItemStatus.PICKABLE, Player.instance.transform.position + Vector3.right);
+            item.SetStacks(itemData.GetStacks());
+
+            // Delete from inventory and refresh ui
+            this.itemDatas[cellIdx] = null;
+            this.RefreshUI();
         } else {
             Debug.LogError("Cell idx not found");
         }

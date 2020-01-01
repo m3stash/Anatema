@@ -24,12 +24,6 @@ public class InventoryItem : MonoBehaviour
         this.UpdateUI();
     }
 
-    public void Stack(int quantityToAdd)
-    {
-        this.item.AddStacks(quantityToAdd);
-        this.UpdateUI();
-    }
-
     public InventoryItemData GetItem()
     {
         return this.item;
