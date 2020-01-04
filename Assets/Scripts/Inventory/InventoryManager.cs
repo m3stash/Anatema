@@ -43,24 +43,6 @@ public class InventoryManager : MonoBehaviour
         this.inventoryCanvas.SetActive(!this.inventoryCanvas.activeSelf);
     }
 
-    //private void RefreshUI() {
-    //    for(int i = 0; i < this.cells.Length; i++) {
-    //        this.cells[i].UpdateItem(this.itemDatas[i]);
-    //    }
-    //}
-
-    //private void UpdateCells() {
-    //    this.cells = new InventoryCell[this.inventorySize + this.toolbarSize];
-
-    //    for (int i = 0; i < this.toolbarSlotContainer.childCount; i++) {
-    //        this.cells[i] = this.toolbarSlotContainer.GetChild(i).GetComponent<InventoryCell>();
-    //    }
-
-    //    for (int i = 0; i < this.inventorySlotContainer.childCount; i++) {
-    //        this.cells[i + this.toolbarSize] = this.inventorySlotContainer.GetChild(i).GetComponent<InventoryCell>();
-    //    }
-    //}
-
     public InventoryItemData[] GetInventoryItems(ItemType itemType)
     {
         return this.itemDatabases[itemType];
