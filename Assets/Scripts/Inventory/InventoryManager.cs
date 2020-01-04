@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,16 +8,15 @@ public class InventoryManager : MonoBehaviour
     [Header("Fields to complete manually")]
     [SerializeField] private GameObject inventoryCanvas;
 
-    [Header("Inventory Items")]
-    [SerializeField] private InventoryItemData[] consummables;
-    [SerializeField] private InventoryItemData[] equipments;
-    [SerializeField] private InventoryItemData[] blocks;
-    [SerializeField] private InventoryItemData[] furnitures;
+    [Header("Inventory Item databases")]
+    [SerializeField] private Dictionary<ItemType, InventoryItemData[]> itemDatabases;
 
-    private int size;
-
+    private int size = 16;
 
     public static InventoryManager instance;
+
+    public delegate void OnItemDatabaseChanged(ItemType itemType);
+    public static event OnItemDatabaseChanged itemDatabaseChanged;
 
     void Awake()
     {
@@ -29,16 +29,13 @@ public class InventoryManager : MonoBehaviour
             instance = this;
 
             // Init all inventories type
-            this.consummables = new InventoryItemData[this.size];
-            this.equipments = new InventoryItemData[this.size];
-            this.blocks = new InventoryItemData[this.size];
-            this.furnitures = new InventoryItemData[this.size];
-        }
-    }
+            this.itemDatabases = new Dictionary<ItemType, InventoryItemData[]>();
 
-    private void Start()
-    {
-        this.UpdateCells();
+            foreach (ItemType type in Enum.GetValues(typeof(ItemType)))
+            {
+                this.itemDatabases.Add(type, new InventoryItemData[this.size]);
+            }
+        }
     }
 
     public void SwitchDisplay()
@@ -64,28 +61,43 @@ public class InventoryManager : MonoBehaviour
     //    }
     //}
 
+    public InventoryItemData[] GetInventoryItems(ItemType itemType)
+    {
+        return this.itemDatabases[itemType];
+    }
+
     public bool AddItem(Item item)
     {
+        // Get reference to associated database of item type
+        InventoryItemData[] itemDatabase = this.itemDatabases[item.GetConfig().GetItemType()];
+
         // If item is stackable try to find if we can stack it
         if (item.GetConfig().IsStackable())
         {
-            InventoryItemData inventoryItemData = this.GetExistingInventoryItem(item);
+            int slotIdx = this.GetItemSlotIdx(itemDatabase, item, true);
 
             // If same item found in inventory and can be stacked so stack it
-            if (inventoryItemData != null)
+            if (slotIdx != -1)
             {
-                inventoryItemData.AddStacks(item.GetStacks());
+                itemDatabase[slotIdx].AddStacks(item.GetStacks());
+
+                // Notify item database changed to refresh UI
+                itemDatabaseChanged?.Invoke(item.GetConfig().GetItemType());
                 return true;
             }
         }
 
         // If item isn't stackable or it couldn't be stacked so try to add it
-        int freeSlotIdx = this.GetEmptySlotIdx();
+        int freeSlotIdx = this.GetEmptySlotIdx(itemDatabase);
 
         if (freeSlotIdx != -1)
         {
             // Create new inventory item in this cell and setup it
-            this.itemDatas[freeSlotIdx] = new InventoryItemData(item.GetConfig(), item.GetStacks(), 100);
+            itemDatabase[freeSlotIdx] = new InventoryItemData(item.GetConfig(), item.GetStacks(), 100);
+
+            // Notify item database changed to refresh UI
+            itemDatabaseChanged?.Invoke(item.GetConfig().GetItemType());
+
             return true;
         }
 
@@ -108,7 +120,7 @@ public class InventoryManager : MonoBehaviour
         return -1;
     }
 
-    private int GetItemSlotIdx(InventoryItemData[] items, Item item, bool stackableFilter)
+    private int GetItemSlotIdx(InventoryItemData[] items, Item item, bool stackableFilter = false)
     {
         for(int i = 0; i < items.Length; i++)
         {
@@ -136,11 +148,6 @@ public class InventoryManager : MonoBehaviour
 
     //    return -1;
     //}
-
-    private void CellClicked(InventoryCell cell)
-    {
-        // Maybe display an action menu on this cell ?
-    }
 
     /*private void ItemChangedInCell(InventoryCell cell) {
         int cellIdx = this.GetCellIdx(cell);
