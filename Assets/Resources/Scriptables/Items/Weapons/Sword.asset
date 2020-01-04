@@ -15,6 +15,7 @@ MonoBehaviour:
   id: 3
   prefab: {fileID: 8281143061814350013, guid: f4ad907856b87974583c3d5696a82514, type: 3}
   displayName: Sword
+  itemType: 2
   icon: {fileID: 21300000, guid: 4b243fcec88d17a44ac6a2b4dad47ed9, type: 3}
   pooleable: 0
   poolSize: 1
@@ -23,5 +24,6 @@ MonoBehaviour:
   width: 0
   height: 0
   placeable: 0
+  scale: {x: 0, y: 0}
   damage: 0
   durability: 0

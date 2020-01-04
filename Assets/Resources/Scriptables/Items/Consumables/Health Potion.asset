@@ -15,6 +15,7 @@ MonoBehaviour:
   id: 4
   prefab: {fileID: 4405146219834199482, guid: 41abe6f2e9ad06d44bd3eec8f34fedbf, type: 3}
   displayName: Health Potion
+  itemType: 4
   icon: {fileID: 21300000, guid: 4b243fcec88d17a44ac6a2b4dad47ed9, type: 3}
   pooleable: 1
   poolSize: 10

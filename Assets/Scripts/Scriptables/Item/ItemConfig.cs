@@ -14,6 +14,8 @@ public class ItemConfig : ScriptableObject
 
     [SerializeField] private string displayName;
 
+    [SerializeField] private ItemType itemType;
+
     [Tooltip("Represent the icon in HUD")]
     [SerializeField] private Sprite icon;
 
@@ -63,6 +65,11 @@ public class ItemConfig : ScriptableObject
         return this.displayName;
     }
 
+    public ItemType GetItemType()
+    {
+        return this.itemType;
+    }
+
     public int GetPoolSize() {
         return this.poolSize;
     }
@@ -103,4 +110,14 @@ public enum Stacks
     consumables = 99,
     blocks = 5, // 999
     weapons = 1,
+}
+
+public enum ItemType
+{
+    BLOCK,
+    TOOL,
+    WEAPON,
+    FURNITURE,
+    CONSUMABLE,
+    EQUIPMENT
 }

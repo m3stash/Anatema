@@ -15,6 +15,7 @@ MonoBehaviour:
   id: 7
   prefab: {fileID: 4405146219834199482, guid: 347f0d90607eeed48bc1c4ea6e5aaeab, type: 3}
   displayName: Torch
+  itemType: 3
   icon: {fileID: 21300000, guid: 2281c47218a4a4946b5d784491209174, type: 3}
   pooleable: 1
   poolSize: 50
