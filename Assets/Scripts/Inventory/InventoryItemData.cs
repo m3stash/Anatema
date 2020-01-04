@@ -45,6 +45,6 @@ public class InventoryItemData
 
     public bool CanStack(int quantityToAdd)
     {
-        return this.stacks + quantityToAdd <= this.itemConfig.GetStackLimit();
+        return this.itemConfig.IsStackable() && this.stacks + quantityToAdd <= this.itemConfig.GetStackLimit();
     }
 }

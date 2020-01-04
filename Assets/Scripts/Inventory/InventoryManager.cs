@@ -6,15 +6,15 @@ public class InventoryManager : MonoBehaviour
 {
     [Header("Fields to complete manually")]
     [SerializeField] private GameObject inventoryCanvas;
-    [SerializeField] private Transform inventorySlotContainer;
-    [SerializeField] private Transform toolbarSlotContainer;
 
-    [Header("Inventory slots")]
-    [SerializeField] private InventoryItemData[] itemDatas;
-    private int inventorySize = 16;
-    private int toolbarSize = 8;
+    [Header("Inventory Items")]
+    [SerializeField] private InventoryItemData[] consummables;
+    [SerializeField] private InventoryItemData[] equipments;
+    [SerializeField] private InventoryItemData[] blocks;
+    [SerializeField] private InventoryItemData[] furnitures;
 
-    private InventoryCell[] cells;
+    private int size;
+
 
     public static InventoryManager instance;
 
@@ -27,25 +27,18 @@ public class InventoryManager : MonoBehaviour
         else
         {
             instance = this;
-            this.itemDatas = new InventoryItemData[this.inventorySize + this.toolbarSize];
+
+            // Init all inventories type
+            this.consummables = new InventoryItemData[this.size];
+            this.equipments = new InventoryItemData[this.size];
+            this.blocks = new InventoryItemData[this.size];
+            this.furnitures = new InventoryItemData[this.size];
         }
     }
 
     private void Start()
     {
         this.UpdateCells();
-
-        // Subscribe to click event on inventory cell
-        InventoryCell.NotifyClickEvent += this.CellClicked;
-        InventoryCell.NotifyItemChanged += this.ItemChangedInCell;
-        InventoryCell.NotifyItemDrop += this.DropItem;
-    }
-
-    private void OnDestroy()
-    {
-        InventoryCell.NotifyClickEvent -= this.CellClicked;
-        InventoryCell.NotifyItemChanged -= this.ItemChangedInCell;
-        InventoryCell.NotifyItemDrop -= this.DropItem;
     }
 
     public void SwitchDisplay()
@@ -53,23 +46,23 @@ public class InventoryManager : MonoBehaviour
         this.inventoryCanvas.SetActive(!this.inventoryCanvas.activeSelf);
     }
 
-    private void RefreshUI() {
-        for(int i = 0; i < this.cells.Length; i++) {
-            this.cells[i].UpdateItem(this.itemDatas[i]);
-        }
-    }
+    //private void RefreshUI() {
+    //    for(int i = 0; i < this.cells.Length; i++) {
+    //        this.cells[i].UpdateItem(this.itemDatas[i]);
+    //    }
+    //}
 
-    private void UpdateCells() {
-        this.cells = new InventoryCell[this.inventorySize + this.toolbarSize];
+    //private void UpdateCells() {
+    //    this.cells = new InventoryCell[this.inventorySize + this.toolbarSize];
 
-        for (int i = 0; i < this.toolbarSlotContainer.childCount; i++) {
-            this.cells[i] = this.toolbarSlotContainer.GetChild(i).GetComponent<InventoryCell>();
-        }
+    //    for (int i = 0; i < this.toolbarSlotContainer.childCount; i++) {
+    //        this.cells[i] = this.toolbarSlotContainer.GetChild(i).GetComponent<InventoryCell>();
+    //    }
 
-        for (int i = 0; i < this.inventorySlotContainer.childCount; i++) {
-            this.cells[i + this.toolbarSize] = this.inventorySlotContainer.GetChild(i).GetComponent<InventoryCell>();
-        }
-    }
+    //    for (int i = 0; i < this.inventorySlotContainer.childCount; i++) {
+    //        this.cells[i + this.toolbarSize] = this.inventorySlotContainer.GetChild(i).GetComponent<InventoryCell>();
+    //    }
+    //}
 
     public bool AddItem(Item item)
     {
@@ -82,7 +75,6 @@ public class InventoryManager : MonoBehaviour
             if (inventoryItemData != null)
             {
                 inventoryItemData.AddStacks(item.GetStacks());
-                this.RefreshUI();
                 return true;
             }
         }
@@ -94,7 +86,6 @@ public class InventoryManager : MonoBehaviour
         {
             // Create new inventory item in this cell and setup it
             this.itemDatas[freeSlotIdx] = new InventoryItemData(item.GetConfig(), item.GetStacks(), 100);
-            this.RefreshUI();
             return true;
         }
 
@@ -104,11 +95,11 @@ public class InventoryManager : MonoBehaviour
     }
 
 
-    private int GetEmptySlotIdx()
+    private int GetEmptySlotIdx(InventoryItemData[] items)
     {
-        for (int i = 0; i < this.itemDatas.Length; i++)
+        for (int i = 0; i < items.Length; i++)
         {
-            if ((this.itemDatas[i] != null && this.itemDatas[i].GetConfig() == null) || this.itemDatas[i] == null)
+            if (items[i]?.GetConfig() == null)
             {
                 return i;
             }
@@ -117,41 +108,41 @@ public class InventoryManager : MonoBehaviour
         return -1;
     }
 
-    private InventoryItemData GetExistingInventoryItem(Item item)
+    private int GetItemSlotIdx(InventoryItemData[] items, Item item, bool stackableFilter)
     {
-        for(int i = 0; i < this.itemDatas.Length; i++)
+        for(int i = 0; i < items.Length; i++)
         {
-            if(this.itemDatas[i] != null && this.itemDatas[i].GetConfig() != null)
+            if(items[i]?.GetConfig() != null)
             {
-                bool itemFoundById = item.GetConfig().GetId().Equals(this.itemDatas[i].GetConfig().GetId());
+                bool itemFoundById = item.GetConfig().GetId().Equals(items[i].GetConfig().GetId());
 
                 // Check if its same item and addition of stacks is less than stackLimit
-                if (itemFoundById && this.itemDatas[i].CanStack(item.GetStacks()))
+                if (itemFoundById && ((stackableFilter && items[i].CanStack(item.GetStacks())) || !stackableFilter))
                 {
-                    return this.itemDatas[i];
+                    return i;
                 }
             }
         }
 
-        return null;
-    }
-
-    private int GetCellIdx(InventoryCell cell) {
-        for(int i = 0; i < this.cells.Length; i++) {
-            if(this.cells[i] == cell) {
-                return i;
-            }
-        }
-
         return -1;
     }
+
+    //private int GetCellIdx(InventoryCell cell) {
+    //    for(int i = 0; i < this.cells.Length; i++) {
+    //        if(this.cells[i] == cell) {
+    //            return i;
+    //        }
+    //    }
+
+    //    return -1;
+    //}
 
     private void CellClicked(InventoryCell cell)
     {
         // Maybe display an action menu on this cell ?
     }
 
-    private void ItemChangedInCell(InventoryCell cell) {
+    /*private void ItemChangedInCell(InventoryCell cell) {
         int cellIdx = this.GetCellIdx(cell);
 
         if(cellIdx != -1) {
@@ -159,9 +150,9 @@ public class InventoryManager : MonoBehaviour
         } else {
             Debug.LogError("Cell idx not found");
         }
-    }
+    }*/
 
-    private void DropItem(InventoryCell cell) {
+    /*private void DropItem(Item item) {
         int cellIdx = this.GetCellIdx(cell);
 
         if (cellIdx != -1) {
@@ -176,5 +167,5 @@ public class InventoryManager : MonoBehaviour
         } else {
             Debug.LogError("Cell idx not found");
         }
-    }
+    }*/
 }
