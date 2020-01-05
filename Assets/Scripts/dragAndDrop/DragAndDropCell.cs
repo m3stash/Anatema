@@ -9,6 +9,7 @@ using System.Collections;
 public class DragAndDropCell : MonoBehaviour, IDropHandler
 {
     private DragAndDropItem associatedItem;
+    private 
 
     void OnEnable()
     {
@@ -30,7 +31,8 @@ public class DragAndDropCell : MonoBehaviour, IDropHandler
     private void OnAnyItemDragStart(DragAndDropItem item)
     {
         UpdateMyItem();
-        if (associatedItem != null)
+
+        if (associatedItem)
         {
             associatedItem.MakeRaycast(false);                                   // Disable item's raycast for correct drop handling
         }
@@ -43,9 +45,10 @@ public class DragAndDropCell : MonoBehaviour, IDropHandler
     private void OnAnyItemDragEnd(DragAndDropItem item)
     {
         UpdateMyItem();
-        if (associatedItem != null)
+
+        if (associatedItem)
         {
-            associatedItem.MakeRaycast(true);                                  	// Enable item's raycast
+            associatedItem.MakeRaycast(true);
         }
     }
 
@@ -63,26 +66,8 @@ public class DragAndDropCell : MonoBehaviour, IDropHandler
             {
                 if (item && sourceCell != this)
                 {
-                    UpdateMyItem(); 
-
-                    // If this cell already have an item
-                    if (associatedItem)
-                    {
-                        // Fill event descriptor
-                        // TODO check stackable and empty
-                        if (true)
-                        {
-                            SwapItems(sourceCell, this);                // Swap items between cells
-                        }
-                        else
-                        {
-                            PlaceItem(item);            // Delete old item and place dropped item into this cell
-                        }
-                    }
-                    else
-                    {
-                        PlaceItem(item);                // Place dropped item into this empty cell
-                    }
+                    UpdateMyItem();
+                    SwapItems(sourceCell, this);
                 }
             }
             if (item != null)
@@ -102,36 +87,6 @@ public class DragAndDropCell : MonoBehaviour, IDropHandler
     }
 
     /// <summary>
-    /// Put item into this cell.
-    /// </summary>
-    /// <param name="item">Item.</param>
-    private void PlaceItem(DragAndDropItem item)
-    {
-        DestroyItem();                                              // Remove current item from this cell
-        item.transform.SetParent(transform, false);
-        item.transform.localPosition = Vector3.zero;
-        item.MakeRaycast(true);
-        associatedItem = item;
-    }
-
-    /// <summary>
-    /// Destroy item in this cell
-    /// </summary>
-    private void DestroyItem()
-    {
-        UpdateMyItem();
-
-        if (associatedItem)
-        {
-            Destroy(associatedItem.gameObject);
-        }
-
-        associatedItem = null;
-    }
-
-
-
-    /// <summary>
     /// Updates my item
     /// </summary>
     public void UpdateMyItem()
@@ -149,49 +104,29 @@ public class DragAndDropCell : MonoBehaviour, IDropHandler
     }
 
     /// <summary>
-    /// Manualy add item into this cell
-    /// </summary>
-    /// <param name="newItem"> New item </param>
-    public void AddItem(DragAndDropItem newItem)
-    {
-        PlaceItem(newItem);
-    }
-
-    /// <summary>
-    /// Manualy delete item from this cell
-    /// </summary>
-    public void RemoveItem()
-    {
-        DestroyItem();
-    }
-
-    /// <summary>
     /// Swap items between two cells
     /// </summary>
     /// <param name="firstCell"> Cell </param>
     /// <param name="secondCell"> Cell </param>
     public void SwapItems(DragAndDropCell firstCell, DragAndDropCell secondCell)
     {
-        if ((firstCell != null) && (secondCell != null))
+        if (firstCell && secondCell)
         {
             DragAndDropItem firstItem = firstCell.GetItem();                // Get item from first cell
             DragAndDropItem secondItem = secondCell.GetItem();              // Get item from second cell
                                                                             // Swap items
-            if (firstItem != null)
+            if (firstItem)
             {
-                firstItem.transform.SetParent(secondCell.transform, false);
-                firstItem.transform.localPosition = Vector3.zero;
                 firstItem.MakeRaycast(true);
             }
-            if (secondItem != null)
+            if (secondItem)
             {
-                secondItem.transform.SetParent(firstCell.transform, false);
-                secondItem.transform.localPosition = Vector3.zero;
                 secondItem.MakeRaycast(true);
             }
-            // Update states
-            firstCell.UpdateMyItem();
-            secondCell.UpdateMyItem();
+
+            InventoryBag inventory = GetComponentInParent<InventoryBag>();
+            inventory.SwapCells(firstCell.GetComponent<InventoryCell>(), secondCell.GetComponent<InventoryCell>());
+
         }
     }
 }

@@ -12,6 +12,9 @@ public class InventoryBag : MonoBehaviour
     [SerializeField] private InventoryCell[] cells;
     [SerializeField] private InventoryItemData[] items;
 
+    public delegate void SwapItemIdx(int sourceIdx, int targetIdx, ItemType itemType);
+    public static event SwapItemIdx OnSwapItems;
+
     private void Awake()
     {
         this.cells = this.slotContainer.GetComponentsInChildren<InventoryCell>();
@@ -32,6 +35,11 @@ public class InventoryBag : MonoBehaviour
         InventoryManager.itemDatabaseChanged -= this.RefreshItems;
     }
 
+    public void SwapCells(InventoryCell source, InventoryCell target)
+    {
+        OnSwapItems(this.GetCellIdx(source), this.GetCellIdx(target), this.itemType);
+    }
+
     private void RefreshItems(ItemType type)
     {
         // Continue if update concerns this inventory
@@ -48,5 +56,18 @@ public class InventoryBag : MonoBehaviour
         {
             this.cells[i].UpdateItem(this.items[i]);
         }
+    }
+
+    private int GetCellIdx(InventoryCell cell)
+    {
+        for (int i = 0; i < this.cells.Length; i++)
+        {
+            if (this.cells[i] == cell)
+            {
+                return i;
+            }
+        }
+
+        return -1;
     }
 }

@@ -28,6 +28,8 @@ public class InventoryManager : MonoBehaviour
         {
             instance = this;
 
+            InventoryBag.OnSwapItems += SwapItems;
+
             // Init all inventories type
             this.itemDatabases = new Dictionary<ItemType, InventoryItemData[]>();
 
@@ -36,6 +38,11 @@ public class InventoryManager : MonoBehaviour
                 this.itemDatabases.Add(type, new InventoryItemData[this.size]);
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        InventoryBag.OnSwapItems -= SwapItems;
     }
 
     public void SwitchDisplay()
@@ -104,9 +111,9 @@ public class InventoryManager : MonoBehaviour
 
     private int GetItemSlotIdx(InventoryItemData[] items, Item item, bool stackableFilter = false)
     {
-        for(int i = 0; i < items.Length; i++)
+        for (int i = 0; i < items.Length; i++)
         {
-            if(items[i]?.GetConfig() != null)
+            if (items[i]?.GetConfig() != null)
             {
                 bool itemFoundById = item.GetConfig().GetId().Equals(items[i].GetConfig().GetId());
 
@@ -121,15 +128,19 @@ public class InventoryManager : MonoBehaviour
         return -1;
     }
 
-    //private int GetCellIdx(InventoryCell cell) {
-    //    for(int i = 0; i < this.cells.Length; i++) {
-    //        if(this.cells[i] == cell) {
-    //            return i;
-    //        }
-    //    }
+    private void SwapItems(int sourceIdx, int targetIdx, ItemType itemType)
+    {
+        Debug.Log("Inventory Manager swaps items");
 
-    //    return -1;
-    //}
+        // Get reference to associated database of item type
+        InventoryItemData[] itemDatabase = this.itemDatabases[itemType];
+        InventoryItemData tmp = itemDatabase[targetIdx];
+
+        itemDatabase[targetIdx] = itemDatabase[sourceIdx];
+        itemDatabase[sourceIdx] = tmp;
+
+        itemDatabaseChanged?.Invoke(itemType);
+    }
 
     /*private void ItemChangedInCell(InventoryCell cell) {
         int cellIdx = this.GetCellIdx(cell);
