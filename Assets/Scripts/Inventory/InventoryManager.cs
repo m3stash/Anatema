@@ -134,23 +134,13 @@ public class InventoryManager : MonoBehaviour
 
         // Get reference to associated database of item type
         InventoryItemData[] itemDatabase = this.itemDatabases[itemType];
-        InventoryItemData tmp = itemDatabase[targetIdx];
+        InventoryItemData itemTmp = itemDatabase[targetIdx];
 
         itemDatabase[targetIdx] = itemDatabase[sourceIdx];
-        itemDatabase[sourceIdx] = tmp;
+        itemDatabase[sourceIdx] = itemTmp;
 
         itemDatabaseChanged?.Invoke(itemType);
     }
-
-    /*private void ItemChangedInCell(InventoryCell cell) {
-        int cellIdx = this.GetCellIdx(cell);
-
-        if(cellIdx != -1) {
-            this.itemDatas[cellIdx] = cell.GetInventoryItem() ? cell.GetInventoryItem().GetItem() : null;
-        } else {
-            Debug.LogError("Cell idx not found");
-        }
-    }*/
 
     /*private void DropItem(Item item) {
         int cellIdx = this.GetCellIdx(cell);

@@ -9,10 +9,11 @@ using System.Collections;
 public class DragAndDropCell : MonoBehaviour, IDropHandler
 {
     private DragAndDropItem associatedItem;
-    private 
+    private InventoryUI associatedInventoryUI;
 
     void OnEnable()
     {
+        this.associatedInventoryUI = GetComponentInParent<InventoryUI>();
         DragAndDropItem.OnItemDragStartEvent += OnAnyItemDragStart;         // Handle any item drag start
         DragAndDropItem.OnItemDragEndEvent += OnAnyItemDragEnd;             // Handle any item drag end
         UpdateMyItem();
@@ -124,8 +125,7 @@ public class DragAndDropCell : MonoBehaviour, IDropHandler
                 secondItem.MakeRaycast(true);
             }
 
-            InventoryBag inventory = GetComponentInParent<InventoryBag>();
-            inventory.SwapCells(firstCell.GetComponent<InventoryCell>(), secondCell.GetComponent<InventoryCell>());
+            this.associatedInventoryUI.SwapCells(firstCell.GetComponent<InventoryCell>(), secondCell.GetComponent<InventoryCell>());
 
         }
     }
