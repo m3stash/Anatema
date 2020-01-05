@@ -70,7 +70,7 @@ public class InventoryService : MonoBehaviour {
     }
 
     public void RemoveItem() {
-        Instance.inventoryToolbar.RemoveItem();
+       // Instance.inventoryToolbar.RemoveItem();
     }
 
 }

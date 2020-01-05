@@ -11,6 +11,9 @@ public class InventoryManager : MonoBehaviour
     [Header("Inventory Item databases")]
     [SerializeField] private Dictionary<ItemType, InventoryItemData[]> itemDatabases;
 
+    [Header("Toolbar items")]
+    [SerializeField] private InventoryItemData[] toolbarItems;
+
     private int size = 16;
 
     public static InventoryManager instance;

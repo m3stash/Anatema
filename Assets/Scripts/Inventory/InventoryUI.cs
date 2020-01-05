@@ -11,7 +11,7 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] protected InventoryCell[] cells;
     [SerializeField] protected InventoryItemData[] items;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         this.cells = this.slotContainer.GetComponentsInChildren<InventoryCell>();
     }
