@@ -14,6 +14,10 @@ public class ItemConfig : ScriptableObject
 
     [SerializeField] private string displayName;
 
+    [SerializeField] private string description;
+
+    [SerializeField] private RarityLevel rarityLevel;
+
     [SerializeField] private ItemType itemType;
 
     [Tooltip("Represent the icon in HUD")]
@@ -49,19 +53,23 @@ public class ItemConfig : ScriptableObject
 
     [SerializeField] private Vector2 scale; // Represent the scale size of item when it's pickable
 
-    public int GetId() {
+    public int GetId()
+    {
         return this.id;
     }
 
-    public GameObject GetPrefab() {
+    public GameObject GetPrefab()
+    {
         return this.prefab;
     }
 
-    public Sprite GetIcon() {
+    public Sprite GetIcon()
+    {
         return this.icon;
     }
 
-    public string GetDisplayName() {
+    public string GetDisplayName()
+    {
         return this.displayName;
     }
 
@@ -70,27 +78,38 @@ public class ItemConfig : ScriptableObject
         return this.itemType;
     }
 
-    public int GetPoolSize() {
+    public int GetPoolSize()
+    {
         return this.poolSize;
     }
 
-    public bool IsStackable() {
+    public string GetDescription()
+    {
+        return this.description;
+    }
+
+    public bool IsStackable()
+    {
         return this.stackable;
     }
 
-    public int GetStackLimit() {
+    public int GetStackLimit()
+    {
         return (int)Enum.Parse(typeof(Stacks), this.stackLimit.ToString());
     }
 
-    public int GetWidth() {
+    public int GetWidth()
+    {
         return this.width;
     }
 
-    public int GetHeight() {
+    public int GetHeight()
+    {
         return this.height;
     }
 
-    public bool IsPlaceable() {
+    public bool IsPlaceable()
+    {
         return this.placeable;
     }
 
@@ -99,8 +118,49 @@ public class ItemConfig : ScriptableObject
         return this.pooleable;
     }
 
-    public Vector2 GetPickableScale() {
+    public Vector2 GetPickableScale()
+    {
         return this.scale;
+    }
+
+    public RarityLevel GetRarityLevel()
+    {
+        return this.rarityLevel;
+    }
+
+    public string GetRarityLevelToString()
+    {
+        return (string)Enum.Parse(typeof(RarityLevel), this.rarityLevel.ToString());
+    }
+
+    public Color32 GetRarityLevelColor()
+    {
+        Color32 color = new Color32();
+
+        switch (this.rarityLevel)
+        {
+            case RarityLevel.COMMON:
+                color = new Color32(255, 255, 255, 0); // Transparent
+                break;
+
+            case RarityLevel.UNCOMMON:
+                color = new Color32(14, 191, 8, 255); // Green
+                break;
+
+            case RarityLevel.RARE:
+                color = new Color32(8, 139, 191, 255); // Blue
+                break;
+
+            case RarityLevel.EPIC:
+                color = new Color32(132, 3, 252, 255); // Purple
+                break;
+
+            case RarityLevel.LEGENDARY:
+                color = new Color32(252, 198, 3, 255); // Gold
+                break;
+        }
+
+        return color;
     }
 }
 
@@ -120,4 +180,13 @@ public enum ItemType
     FURNITURE,
     CONSUMABLE,
     EQUIPMENT
+}
+
+public enum RarityLevel
+{
+    COMMON,
+    UNCOMMON,
+    RARE,
+    EPIC,
+    LEGENDARY
 }
