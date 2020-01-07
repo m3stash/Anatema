@@ -4,21 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour {
+
     [Header("Fields to complete manually")]
-    [SerializeField] private GameObject inventoryCanvas;
+    [SerializeField] private GameObject inventoryPanelUI;
+    [SerializeField] private int size = 16;
 
     [Header("Inventory Item databases")]
     [SerializeField] private Dictionary<ItemType, InventoryItemData[]> itemDatabases;
 
-    [Header("Toolbar items")]
-    [SerializeField] private InventoryItemData[] toolbarItems;
-
-    private int size = 16;
-
     public static InventoryManager instance;
 
-    public delegate void OnItemDatabaseChanged(ItemType itemType);
-    public static event OnItemDatabaseChanged itemDatabaseChanged;
+    public delegate void ItemDatabaseChanged(ItemType itemType);
+    public static event ItemDatabaseChanged OnItemDatabaseChanged;
 
     void Awake() {
         if(instance) {
@@ -27,6 +24,7 @@ public class InventoryManager : MonoBehaviour {
             instance = this;
 
             InventoryBag.OnSwapItems += SwapItems;
+            InventoryBag.OnItemDrop += DropItem;
 
             // Init all inventories type
             this.itemDatabases = new Dictionary<ItemType, InventoryItemData[]>();
@@ -39,16 +37,22 @@ public class InventoryManager : MonoBehaviour {
 
     private void OnDestroy() {
         InventoryBag.OnSwapItems -= SwapItems;
+        InventoryBag.OnItemDrop -= DropItem;
     }
 
     public void SwitchDisplay() {
-        this.inventoryCanvas.SetActive(!this.inventoryCanvas.activeSelf);
+        this.inventoryPanelUI.SetActive(!this.inventoryPanelUI.activeSelf);
     }
 
     public InventoryItemData[] GetInventoryItems(ItemType itemType) {
         return this.itemDatabases[itemType];
     }
 
+    /// <summary>
+    /// Used to add an item to inventory
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
     public bool AddItem(Item item) {
         // Get reference to associated database of item type
         InventoryItemData[] itemDatabase = this.itemDatabases[item.GetConfig().GetItemType()];
@@ -62,7 +66,7 @@ public class InventoryManager : MonoBehaviour {
                 itemDatabase[slotIdx].AddStacks(item.GetStacks());
 
                 // Notify item database changed to refresh UI
-                itemDatabaseChanged?.Invoke(item.GetConfig().GetItemType());
+                OnItemDatabaseChanged?.Invoke(item.GetConfig().GetItemType());
                 return true;
             }
         }
@@ -75,7 +79,7 @@ public class InventoryManager : MonoBehaviour {
             itemDatabase[freeSlotIdx] = new InventoryItemData(item.GetConfig(), item.GetStacks(), 100);
 
             // Notify item database changed to refresh UI
-            itemDatabaseChanged?.Invoke(item.GetConfig().GetItemType());
+            OnItemDatabaseChanged?.Invoke(item.GetConfig().GetItemType());
 
             return true;
         }
@@ -85,22 +89,26 @@ public class InventoryManager : MonoBehaviour {
         return false;
     }
 
-    private bool DeleteItem(InventoryItemData item) {
+    /// <summary>
+    /// Used to delete item at specific index
+    /// </summary>
+    /// <param name="itemIdx"></param>
+    /// <param name="itemType"></param>
+    private void DeleteItem(int itemIdx, ItemType itemType) {
         // Get reference to associated database of item type
-        InventoryItemData[] itemDatabase = this.itemDatabases[item.GetConfig().GetItemType()];
+        InventoryItemData[] itemDatabase = this.itemDatabases[itemType];
 
-        for(int i = 0; i < itemDatabase.Length; i++) {
-            if(itemDatabase[i].IsSameThan(item)) {
-                itemDatabase[i] = null;
-                return true;
-            }
-        }
+        // Remove item from database
+        itemDatabase[itemIdx] = null;
 
-        itemDatabaseChanged?.Invoke(item.GetConfig().GetItemType());
-
-        return false;
+        OnItemDatabaseChanged?.Invoke(itemType);
     }
 
+    /// <summary>
+    /// Get idx of empty slot of inventory
+    /// </summary>
+    /// <param name="items"></param>
+    /// <returns></returns>
     private int GetEmptySlotIdx(InventoryItemData[] items) {
         for(int i = 0; i < items.Length; i++) {
             if(items[i]?.GetConfig() == null) {
@@ -111,12 +119,20 @@ public class InventoryManager : MonoBehaviour {
         return -1;
     }
 
+
+    /// <summary>
+    /// Get item idx of item found in function of parameters
+    /// </summary>
+    /// <param name="items"></param>
+    /// <param name="item"></param>
+    /// <param name="stackableFilter"></param>
+    /// <returns></returns>
     private int GetItemSlotIdx(InventoryItemData[] items, Item item, bool stackableFilter = false) {
         for(int i = 0; i < items.Length; i++) {
             if(items[i]?.GetConfig() != null) {
                 bool itemFoundById = item.GetConfig().GetId().Equals(items[i].GetConfig().GetId());
 
-                // Check if its same item and addition of stacks is less than stackLimit
+                // Check if its same item ID and addition of stacks is less than stackLimit
                 if(itemFoundById && ((stackableFilter && items[i].CanStack(item.GetStacks())) || !stackableFilter)) {
                     return i;
                 }
@@ -126,6 +142,12 @@ public class InventoryManager : MonoBehaviour {
         return -1;
     }
 
+    /// <summary>
+    /// Used to swap item slot in inventory
+    /// </summary>
+    /// <param name="sourceIdx"></param>
+    /// <param name="targetIdx"></param>
+    /// <param name="itemType"></param>
     private void SwapItems(int sourceIdx, int targetIdx, ItemType itemType) {
         // Get reference to associated database of item type
         InventoryItemData[] itemDatabase = this.itemDatabases[itemType];
@@ -134,7 +156,7 @@ public class InventoryManager : MonoBehaviour {
         InventoryItemData targetItem = itemDatabase[targetIdx];
 
         // If items are same and target cell can be stacked
-        if(targetItem.IsSameThan(sourceItem) && targetItem.CanStack(sourceItem.GetStacks())) {
+        if(targetItem != null && targetItem.IsSameThan(sourceItem) && targetItem.CanStack(sourceItem.GetStacks())) {
             targetItem.AddStacks(sourceItem.GetStacks());
 
             itemDatabase[sourceIdx] = null;
@@ -145,23 +167,27 @@ public class InventoryManager : MonoBehaviour {
         }
 
 
-        itemDatabaseChanged?.Invoke(itemType);
+        OnItemDatabaseChanged?.Invoke(itemType);
     }
 
-    /*private void DropItem(Item item) {
-        int cellIdx = this.GetCellIdx(cell);
+    /// <summary>
+    /// Used to drop an item of inventory in the world
+    /// </summary>
+    /// <param name="itemIdx"></param>
+    /// <param name="itemType"></param>
+    private void DropItem(int itemIdx, ItemType itemType) {
+        // Get reference to associated database of item type
+        InventoryItemData[] itemDatabase = this.itemDatabases[itemType];
+        InventoryItemData itemData = itemDatabase[itemIdx];
 
-        if (cellIdx != -1) {
-            // Create item in world
-            InventoryItemData itemData = cell.GetInventoryItem().GetItem();
-            Item item = ItemManager.instance.CreateItem(itemData.GetConfig().GetId(), ItemStatus.PICKABLE, Player.instance.transform.position + Vector3.right);
-            item.SetStacks(itemData.GetStacks());
+        // Create item in world
+        Vector3 positionToSpawn = Player.instance.transform.position + new Vector3(Player.instance.transform.localScale.x, 0);
+        Item item = ItemManager.instance.CreateItem(itemData.GetConfig().GetId(), ItemStatus.PICKABLE, positionToSpawn);
+        item.SetStacks(itemData.GetStacks());
 
-            // Delete from inventory and refresh ui
-            this.itemDatas[cellIdx] = null;
-            this.RefreshUI();
-        } else {
-            Debug.LogError("Cell idx not found");
-        }
-    }*/
+        // Delete from inventory and refresh ui
+        itemDatabase[itemIdx] = null;
+
+        OnItemDatabaseChanged?.Invoke(itemType);
+    }
 }

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3666630355552534035}
   - component: {fileID: 3666630355552298349}
   - component: {fileID: 3666630355540390653}
-  - component: {fileID: 5412202188230246950}
   - component: {fileID: 7391417344287512962}
   - component: {fileID: -8577301295140581663}
   m_Layer: 5
@@ -67,7 +66,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 1b523660ec482ee44a97942a77b12ec5, type: 3}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
@@ -75,19 +74,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!114 &5412202188230246950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3666630355530168039}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da939f57a39b418499aab24d12218148, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_PixelsPerUnitMultiplier: 2
 --- !u!114 &7391417344287512962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,3 +135,5 @@ MonoBehaviour:
   defaultSprite: {fileID: 21300000, guid: 1b523660ec482ee44a97942a77b12ec5, type: 3}
   selectedSprite: {fileID: 21300000, guid: 2d6029c7572f2724ab928b2ebf4d8744, type: 3}
   inventoryItem: {fileID: 0}
+  associatedInventoryUI: {fileID: 0}
+  selected: 0

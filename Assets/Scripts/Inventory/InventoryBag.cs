@@ -2,39 +2,47 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryBag : InventoryUI
-{
+public class InventoryBag : InventoryUI {
+
     [Header("Fields to complete manually")]
     [SerializeField] private ItemType itemType;
 
     public delegate void SwapItemIdx(int sourceIdx, int targetIdx, ItemType itemType);
     public static event SwapItemIdx OnSwapItems;
 
-    private void OnEnable()
-    {
-        if (InventoryManager.instance)
-        {
+    public delegate void DropItemIdx(int itemIdx, ItemType itemType);
+    public static event DropItemIdx OnItemDrop;
+
+    public delegate void DeleteItemIdx(int itemIdx, ItemType itemType);
+    public static event DeleteItemIdx OnItemDelete;
+
+    private void OnEnable() {
+        if(InventoryManager.instance) {
             this.RefreshItems(this.itemType);
         }
 
-        InventoryManager.itemDatabaseChanged += this.RefreshItems;
+        InventoryManager.OnItemDatabaseChanged += this.RefreshItems;
     }
 
-    private void OnDisable()
-    {
-        InventoryManager.itemDatabaseChanged -= this.RefreshItems;
+    private void OnDisable() {
+        InventoryManager.OnItemDatabaseChanged -= this.RefreshItems;
     }
 
-    public override void SwapCells(InventoryCell source, InventoryCell target)
-    {
-        OnSwapItems(this.GetCellIdx(source), this.GetCellIdx(target), this.itemType);
+    public override void SwapCells(InventoryCell source, InventoryCell target) {
+        OnSwapItems?.Invoke(this.GetCellIdx(source), this.GetCellIdx(target), this.itemType);
     }
 
-    private void RefreshItems(ItemType type)
-    {
+    public override void DropItem(InventoryCell cell) {
+        OnItemDrop?.Invoke(this.GetCellIdx(cell), this.itemType);
+    }
+
+    public override void DeleteItem(InventoryCell cell) {
+        OnItemDelete?.Invoke(this.GetCellIdx(cell), this.itemType);
+    }
+
+    private void RefreshItems(ItemType type) {
         // Continue if update concerns this inventory
-        if (this.itemType.Equals(type))
-        {
+        if(this.itemType.Equals(type)) {
             this.items = InventoryManager.instance.GetInventoryItems(this.itemType);
             this.RefreshUI();
         }
