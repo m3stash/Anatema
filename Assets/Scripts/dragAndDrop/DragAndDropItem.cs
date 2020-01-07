@@ -51,25 +51,22 @@ public class DragAndDropItem : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 			icon = new GameObject();
 			icon.transform.SetParent(canvas.transform);
 			icon.name = "Icon";
-			Image myImage = GetComponent<Image>();
+			Image myImage = GetComponentInChildren<Image>();
 			myImage.raycastTarget = false;                                        	// Disable icon's raycast for correct drop handling
 			Image iconImage = icon.AddComponent<Image>();
 			iconImage.raycastTarget = false;
 			iconImage.sprite = myImage.sprite;
+            iconImage.color = myImage.color;
 			RectTransform iconRect = icon.GetComponent<RectTransform>();
 			// Set icon's dimensions
 			RectTransform myRect = GetComponent<RectTransform>();
 			iconRect.pivot = new Vector2(0.5f, 0.5f);
 			iconRect.anchorMin = new Vector2(0.5f, 0.5f);
 			iconRect.anchorMax = new Vector2(0.5f, 0.5f);
-            // !!!! TODO gérer la taille de l'object par raport à la résolution de l'écran (ratio)
-            // iconRect.sizeDelta = new Vector2(myRect.rect.width, myRect.rect.height);
-            // siconRect.sizeDelta = new Vector2(100, 100);
-            if (OnItemDragStartEvent != null)
-			{
-				OnItemDragStartEvent(this);                                			// Notify all items about drag start for raycast disabling
-			}
-		}
+			iconRect.sizeDelta = new Vector2(myRect.rect.width, myRect.rect.height);
+
+            OnItemDragStartEvent?.Invoke(this);                                         // Notify all items about drag start for raycast disabling
+        }
 	}
 
 	/// <summary>
@@ -90,6 +87,11 @@ public class DragAndDropItem : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 	/// <param name="eventData"></param>
 	public void OnEndDrag(PointerEventData eventData)
 	{
+        // Check if item is dropped outside of a slot to drop it in the world
+        if(!eventData.pointerCurrentRaycast.gameObject?.GetComponentInParent<InventoryCell>()) {
+            sourceCell.GetComponent<InventoryCell>().DropItem();
+        }
+
 		ResetConditions();
 	}
 
@@ -102,11 +104,8 @@ public class DragAndDropItem : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 		{
 			Destroy(icon);                                                          // Destroy icon on item drop
 		}
-		if (OnItemDragEndEvent != null)
-		{
-			OnItemDragEndEvent(this);                                       		// Notify all cells about item drag end
-		}
-		draggedItem = null;
+        OnItemDragEndEvent?.Invoke(this);                                               // Notify all cells about item drag end
+        draggedItem = null;
 		icon = null;
 		sourceCell = null;
 	}

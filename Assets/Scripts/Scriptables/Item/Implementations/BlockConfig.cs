@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Block configuration", menuName = "Item/Block")]
-public class BlockConfig : ItemConfig
-{
+public class BlockConfig : ItemConfig {
+
     [Header("Block Configuration")]
     [SerializeField] private BlockType blockType;
     [SerializeField] private int durability;
@@ -18,8 +18,7 @@ public class BlockConfig : ItemConfig
     }
 }
 
-public enum BlockType
-{
+public enum BlockType {
     DIRT,
     GRASS,
     SAND,
