@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryManager : MonoBehaviour
-{
+public class InventoryManager : MonoBehaviour {
     [Header("Fields to complete manually")]
     [SerializeField] private GameObject inventoryCanvas;
 
@@ -21,14 +20,10 @@ public class InventoryManager : MonoBehaviour
     public delegate void OnItemDatabaseChanged(ItemType itemType);
     public static event OnItemDatabaseChanged itemDatabaseChanged;
 
-    void Awake()
-    {
-        if (instance)
-        {
+    void Awake() {
+        if(instance) {
             Destroy(this);
-        }
-        else
-        {
+        } else {
             instance = this;
 
             InventoryBag.OnSwapItems += SwapItems;
@@ -36,41 +31,34 @@ public class InventoryManager : MonoBehaviour
             // Init all inventories type
             this.itemDatabases = new Dictionary<ItemType, InventoryItemData[]>();
 
-            foreach (ItemType type in Enum.GetValues(typeof(ItemType)))
-            {
+            foreach(ItemType type in Enum.GetValues(typeof(ItemType))) {
                 this.itemDatabases.Add(type, new InventoryItemData[this.size]);
             }
         }
     }
 
-    private void OnDestroy()
-    {
+    private void OnDestroy() {
         InventoryBag.OnSwapItems -= SwapItems;
     }
 
-    public void SwitchDisplay()
-    {
+    public void SwitchDisplay() {
         this.inventoryCanvas.SetActive(!this.inventoryCanvas.activeSelf);
     }
 
-    public InventoryItemData[] GetInventoryItems(ItemType itemType)
-    {
+    public InventoryItemData[] GetInventoryItems(ItemType itemType) {
         return this.itemDatabases[itemType];
     }
 
-    public bool AddItem(Item item)
-    {
+    public bool AddItem(Item item) {
         // Get reference to associated database of item type
         InventoryItemData[] itemDatabase = this.itemDatabases[item.GetConfig().GetItemType()];
 
         // If item is stackable try to find if we can stack it
-        if (item.GetConfig().IsStackable())
-        {
+        if(item.GetConfig().IsStackable()) {
             int slotIdx = this.GetItemSlotIdx(itemDatabase, item, true);
 
             // If same item found in inventory and can be stacked so stack it
-            if (slotIdx != -1)
-            {
+            if(slotIdx != -1) {
                 itemDatabase[slotIdx].AddStacks(item.GetStacks());
 
                 // Notify item database changed to refresh UI
@@ -82,8 +70,7 @@ public class InventoryManager : MonoBehaviour
         // If item isn't stackable or it couldn't be stacked so try to add it
         int freeSlotIdx = this.GetEmptySlotIdx(itemDatabase);
 
-        if (freeSlotIdx != -1)
-        {
+        if(freeSlotIdx != -1) {
             // Create new inventory item in this cell and setup it
             itemDatabase[freeSlotIdx] = new InventoryItemData(item.GetConfig(), item.GetStacks(), 100);
 
@@ -98,13 +85,25 @@ public class InventoryManager : MonoBehaviour
         return false;
     }
 
+    private bool DeleteItem(InventoryItemData item) {
+        // Get reference to associated database of item type
+        InventoryItemData[] itemDatabase = this.itemDatabases[item.GetConfig().GetItemType()];
 
-    private int GetEmptySlotIdx(InventoryItemData[] items)
-    {
-        for (int i = 0; i < items.Length; i++)
-        {
-            if (items[i]?.GetConfig() == null)
-            {
+        for(int i = 0; i < itemDatabase.Length; i++) {
+            if(itemDatabase[i].IsSameThan(item)) {
+                itemDatabase[i] = null;
+                return true;
+            }
+        }
+
+        itemDatabaseChanged?.Invoke(item.GetConfig().GetItemType());
+
+        return false;
+    }
+
+    private int GetEmptySlotIdx(InventoryItemData[] items) {
+        for(int i = 0; i < items.Length; i++) {
+            if(items[i]?.GetConfig() == null) {
                 return i;
             }
         }
@@ -112,17 +111,13 @@ public class InventoryManager : MonoBehaviour
         return -1;
     }
 
-    private int GetItemSlotIdx(InventoryItemData[] items, Item item, bool stackableFilter = false)
-    {
-        for (int i = 0; i < items.Length; i++)
-        {
-            if (items[i]?.GetConfig() != null)
-            {
+    private int GetItemSlotIdx(InventoryItemData[] items, Item item, bool stackableFilter = false) {
+        for(int i = 0; i < items.Length; i++) {
+            if(items[i]?.GetConfig() != null) {
                 bool itemFoundById = item.GetConfig().GetId().Equals(items[i].GetConfig().GetId());
 
                 // Check if its same item and addition of stacks is less than stackLimit
-                if (itemFoundById && ((stackableFilter && items[i].CanStack(item.GetStacks())) || !stackableFilter))
-                {
+                if(itemFoundById && ((stackableFilter && items[i].CanStack(item.GetStacks())) || !stackableFilter)) {
                     return i;
                 }
             }
@@ -131,16 +126,24 @@ public class InventoryManager : MonoBehaviour
         return -1;
     }
 
-    private void SwapItems(int sourceIdx, int targetIdx, ItemType itemType)
-    {
-        Debug.Log("Inventory Manager swaps items");
-
+    private void SwapItems(int sourceIdx, int targetIdx, ItemType itemType) {
         // Get reference to associated database of item type
         InventoryItemData[] itemDatabase = this.itemDatabases[itemType];
-        InventoryItemData itemTmp = itemDatabase[targetIdx];
 
-        itemDatabase[targetIdx] = itemDatabase[sourceIdx];
-        itemDatabase[sourceIdx] = itemTmp;
+        InventoryItemData sourceItem = itemDatabase[sourceIdx];
+        InventoryItemData targetItem = itemDatabase[targetIdx];
+
+        // If items are same and target cell can be stacked
+        if(targetItem.IsSameThan(sourceItem) && targetItem.CanStack(sourceItem.GetStacks())) {
+            targetItem.AddStacks(sourceItem.GetStacks());
+
+            itemDatabase[sourceIdx] = null;
+            itemDatabase[targetIdx] = targetItem;
+        } else {
+            itemDatabase[targetIdx] = sourceItem;
+            itemDatabase[sourceIdx] = targetItem;
+        }
+
 
         itemDatabaseChanged?.Invoke(itemType);
     }
