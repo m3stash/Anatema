@@ -22,6 +22,16 @@ public class Player : MonoBehaviour
     public Color colorEnd = Color.white;
     public float duration = 1.0F;*/
 
+    public static Player instance;
+
+    private void Awake() {
+        if(instance == null) {
+            instance = this;
+        } else {
+            Destroy(this.gameObject);
+        }
+    }
+
     void Start()
     {
         //toolbar = GameObject.FindGameObjectWithTag("InventoryToolbar").GetComponent<InventoryToolbar>();
