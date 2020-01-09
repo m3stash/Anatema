@@ -16,16 +16,23 @@ public class InventoryBag : InventoryUI {
     public delegate void DeleteItemIdx(int itemIdx, ItemType itemType);
     public static event DeleteItemIdx OnItemDelete;
 
+    public delegate void ItemTypeChanged(ItemType itemType);
+    public static event ItemTypeChanged OnItemTypeChanged;
+
     private void OnEnable() {
-        if(InventoryManager.instance) {
-            this.RefreshItems(this.itemType);
-        }
+        StartCoroutine(this.Init());
 
         InventoryManager.OnItemDatabaseChanged += this.RefreshItems;
     }
 
     private void OnDisable() {
         InventoryManager.OnItemDatabaseChanged -= this.RefreshItems;
+    }
+
+    public void ChangeInventoryType(ItemType itemType) {
+        this.itemType = itemType;
+        this.RefreshItems(this.itemType);
+        OnItemTypeChanged?.Invoke(this.itemType);
     }
 
     public override void SwapCells(InventoryCell source, InventoryCell target) {
@@ -38,6 +45,14 @@ public class InventoryBag : InventoryUI {
 
     public override void DeleteItem(InventoryCell cell) {
         OnItemDelete?.Invoke(this.GetCellIdx(cell), this.itemType);
+    }
+
+    private IEnumerator Init() {
+        while(!InventoryManager.instance) {
+            yield return null;
+        }
+
+        this.ChangeInventoryType(this.itemType);
     }
 
     private void RefreshItems(ItemType type) {

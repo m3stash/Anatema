@@ -156,7 +156,7 @@ public class InventoryManager : MonoBehaviour {
         InventoryItemData targetItem = itemDatabase[targetIdx];
 
         // If items are same and target cell can be stacked
-        if(targetItem != null && targetItem.IsSameThan(sourceItem) && targetItem.CanStack(sourceItem.GetStacks())) {
+        if(targetItem?.GetConfig() && targetItem.IsSameThan(sourceItem) && targetItem.CanStack(sourceItem.GetStacks())) {
             targetItem.AddStacks(sourceItem.GetStacks());
 
             itemDatabase[sourceIdx] = null;
