@@ -25,6 +25,7 @@ public class InventoryManager : MonoBehaviour {
 
             InventoryBag.OnSwapItems += SwapItems;
             InventoryBag.OnItemDrop += DropItem;
+            InventoryBag.OnItemDelete += DeleteItem;
 
             // Init all inventories type
             this.itemDatabases = new Dictionary<ItemType, InventoryItemData[]>();
@@ -38,6 +39,7 @@ public class InventoryManager : MonoBehaviour {
     private void OnDestroy() {
         InventoryBag.OnSwapItems -= SwapItems;
         InventoryBag.OnItemDrop -= DropItem;
+        InventoryBag.OnItemDelete -= DeleteItem;
     }
 
     public void SwitchDisplay() {

@@ -11,6 +11,7 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     [SerializeField] private GameObject slotItemPrefab;
     [SerializeField] private Sprite defaultSprite;
     [SerializeField] private Sprite selectedSprite;
+    [SerializeField] private CellType cellType;
 
     [Header("Don't touch it")]
     [SerializeField] private InventoryItem inventoryItem;
@@ -96,8 +97,17 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
             InventoryCell sourceCell = InventoryItem.sourceCell;
 
             if(InventoryItem.draggedObject.activeSelf && item && sourceCell != this) {
-                // TODO check cell type
-                SwapItems(sourceCell, this);
+
+                // Do specific stuff in function of cell type
+                switch(this.cellType) {
+                    case CellType.ITEM:
+                        SwapItems(sourceCell, this);
+                        break;
+
+                    case CellType.DELETE:
+                        sourceCell.DeleteItem();
+                        break;
+                }
             }
         }
     }
@@ -124,6 +134,10 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
 
     public void DropItem() {
         this.associatedInventoryUI.DropItem(this);
+    }
+
+    public void DeleteItem() {
+        this.associatedInventoryUI.DeleteItem(this);
     }
 
     public void Select() {
@@ -153,4 +167,13 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     public InventoryItem GetInventoryItem() {
         return this.inventoryItem;
     }
+
+    public CellType GetCellType() {
+        return this.cellType;
+    }
+}
+
+public enum CellType {
+    ITEM,
+    DELETE
 }
