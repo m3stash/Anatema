@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Furniture configuration", menuName = "Item/Furniture")]
-public class FurnitureConfig : ItemConfig
-{
+public class FurnitureConfig : ItemConfig {
     [Header("Furniture Configuration")]
     [SerializeField] private FurnitureType furnitureType;
 
@@ -13,8 +12,7 @@ public class FurnitureConfig : ItemConfig
     }
 }
 
-public enum FurnitureType
-{
+public enum FurnitureType {
     Light,
     Storage,
     Decoration,

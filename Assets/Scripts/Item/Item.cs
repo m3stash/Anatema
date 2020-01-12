@@ -54,6 +54,12 @@ public class Item : MonoBehaviour
 
     }
 
+    public virtual void Setup(Item item)
+    {
+        this.configuration = item.configuration;
+        this.stacks = item.stacks;
+    }
+
     /// <summary>
     /// Used to remove object from the map
     /// If object was get from a pool it is return to it;
@@ -108,6 +114,21 @@ public class Item : MonoBehaviour
 
     public int GetStacks() {
         return this.stacks;
+    }
+
+    public void SetStacks(int value)
+    {
+        this.stacks = value;
+    }
+
+    public void AddStacks(int quantityToAdd)
+    {
+        this.stacks += quantityToAdd;
+    }
+
+    public bool CanStack(int quantityToAdd)
+    {
+        return this.stacks + quantityToAdd <= this.configuration.GetStackLimit();
     }
 
     public ItemStatus GetStatus() {
