@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System;
 
-public class ItemConfig : ScriptableObject
-{
+public class ItemConfig : ScriptableObject {
     [Header("Main Settings")]
 
     [SerializeField] private int id;
@@ -17,6 +16,8 @@ public class ItemConfig : ScriptableObject
     [SerializeField] private string description;
 
     [SerializeField] private RarityLevel rarityLevel;
+
+    [SerializeField] private GameObject lootParticlePrefab;
 
     [SerializeField] private ItemType itemType;
 
@@ -53,92 +54,78 @@ public class ItemConfig : ScriptableObject
 
     [SerializeField] private Vector2 scale; // Represent the scale size of item when it's pickable
 
-    public int GetId()
-    {
+    public int GetId() {
         return this.id;
     }
 
-    public GameObject GetPrefab()
-    {
+    public GameObject GetPrefab() {
         return this.prefab;
     }
 
-    public Sprite GetIcon()
-    {
+    public Sprite GetIcon() {
         return this.icon;
     }
 
-    public string GetDisplayName()
-    {
+    public string GetDisplayName() {
         return this.displayName;
     }
 
-    public ItemType GetItemType()
-    {
+    public ItemType GetItemType() {
         return this.itemType;
     }
 
-    public int GetPoolSize()
-    {
+    public int GetPoolSize() {
         return this.poolSize;
     }
 
-    public string GetDescription()
-    {
+    public string GetDescription() {
         return this.description;
     }
 
-    public bool IsStackable()
-    {
+    public bool IsStackable() {
         return this.stackable;
     }
 
-    public int GetStackLimit()
-    {
+    public int GetStackLimit() {
         return (int)Enum.Parse(typeof(Stacks), this.stackLimit.ToString());
     }
 
-    public int GetWidth()
-    {
+    public int GetWidth() {
         return this.width;
     }
 
-    public int GetHeight()
-    {
+    public int GetHeight() {
         return this.height;
     }
 
-    public bool IsPlaceable()
-    {
+    public bool IsPlaceable() {
         return this.placeable;
     }
 
-    public bool IsPooleable()
-    {
+    public bool IsPooleable() {
         return this.pooleable;
     }
 
-    public Vector2 GetPickableScale()
-    {
+    public Vector2 GetPickableScale() {
         return this.scale;
     }
 
-    public RarityLevel GetRarityLevel()
-    {
+    public RarityLevel GetRarityLevel() {
         return this.rarityLevel;
     }
 
-    public string GetRarityLevelToString()
-    {
+    public GameObject GetLootParticle() {
+        return this.lootParticlePrefab;
+    }
+
+    public string GetRarityLevelToString() {
         return (string)Enum.Parse(typeof(RarityLevel), this.rarityLevel.ToString());
     }
 
-    public Color32 GetRarityLevelColor()
-    {
+    public Color GetRarityLevelColor() {
         Color32 color = new Color32();
 
-        switch (this.rarityLevel)
-        {
+        switch(this.rarityLevel) {
             case RarityLevel.COMMON:
                 color = new Color32(255, 255, 255, 0); // Transparent
                 break;
@@ -164,16 +151,14 @@ public class ItemConfig : ScriptableObject
     }
 }
 
-public enum Stacks
-{
+public enum Stacks {
     potions = 10,
     consumables = 99,
     blocks = 5, // 999
     weapons = 1,
 }
 
-public enum ItemType
-{
+public enum ItemType {
     BLOCK,
     TOOL,
     WEAPON,
@@ -182,8 +167,7 @@ public enum ItemType
     EQUIPMENT
 }
 
-public enum RarityLevel
-{
+public enum RarityLevel {
     COMMON,
     UNCOMMON,
     RARE,

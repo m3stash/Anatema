@@ -15,6 +15,11 @@ MonoBehaviour:
   id: 1
   prefab: {fileID: 4915791588426460112, guid: ede4cbc9fe7f4704b89c4a6a403c8c61, type: 3}
   displayName: Dirt
+  description: 
+  rarityLevel: 3
+  lootParticlePrefab: {fileID: 2375911006704059128, guid: 925a7cd7c4a6e4ef894368ef75bd4599,
+    type: 3}
+  itemType: 0
   icon: {fileID: 5634026908348037240, guid: c921e2726ecc0284a85ab94742304590, type: 3}
   pooleable: 1
   poolSize: 50

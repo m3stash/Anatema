@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2129007704028549441}
   - component: {fileID: 8963984612378182586}
   - component: {fileID: 3891783817632515185}
-  m_Layer: 24
-  m_Name: Block
+  m_Layer: 14
+  m_Name: Block(Base)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -123,3 +123,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   configuration: {fileID: 0}
   associatedPool: {fileID: 0}
+  rigidbody: {fileID: 0}
+  collider: {fileID: 0}
+  renderer: {fileID: 0}
+  defaultScale: {x: 0, y: 0}
+  defaultTag: 
+  defaultPrefabSprite: {fileID: 0}
