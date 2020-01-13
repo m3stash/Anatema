@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
-public class Player : MonoBehaviour
-{
+public class Player : MonoBehaviour {
+
     private float speed = 10f;
     [SerializeField]
     private readonly float jumpForces = 200f;
@@ -32,54 +32,42 @@ public class Player : MonoBehaviour
         }
     }
 
-    void Start()
-    {
+    void Start() {
         //toolbar = GameObject.FindGameObjectWithTag("InventoryToolbar").GetComponent<InventoryToolbar>();
         rg2d = gameObject.GetComponent<Rigidbody2D>();
         anim = gameObject.GetComponent<Animator>();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider.CompareTag("Pickable"))
-        {
-            Item itemToAdd = collision.collider.GetComponent<Item>();
-            if (InventoryManager.instance.AddItem(itemToAdd))
-            {
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if(collision.CompareTag("Pickable")) {
+            Item itemToAdd = collision.GetComponent<Item>();
+
+            if(InventoryManager.instance.AddItem(itemToAdd)) {
                 itemToAdd.Destroy();
             }
         }
     }
 
-    void FixedUpdate()
-    {
+    void FixedUpdate() {
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
         Vector2 movement = new Vector2(moveHorizontal, moveVertical);
     }
 
-    void Update()
-    {
+    void Update() {
         /*float lerp = Mathf.PingPong(Time.time, duration) / duration;
         RenderSettings.skybox.SetColor("_Tint", Color.Lerp(colorStart, colorEnd, lerp));*/
 
-        // It's just an example of item manager to create a dirt block at specific position
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            ItemManager.instance.CreateItem(4, ItemStatus.ACTIVE, this.transform.position + this.transform.TransformDirection(new Vector3(1, 1, 0)));
-        }
-
+        this.DetectPickableItemsInArea();
 
         var getAxis = Input.GetAxis("Horizontal");
 
-        if (getAxis < -0.1f)
-        {
+        if(getAxis < -0.1f) {
             transform.localScale = new Vector3(-1, 1, 1);
             // this.transform.position = new Vector2(this.transform.position.x + Input.GetAxis("Horizontal") * speed * Time.deltaTime, this.transform.position.y);
         }
 
-        if (getAxis > 0.1f)
-        {
+        if(getAxis > 0.1f) {
             transform.localScale = new Vector3(1, 1, 1);
             // this.transform.position = new Vector2(this.transform.position.x + Input.GetAxis("Horizontal") * speed * Time.deltaTime, this.transform.position.y);
         }
@@ -88,22 +76,37 @@ public class Player : MonoBehaviour
         // And then smoothing it out and applying it to the character
         rg2d.velocity = Vector3.SmoothDamp(rg2d.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 
-        if (Input.GetButtonDown("Jump"))
-        {
+        if(Input.GetButtonDown("Jump")) {
             rg2d.AddForce(Vector2.up * jumpForces);
         }
 
         // limit speed of player
-        if (rg2d.velocity.x > speed)
-        {
+        if(rg2d.velocity.x > speed) {
             rg2d.velocity = new Vector2(speed, rg2d.velocity.y);
         }
 
-        if (rg2d.velocity.x < -speed)
-        {
+        if(rg2d.velocity.x < -speed) {
             rg2d.velocity = new Vector2(-speed, rg2d.velocity.y);
         }
 
+    }
+
+    private void DetectPickableItemsInArea() {
+        Collider2D[] itemsCollider = Physics2D.OverlapCircleAll(this.transform.position, 1f, (1 << 14));
+
+        for(int i = 0; i < itemsCollider.Length; i++) {
+            if(itemsCollider[i].CompareTag("Pickable")) {
+                bool canAddItem = InventoryManager.instance.CanAddItem(itemsCollider[i].GetComponent<Item>());
+                Attractor attractor = itemsCollider[i].GetComponent<Attractor>();
+
+                if(canAddItem) {
+                    attractor.Setup(this.transform, 5f);
+                } else {
+                    attractor.Reset();
+                }
+
+            }
+        }
     }
 
 }

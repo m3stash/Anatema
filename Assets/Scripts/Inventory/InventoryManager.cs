@@ -92,6 +92,18 @@ public class InventoryManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Check if item can be added or not
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    public bool CanAddItem(Item item) {
+        // Get reference to associated database of item type
+        InventoryItemData[] itemDatabase = this.itemDatabases[item.GetConfig().GetItemType()];
+
+        return this.GetItemSlotIdx(itemDatabase, item, true) != -1 || this.GetEmptySlotIdx(itemDatabase) != -1;
+    }
+
+    /// <summary>
     /// Used to delete item at specific index
     /// </summary>
     /// <param name="itemIdx"></param>
@@ -183,7 +195,7 @@ public class InventoryManager : MonoBehaviour {
         InventoryItemData itemData = itemDatabase[itemIdx];
 
         // Create item in world
-        Vector3 positionToSpawn = Player.instance.transform.position + new Vector3(Player.instance.transform.localScale.x, 0);
+        Vector3 positionToSpawn = Player.instance.transform.position + new Vector3(Player.instance.transform.localScale.x * 1.3f, 0);
         Item item = ItemManager.instance.CreateItem(itemData.GetConfig().GetId(), ItemStatus.PICKABLE, positionToSpawn);
         item.SetStacks(itemData.GetStacks());
 

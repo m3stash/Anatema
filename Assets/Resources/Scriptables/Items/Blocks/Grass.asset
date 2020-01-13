@@ -15,6 +15,11 @@ MonoBehaviour:
   id: 2
   prefab: {fileID: 4915791588426460112, guid: ac4ef3471dc834e48b2224ac1e2018f9, type: 3}
   displayName: Grass
+  description: 
+  rarityLevel: 1
+  lootParticlePrefab: {fileID: 2375911006704059128, guid: 925a7cd7c4a6e4ef894368ef75bd4599,
+    type: 3}
+  itemType: 0
   icon: {fileID: 7932798033344189819, guid: e60937e42806ac248aa6ac0fb2920acc, type: 3}
   pooleable: 1
   poolSize: 50

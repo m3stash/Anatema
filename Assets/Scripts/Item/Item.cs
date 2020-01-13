@@ -4,8 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 
-public class Item : MonoBehaviour
-{
+public class Item : MonoBehaviour {
     // KEEP only this properties bellow
     [Header("Base configuration (DON'T PUT SOMETHING IN BELOW FIELD)")]
     [SerializeField] private ItemConfig configuration;
@@ -13,10 +12,12 @@ public class Item : MonoBehaviour
 
     protected int stacks;
     protected ItemStatus status;
+    protected ParticleSystem lootParticle;
 
     [SerializeField] protected new Rigidbody2D rigidbody;
     [SerializeField] protected new Collider2D collider;
     [SerializeField] protected new SpriteRenderer renderer;
+    [SerializeField] protected Attractor attractor;
 
     [SerializeField] private Vector2 defaultScale; // Used to reset scale when come back to his pool (Put it in ItemConfig ???)
     [SerializeField] private string defaultTag;
@@ -37,7 +38,7 @@ public class Item : MonoBehaviour
         this.status = status;
 
         // Manage default status
-        switch (this.status) {
+        switch(this.status) {
             case ItemStatus.ACTIVE:
                 this.gameObject.SetActive(true);
                 break;
@@ -54,8 +55,7 @@ public class Item : MonoBehaviour
 
     }
 
-    public virtual void Setup(Item item)
-    {
+    public virtual void Setup(Item item) {
         this.configuration = item.configuration;
         this.stacks = item.stacks;
     }
@@ -66,8 +66,14 @@ public class Item : MonoBehaviour
     /// If object is just an simple instantiation it'll be destroyed completely
     /// </summary>
     public virtual void Destroy() {
-        if (this.associatedPool) {
+        if(this.associatedPool) {
             Destroy(this.rigidbody);
+            Destroy(this.lootParticle.gameObject);
+
+            if(this.attractor) {
+                this.attractor.Reset();
+            }
+
             this.transform.localScale = this.defaultScale;
             this.transform.tag = this.defaultTag;
             this.renderer.sprite = this.defaultPrefabSprite;
@@ -83,10 +89,20 @@ public class Item : MonoBehaviour
     /// </summary>
     public void TransformToPickableItem() {
         // Check rigidbody in case of item already have rigidbody in prefab
-        if (!this.rigidbody) {
+        if(!this.rigidbody) {
             this.rigidbody = this.gameObject.AddComponent<Rigidbody2D>();
         }
 
+        if(!this.attractor) {
+            this.attractor = this.gameObject.AddComponent<Attractor>();
+        }
+
+        // Add particle for loot when rarity level is greater than common
+        if(!this.configuration.GetRarityLevel().Equals(RarityLevel.COMMON)) {
+            this.CreateLootParticle();
+        }
+
+        // Other settings
         this.transform.localScale = this.configuration.GetPickableScale();
         this.renderer.sprite = this.configuration.GetIcon();
         this.transform.tag = "Pickable";
@@ -116,28 +132,46 @@ public class Item : MonoBehaviour
         return this.stacks;
     }
 
-    public void SetStacks(int value)
-    {
+    public void SetStacks(int value) {
         this.stacks = value;
     }
 
-    public void AddStacks(int quantityToAdd)
-    {
+    public void AddStacks(int quantityToAdd) {
         this.stacks += quantityToAdd;
     }
 
-    public bool CanStack(int quantityToAdd)
-    {
+    public bool CanStack(int quantityToAdd) {
         return this.stacks + quantityToAdd <= this.configuration.GetStackLimit();
     }
 
     public ItemStatus GetStatus() {
         return this.status;
     }
+
+    private void CreateLootParticle() {
+        GameObject lootObj = Instantiate(this.configuration.GetLootParticle(), this.transform);
+
+        this.lootParticle = lootObj.GetComponent<ParticleSystem>();
+
+        // Change color with rarity
+        ParticleSystem.MainModule lootParticleMain = this.lootParticle.main;
+        lootParticleMain.startColor = this.configuration.GetRarityLevelColor();
+
+        // Adapt radius ratio based with scale of (0.5,0.5)
+        ParticleSystem.ShapeModule lootParticleShape = this.lootParticle.shape;
+        lootParticleShape.radius = (this.configuration.GetPickableScale().x * .28f) / .5f;
+
+        // Adapt sprite colors
+        foreach(SpriteRenderer renderer in lootObj.GetComponentsInChildren<SpriteRenderer>()) {
+            renderer.color = new Color(this.configuration.GetRarityLevelColor().r,
+                this.configuration.GetRarityLevelColor().g,
+                this.configuration.GetRarityLevelColor().b,
+                renderer.color.a);
+        }
+    }
 }
 
-public enum ItemStatus
-{
+public enum ItemStatus {
     ACTIVE,
     INACTIVE,
     PICKABLE

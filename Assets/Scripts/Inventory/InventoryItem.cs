@@ -23,7 +23,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public static event DragEvent OnItemDragEndEvent;
 
     private static Canvas canvas;
-
+        
     private void Awake() {
         this.quantityText = GetComponentInChildren<TextMeshProUGUI>();
         this.iconImage = GetComponentInChildren<Image>();
