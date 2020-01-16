@@ -47,6 +47,7 @@ Tilemap:
   m_TileSpriteArray: []
   m_TileMatrixArray: []
   m_TileColorArray: []
+  m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: 0, y: 0, z: 0}
@@ -84,6 +85,7 @@ TilemapRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -178,6 +180,7 @@ Tilemap:
   m_TileSpriteArray: []
   m_TileMatrixArray: []
   m_TileColorArray: []
+  m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: 0, y: 0, z: 0}
@@ -215,6 +218,7 @@ TilemapRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -309,17 +313,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightService: {fileID: 0}
-  tileMapTileMapScript: {fileID: 0}
-  wallTileMapScript: {fileID: 0}
-  shadowTileMapScript: {fileID: 0}
+  tileMapTileMapScript: {fileID: 114650459853234306}
+  wallTileMapScript: {fileID: 1304860360}
+  shadowTileMapScript: {fileID: 6281236463559665577}
   tilemapTile: {fileID: 8195094280356815112}
   tilemapWall: {fileID: 1304860362}
   tilemapShadow: {fileID: 2004685544}
   player: {fileID: 0}
-  indexX: 0
-  indexY: 0
-  indexXWorldPos: 0
-  indexYWorldPos: 0
+  chunkPosition: {x: 0, y: 0}
+  worldPosition: {x: 0, y: 0}
   chunkSize: 0
 --- !u!61 &5899460512082029567
 BoxCollider2D:
@@ -458,6 +460,7 @@ Tilemap:
   m_TileSpriteArray: []
   m_TileMatrixArray: []
   m_TileColorArray: []
+  m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: 0, y: 0, z: 0}
@@ -495,6 +498,7 @@ TilemapRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

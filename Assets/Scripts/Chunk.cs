@@ -21,14 +21,14 @@ public class Chunk : MonoBehaviour {
     public GameObject[,] tilesObjetMap;
     public GameObject player;
     public Dictionary<int, TileBase> tilebaseDictionary;
-    public int indexX;
-    public int indexY;
-    public int indexXWorldPos;
-    public int indexYWorldPos;
+    public Vector2Int chunkPosition;
+    public Vector2Int worldPosition;
     public int chunkSize;
     private bool firstInitialisation = true;
     private bool isChunkVisible = false;
     private bool alreadyVisible = false;
+
+    [SerializeField] private List<Item> items;
 
     private void OnEnable() {
         CycleDay.RefreshIntensity += RefreshShadowMap;
@@ -41,24 +41,35 @@ public class Chunk : MonoBehaviour {
         }
     }
 
+    private void OnItemCreated(Item item) {
+        int itemPosX = (int)item.transform.position.x / this.chunkSize;
+        int itemPosY = (int)item.transform.position.y / this.chunkSize;
+
+     
+        if(itemPosX == chunkPosition.x && itemPosY == chunkPosition.y) {
+            this.items.Add(item);
+            Debug.Log("Item added to chunk name : " + this.name);
+        }
+    }
+
     private void generateObjectsMap() {
         for (var x = 0; x < chunkSize; x++) {
             for (var y = 0; y < chunkSize; y++) {
-                if(objectsMap[indexXWorldPos + x, indexYWorldPos + y] == 22) {
-                    ItemManager.instance.CreateItem(6, ItemStatus.ACTIVE, new Vector3(indexXWorldPos + x, indexYWorldPos + y));
+                // toDo refacto is just a poc
+                if(objectsMap[worldPosition.x + x, worldPosition.y + y] == 22) {
+                    Item item = ItemManager.instance.CreateItem(6, ItemStatus.ACTIVE, new Vector3(worldPosition.x + x, worldPosition.y + y));
+                    this.items.Add(item);
                 }
             }
         }
     }
 
     private void RefreshShadowMap(int intensity) {
-        if (!isChunkVisible)
-            return;
         for (var x = 0; x < chunkSize; x++) {
             for (var y = 0; y < chunkSize; y++) {
-                var shadow = tilesShadowMap[indexXWorldPos + x, indexYWorldPos + y] + intensity;
-                var light = tilesLightMap[indexXWorldPos + x, indexYWorldPos + y];
-                if ((wallTilesMap[indexXWorldPos + x, indexYWorldPos + y] == 0 && tilesMap[x, y] == 0) || (shadow == 0 && light == 0)) {
+                var shadow = tilesShadowMap[worldPosition.x + x, worldPosition.y + y] + intensity;
+                var light = tilesLightMap[worldPosition.x + x, worldPosition.y + y];
+                if ((wallTilesMap[worldPosition.x + x, worldPosition.y + y] == 0 && tilesMap[x, y] == 0) || (shadow == 0 && light == 0)) {
                     tilemapShadow.SetColor(new Vector3Int(x, y, 0), new Color(0, 0, 0, 0));
                 } else {
                     if (light <= shadow && light < 100) {
@@ -71,6 +82,7 @@ public class Chunk : MonoBehaviour {
         }
     }
     private void OnDisable() {
+        this.ClearItems();
         tilemapWall.ClearAllTiles();
         tilemapTile.ClearAllTiles(); // for tile not refresh (display with bad sprite number!!)
         alreadyVisible = false;
@@ -78,6 +90,13 @@ public class Chunk : MonoBehaviour {
         WorldManager.RefreshLight -= RefreshShadowMap;
         ChunkService.RefreshLight -= RefreshShadowMap;
     }
+
+    private void ClearItems() {
+        foreach(Item item in this.items) {
+            item.Destroy();
+        }
+    }
+
     private void RefreshTiles() {
         Vector3Int[] positions = new Vector3Int[chunkSize * chunkSize];
         TileBase[] tileArray = new TileBase[positions.Length];
@@ -98,7 +117,7 @@ public class Chunk : MonoBehaviour {
             } else {
                 tileArrayShadow[index] = null;
             }
-            if (wallTilesMap[x + indexXWorldPos, y + indexYWorldPos] > 0) {
+            if (wallTilesMap[x + worldPosition.x, y + worldPosition.y] > 0) {
                 tileArrayWall[index] = tilebaseDictionary[7];
             } else {
                 tileArrayWall[index] = null;
@@ -115,6 +134,7 @@ public class Chunk : MonoBehaviour {
         RefreshTiles();
         tileMapTileMapScript.hasAlreadyInit = true;
         wallTileMapScript.hasAlreadyInit = true;
+        this.items = new List<Item>();
     }
     private void InitColliders() {
         tc2d = GetComponentInChildren<TilemapCollider2D>();
