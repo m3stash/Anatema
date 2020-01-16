@@ -28,11 +28,8 @@ public class InventoryToolbar : InventoryUI
     private void OnEnable()
     {
         this.SelectCurrentSlot();
-    }
 
-    private void Update()
-    {
-        this.ManageMouseScroll();
+        InputManager.controls.Toolbar.Navigate.performed += ctx => this.ManageMouseScroll(ctx.ReadValue<float>());
     }
 
     public ItemConfig GetSelectedItem()
@@ -40,17 +37,15 @@ public class InventoryToolbar : InventoryUI
         return this.cells[this.currentSelectedIdx].GetInventoryItem()?.GetItem()?.GetConfig();
     }
 
-    private void ManageMouseScroll()
+    private void ManageMouseScroll(float value)
     {
-        float mouseValue = Input.GetAxis("Mouse ScrollWheel");
-
-        if (mouseValue > 0f)
+        if (value > 0f)
         {
             this.UnSelectCurrentSlot();
             currentSelectedIdx = (currentSelectedIdx < this.cells.Length - 1) ? currentSelectedIdx + 1 : 0;
             this.SelectCurrentSlot();
         }
-        else if (mouseValue < 0f)
+        else if (value < 0f)
         {
             this.UnSelectCurrentSlot();
             currentSelectedIdx = (currentSelectedIdx > 0) ? currentSelectedIdx - 1 : this.cells.Length - 1;

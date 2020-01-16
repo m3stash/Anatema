@@ -126,7 +126,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 	/// <param name="data"></param>
 	public void OnDrag(PointerEventData data) {
         if(draggedObject) {
-            draggedObject.transform.position = Input.mousePosition;
+            draggedObject.transform.position = InputManager.mousePosition;
         }
     }
 
