@@ -4,17 +4,10 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class ChunkPool : Pool<Chunk> {
-    public void Setup(Transform parent, LightService lightService, Dictionary<int, TileBase> tilebaseDictionary, int[,] objectsMap, int chunkSize, int poolSize) {
+    public void Setup(Transform parent, int poolSize) {
         GameObject obj = Instantiate((GameObject)Resources.Load("Prefabs/Chunk"), new Vector3(0, 0, 0), transform.rotation);
         obj.transform.parent = parent;
-
         Chunk chunk = obj.GetComponent<Chunk>();
-
-        chunk.objectsMap = objectsMap;
-        chunk.chunkSize = chunkSize;
-        chunk.lightService = lightService;
-        chunk.tilebaseDictionary = tilebaseDictionary;
-
         obj.SetActive(false);
 
         base.Setup(chunk, poolSize);

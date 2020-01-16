@@ -12,36 +12,37 @@ public class WorldManager : MonoBehaviour {
     private LevelGenerator levelGenerator;
     private GameObject tile_selector;
     private GameObject player;
-    private int[,] tilesLightMap;
-    private int[,] tilesShadowMap;
-    private int[,] tilesWorldMap;
-    private int[,] wallTilesMap;
-    private int[,] objectsMap;
-    private GameObject[,] tilesObjetMap;
-    private Dictionary<int, TileBase> tilebaseDictionary;
+    public static int[,] tilesLightMap;
+    public static int[,] tilesShadowMap;
+    public static int[,] tilesWorldMap;
+    public static int[,] wallTilesMap;
+    public static int[,] objectsMap;
+    public static GameObject[,] tilesObjetMap;
+    public static Dictionary<int, TileBase> tilebaseDictionary;
     private Sprite[] block_sprites;
-    public int worldSizeX;
-    public int worldSizeY;
     public TileBase_cfg tilebase_cfg;
-    public int chunkSize;
+    public static int chunkSize;
     // event
     public delegate void LightEventHandler(int intensity);
     public static event LightEventHandler RefreshLight;
     public delegate void PlayerLoaded(GameObject player);
     public static event PlayerLoaded GetPlayer;
-
+    // SerializeField
+    [SerializeField] private int worldSizeX;
+    [SerializeField] private int worldSizeY;
+    [SerializeField]private int chunkSizeField; 
     private void InitFolders() {
         FileManager.ManageFolder("chunk-data");
     }
 
     void Start() {
+        chunkSize = chunkSizeField;
         InitFolders();
         InitResources();
         CreateWorldMap();
         CreateLightMap();
         CreatePlayer();
-        chunkService.Init(chunkSize, tilebaseDictionary, tilesWorldMap, tilesLightMap, player, lightService, tilesShadowMap, tilesObjetMap, objectsMap);
-        lightService.Init(tilesWorldMap, tilesLightMap, wallTilesMap, tilesShadowMap);
+        chunkService.Init(tilebaseDictionary, player);
         GetPlayer(player);
     }
     private void InitResources() {
@@ -68,8 +69,7 @@ public class WorldManager : MonoBehaviour {
         objectsMap = new int[worldSizeX, worldSizeY];
         tilesObjetMap = new GameObject[worldSizeX, worldSizeY]; // toDo voir a virer cette merde et plutot utiliser : objectsMap!!
         levelGenerator.GenerateTilesWorldMap(tilesWorldMap, wallTilesMap, objectsMap);
-        chunkService.SetWallMap(wallTilesMap);
-        chunkService.CreateChunksFromMaps(tilesWorldMap, chunkSize);
+        chunkService.CreateChunksFromMaps(tilesWorldMap);
     }
     private void CreatePlayer() {
         player = Instantiate((GameObject)Resources.Load("Prefabs/Characters/Player/Player"), new Vector3(0, 0, 0), transform.rotation);
@@ -81,13 +81,13 @@ public class WorldManager : MonoBehaviour {
         tilesObjetMap[posX, posY] = newItem.gameObject;
 
         if (config.GetFurnitureType().Equals(FurnitureType.Light)) {
-            lightService.RecursivAddNewLight(posX, posY, 0);
+            LightService.RecursivAddNewLight(posX, posY, 0);
             RefreshLight(CycleDay.GetIntensity());
         }
     }
     public void DeleteItem(int posX, int posY) {
         if (tilesObjetMap[posX, posY].name == "item_11(Clone)") { // toDo changer cette merde
-            lightService.RecursivDeleteLight(posX, posY, true, tilesObjetMap);
+            LightService.RecursivDeleteLight(posX, posY, true);
             RefreshLight(CycleDay.GetIntensity());
         }
         tilesObjetMap[posX, posY] = null;
