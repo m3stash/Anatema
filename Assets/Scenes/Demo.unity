@@ -7517,6 +7517,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3346800735364998950, guid: 41de9baee7b18384084a60e85753b5a1,
+        type: 3}
+      propertyPath: chunkSizeSet
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3346800735364998950, guid: 41de9baee7b18384084a60e85753b5a1,
+        type: 3}
+      propertyPath: chunkSizeField
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 3346800735364998951, guid: 41de9baee7b18384084a60e85753b5a1,
         type: 3}
       propertyPath: m_Name

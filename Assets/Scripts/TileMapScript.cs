@@ -3,26 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 public class TileMapScript : MonoBehaviour {
-    public int[,] tileWorldMap;
+    public int[,] map;
     public int PosX;
     public int PosY;
     private TileDataModel[,] tileMapdata;
     public bool hasAlreadyInit;
     private int boundX;
     private int boundY;
-    public void Init(int PosX, int PosY, int[,] tileWorldMap, TileDataModel[,] tileMapdata, int boundX, int boundY) {
+    public void Init(int PosX, int PosY, int[,]map, TileDataModel[,] tileMapdata, int boundX, int boundY) {
         hasAlreadyInit = false;
         this.PosX = PosX;
         this.PosY = PosY;
-        this.tileWorldMap = tileWorldMap;
         this.tileMapdata = tileMapdata;
+        this.map = map;
         this.boundX = boundX;
         this.boundY = boundY;
     }
 
     public void SetTileData(int x, int y, ref TileData tileData, Sprite[] m_Sprites) {
         if (hasAlreadyInit) {
-            TileMapService.SetTileMapData(PosX, PosY, x, y, tileWorldMap, tileMapdata[x, y], boundX, boundY);
+            TileMapService.SetTileMapData(PosX, PosY, x, y, map, tileMapdata[x, y], boundX, boundY);
         }
         var index = tileMapdata[x, y].index;
         if (index >= 0) {
