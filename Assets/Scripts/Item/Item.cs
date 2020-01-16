@@ -38,7 +38,7 @@ public class Item : MonoBehaviour {
         this.status = status;
 
         // Manage default status
-        switch(this.status) {
+        switch (this.status) {
             case ItemStatus.ACTIVE:
                 this.gameObject.SetActive(true);
                 break;
@@ -66,11 +66,14 @@ public class Item : MonoBehaviour {
     /// If object is just an simple instantiation it'll be destroyed completely
     /// </summary>
     public virtual void Destroy() {
-        if(this.associatedPool) {
+        if (this.associatedPool) {
             Destroy(this.rigidbody);
-            Destroy(this.lootParticle.gameObject);
 
-            if(this.attractor) {
+            if (this.lootParticle) {
+                Destroy(this.lootParticle.gameObject);
+            }
+
+            if (this.attractor) {
                 this.attractor.Reset();
             }
 
@@ -89,16 +92,16 @@ public class Item : MonoBehaviour {
     /// </summary>
     public void TransformToPickableItem() {
         // Check rigidbody in case of item already have rigidbody in prefab
-        if(!this.rigidbody) {
+        if (!this.rigidbody) {
             this.rigidbody = this.gameObject.AddComponent<Rigidbody2D>();
         }
 
-        if(!this.attractor) {
+        if (!this.attractor) {
             this.attractor = this.gameObject.AddComponent<Attractor>();
         }
 
         // Add particle for loot when rarity level is greater than common
-        if(!this.configuration.GetRarityLevel().Equals(RarityLevel.COMMON)) {
+        if (!this.configuration.GetRarityLevel().Equals(RarityLevel.COMMON)) {
             this.CreateLootParticle();
         }
 
@@ -162,7 +165,7 @@ public class Item : MonoBehaviour {
         lootParticleShape.radius = (this.configuration.GetPickableScale().x * .28f) / .5f;
 
         // Adapt sprite colors
-        foreach(SpriteRenderer renderer in lootObj.GetComponentsInChildren<SpriteRenderer>()) {
+        foreach (SpriteRenderer renderer in lootObj.GetComponentsInChildren<SpriteRenderer>()) {
             renderer.color = new Color(this.configuration.GetRarityLevelColor().r,
                 this.configuration.GetRarityLevelColor().g,
                 this.configuration.GetRarityLevelColor().b,

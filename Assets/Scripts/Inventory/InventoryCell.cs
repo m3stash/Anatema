@@ -45,7 +45,7 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     /// </summary>
     /// <param name="item"> dragged item </param>
     private void OnAnyItemDragStart(InventoryItem item) {
-        if(this.inventoryItem) {
+        if (this.inventoryItem) {
             this.inventoryItem.MakeRaycast(false);
         }
     }
@@ -55,14 +55,14 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     /// </summary>
     /// <param name="item"> dragged item </param>
     private void OnAnyItemDragEnd(InventoryItem item) {
-        if(this.inventoryItem) {
+        if (this.inventoryItem) {
             this.inventoryItem.MakeRaycast(true);
         }
     }
 
     private void NotifyClick() {
         // Notify if this cell contains an item
-        if(this.inventoryItem) {
+        if (this.inventoryItem) {
             NotifyClickEvent?.Invoke(this);
         }
     }
@@ -71,7 +71,7 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     /// Refresh cell renderer
     /// </summary>
     private void RefreshUI() {
-        if(!this.renderer) {
+        if (!this.renderer) {
             this.renderer = GetComponent<Image>();
         }
 
@@ -92,14 +92,14 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     /// <param name="data"></param>
     public void OnDrop(PointerEventData data) {
         // Do something if an item is currently dragged
-        if(InventoryItem.draggedObject) {
+        if (InventoryItem.draggedObject) {
             InventoryItem item = InventoryItem.draggedItem;
             InventoryCell sourceCell = InventoryItem.sourceCell;
 
-            if(InventoryItem.draggedObject.activeSelf && item && sourceCell != this) {
+            if (InventoryItem.draggedObject.activeSelf && item && sourceCell != this) {
 
                 // Do specific stuff in function of cell type
-                switch(this.cellType) {
+                switch (this.cellType) {
                     case CellType.ITEM:
                         SwapItems(sourceCell, this);
                         break;
@@ -121,11 +121,11 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
         InventoryItem firstItem = firstCell.GetInventoryItem();                // Get item from first cell
         InventoryItem secondItem = secondCell.GetInventoryItem();              // Get item from second cell
                                                                                // Swap items
-        if(firstItem) {
+        if (firstItem) {
             firstItem.MakeRaycast(true);
         }
 
-        if(secondItem) {
+        if (secondItem) {
             secondItem.MakeRaycast(true);
         }
 
@@ -152,14 +152,14 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
 
 
     public void UpdateItem(InventoryItemData item) {
-        if(item != null && item.GetConfig() != null) {
-            if(!inventoryItem) {
+        if (item != null && item.GetConfig() != null) {
+            if (!inventoryItem) {
                 GameObject obj = Instantiate(this.slotItemPrefab, this.transform);
                 this.inventoryItem = obj.GetComponent<InventoryItem>();
             }
 
             inventoryItem.Setup(item, this);
-        } else if(((item != null && item.GetConfig() == null) || item == null) && inventoryItem) {
+        } else if (((item != null && item.GetConfig() == null) || item == null) && inventoryItem) {
             Destroy(this.inventoryItem.gameObject);
         }
     }

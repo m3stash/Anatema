@@ -53,4 +53,10 @@ public class Pool<T>: MonoBehaviour where T : MonoBehaviour
         pooledObjectTransform.localPosition = Vector3.zero;
         pooledObject.gameObject.SetActive(false);
     }
+
+    public void ReturnObjects(T[] pooledObjects) {      
+        for(int i = 0; i < pooledObjects.Length; i++) {
+            ReturnObject(pooledObjects[i]);
+        }
+    }
 }
