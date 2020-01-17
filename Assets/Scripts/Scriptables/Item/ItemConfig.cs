@@ -49,6 +49,13 @@ public class ItemConfig : ScriptableObject {
 
     /////////////////////////////////////
 
+    [Header("Light Settings")]
+
+    [SerializeField] private bool emitLight;
+
+
+    /////////////////////////////////////
+
     [Tooltip("Properties used to configure item state when pickable mode")]
     [Header("Pickable State Settings")]
 
@@ -104,6 +111,10 @@ public class ItemConfig : ScriptableObject {
 
     public bool IsPooleable() {
         return this.pooleable;
+    }
+
+    public bool CanEmitLight() {
+        return this.emitLight;
     }
 
     public Vector2 GetPickableScale() {

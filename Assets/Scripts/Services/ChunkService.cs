@@ -21,7 +21,7 @@ public enum Direction {
 
 public class ChunkService : MonoBehaviour {
 
-    public int numberOfPool;
+    public int poolSize;
     private GameObject player;
     private Camera playerCam;
     private int[,][,] tilesMapChunks;
@@ -115,7 +115,7 @@ public class ChunkService : MonoBehaviour {
     }
     public void CreatePoolChunk(int xStart, int yStart) {
         this.pool = this.gameObject.AddComponent<ChunkPool>();
-        this.pool.Setup(worldMapTransform, numberOfPool);
+        this.pool.Setup(worldMapTransform, poolSize);
 
         // voir à améliorer ça pour faire de l'auto calc sur la range
         for (var x = xStart - 4; x < xStart + 5; x++) {

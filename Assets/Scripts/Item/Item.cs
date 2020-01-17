@@ -14,6 +14,10 @@ public class Item : MonoBehaviour {
     protected ItemStatus status;
     protected ParticleSystem lootParticle;
 
+    // Fields bellow are only used for pickable items
+    protected Vector3 oldPosition;
+    protected float timeInMove;
+
     [SerializeField] protected new Rigidbody2D rigidbody;
     [SerializeField] protected new Collider2D collider;
     [SerializeField] protected new SpriteRenderer renderer;
@@ -22,6 +26,12 @@ public class Item : MonoBehaviour {
     [SerializeField] private Vector2 defaultScale; // Used to reset scale when come back to his pool (Put it in ItemConfig ???)
     [SerializeField] private string defaultTag;
     [SerializeField] private Sprite defaultPrefabSprite;
+
+    public delegate void ItemMoved(Item item);
+    public static ItemMoved OnItemMoved;
+
+    public delegate void ItemDestroyed(Item item);
+    public static ItemDestroyed OnItemDestroyed;
 
     public virtual void Setup(ItemConfig config, ItemStatus status, int stacks, ItemPool associatedPool = null) {
         // Get components references
@@ -38,7 +48,7 @@ public class Item : MonoBehaviour {
         this.status = status;
 
         // Manage default status
-        switch (this.status) {
+        switch(this.status) {
             case ItemStatus.ACTIVE:
                 this.gameObject.SetActive(true);
                 break;
@@ -55,6 +65,22 @@ public class Item : MonoBehaviour {
 
     }
 
+    private void Update() {
+        if(this.status == ItemStatus.PICKABLE && Vector3.Distance(this.transform.position, this.oldPosition) >= 0.2f) {
+            this.timeInMove += Time.deltaTime;
+
+            // Destroy this item if it's falling since more 5seconds to prevent missing chunk
+            if(this.timeInMove >= 5f) {
+                this.Destroy();
+            } else {
+                this.oldPosition = this.transform.position;
+                OnItemMoved?.Invoke(this);
+            }
+        } else {
+            this.timeInMove = 0;
+        }
+    }
+
     public virtual void Setup(Item item) {
         this.configuration = item.configuration;
         this.stacks = item.stacks;
@@ -66,24 +92,30 @@ public class Item : MonoBehaviour {
     /// If object is just an simple instantiation it'll be destroyed completely
     /// </summary>
     public virtual void Destroy() {
-        if (this.associatedPool) {
-            Destroy(this.rigidbody);
+        // Check if this is not null to avoid error after game stopped
+        if(this) {
+            // TODO check performance when chunk clear its items
+            OnItemDestroyed?.Invoke(this);
 
-            if (this.lootParticle) {
-                Destroy(this.lootParticle.gameObject);
+            if(this.associatedPool) {
+                Destroy(this.rigidbody);
+
+                if(this.lootParticle) {
+                    Destroy(this.lootParticle.gameObject);
+                }
+
+                if(this.attractor) {
+                    this.attractor.Reset();
+                }
+
+                this.transform.localScale = this.defaultScale;
+                this.transform.tag = this.defaultTag;
+                this.renderer.sprite = this.defaultPrefabSprite;
+                this.status = ItemStatus.INACTIVE;
+                this.associatedPool.ReturnObject(this);
+            } else {
+                Destroy(this.gameObject);
             }
-
-            if (this.attractor) {
-                this.attractor.Reset();
-            }
-
-            this.transform.localScale = this.defaultScale;
-            this.transform.tag = this.defaultTag;
-            this.renderer.sprite = this.defaultPrefabSprite;
-            this.status = ItemStatus.INACTIVE;
-            this.associatedPool.ReturnObject(this);
-        } else {
-            Destroy(this.gameObject);
         }
     }
 
@@ -92,16 +124,16 @@ public class Item : MonoBehaviour {
     /// </summary>
     public void TransformToPickableItem() {
         // Check rigidbody in case of item already have rigidbody in prefab
-        if (!this.rigidbody) {
+        if(!this.rigidbody) {
             this.rigidbody = this.gameObject.AddComponent<Rigidbody2D>();
         }
 
-        if (!this.attractor) {
+        if(!this.attractor) {
             this.attractor = this.gameObject.AddComponent<Attractor>();
         }
 
         // Add particle for loot when rarity level is greater than common
-        if (!this.configuration.GetRarityLevel().Equals(RarityLevel.COMMON)) {
+        if(!this.configuration.GetRarityLevel().Equals(RarityLevel.COMMON)) {
             this.CreateLootParticle();
         }
 
@@ -165,7 +197,7 @@ public class Item : MonoBehaviour {
         lootParticleShape.radius = (this.configuration.GetPickableScale().x * .28f) / .5f;
 
         // Adapt sprite colors
-        foreach (SpriteRenderer renderer in lootObj.GetComponentsInChildren<SpriteRenderer>()) {
+        foreach(SpriteRenderer renderer in lootObj.GetComponentsInChildren<SpriteRenderer>()) {
             renderer.color = new Color(this.configuration.GetRarityLevelColor().r,
                 this.configuration.GetRarityLevelColor().g,
                 this.configuration.GetRarityLevelColor().b,

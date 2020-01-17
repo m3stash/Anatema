@@ -13,7 +13,6 @@ public class FurnitureConfig : ItemConfig {
 }
 
 public enum FurnitureType {
-    Light,
     Storage,
     Decoration,
 }

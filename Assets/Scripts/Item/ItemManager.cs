@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class ItemManager : MonoBehaviour
-{
+public class ItemManager : MonoBehaviour {
     private Dictionary<int, ItemConfig> itemDatabase; // Contains all items (Config)
     private Dictionary<int, ItemPool> pools;
 
     public static ItemManager instance;
 
     private void Awake() {
-        if (instance == null) {
+        if(instance == null) {
             instance = this;
         } else {
             Destroy(this);
@@ -23,7 +22,7 @@ public class ItemManager : MonoBehaviour
         this.itemDatabase = new List<ItemConfig>(Resources.LoadAll<ItemConfig>("Scriptables/Items")).ToDictionary((ItemConfig item) => item.GetId(), item => item);
 
         // Check all items validity
-        foreach (KeyValuePair<int, ItemConfig> arg in this.itemDatabase) {
+        foreach(KeyValuePair<int, ItemConfig> arg in this.itemDatabase) {
             this.CheckItemValidity(arg.Value);
         }
 
@@ -31,6 +30,19 @@ public class ItemManager : MonoBehaviour
         this.pools = this.itemDatabase
             .Where((KeyValuePair<int, ItemConfig> arg) => arg.Value.IsPooleable())
             .ToDictionary(pair => pair.Key, pair => this.CreatePool(pair.Value));
+    }
+
+
+    /// <summary>
+    /// Return item config for specific item id
+    /// </summary>
+    /// <param name="id">Id of item</param>
+    /// <returns></returns>
+    public ItemConfig GetItemWithId(int id) {
+        if(this.itemDatabase.ContainsKey(id)) {
+            return this.itemDatabase[id];
+        }
+        return null;
     }
 
     /// <summary>
@@ -44,7 +56,7 @@ public class ItemManager : MonoBehaviour
         Item item = null;
 
         if(this.itemDatabase.ContainsKey(itemIdx)) {
-            if (this.pools.ContainsKey(itemIdx)) {
+            if(this.pools.ContainsKey(itemIdx)) {
                 ItemPool pool = this.pools[itemIdx];
                 item = pool.GetOne();
                 item.Setup(itemConfig, status, 1, pool);
@@ -88,6 +100,16 @@ public class ItemManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Call destroy method for each item in array
+    /// </summary>
+    /// <param name="items"></param>
+    public void DestroyItems(Item[] items) {
+        for(int i = 0; i < items.Length; i++) {
+            items[i].Destroy();
+        }
+    }
+
+    /// <summary>
     /// Create a pool for a specific item config
     /// </summary>
     /// <param name="itemConfig">Item config</param>
@@ -108,15 +130,15 @@ public class ItemManager : MonoBehaviour
     /// </summary>
     /// <param name="itemConfig">Item to check</param>
     private void CheckItemValidity(ItemConfig itemConfig) {
-        if (!itemConfig.GetPrefab()) {
+        if(!itemConfig.GetPrefab()) {
             Debug.LogErrorFormat("Item config with id {0} haven't prefab", itemConfig.GetId());
         }
 
-        if (itemConfig.GetDisplayName() == "") {
+        if(itemConfig.GetDisplayName() == "") {
             Debug.LogErrorFormat("Item config with id {0} haven't display name", itemConfig.GetId());
         }
 
-        if (!itemConfig.GetIcon()) {
+        if(!itemConfig.GetIcon()) {
             Debug.LogErrorFormat("Item config with id {0} haven't icon", itemConfig.GetId());
         }
     }

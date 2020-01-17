@@ -80,7 +80,7 @@ public class WorldManager : MonoBehaviour {
         FurnitureConfig config = newItem.GetConfig() as FurnitureConfig;
         tilesObjetMap[posX, posY] = newItem.gameObject;
 
-        if (config.GetFurnitureType().Equals(FurnitureType.Light)) {
+        if (config.CanEmitLight()) {
             LightService.RecursivAddNewLight(posX, posY, 0);
             RefreshLight(CycleDay.GetIntensity());
         }
