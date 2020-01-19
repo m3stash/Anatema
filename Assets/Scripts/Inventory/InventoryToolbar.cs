@@ -29,7 +29,8 @@ public class InventoryToolbar : InventoryUI
     {
         this.SelectCurrentSlot();
 
-        InputManager.controls.Toolbar.Navigate.performed += ctx => this.ManageMouseScroll(ctx.ReadValue<float>());
+        // Temporaly as lons as toolbar refactored
+        //InputManager.controls.Toolbar.Navigate.performed += ctx => this.ManageMouseScroll(ctx.ReadValue<float>());
     }
 
     public ItemConfig GetSelectedItem()

@@ -38,6 +38,17 @@ public class @ViewControls : IInputActionCollection, IDisposable
                     ""action"": ""SwitchDisplay"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c591f06e-6861-4880-9326-fdf2f3a99d24"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchDisplay"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -59,6 +70,17 @@ public class @ViewControls : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""880e0ccc-2360-4723-88ab-37e4504aa393"",
                     ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchDisplay"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bdfbec68-5971-4b47-9e4c-ca669afaeb57"",
+                    ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

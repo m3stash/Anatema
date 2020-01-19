@@ -15,6 +15,9 @@ public class InputManager : MonoBehaviour {
 
     public static InputManager instance;
 
+    public delegate void ViewChanged(View view);
+    public static ViewChanged OnViewChanged;
+
     private void Awake() {
         instance = this;
     }
@@ -105,6 +108,8 @@ public class InputManager : MonoBehaviour {
                 controls.TileSelector.Enable();
                 break;
         }
+
+        OnViewChanged?.Invoke(this.currentView);
     }
 }
 
