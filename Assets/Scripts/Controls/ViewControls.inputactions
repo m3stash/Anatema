@@ -1,0 +1,60 @@
+{
+    "name": "ViewControls",
+    "maps": [
+        {
+            "name": "Inventory",
+            "id": "229576ad-29a1-42f6-a2a6-5f7d263f037a",
+            "actions": [
+                {
+                    "name": "SwitchDisplay",
+                    "type": "Button",
+                    "id": "ff039720-cfe7-4822-b69b-c9292647ff5b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "01bfaff2-adbc-4813-b127-4e11969db6da",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchDisplay",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "EscapeMenu",
+            "id": "56bff35e-b111-4352-9262-003ed19b157d",
+            "actions": [
+                {
+                    "name": "SwitchDisplay",
+                    "type": "Button",
+                    "id": "c5059342-5b5f-4d05-bd5c-4c0efc3cd461",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "880e0ccc-2360-4723-88ab-37e4504aa393",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchDisplay",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

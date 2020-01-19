@@ -18,6 +18,8 @@ public class Player : MonoBehaviour {
     public Rigidbody2D rg2d;
     private Animator anim;
 
+    private float getAxis;
+
     /*public Color colorStart = Color.black;
     public Color colorEnd = Color.white;
     public float duration = 1.0F;*/
@@ -30,6 +32,11 @@ public class Player : MonoBehaviour {
         } else {
             Destroy(this.gameObject);
         }
+    }
+
+    public void InitControls() {
+        InputManager.controls.Player.Move.performed += ctx => this.SetGetAxis(ctx.ReadValue<float>());
+        InputManager.controls.Player.Jump.performed += ctx => this.Jump();
     }
 
     void Start() {
@@ -48,10 +55,12 @@ public class Player : MonoBehaviour {
         }
     }
 
-    void FixedUpdate() {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
-        Vector2 movement = new Vector2(moveHorizontal, moveVertical);
+    private void SetGetAxis(float value) {
+        this.getAxis = value;
+    }
+
+    private void Jump() {
+        rg2d.AddForce(Vector2.up * jumpForces);
     }
 
     void Update() {
@@ -60,9 +69,8 @@ public class Player : MonoBehaviour {
 
         this.DetectPickableItemsInArea();
 
-        var getAxis = Input.GetAxis("Horizontal");
 
-        if(getAxis < -0.1f) {
+        if(getAxis < -0.1f) { 
             transform.localScale = new Vector3(-1, 1, 1);
             // this.transform.position = new Vector2(this.transform.position.x + Input.GetAxis("Horizontal") * speed * Time.deltaTime, this.transform.position.y);
         }
@@ -75,10 +83,6 @@ public class Player : MonoBehaviour {
         Vector3 targetVelocity = new Vector2(getAxis * 10f, rg2d.velocity.y);
         // And then smoothing it out and applying it to the character
         rg2d.velocity = Vector3.SmoothDamp(rg2d.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
-
-        if(Input.GetButtonDown("Jump")) {
-            rg2d.AddForce(Vector2.up * jumpForces);
-        }
 
         // limit speed of player
         if(rg2d.velocity.x > speed) {

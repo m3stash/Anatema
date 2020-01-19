@@ -33,7 +33,14 @@ public class TileSelector : MonoBehaviour
         wallTilesMap = _wallTilesMap;
         tilesWorldMap = _tilesWorldMap;
         tilesObjetMap = _tilesObjetMap;
-        StartCoroutine("InitSelector");
+
+        InputManager.controls.TileSelector.PressClick.performed += ctx => this.SetOnClick(true);
+        InputManager.controls.TileSelector.ReleaseClick.performed += ctx => this.SetOnClick(false);
+    }
+
+    private void OnDisable() {
+        InputManager.controls.TileSelector.PressClick.performed -= ctx => this.SetOnClick(true);
+        InputManager.controls.TileSelector.ReleaseClick.performed -= ctx => this.SetOnClick(false);
     }
 
     private void DisableCursor() {
@@ -43,158 +50,79 @@ public class TileSelector : MonoBehaviour
         tile_dig_3.SetActive(false);
     }
 
-    /*IEnumerator InitSelector() {
-        while (true) {
-            if (Input.GetMouseButtonUp(0)) {
-                DisableCursor();
-                onClick = false;
-            }
-            if (Input.GetMouseButtonDown(0)) {
-                onClick = true;
-            }
-            if (inventoryService.seletedItem) {
-                // toDo refaire tout le system et récupérer les différents tiles, object, wall afin de comparer les valeurs et ne plus utiliser le hit!
-                ray = cam.ScreenPointToRay(Input.mousePosition);
-                RaycastHit2D hit = Physics2D.Raycast(ray.origin, Vector2.zero);
-                var tsX = (int)hit.point.x + 0.5f;
-                var tsY = (int)hit.point.y + 0.5f;
-                var posX = (int)ray.origin.x;
-                var posY = (int)ray.origin.y;
-                // ToDo passer par un ENUM
-                switch (inventoryService.seletedItem.type) {
-                    case "Block":
-                        ActiveSelector((int)ray.origin.x + 0.5f, (int)ray.origin.y + 0.5f);
-                        if (tilesWorldMap[posX, posY] == 0) {
-                            spriteRender.color = Color.white;
-                            if (onClick)
-                                AddBlock(posX, posY, 4);
-                        } else {
-                            spriteRender.color = Color.red;
-                        }
-                        break;
-                    case "Crafting":
-                        ActiveSelector(tsX, tsY);
-                        break;
-                    case "Tool":
-                        if (tilesWorldMap[posX, posY] > 0) {
-                            ActiveSelector(tsX, tsY);
-                            spriteRender.color = Color.white;
-                            if (onClick) {
-                                if(tilesObjetMap[posX, posY] != null) {
-                                    DeleteItem(posX, posY);
-                                } else {
-                                    DeleteTile(hit);
-                                }
-                                // tester si tile ou torche !
-                            }
-                        } else {
-                            DisableCursor();
-                            selector.SetActive(false);
-                        }
-                        break;
-                    case "Furniture":
-                        if (tilesWorldMap[posX, posY] > 0) {
-                            ActiveSelector(tsX, tsY);
-                            spriteRender.color = Color.white;
-                            if (onClick) {
-                                Debug.Log("posX"+ posX);
-                                Debug.Log("posY" + posY);
-                                AddConsummable(inventoryService.seletedItem, posX, posY);
-                            }
-                        } else {
-                            DisableCursor();
-                            selector.SetActive(false);
-                        }
-                        break;
-                    default:
-                        DisableCursor();
-                        selector.SetActive(false);
-                        break;
-                }
-            } else {
-                DisableCursor();
-                selector.SetActive(false);
-            }
-            yield return new WaitForSeconds(0.01f);
-        }
-    } */
+    private void SetOnClick(bool value) {
+        this.onClick = value;
 
-    // This is temporary as long as inventory system will not have been refactored
-    IEnumerator InitSelector() {
-        yield return new WaitForSeconds(3);
-        while (true) {
-            if (Input.GetMouseButtonUp(0)) {
-                DisableCursor();
-                onClick = false;
-            }
-            if (Input.GetMouseButtonDown(0)) {
-                onClick = true;
-            }
-            // toDo refaire tout le system et récupérer les différents tiles, object, wall afin de comparer les valeurs et ne plus utiliser le hit!
-            ray = cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(ray.origin, Vector2.zero);
-            var tsX = (int)hit.point.x + 0.5f;
-            var tsY = (int)hit.point.y + 0.5f;
-            var posX = (int)ray.origin.x;
-            var posY = (int)ray.origin.y;
-
-            string tmpType = "Tool"; // Change this to test other cases
-
-            // ToDo passer par un ENUM
-            switch (tmpType) {
-                case "Block":
-                    ActiveSelector((int)ray.origin.x + 0.5f, (int)ray.origin.y + 0.5f);
-                    if (tilesWorldMap[posX, posY] == 0) {
-                        spriteRender.color = Color.white;
-                        if (onClick)
-                            AddBlock(posX, posY, 4);
-                    } else {
-                        spriteRender.color = Color.red;
-                    }
-                    break;
-                case "Crafting":
-                    ActiveSelector(tsX, tsY);
-                    break;
-                case "Tool":
-                    if (tilesWorldMap[posX, posY] > 0) {
-                        ActiveSelector(tsX, tsY);
-                        spriteRender.color = Color.white;
-                        if (onClick) {
-                            if (tilesObjetMap[posX, posY] != null) {
-                                DeleteItem(posX, posY);
-                            } else {
-                                DeleteTile(hit);
-                            }
-                            // tester si tile ou torche !
-                        }
-                    } else {
-                        DisableCursor();
-                        selector.SetActive(false);
-                    }
-                    break;
-                case "Furniture":
-                    if (tilesWorldMap[posX, posY] > 0) {
-                        ActiveSelector(tsX, tsY);
-                        spriteRender.color = Color.white;
-                        if (onClick) {
-                            Debug.Log("posX" + posX);
-                            Debug.Log("posY" + posY);
-                            AddConsummable(null, posX, posY);
-                        }
-                    } else {
-                        DisableCursor();
-                        selector.SetActive(false);
-                    }
-                    break;
-                default:
-                    DisableCursor();
-                    selector.SetActive(false);
-                    break;
-            }
-
-            yield return null;
+        if(this.onClick) {
+            DisableCursor();
         }
     }
+
+
+    private void Update() {
+        // toDo refaire tout le system et récupérer les différents tiles, object, wall afin de comparer les valeurs et ne plus utiliser le hit!
+        ray = cam.ScreenPointToRay(InputManager.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, Vector2.zero);
+        var tsX = (int)hit.point.x + 0.5f;
+        var tsY = (int)hit.point.y + 0.5f;
+        var posX = (int)ray.origin.x;
+        var posY = (int)ray.origin.y;
+
+        string tmpType = "Tool"; // Change this to test other cases
+
+        // ToDo passer par un ENUM
+        switch (tmpType) {
+            case "Block":
+                ActiveSelector((int)ray.origin.x + 0.5f, (int)ray.origin.y + 0.5f);
+                if (tilesWorldMap[posX, posY] == 0) {
+                    spriteRender.color = Color.white;
+                    if (onClick)
+                        AddBlock(posX, posY, 4);
+                } else {
+                    spriteRender.color = Color.red;
+                }
+                break;
+            case "Crafting":
+                ActiveSelector(tsX, tsY);
+                break;
+            case "Tool":
+                if (tilesWorldMap[posX, posY] > 0) {
+                    ActiveSelector(tsX, tsY);
+                    spriteRender.color = Color.white;
+                    if (onClick) {
+                        if (tilesObjetMap[posX, posY] != null) {
+                            DeleteItem(posX, posY);
+                        } else {
+                            DeleteTile(hit);
+                        }
+                        // tester si tile ou torche !
+                    }
+                } else {
+                    DisableCursor();
+                    selector.SetActive(false);
+                }
+                break;
+            case "Furniture":
+                if (tilesWorldMap[posX, posY] > 0) {
+                    ActiveSelector(tsX, tsY);
+                    spriteRender.color = Color.white;
+                    if (onClick) {
+                        Debug.Log("posX" + posX);
+                        Debug.Log("posY" + posY);
+                        AddConsummable(null, posX, posY);
+                    }
+                } else {
+                    DisableCursor();
+                    selector.SetActive(false);
+                }
+                break;
+            default:
+                DisableCursor();
+                selector.SetActive(false);
+                break;
+        }
+    }
+
 
     private void ActiveSelectorSize() {
         //selector.transform.localScale = new Vector3(inventoryService.seletedItem.config.GetWidth(), inventoryService.seletedItem.config.GetHeight(), 0);
