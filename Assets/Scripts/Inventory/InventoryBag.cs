@@ -35,6 +35,10 @@ public class InventoryBag : InventoryUI {
         OnItemTypeChanged?.Invoke(this.itemType);
     }
 
+    public ItemType GetCurrentItemType() {
+        return this.itemType;
+    }
+
     public override void SwapCells(InventoryCell source, InventoryCell target) {
         OnSwapItems?.Invoke(this.GetCellIdx(source), this.GetCellIdx(target), this.itemType);
     }

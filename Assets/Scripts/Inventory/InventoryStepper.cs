@@ -17,6 +17,8 @@ public class InventoryStepper : MonoBehaviour, IPointerClickHandler {
     private void Awake() {
         this.inventoryBag = GetComponentInParent<InventoryBag>();
         this.image = GetComponent<Image>();
+
+        this.ItemTypeChanged(this.inventoryBag.GetCurrentItemType());
     }
 
     private void OnEnable() {

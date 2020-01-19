@@ -85,7 +85,7 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""id"": ""2f409c7b-e029-4309-bffa-0b0f62063793"",
                     ""path"": ""<Gamepad>/leftStick/left"",
                     ""interactions"": """",
-                    ""processors"": ""StickDeadzone"",
+                    ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Move"",
                     ""isComposite"": false,
@@ -96,7 +96,7 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""id"": ""5c27f65b-2c29-44e2-8135-cfa9b531de5a"",
                     ""path"": ""<Gamepad>/leftStick/right"",
                     ""interactions"": """",
-                    ""processors"": ""StickDeadzone"",
+                    ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Move"",
                     ""isComposite"": false,
@@ -214,18 +214,7 @@ public class @Controls : IInputActionCollection, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": """",
-                    ""id"": ""eb6dca65-a720-41c0-afe8-73201d1a97d1"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""Dpad"",
+                    ""name"": ""Cross"",
                     ""id"": ""f9594167-cdcc-4038-bdf3-b4cd25ae3140"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
@@ -238,7 +227,7 @@ public class @Controls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""up"",
                     ""id"": ""7e6ab453-bc92-4859-aa34-0ce1a43d95c6"",
-                    ""path"": """",
+                    ""path"": ""<Gamepad>/dpad/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -249,7 +238,7 @@ public class @Controls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""down"",
                     ""id"": ""99a16600-8a51-45f4-b8a8-90d3eb5fbe1f"",
-                    ""path"": """",
+                    ""path"": ""<Gamepad>/dpad/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -260,7 +249,7 @@ public class @Controls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""left"",
                     ""id"": ""ce641fe0-6c31-4f51-a972-29a2a565d439"",
-                    ""path"": """",
+                    ""path"": ""<Gamepad>/dpad/left"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -271,7 +260,7 @@ public class @Controls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""right"",
                     ""id"": ""7e77e756-4fc8-4192-bea2-32d10b7ec352"",
-                    ""path"": """",
+                    ""path"": ""<Gamepad>/dpad/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -307,7 +296,7 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Stick"",
+                    ""name"": ""Cross"",
                     ""id"": ""d6f5485c-fdf4-4654-8cca-dbc953681837"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
@@ -320,7 +309,7 @@ public class @Controls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""negative"",
                     ""id"": ""0e72cee9-d97d-4226-8149-5f77c6caef1d"",
-                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""path"": ""<Gamepad>/dpad/left"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -331,7 +320,7 @@ public class @Controls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""99ccea08-ec0f-4b26-9ee3-584702537008"",
-                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""path"": ""<Gamepad>/dpad/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
