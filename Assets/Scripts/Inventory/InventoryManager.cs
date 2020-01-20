@@ -7,7 +7,7 @@ public class InventoryManager : MonoBehaviour {
 
     [Header("Fields to complete manually")]
     [SerializeField] private GameObject inventoryPanelUI;
-    [SerializeField] private int size = 16;
+    [SerializeField] private int size = 32;
 
     [Header("Inventory Item databases")]
     [SerializeField] private Dictionary<ItemType, InventoryItemData[]> itemDatabases;
@@ -23,9 +23,9 @@ public class InventoryManager : MonoBehaviour {
         } else {
             instance = this;
 
-            InventoryBag.OnSwapItems += SwapItems;
-            InventoryBag.OnItemDrop += DropItem;
-            InventoryBag.OnItemDelete += DeleteItem;
+            InventoryBagUI.OnItemDrop += DropItem;
+            InventoryBagUI.OnItemDelete += DeleteItem;
+            InventoryBagUI.OnItemReplace += ReplaceItem;
 
             // Init all inventories type
             this.itemDatabases = new Dictionary<ItemType, InventoryItemData[]>();
@@ -37,9 +37,9 @@ public class InventoryManager : MonoBehaviour {
     }
 
     private void OnDestroy() {
-        InventoryBag.OnSwapItems -= SwapItems;
-        InventoryBag.OnItemDrop -= DropItem;
-        InventoryBag.OnItemDelete -= DeleteItem;
+        InventoryBagUI.OnItemDrop -= DropItem;
+        InventoryBagUI.OnItemDelete -= DeleteItem;
+        InventoryBagUI.OnItemReplace -= ReplaceItem;
     }
 
     public void SwitchDisplay() {
@@ -61,20 +61,29 @@ public class InventoryManager : MonoBehaviour {
 
         // If item is stackable try to find if we can stack it
         if(item.GetConfig().IsStackable()) {
-            int slotIdx = this.GetItemSlotIdx(itemDatabase, item, true);
+            int slotIdx = InventoryUtils.GetItemSlotIdx(itemDatabase, item, true);
 
             // If same item found in inventory and can be stacked so stack it
             if(slotIdx != -1) {
                 itemDatabase[slotIdx].AddStacks(item.GetStacks());
 
-                // Notify item database changed to refresh UI
-                OnItemDatabaseChanged?.Invoke(item.GetConfig().GetItemType());
-                return true;
+                // Get overflow stacks
+                int overflowStacks = itemDatabase[slotIdx].GetOverflowStacks();
+
+                // If greater than 0, target item has exceeded its stack limit so insert new item
+                if(overflowStacks > 0) {
+                    item.SetStacks(overflowStacks);
+                    itemDatabase[slotIdx].RemoveStacks(overflowStacks);
+                } else {
+                    // Notify item database changed to refresh UI
+                    OnItemDatabaseChanged?.Invoke(item.GetConfig().GetItemType());
+                    return true;
+                }
             }
         }
 
         // If item isn't stackable or it couldn't be stacked so try to add it
-        int freeSlotIdx = this.GetEmptySlotIdx(itemDatabase);
+        int freeSlotIdx = InventoryUtils.GetEmptySlotIdx(itemDatabase);
 
         if(freeSlotIdx != -1) {
             // Create new inventory item in this cell and setup it
@@ -92,6 +101,21 @@ public class InventoryManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Used to replace an item to inventory
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    public void ReplaceItem(InventoryItemData item, int targetIdx, ItemType itemType) {
+        // Get reference to associated database of item type
+        InventoryItemData[] itemDatabase = this.itemDatabases[itemType];
+
+        itemDatabase[targetIdx] = item;
+
+        // Notify item database changed to refresh UI
+        OnItemDatabaseChanged?.Invoke(itemType);
+    }
+
+    /// <summary>
     /// Check if item can be added or not
     /// </summary>
     /// <param name="item"></param>
@@ -100,7 +124,7 @@ public class InventoryManager : MonoBehaviour {
         // Get reference to associated database of item type
         InventoryItemData[] itemDatabase = this.itemDatabases[item.GetConfig().GetItemType()];
 
-        return this.GetItemSlotIdx(itemDatabase, item, true) != -1 || this.GetEmptySlotIdx(itemDatabase) != -1;
+        return InventoryUtils.GetItemSlotIdx(itemDatabase, item, true) != -1 || InventoryUtils.GetEmptySlotIdx(itemDatabase) != -1;
     }
 
     /// <summary>
@@ -114,72 +138,6 @@ public class InventoryManager : MonoBehaviour {
 
         // Remove item from database
         itemDatabase[itemIdx] = null;
-
-        OnItemDatabaseChanged?.Invoke(itemType);
-    }
-
-    /// <summary>
-    /// Get idx of empty slot of inventory
-    /// </summary>
-    /// <param name="items"></param>
-    /// <returns></returns>
-    private int GetEmptySlotIdx(InventoryItemData[] items) {
-        for(int i = 0; i < items.Length; i++) {
-            if(items[i]?.GetConfig() == null) {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
-
-    /// <summary>
-    /// Get item idx of item found in function of parameters
-    /// </summary>
-    /// <param name="items"></param>
-    /// <param name="item"></param>
-    /// <param name="stackableFilter"></param>
-    /// <returns></returns>
-    private int GetItemSlotIdx(InventoryItemData[] items, Item item, bool stackableFilter = false) {
-        for(int i = 0; i < items.Length; i++) {
-            if(items[i]?.GetConfig() != null) {
-                bool itemFoundById = item.GetConfig().GetId().Equals(items[i].GetConfig().GetId());
-
-                // Check if its same item ID and addition of stacks is less than stackLimit
-                if(itemFoundById && ((stackableFilter && items[i].CanStack(item.GetStacks())) || !stackableFilter)) {
-                    return i;
-                }
-            }
-        }
-
-        return -1;
-    }
-
-    /// <summary>
-    /// Used to swap item slot in inventory
-    /// </summary>
-    /// <param name="sourceIdx"></param>
-    /// <param name="targetIdx"></param>
-    /// <param name="itemType"></param>
-    private void SwapItems(int sourceIdx, int targetIdx, ItemType itemType) {
-        // Get reference to associated database of item type
-        InventoryItemData[] itemDatabase = this.itemDatabases[itemType];
-
-        InventoryItemData sourceItem = itemDatabase[sourceIdx];
-        InventoryItemData targetItem = itemDatabase[targetIdx];
-
-        // If items are same and target cell can be stacked
-        if(targetItem?.GetConfig() && targetItem.IsSameThan(sourceItem) && targetItem.CanStack(sourceItem.GetStacks())) {
-            targetItem.AddStacks(sourceItem.GetStacks());
-
-            itemDatabase[sourceIdx] = null;
-            itemDatabase[targetIdx] = targetItem;
-        } else {
-            itemDatabase[targetIdx] = sourceItem;
-            itemDatabase[sourceIdx] = targetItem;
-        }
-
 
         OnItemDatabaseChanged?.Invoke(itemType);
     }

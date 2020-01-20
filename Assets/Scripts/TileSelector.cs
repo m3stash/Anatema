@@ -67,7 +67,7 @@ public class TileSelector : MonoBehaviour
         var posY = (int)ray.origin.y;
 
         // string tmpType = "Tool"; // Change this to test other cases
-        string tmpType = "Furniture"; // todo a enlever
+        string tmpType = "Tool"; // todo a enlever
 
         // ToDo passer par un ENUM
         switch (tmpType) {
@@ -91,11 +91,11 @@ public class TileSelector : MonoBehaviour
                     if (onClick) {
                         // ne plus utiliser: tilesObjetMap mais le int[,] objectsMap
 
-                        /*if (tilesObjetMap[posX, posY] != null) {
+                        if (WorldManager.objectsMap[posX, posY] > 0) {
                             DeleteItem(posX, posY);
                         } else {
                             DeleteTile(hit);
-                        }*/
+                        }
                         // tester si tile ou torche !
                     }
                 } else {

@@ -51,6 +51,14 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         return this.item;
     }
 
+    public InventoryCell GetAssociatedCell() {
+        return this.cell;
+    }
+
+    public bool IsSameThan(InventoryItem item) {
+        return this.item.GetConfig().GetItemType() == item.GetItem().GetConfig().GetItemType();
+    }
+
     /// <summary>
 	/// Enable item's raycast.
 	/// </summary>
@@ -136,7 +144,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     /// <param name="eventData"></param>
     public void OnEndDrag(PointerEventData eventData) {
         // Check if item is dropped outside of a slot to drop it in the world
-        if(!eventData.pointerCurrentRaycast.gameObject?.GetComponentInParent<InventoryCell>()) {
+        if(!eventData.pointerCurrentRaycast.gameObject) {
             sourceCell.DropItem();
         }
 
