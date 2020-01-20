@@ -19,8 +19,8 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public static InventoryCell sourceCell;
 
     public delegate void DragEvent(InventoryItem item);
-    public static event DragEvent OnItemDragStartEvent;
-    public static event DragEvent OnItemDragEndEvent;
+    public static event DragEvent OnItemDragStart;
+    public static event DragEvent OnItemDragEnd;
 
     private static Canvas canvas;
         
@@ -51,6 +51,14 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         return this.item;
     }
 
+    public InventoryCell GetAssociatedCell() {
+        return this.cell;
+    }
+
+    public bool IsSameThan(InventoryItem item) {
+        return this.item.GetConfig().GetItemType() == item.GetItem().GetConfig().GetItemType();
+    }
+
     /// <summary>
 	/// Enable item's raycast.
 	/// </summary>
@@ -78,7 +86,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
 
         // Notify all cells about item drag end
-        OnItemDragEndEvent?.Invoke(this);
+        OnItemDragEnd?.Invoke(this);
 
         draggedItem = null;
         sourceCell = null;
@@ -117,7 +125,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         draggedObjectRect.sizeDelta = new Vector2(myRect.rect.width, myRect.rect.height);
 
         // Notify all items about drag start for raycast disabling
-        OnItemDragStartEvent?.Invoke(this);
+        OnItemDragStart?.Invoke(this);
     }
 
     /// <summary>
@@ -136,7 +144,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     /// <param name="eventData"></param>
     public void OnEndDrag(PointerEventData eventData) {
         // Check if item is dropped outside of a slot to drop it in the world
-        if(!eventData.pointerCurrentRaycast.gameObject?.GetComponentInParent<InventoryCell>()) {
+        if(!eventData.pointerCurrentRaycast.gameObject) {
             sourceCell.DropItem();
         }
 

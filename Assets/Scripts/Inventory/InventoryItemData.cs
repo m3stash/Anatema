@@ -24,6 +24,10 @@ public class InventoryItemData {
         return this.stacks;
     }
 
+    public int GetOverflowStacks() {
+        return this.stacks - this.itemConfig.GetStackLimit();
+    }
+
     public void SetStacks(int value) {
         this.stacks = value;
     }
@@ -32,12 +36,16 @@ public class InventoryItemData {
         this.stacks += quantityToAdd;
     }
 
+    public void RemoveStacks(int quantityToRemove) {
+        this.stacks -= quantityToRemove;
+    }
+
     public float GetDurability() {
         return this.durability;
     }
 
-    public bool CanStack(int quantityToAdd) {
-        return this.itemConfig.IsStackable() && this.stacks + quantityToAdd <= this.itemConfig.GetStackLimit();
+    public bool CanStack() {
+        return this.itemConfig.IsStackable() && this.stacks < this.itemConfig.GetStackLimit();
     }
 
     public bool IsSameThan(InventoryItemData itemData) {

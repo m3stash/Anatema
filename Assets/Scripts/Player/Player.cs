@@ -8,7 +8,6 @@ public class Player : MonoBehaviour {
     private float speed = 10f;
     [SerializeField]
     private readonly float jumpForces = 200f;
-    private InventoryToolbar toolbar;
     private Vector3 m_Velocity = Vector3.zero;
     // [Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;
     private float m_MovementSmoothing = .05f;

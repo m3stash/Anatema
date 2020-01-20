@@ -98,6 +98,7 @@ public class WorldManager : MonoBehaviour {
         lightService.RecursivDeleteShadow(x, y);
         RefreshLight();
         ItemManager.instance.CreateItem(id, ItemStatus.PICKABLE, new Vector3(x + 0.5f, y + 0.5f)); // Todo 0.5f is equals to an half block size (Refactor it)
+        ItemManager.instance.CreateItem(7, ItemStatus.PICKABLE, new Vector3(x + 0.5f, y + 0.5f)); // Todo 0.5f is equals to an half block size (Refactor it)
         RefreshChunkNeightboorTiles(x, y, currentChunk.tilemapTile);
     }
     public void AddTile(int x, int y, int id) {
