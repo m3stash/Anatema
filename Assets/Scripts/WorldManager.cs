@@ -17,13 +17,12 @@ public class WorldManager : MonoBehaviour {
     public static int[,] tilesWorldMap;
     public static int[,] wallTilesMap;
     public static int[,] objectsMap;
-    public static GameObject[,] tilesObjetMap;
     public static Dictionary<int, TileBase> tilebaseDictionary;
     private Sprite[] block_sprites;
     public TileBase_cfg tilebase_cfg;
     public static int chunkSize;
     // event
-    public delegate void LightEventHandler(int intensity);
+    public delegate void LightEventHandler();
     public static event LightEventHandler RefreshLight;
     public delegate void PlayerLoaded(GameObject player);
     public static event PlayerLoaded GetPlayer;
@@ -42,6 +41,7 @@ public class WorldManager : MonoBehaviour {
         CreateWorldMap();
         CreateLightMap();
         CreatePlayer();
+        LightService.Init();
         chunkService.Init(tilebaseDictionary, player);
         GetPlayer(player);
     }
@@ -67,31 +67,28 @@ public class WorldManager : MonoBehaviour {
         tilesWorldMap = new int[worldSizeX, worldSizeY];
         wallTilesMap = new int[worldSizeX, worldSizeY];
         objectsMap = new int[worldSizeX, worldSizeY];
-        tilesObjetMap = new GameObject[worldSizeX, worldSizeY]; // toDo voir a virer cette merde et plutot utiliser : objectsMap!!
         levelGenerator.GenerateTilesWorldMap(tilesWorldMap, wallTilesMap, objectsMap);
         chunkService.CreateChunksFromMaps(tilesWorldMap);
     }
     private void CreatePlayer() {
         player = Instantiate((GameObject)Resources.Load("Prefabs/Characters/Player/Player"), new Vector3(0, 0, 0), transform.rotation);
-        tile_selector.GetComponent<TileSelector>().Init(player, this, wallTilesMap, tilesWorldMap, tilesObjetMap);
+        tile_selector.GetComponent<TileSelector>().Init(player, this, wallTilesMap, tilesWorldMap);
     }
     public void AddItem(int posX, int posY, InventoryItem item) {
+        WorldManager.objectsMap[posX, posY] = 7;
         FurnitureItem newItem = ItemManager.instance.CreateItem(7, ItemStatus.ACTIVE, new Vector3(posX + 0.5f, posY + 0.5f, 0)) as FurnitureItem;
         FurnitureConfig config = newItem.GetConfig() as FurnitureConfig;
-        tilesObjetMap[posX, posY] = newItem.gameObject;
-
-        if (config.CanEmitLight()) {
+        // toDo voir a rajouter le bloc en dessous uniquement pour des lights statiques les autres auront le script dynamic light
+        /*if (config.CanEmitLight()) {
             LightService.RecursivAddNewLight(posX, posY, 0);
-            RefreshLight(CycleDay.GetIntensity());
-        }
+            RefreshLight();
+        }*/
     }
     public void DeleteItem(int posX, int posY) {
-        if (tilesObjetMap[posX, posY].name == "item_11(Clone)") { // toDo changer cette merde
+        if (objectsMap[posX, posY] == 7) { // toDo changer cette merde
             LightService.RecursivDeleteLight(posX, posY, true);
-            RefreshLight(CycleDay.GetIntensity());
+            RefreshLight();
         }
-        tilesObjetMap[posX, posY] = null;
-        Destroy(tilesObjetMap[posX, posY]);
         ItemManager.instance.CreateItem(7, ItemStatus.PICKABLE, new Vector3(posX, posY));
     }
     public void DeleteTile(int x, int y) {
@@ -99,15 +96,15 @@ public class WorldManager : MonoBehaviour {
         Chunk currentChunk = ManageChunkTile(x, y, 0);
         currentChunk.SetTile(new Vector3Int(x % chunkSize, y % chunkSize, 0), null);
         lightService.RecursivDeleteShadow(x, y);
-        RefreshLight(CycleDay.GetIntensity());
+        RefreshLight();
         ItemManager.instance.CreateItem(id, ItemStatus.PICKABLE, new Vector3(x + 0.5f, y + 0.5f)); // Todo 0.5f is equals to an half block size (Refactor it)
         RefreshChunkNeightboorTiles(x, y, currentChunk.tilemapTile);
     }
     public void AddTile(int x, int y, int id) {
         Chunk currentChunk = ManageChunkTile(x, y, id);
         currentChunk.SetTile(new Vector3Int(x % chunkSize, y % chunkSize, 0), tilebaseDictionary[id]);
-        lightService.RecursivAddShadow(x, y, tilesObjetMap);
-        RefreshLight(CycleDay.GetIntensity());
+        lightService.RecursivAddShadow(x, y);
+        RefreshLight();
         RefreshChunkNeightboorTiles(x, y, currentChunk.tilemapTile);
     }
     private Chunk ManageChunkTile(int x, int y, int id) {

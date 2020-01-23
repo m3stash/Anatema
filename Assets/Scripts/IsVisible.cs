@@ -8,17 +8,17 @@ public class IsVisible : MonoBehaviour {
     }
 
     void Update() {
-        /*Plane[] planes = GeometryUtility.CalculateFrustumPlanes(cam);
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(cam);
         if(GeometryUtility.TestPlanesAABB(planes, m_Renderer.bounds)) {
             chunk.ChunckVisible(true);
         } else {
             chunk.ChunckVisible(false);
-        }*/
-        if (m_Renderer.isVisible) {
+        }
+        /*if (m_Renderer.isVisible) {
             chunk.ChunckVisible(true);
         } else {
             chunk.ChunckVisible(false);
-        }
+        }*/
     }
 
 }

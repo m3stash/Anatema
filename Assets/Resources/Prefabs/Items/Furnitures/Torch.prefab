@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2129007704028549441}
   - component: {fileID: 2679521630371074710}
   - component: {fileID: -9075835843826859415}
+  - component: {fileID: -4997354984494976009}
   m_Layer: 14
   m_Name: Torch
   m_TagString: Untagged
@@ -162,10 +163,22 @@ MonoBehaviour:
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
   renderer: {fileID: 0}
+  attractor: {fileID: 0}
   defaultScale: {x: 0, y: 0}
   defaultTag: 
   defaultPrefabSprite: {fileID: 0}
-  furnitureType: 0
+--- !u!114 &-4997354984494976009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4405146219834199482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6a9045c25e98b40b186426c92ff1e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3343495709543078732
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -18,8 +18,8 @@ public class StarsGenerator : MonoBehaviour {
         CycleDay.RefreshIntensity -= ChangeZindex;
     }
 
-    private void ChangeZindex(int intensity) {
-        switch (intensity) {
+    private void ChangeZindex() {
+        switch (CycleDay.GetIntensity()) {
             case 0:
                 transform.position = new Vector3(transform.position.x, transform.position.y, -18);
                 break;

@@ -25,7 +25,7 @@ public class CycleDay : MonoBehaviour {
     private float moonIntensity;
     private Material[] moonMat;
     // event
-    public delegate void CycleDayHandler(int intenisty);
+    public delegate void CycleDayHandler();
     public static event CycleDayHandler RefreshIntensity;
 
     void Start() {
@@ -73,7 +73,7 @@ public class CycleDay : MonoBehaviour {
                 SetGlobalColor(currentHour);
                 lastHour = currentHour;
                 if (RefreshIntensity != null) {
-                    RefreshIntensity(intensity);
+                    RefreshIntensity();
                 }
             }
             timerDay += convertedInRealSecond;
