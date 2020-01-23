@@ -25,9 +25,9 @@ public class Chunk : MonoBehaviour {
     private void OnEnable() {
         CycleDay.RefreshIntensity += RefreshShadowMap;
         WorldManager.RefreshLight += RefreshShadowMap;
+        DynamicLight.RefreshLight += RefreshShadowMap;
         Item.OnItemMoved += OnItemMoved;
         Item.OnItemDestroyed += OnItemDestroyed;
-        ChunkService.RefreshLight += RefreshShadowMap;
         if(!firstInitialisation) {
             tileMapTileMapScript.hasAlreadyInit = true;
             wallTileMapScript.hasAlreadyInit = true;
@@ -76,8 +76,11 @@ public class Chunk : MonoBehaviour {
         }
     }
 
-    private void RefreshShadowMap(int intensity) {
-        for(var x = 0; x < WorldManager.chunkSize; x++) {
+    private void RefreshShadowMap() {
+        if (!isChunkVisible)
+            return;
+        var intensity = CycleDay.GetIntensity();
+        for (var x = 0; x < WorldManager.chunkSize; x++) {
             for(var y = 0; y < WorldManager.chunkSize; y++) {
                 var shadow = WorldManager.tilesShadowMap[worldPosition.x + x, worldPosition.y + y] + intensity;
                 var light = WorldManager.tilesLightMap[worldPosition.x + x, worldPosition.y + y];
@@ -101,7 +104,7 @@ public class Chunk : MonoBehaviour {
         alreadyVisible = false;
         CycleDay.RefreshIntensity -= RefreshShadowMap;
         WorldManager.RefreshLight -= RefreshShadowMap;
-        ChunkService.RefreshLight -= RefreshShadowMap;
+        DynamicLight.RefreshLight -= RefreshShadowMap;
         Item.OnItemMoved -= OnItemMoved;
         Item.OnItemDestroyed -= OnItemDestroyed;
     }
@@ -165,7 +168,7 @@ public class Chunk : MonoBehaviour {
             alreadyVisible = true;
             tc2d.enabled = true;
             generateObjectsMap();
-            RefreshShadowMap(CycleDay.GetIntensity());
+            RefreshShadowMap();
         }
     }
 }

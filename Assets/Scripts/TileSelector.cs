@@ -18,9 +18,8 @@ public class TileSelector : MonoBehaviour
     private SpriteRenderer spriteRender;
     private int[,] wallTilesMap;
     private int[,] tilesWorldMap;
-    private GameObject[,] tilesObjetMap;
 
-    public void Init(GameObject _player, WorldManager _worldManager, int[,] _wallTilesMap, int[,] _tilesWorldMap, GameObject[,] _tilesObjetMap) {
+    public void Init(GameObject _player, WorldManager _worldManager, int[,] _wallTilesMap, int[,] _tilesWorldMap) {
         worldManager = _worldManager;
         //inventoryService = GameObject.FindGameObjectWithTag("InventoryContainer").GetComponent<InventoryService>();
         player = _player;
@@ -32,7 +31,6 @@ public class TileSelector : MonoBehaviour
         spriteRender = selector.GetComponent<SpriteRenderer>();
         wallTilesMap = _wallTilesMap;
         tilesWorldMap = _tilesWorldMap;
-        tilesObjetMap = _tilesObjetMap;
 
         InputManager.controls.TileSelector.PressClick.performed += ctx => this.SetOnClick(true);
         InputManager.controls.TileSelector.ReleaseClick.performed += ctx => this.SetOnClick(false);
@@ -68,7 +66,8 @@ public class TileSelector : MonoBehaviour
         var posX = (int)ray.origin.x;
         var posY = (int)ray.origin.y;
 
-        string tmpType = "Tool"; // Change this to test other cases
+        // string tmpType = "Tool"; // Change this to test other cases
+        string tmpType = "Furniture"; // todo a enlever
 
         // ToDo passer par un ENUM
         switch (tmpType) {
@@ -90,11 +89,13 @@ public class TileSelector : MonoBehaviour
                     ActiveSelector(tsX, tsY);
                     spriteRender.color = Color.white;
                     if (onClick) {
-                        if (tilesObjetMap[posX, posY] != null) {
+                        // ne plus utiliser: tilesObjetMap mais le int[,] objectsMap
+
+                        /*if (tilesObjetMap[posX, posY] != null) {
                             DeleteItem(posX, posY);
                         } else {
                             DeleteTile(hit);
-                        }
+                        }*/
                         // tester si tile ou torche !
                     }
                 } else {

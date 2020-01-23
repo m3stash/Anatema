@@ -25,7 +25,6 @@ public class ChunkService : MonoBehaviour {
     private GameObject player;
     private Camera playerCam;
     private int[,][,] tilesMapChunks;
-    public static GameObject[,] tilesObjetMap; // toDO fixer ça pour de bon!
     public static Dictionary<int, TileBase> tilebaseDictionary;
     private Transform worldMapTransform;
     private float waitingTimeAfterCreateChunk = 0.1f;
@@ -45,9 +44,6 @@ public class ChunkService : MonoBehaviour {
     private int oldPosY;
     private int oldPlayerPosX;
     private int oldPlayerPosY;
-    // event
-    public delegate void LightEventHandler(int intensity);
-    public static event LightEventHandler RefreshLight;
 
     public void FixedUpdate() {
         currentPlayerChunkX = (int)player.transform.position.x / WorldManager.chunkSize;
@@ -65,18 +61,8 @@ public class ChunkService : MonoBehaviour {
         } else if (currentPlayerChunkY < oldPosY) { // bottom
             StartPool(currentPlayerChunkX, currentPlayerChunkY, Direction.BOTTOM);
         }
-        // dynamic light
-        var playerX = (int)player.transform.position.x;
-        var playerY = (int)player.transform.position.y;
-        if (oldPlayerPosX != playerX || oldPlayerPosY != playerY) {
-            LightService.RecursivDeleteLight(oldPlayerPosX, oldPlayerPosY, true);
-            LightService.RecursivAddNewLight(playerX, playerY, 0);
-        }
         oldPosX = currentPlayerChunkX;
         oldPosY = currentPlayerChunkY;
-        oldPlayerPosX = (int)player.transform.position.x;
-        oldPlayerPosY = (int)player.transform.position.y;
-        RefreshLight(CycleDay.GetIntensity());
     }
 
     public int[,] GetTilesMapChunks(int x, int y) {
