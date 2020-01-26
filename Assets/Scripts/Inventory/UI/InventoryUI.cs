@@ -38,7 +38,7 @@ public class InventoryUI : MonoBehaviour {
         throw new System.Exception("Delete method not implemented");
     }
 
-    protected void RefreshUI() {
+    protected virtual void RefreshUI() {
         for(int i = 0; i < this.cells.Length && i < this.items.Length; i++) {
             this.cells[i].UpdateItem(this.items[i]);
         }
@@ -65,4 +65,11 @@ public class InventoryUI : MonoBehaviour {
 
         return -1;
     }
+}
+
+public enum SortType
+{
+    DEFAULT,
+    NAME,
+    RARITY
 }

@@ -2,15 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
-public class InventoryManager : MonoBehaviour {
+public class InventoryManager : MonoBehaviour
+{
 
     [Header("Fields to complete manually")]
     [SerializeField] private GameObject inventoryPanelUI;
     [SerializeField] private int size = 32;
 
-    [Header("Inventory Item databases")]
+    [Header("Don't touch it")]
     [SerializeField] private Dictionary<ItemType, InventoryItemData[]> itemDatabases;
+    [SerializeField] private SortType sort = SortType.DEFAULT;
+
 
     public static InventoryManager instance;
 
@@ -18,7 +22,7 @@ public class InventoryManager : MonoBehaviour {
     public static event ItemDatabaseChanged OnItemDatabaseChanged;
 
     void Awake() {
-        if(instance) {
+        if (instance) {
             Destroy(this);
         } else {
             instance = this;
@@ -30,7 +34,7 @@ public class InventoryManager : MonoBehaviour {
             // Init all inventories type
             this.itemDatabases = new Dictionary<ItemType, InventoryItemData[]>();
 
-            foreach(ItemType type in Enum.GetValues(typeof(ItemType))) {
+            foreach (ItemType type in Enum.GetValues(typeof(ItemType))) {
                 this.itemDatabases.Add(type, new InventoryItemData[this.size]);
             }
         }
@@ -46,8 +50,46 @@ public class InventoryManager : MonoBehaviour {
         this.inventoryPanelUI.SetActive(!this.inventoryPanelUI.activeSelf);
     }
 
+    public void ChangeSort(ItemType itemType) {
+        switch (this.sort) {
+            case SortType.DEFAULT:
+                this.sort = SortType.RARITY;
+                break;
+            case SortType.RARITY:
+                this.sort = SortType.NAME;
+                break;
+            case SortType.NAME:
+                this.sort = SortType.DEFAULT;
+                break;
+        }
+
+        // Notify item database changed to refresh UI
+        OnItemDatabaseChanged?.Invoke(itemType);
+    }
+
     public InventoryItemData[] GetInventoryItems(ItemType itemType) {
-        return this.itemDatabases[itemType];
+        // Get reference to associated database of item type
+        List<InventoryItemData> itemDatabaseSorted = new List<InventoryItemData>(this.itemDatabases[itemType]);
+
+        if (this.sort != SortType.DEFAULT) {
+            // Remove null values to put them at the end of the array
+            int emptyValues = itemDatabaseSorted.RemoveAll(elem => !elem?.GetConfig());
+
+            switch (this.sort) {
+                case SortType.RARITY:
+                    itemDatabaseSorted = itemDatabaseSorted.OrderBy(elem => elem?.GetConfig()?.GetRarityLevel()).ToList();
+                    break;
+                case SortType.NAME:
+                    itemDatabaseSorted = itemDatabaseSorted.OrderBy(elem => elem?.GetConfig()?.GetDisplayName()).ToList();
+                    break;
+            }
+
+            for (int i = 0; i < emptyValues; i++) {
+                itemDatabaseSorted.Add(null);
+            }
+        }
+
+        return itemDatabaseSorted.ToArray();
     }
 
     /// <summary>
@@ -60,18 +102,18 @@ public class InventoryManager : MonoBehaviour {
         InventoryItemData[] itemDatabase = this.itemDatabases[item.GetConfig().GetItemType()];
 
         // If item is stackable try to find if we can stack it
-        if(item.GetConfig().IsStackable()) {
+        if (item.GetConfig().IsStackable()) {
             int slotIdx = InventoryUtils.GetItemSlotIdx(itemDatabase, item, true);
 
             // If same item found in inventory and can be stacked so stack it
-            if(slotIdx != -1) {
+            if (slotIdx != -1) {
                 itemDatabase[slotIdx].AddStacks(item.GetStacks());
 
                 // Get overflow stacks
                 int overflowStacks = itemDatabase[slotIdx].GetOverflowStacks();
 
                 // If greater than 0, target item has exceeded its stack limit so insert new item
-                if(overflowStacks > 0) {
+                if (overflowStacks > 0) {
                     item.SetStacks(overflowStacks);
                     itemDatabase[slotIdx].RemoveStacks(overflowStacks);
                 } else {
@@ -85,7 +127,7 @@ public class InventoryManager : MonoBehaviour {
         // If item isn't stackable or it couldn't be stacked so try to add it
         int freeSlotIdx = InventoryUtils.GetEmptySlotIdx(itemDatabase);
 
-        if(freeSlotIdx != -1) {
+        if (freeSlotIdx != -1) {
             // Create new inventory item in this cell and setup it
             itemDatabase[freeSlotIdx] = new InventoryItemData(item.GetConfig(), item.GetStacks(), 100);
 
@@ -94,7 +136,6 @@ public class InventoryManager : MonoBehaviour {
 
             return true;
         }
-
 
         Debug.Log("No slot found to add item");
         return false;
