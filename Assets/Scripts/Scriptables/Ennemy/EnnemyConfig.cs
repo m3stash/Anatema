@@ -28,6 +28,9 @@ public class EnnemyConfig : ScriptableObject {
     [SerializeField] private bool pooleable;
     [Min(1)]
     [SerializeField] private int poolSize = 1;
+    [Header("Senses")]
+    [SerializeField] private bool canSee;
+    [SerializeField] private bool canEar;
     [Header("Biomes")]
     [SerializeField] private bool Cavernes;
     [SerializeField] private bool Underground;
@@ -53,16 +56,24 @@ public class EnnemyConfig : ScriptableObject {
         return this.prefab;
     }
 
+    public int GetLife() {
+        return this.life;
+    }
+
     public string GetDisplayName() {
         return this.displayName;
+    }
+
+    public bool IsPooleable() {
+        return this.pooleable;
     }
 
     public int GetPoolSize() {
         return this.poolSize;
     }
 
-    public bool IsPooleable() {
-        return this.pooleable;
+    public bool CanSee() {
+        return this.canSee;
     }
 
     public bool CanEmitLight() {

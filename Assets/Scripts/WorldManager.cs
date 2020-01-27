@@ -40,6 +40,7 @@ public class WorldManager : MonoBehaviour {
         InitResources();
         CreateWorldMap();
         CreateLightMap();
+        EnnemyManager.Init(); // toDo voir a le mettre a un meilleur endroit plus tard
         CreatePlayer();
         LightService.Init();
         chunkService.Init(tilebaseDictionary, player);

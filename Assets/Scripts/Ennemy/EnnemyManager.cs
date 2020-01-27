@@ -17,7 +17,11 @@ public class EnnemyManager : MonoBehaviour {
         }
     }
 
-    private void Start() {
+    public static void Init() {
+        EnnemyManager.instance.InitFromInstance();
+    }
+
+    private void InitFromInstance() {
         // Initialize ennemy database with all ennemy configs
         this.ennemyDatabase = new List<EnnemyConfig>(Resources.LoadAll<EnnemyConfig>("Scriptables/Ennemies")).ToDictionary((EnnemyConfig ennemy) => ennemy.GetId(), ennemy => ennemy);
 

@@ -115,6 +115,9 @@ public class ChunkService : MonoBehaviour {
         oldPlayerPosX = xStart * WorldManager.chunkSize + (WorldManager.chunkSize / 2);
         oldPlayerPosY = yStart * WorldManager.chunkSize + (WorldManager.chunkSize / 2);
         player.transform.position = new Vector3(xStart * WorldManager.chunkSize + (WorldManager.chunkSize / 2), yStart * WorldManager.chunkSize + (WorldManager.chunkSize / 2), 0);
+        // toDo sur pour poc a enlever une fois le dev bon !
+        Ennemy ennemy = EnnemyManager.instance.CreateEnnemy(99);
+        ennemy.gameObject.transform.position = player.transform.position; // toDO virer cette merde
     }
     private ChunkDataModel GetChunkData(int PosX, int PosY) {
         /*var chunkPath = "/" + chunkDirectory + "/" + "chunk_" + PosX + "_" + PosY;

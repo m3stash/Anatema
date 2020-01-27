@@ -10,6 +10,7 @@ TagManager:
   - InventoryContainer
   - WorldMap
   - Pickable
+  - Ennemies
   layers:
   - Default
   - TransparentFX
@@ -36,7 +37,7 @@ TagManager:
   - Background_5
   - Background_6
   - Objects
-  - 
+  - Ennemies
   - 
   - 
   - 

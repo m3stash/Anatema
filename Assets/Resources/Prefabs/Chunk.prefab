@@ -276,7 +276,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4925006578605630}
   - component: {fileID: 114274623795810492}
-  - component: {fileID: 5899460512082029567}
   - component: {fileID: 8511223703007507891}
   m_Layer: 10
   m_Name: Chunk
@@ -312,7 +311,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbdeaf869267f56448d9519a0bf7c8c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightService: {fileID: 0}
   tileMapTileMapScript: {fileID: 114650459853234306}
   wallTileMapScript: {fileID: 1304860360}
   shadowTileMapScript: {fileID: 6281236463559665577}
@@ -322,33 +320,7 @@ MonoBehaviour:
   player: {fileID: 0}
   chunkPosition: {x: 0, y: 0}
   worldPosition: {x: 0, y: 0}
-  chunkSize: 0
---- !u!61 &5899460512082029567
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1333795972061644}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 16, y: 16}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 32, y: 32}
-  m_EdgeRadius: 0
+  items: []
 --- !u!114 &8511223703007507891
 MonoBehaviour:
   m_ObjectHideFlags: 0
