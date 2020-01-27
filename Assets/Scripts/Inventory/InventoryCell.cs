@@ -11,12 +11,14 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     [SerializeField] private GameObject slotItemPrefab;
     [SerializeField] private Sprite defaultSprite;
     [SerializeField] private Sprite selectedSprite;
+    [SerializeField] private Sprite disabledSprite;
     [SerializeField] private CellType cellType;
+    [SerializeField] private ItemType[] allowedItemTypes;
 
     [Header("Don't touch it")]
     [SerializeField] private InventoryItem inventoryItem;
     [SerializeField] private InventoryUI associatedInventoryUI;
-    [SerializeField] private bool selected;
+    [SerializeField] private CellState state;
 
     private new Image renderer;
 
@@ -31,13 +33,21 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     void OnEnable() {
         this.RefreshUI();
 
-        InventoryItem.OnItemDragStartEvent += OnAnyItemDragStart;         // Handle any item drag start
-        InventoryItem.OnItemDragEndEvent += OnAnyItemDragEnd;             // Handle any item drag end
+        InventoryItem.OnItemDragStart += OnAnyItemDragStart;
+        InventoryItem.OnItemDragEnd += OnAnyItemDragEnd;
     }
 
     void OnDisable() {
-        InventoryItem.OnItemDragStartEvent -= OnAnyItemDragStart;
-        InventoryItem.OnItemDragEndEvent -= OnAnyItemDragEnd;
+        InventoryItem.OnItemDragStart -= OnAnyItemDragStart;
+        InventoryItem.OnItemDragEnd -= OnAnyItemDragEnd;
+    }
+
+    public void SetAllowedItemTypes(ItemType[] types) {
+        this.allowedItemTypes = types;
+    }
+
+    public CellState GetState() {
+        return this.state;
     }
 
     /// <summary>
@@ -45,8 +55,14 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     /// </summary>
     /// <param name="item"> dragged item </param>
     private void OnAnyItemDragStart(InventoryItem item) {
-        if (this.inventoryItem) {
+        if(this.inventoryItem) {
             this.inventoryItem.MakeRaycast(false);
+
+            if(item != this.inventoryItem && !this.inventoryItem.IsSameThan(item) && this.associatedInventoryUI != item.GetAssociatedCell().associatedInventoryUI) {
+                this.SetState(CellState.DISABLED);
+            }
+        } else if(this.cellType == CellType.ITEM && !this.IsAllowedItemType(item.GetItem().GetConfig().GetItemType())) {
+            this.SetState(CellState.DISABLED);
         }
     }
 
@@ -55,14 +71,18 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     /// </summary>
     /// <param name="item"> dragged item </param>
     private void OnAnyItemDragEnd(InventoryItem item) {
-        if (this.inventoryItem) {
+        if(this.inventoryItem) {
             this.inventoryItem.MakeRaycast(true);
+        }
+
+        if(this.state != CellState.HIDDEN && this.cellType == CellType.ITEM) {
+            this.SetState(CellState.ENABLED);
         }
     }
 
     private void NotifyClick() {
         // Notify if this cell contains an item
-        if (this.inventoryItem) {
+        if(this.inventoryItem) {
             NotifyClickEvent?.Invoke(this);
         }
     }
@@ -71,11 +91,30 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     /// Refresh cell renderer
     /// </summary>
     private void RefreshUI() {
-        if (!this.renderer) {
+        if(!this.renderer) {
             this.renderer = GetComponent<Image>();
         }
 
-        this.renderer.sprite = this.selected ? this.selectedSprite : this.defaultSprite;
+        switch(this.state) {
+            case CellState.ENABLED:
+                this.renderer.color = Color.white;
+                this.renderer.sprite = this.defaultSprite;
+                break;
+            case CellState.SELECTED:
+                this.renderer.sprite = this.selectedSprite;
+                break;
+            case CellState.DISABLED:
+                if(this.inventoryItem) {
+                    this.renderer.color = Color.red;
+                } else {
+                    this.renderer.sprite = this.disabledSprite;
+                }
+                break;
+            case CellState.HIDDEN:
+                this.renderer.color = new Color(0, 0, 0, 0.2f);
+                this.renderer.sprite = this.defaultSprite;
+                break;
+        }
     }
 
     /// <summary>
@@ -92,16 +131,17 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     /// <param name="data"></param>
     public void OnDrop(PointerEventData data) {
         // Do something if an item is currently dragged
-        if (InventoryItem.draggedObject) {
-            InventoryItem item = InventoryItem.draggedItem;
+        if(InventoryItem.draggedObject) {
+            InventoryItem inventoryItem = InventoryItem.draggedItem;
             InventoryCell sourceCell = InventoryItem.sourceCell;
 
-            if (InventoryItem.draggedObject.activeSelf && item && sourceCell != this) {
-
+            if(InventoryItem.draggedObject.activeSelf && this.state != CellState.DISABLED && inventoryItem && sourceCell != this) {
                 // Do specific stuff in function of cell type
-                switch (this.cellType) {
+                switch(this.cellType) {
                     case CellType.ITEM:
-                        SwapItems(sourceCell, this);
+                        if(this.IsAllowedItemType(inventoryItem.GetItem().GetConfig().GetItemType())) {
+                            SwapItems(sourceCell, this);
+                        }
                         break;
 
                     case CellType.DELETE:
@@ -118,18 +158,55 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     /// <param name="firstCell"> Cell </param>
     /// <param name="secondCell"> Cell </param>
     public void SwapItems(InventoryCell firstCell, InventoryCell secondCell) {
-        InventoryItem firstItem = firstCell.GetInventoryItem();                // Get item from first cell
-        InventoryItem secondItem = secondCell.GetInventoryItem();              // Get item from second cell
-                                                                               // Swap items
-        if (firstItem) {
-            firstItem.MakeRaycast(true);
+        InventoryItem firstInventoryItem = firstCell.GetInventoryItem();
+        InventoryItem secondInventoryItem = secondCell.GetInventoryItem();
+        InventoryItemData sourceItemData = null;
+        InventoryItemData targetItemData = null;
+
+        if(firstInventoryItem) {
+            firstInventoryItem.MakeRaycast(true);
+            sourceItemData = firstInventoryItem.GetItem();
         }
 
-        if (secondItem) {
-            secondItem.MakeRaycast(true);
+        if(secondInventoryItem) {
+            secondInventoryItem.MakeRaycast(true);
+            targetItemData = secondInventoryItem.GetItem();
         }
 
-        this.associatedInventoryUI.SwapCells(firstCell, secondCell);
+        if(!secondInventoryItem) { // Add item
+            secondCell.ReplaceItem(sourceItemData);
+            firstCell.DeleteItem();
+        } else if(CanStackItem(firstInventoryItem.GetItem(), secondInventoryItem.GetItem())) { // Fill stacks
+            // Add sources stacks
+            targetItemData.AddStacks(sourceItemData.GetStacks());
+
+            // Get overflow stacks
+            int overflowStacks = targetItemData.GetOverflowStacks();
+
+            // If greater than 0, target item has exceeded its stack limit
+            if(overflowStacks > 0) {
+                sourceItemData.SetStacks(overflowStacks);
+                targetItemData.RemoveStacks(overflowStacks);
+
+                firstCell.ReplaceItem(sourceItemData);
+            } else {
+                firstCell.DeleteItem();
+            }
+
+            secondCell.ReplaceItem(targetItemData);
+        } else { // Swap
+            secondCell.ReplaceItem(sourceItemData);
+            firstCell.ReplaceItem(targetItemData);
+        }
+
+    }
+
+    public bool CanStackItem(InventoryItemData source, InventoryItemData target) {
+        return source.IsSameThan(target) && target.CanStack();
+    }
+
+    public void ReplaceItem(InventoryItemData item) {
+        this.associatedInventoryUI.ReplaceItem(item, this);
     }
 
     public void DropItem() {
@@ -140,28 +217,31 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
         this.associatedInventoryUI.DeleteItem(this);
     }
 
-    public void Select() {
-        this.selected = true;
+    public void SetState(CellState state) {
+        this.state = state;
         this.RefreshUI();
     }
-
-    public void UnSelect() {
-        this.selected = false;
-        this.RefreshUI();
-    }
-
 
     public void UpdateItem(InventoryItemData item) {
-        if (item != null && item.GetConfig() != null) {
-            if (!inventoryItem) {
+        if(item != null && item.GetConfig() != null) {
+            if(!inventoryItem) {
                 GameObject obj = Instantiate(this.slotItemPrefab, this.transform);
                 this.inventoryItem = obj.GetComponent<InventoryItem>();
             }
 
             inventoryItem.Setup(item, this);
-        } else if (((item != null && item.GetConfig() == null) || item == null) && inventoryItem) {
+        } else if(((item != null && item.GetConfig() == null) || item == null) && inventoryItem) {
             Destroy(this.inventoryItem.gameObject);
         }
+    }
+
+    private bool IsAllowedItemType(ItemType type) {
+        foreach(ItemType itemType in this.allowedItemTypes) {
+            if(itemType.Equals(type)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public InventoryItem GetInventoryItem() {
@@ -176,4 +256,11 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
 public enum CellType {
     ITEM,
     DELETE
+}
+
+public enum CellState {
+    ENABLED,
+    SELECTED,
+    DISABLED,
+    HIDDEN
 }

@@ -28,6 +28,7 @@ MonoBehaviour:
   width: 1
   height: 1
   placeable: 1
+  emitLight: 0
   scale: {x: 0.5, y: 0.5}
   blockType: 1
   durability: 100
