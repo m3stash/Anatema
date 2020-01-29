@@ -30,7 +30,7 @@ public class Ennemy : MonoBehaviour {
         this.associatedPool = associatedPool;
         this.transform.name = this.configuration.GetDisplayName();
         this.gameObject.SetActive(true);
-        this.GetComponent<Brain>().Setup(this.configuration);
+        this.GetComponent<EnnemyBrain>().Setup(this.configuration);
         // this.rigidbody = GetComponent<Rigidbody2D>();
         // this.renderer = GetComponent<SpriteRenderer>();
         // this.defaultScale = this.transform.localScale;

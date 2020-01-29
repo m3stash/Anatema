@@ -2,17 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OnDefend : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+public class OnDefend : IEnnemyState {
+
+    // private readonly Ennemy_Brain brain;
+
+    public OnDefend(/*Ennemy_Brain brain*/) {
+        // this.brain = brain;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void Ground() {
+
+    }
+
+    public void Idle() {
+
+    }
+
+    public void Attack() {
+        // brain.currentState = new Ennemy_OnAttack(brain);
+    }
+
+    public void Patrol() {
+
+    }
+
+    public void Move(Vector2 positionToFollow) {
+
+    }
+
+    public void Defend() {
+
     }
 }
