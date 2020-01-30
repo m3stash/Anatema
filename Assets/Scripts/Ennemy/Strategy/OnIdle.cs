@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class OnIdle : IEnnemyState {
 
-    // private readonly Ennemy_Brain brain;
+    private readonly EnnemyBrain brain;
 
-    public OnIdle(/*Ennemy_Brain brain*/) {
-        // this.brain = brain;
+    public OnIdle(EnnemyBrain brain) {
+        this.brain = brain;
     }
 
     public void Ground() {

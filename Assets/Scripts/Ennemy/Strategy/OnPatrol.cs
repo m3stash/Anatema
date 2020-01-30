@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class OnPatrol : IEnnemyState {
-    // private readonly Ennemy_Brain brain;
+    private readonly EnnemyBrain brain;
 
-    public OnPatrol(/*Ennemy_Brain brain*/) {
-        // this.brain = brain;
+    public OnPatrol(EnnemyBrain brain) {
+        this.brain = brain;
     }
 
     public void Ground() {
@@ -26,7 +26,9 @@ public class OnPatrol : IEnnemyState {
     }
 
     public void Move(Vector2 positionToFollow) {
-
+        // Vector2 direction = new Vector2(positionToFollow.x, -this.brain.transform.position.x);
+        // this.brain.rb.velocity = direction * 0.5f;
+        // this.brain.rb.velocity = new Vector2(positionToFollow.x, positionToFollow.y);
     }
 
     public void Defend() {

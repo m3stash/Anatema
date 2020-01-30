@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class OnMove : IEnnemyState {
 
-    // private readonly Ennemy_Brain brain;
+    private readonly EnnemyBrain brain;
 
-    public OnMove(/*Ennemy_Brain brain*/) {
-        // this.brain = brain;
+    public OnMove(EnnemyBrain brain) {
+        this.brain = brain;
     }
 
     public void Ground() {
@@ -27,7 +27,7 @@ public class OnMove : IEnnemyState {
     }
 
     public void Move(Vector2 positionToFollow) {
-
+        // this.brain.rb.velocity = new Vector2(positionToFollow.x, positionToFollow.y);
     }
 
     public void Defend() {

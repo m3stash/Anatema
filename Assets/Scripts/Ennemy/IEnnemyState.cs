@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 public interface IEnnemyState {
+
     //actions
     void Ground();
     void Idle();

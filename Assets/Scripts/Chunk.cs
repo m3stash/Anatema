@@ -77,8 +77,8 @@ public class Chunk : MonoBehaviour {
     }
 
     private void RefreshShadowMap() {
-        if (!isChunkVisible)
-            return;
+        /*if (!isChunkVisible) // toDO voie à améliorer ça !
+            return;*/
         var intensity = CycleDay.GetIntensity();
         for (var x = 0; x < WorldManager.chunkSize; x++) {
             for(var y = 0; y < WorldManager.chunkSize; y++) {

@@ -99,6 +99,7 @@ MonoBehaviour:
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
   renderer: {fileID: 0}
+  attractor: {fileID: 0}
   defaultScale: {x: 0, y: 0}
   defaultTag: 
   defaultPrefabSprite: {fileID: 0}

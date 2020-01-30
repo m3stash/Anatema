@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class OnAttack : IEnnemyState {
 
-    // private readonly Ennemy_Brain brain;
+    private readonly EnnemyBrain brain;
 
-    public OnAttack(/*Ennemy_Brain brain*/) {
-        // this.brain = brain;
+    public OnAttack(EnnemyBrain brain) {
+        this.brain = brain;
     }
 
     public void Ground() {
