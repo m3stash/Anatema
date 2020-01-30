@@ -9,6 +9,7 @@ public class InventoryLayoutUI : MonoBehaviour {
     [SerializeField] private InventoryStepperUI[] steppers;
     [SerializeField] private InventoryBagUI inventoryBag;
     [SerializeField] private InventoryToolbarUI toolbar;
+    [SerializeField] private InventoryCell currentSelectedCell;
 
     private int currentSelectedStepperIdx;
 
@@ -21,6 +22,8 @@ public class InventoryLayoutUI : MonoBehaviour {
     private void OnEnable() {
         InventoryStepperUI.OnSelect += SelectedStepperChanged;
         InputManager.gameplayControls.Inventory.StepperChanged.performed += StepperInputTriggered;
+        InputManager.gameplayControls.Inventory.DropItem.performed += DropItemAction;
+        InputManager.gameplayControls.Inventory.DeleteItem.performed += DeleteItemAction;
 
         // Select last opened stepper
         this.SelectStepper(this.currentSelectedStepperIdx);
@@ -29,10 +32,20 @@ public class InventoryLayoutUI : MonoBehaviour {
     private void OnDisable() {
         InventoryStepperUI.OnSelect -= SelectedStepperChanged;
         InputManager.gameplayControls.Inventory.StepperChanged.performed -= StepperInputTriggered;
+        InputManager.gameplayControls.Inventory.DropItem.performed -= DropItemAction;
+        InputManager.gameplayControls.Inventory.DeleteItem.performed -= DeleteItemAction;
     }
 
     private void SelectStepper(int idx) {
         this.steppers[idx].Select();
+    }
+
+    private void DropItemAction(InputAction.CallbackContext ctx) {
+        currentSelectedCell.DropItem();
+    }
+
+    private void DeleteItemAction(InputAction.CallbackContext ctx) {
+        currentSelectedCell.DeleteItem();
     }
 
     private void StepperInputTriggered(InputAction.CallbackContext ctx) {
@@ -62,6 +75,6 @@ public class InventoryLayoutUI : MonoBehaviour {
             }
         }
 
-        this.inventoryBag.SelectCell(0);
+        this.currentSelectedCell = this.inventoryBag.SelectCell(0);
     }
 }

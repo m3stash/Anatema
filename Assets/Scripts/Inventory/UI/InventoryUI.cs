@@ -20,8 +20,9 @@ public class InventoryUI : MonoBehaviour {
         }
     }
 
-    public void SelectCell(int cellIdx) {
+    public InventoryCell SelectCell(int cellIdx) {
         this.cells[cellIdx].Select();
+        return this.cells[cellIdx];
     }
 
     public bool IsDisableDragDrop() {

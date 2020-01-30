@@ -218,6 +218,38 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""DropItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""a38875cb-46d7-4b64-ae4c-91b42a958880"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""DeleteItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""ac193474-56ac-401d-87db-c2bd4372276f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""472aa6c8-e8fb-4300-8988-e2924bc9803c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""c7cadf06-4808-4125-8e1e-7111d7fd078a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -308,6 +340,50 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""action"": ""StepperChanged"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""73f5e417-6c1e-47a2-86b0-e5bb66bfa9d3"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DropItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e83a8e2a-e03e-4411-a9d6-8f8c54600986"",
+                    ""path"": ""<XInputController>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DeleteItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bf747fe0-d229-4c1e-805d-02ff37a5057c"",
+                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a5df03f6-b6a1-4fd8-a04f-153707c967aa"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -550,6 +626,10 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         m_Inventory = asset.FindActionMap("Inventory", throwIfNotFound: true);
         m_Inventory_Navigate = m_Inventory.FindAction("Navigate", throwIfNotFound: true);
         m_Inventory_StepperChanged = m_Inventory.FindAction("StepperChanged", throwIfNotFound: true);
+        m_Inventory_DropItem = m_Inventory.FindAction("DropItem", throwIfNotFound: true);
+        m_Inventory_DeleteItem = m_Inventory.FindAction("DeleteItem", throwIfNotFound: true);
+        m_Inventory_Cancel = m_Inventory.FindAction("Cancel", throwIfNotFound: true);
+        m_Inventory_Interact = m_Inventory.FindAction("Interact", throwIfNotFound: true);
         // Toolbar
         m_Toolbar = asset.FindActionMap("Toolbar", throwIfNotFound: true);
         m_Toolbar_Navigate = m_Toolbar.FindAction("Navigate", throwIfNotFound: true);
@@ -725,12 +805,20 @@ public class @GameplayControls : IInputActionCollection, IDisposable
     private IInventoryActions m_InventoryActionsCallbackInterface;
     private readonly InputAction m_Inventory_Navigate;
     private readonly InputAction m_Inventory_StepperChanged;
+    private readonly InputAction m_Inventory_DropItem;
+    private readonly InputAction m_Inventory_DeleteItem;
+    private readonly InputAction m_Inventory_Cancel;
+    private readonly InputAction m_Inventory_Interact;
     public struct InventoryActions
     {
         private @GameplayControls m_Wrapper;
         public InventoryActions(@GameplayControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Navigate => m_Wrapper.m_Inventory_Navigate;
         public InputAction @StepperChanged => m_Wrapper.m_Inventory_StepperChanged;
+        public InputAction @DropItem => m_Wrapper.m_Inventory_DropItem;
+        public InputAction @DeleteItem => m_Wrapper.m_Inventory_DeleteItem;
+        public InputAction @Cancel => m_Wrapper.m_Inventory_Cancel;
+        public InputAction @Interact => m_Wrapper.m_Inventory_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Inventory; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -746,6 +834,18 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 @StepperChanged.started -= m_Wrapper.m_InventoryActionsCallbackInterface.OnStepperChanged;
                 @StepperChanged.performed -= m_Wrapper.m_InventoryActionsCallbackInterface.OnStepperChanged;
                 @StepperChanged.canceled -= m_Wrapper.m_InventoryActionsCallbackInterface.OnStepperChanged;
+                @DropItem.started -= m_Wrapper.m_InventoryActionsCallbackInterface.OnDropItem;
+                @DropItem.performed -= m_Wrapper.m_InventoryActionsCallbackInterface.OnDropItem;
+                @DropItem.canceled -= m_Wrapper.m_InventoryActionsCallbackInterface.OnDropItem;
+                @DeleteItem.started -= m_Wrapper.m_InventoryActionsCallbackInterface.OnDeleteItem;
+                @DeleteItem.performed -= m_Wrapper.m_InventoryActionsCallbackInterface.OnDeleteItem;
+                @DeleteItem.canceled -= m_Wrapper.m_InventoryActionsCallbackInterface.OnDeleteItem;
+                @Cancel.started -= m_Wrapper.m_InventoryActionsCallbackInterface.OnCancel;
+                @Cancel.performed -= m_Wrapper.m_InventoryActionsCallbackInterface.OnCancel;
+                @Cancel.canceled -= m_Wrapper.m_InventoryActionsCallbackInterface.OnCancel;
+                @Interact.started -= m_Wrapper.m_InventoryActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_InventoryActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_InventoryActionsCallbackInterface.OnInteract;
             }
             m_Wrapper.m_InventoryActionsCallbackInterface = instance;
             if (instance != null)
@@ -756,6 +856,18 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 @StepperChanged.started += instance.OnStepperChanged;
                 @StepperChanged.performed += instance.OnStepperChanged;
                 @StepperChanged.canceled += instance.OnStepperChanged;
+                @DropItem.started += instance.OnDropItem;
+                @DropItem.performed += instance.OnDropItem;
+                @DropItem.canceled += instance.OnDropItem;
+                @DeleteItem.started += instance.OnDeleteItem;
+                @DeleteItem.performed += instance.OnDeleteItem;
+                @DeleteItem.canceled += instance.OnDeleteItem;
+                @Cancel.started += instance.OnCancel;
+                @Cancel.performed += instance.OnCancel;
+                @Cancel.canceled += instance.OnCancel;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
             }
         }
     }
@@ -868,6 +980,10 @@ public class @GameplayControls : IInputActionCollection, IDisposable
     {
         void OnNavigate(InputAction.CallbackContext context);
         void OnStepperChanged(InputAction.CallbackContext context);
+        void OnDropItem(InputAction.CallbackContext context);
+        void OnDeleteItem(InputAction.CallbackContext context);
+        void OnCancel(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
     public interface IToolbarActions
     {

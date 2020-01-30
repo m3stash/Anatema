@@ -5,7 +5,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
-public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
+public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler
+{
 
     [Header("Fields to complete manually")]
     [SerializeField] private GameObject slotItemPrefab;
@@ -53,7 +54,7 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     }
 
     public void Select() {
-        if(this.button) {
+        if (this.button) {
             this.button.Select();
         }
     }
@@ -63,13 +64,13 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     /// </summary>
     /// <param name="item"> dragged item </param>
     private void OnAnyItemDragStart(InventoryItem item) {
-        if(this.inventoryItem) {
+        if (this.inventoryItem) {
             this.inventoryItem.MakeRaycast(false);
 
-            if(item != this.inventoryItem && !this.inventoryItem.IsSameThan(item) && this.associatedInventoryUI != item.GetAssociatedCell().associatedInventoryUI) {
+            if (item != this.inventoryItem && !this.inventoryItem.IsSameThan(item) && this.associatedInventoryUI != item.GetAssociatedCell().associatedInventoryUI) {
                 this.SetState(CellState.DISABLED);
             }
-        } else if(this.cellType == CellType.ITEM && !this.IsAllowedItemType(item.GetItem().GetConfig().GetItemType())) {
+        } else if (this.cellType == CellType.ITEM && !this.IsAllowedItemType(item.GetItem().GetConfig().GetItemType())) {
             this.SetState(CellState.DISABLED);
         }
     }
@@ -79,18 +80,18 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     /// </summary>
     /// <param name="item"> dragged item </param>
     private void OnAnyItemDragEnd(InventoryItem item) {
-        if(this.inventoryItem) {
+        if (this.inventoryItem) {
             this.inventoryItem.MakeRaycast(true);
         }
 
-        if(this.state != CellState.HIDDEN && this.cellType == CellType.ITEM) {
+        if (this.state != CellState.HIDDEN && this.cellType == CellType.ITEM) {
             this.SetState(CellState.ENABLED);
         }
     }
 
     private void NotifyClick() {
         // Notify if this cell contains an item
-        if(this.inventoryItem) {
+        if (this.inventoryItem) {
             NotifyClickEvent?.Invoke(this);
         }
     }
@@ -99,11 +100,11 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     /// Refresh cell renderer
     /// </summary>
     private void RefreshUI() {
-        if(!this.renderer) {
+        if (!this.renderer) {
             this.renderer = GetComponent<Image>();
         }
 
-        switch(this.state) {
+        switch (this.state) {
             case CellState.ENABLED:
                 this.renderer.color = Color.white;
                 this.renderer.sprite = this.defaultSprite;
@@ -112,7 +113,7 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
                 this.renderer.sprite = this.selectedSprite;
                 break;
             case CellState.DISABLED:
-                if(this.inventoryItem) {
+                if (this.inventoryItem) {
                     this.renderer.color = Color.red;
                 } else {
                     this.renderer.sprite = this.disabledSprite;
@@ -143,15 +144,15 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     /// <param name="data"></param>
     public void OnDrop(PointerEventData data) {
         // Do something if an item is currently dragged
-        if(InventoryItem.draggedObject) {
+        if (InventoryItem.draggedObject) {
             InventoryItem inventoryItem = InventoryItem.draggedItem;
             InventoryCell sourceCell = InventoryItem.sourceCell;
 
-            if(InventoryItem.draggedObject.activeSelf && this.state != CellState.DISABLED && inventoryItem && sourceCell != this) {
+            if (InventoryItem.draggedObject.activeSelf && this.state != CellState.DISABLED && inventoryItem && sourceCell != this) {
                 // Do specific stuff in function of cell type
-                switch(this.cellType) {
+                switch (this.cellType) {
                     case CellType.ITEM:
-                        if(this.IsAllowedItemType(inventoryItem.GetItem().GetConfig().GetItemType())) {
+                        if (this.IsAllowedItemType(inventoryItem.GetItem().GetConfig().GetItemType())) {
                             SwapItems(sourceCell, this);
                         }
                         break;
@@ -175,20 +176,20 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
         InventoryItemData sourceItemData = null;
         InventoryItemData targetItemData = null;
 
-        if(firstInventoryItem) {
+        if (firstInventoryItem) {
             firstInventoryItem.MakeRaycast(true);
             sourceItemData = firstInventoryItem.GetItem();
         }
 
-        if(secondInventoryItem) {
+        if (secondInventoryItem) {
             secondInventoryItem.MakeRaycast(true);
             targetItemData = secondInventoryItem.GetItem();
         }
 
-        if(!secondInventoryItem) { // Add item
+        if (!secondInventoryItem) { // Add item
             secondCell.ReplaceItem(sourceItemData);
             firstCell.DeleteItem();
-        } else if(CanStackItem(firstInventoryItem.GetItem(), secondInventoryItem.GetItem())) { // Fill stacks
+        } else if (CanStackItem(firstInventoryItem.GetItem(), secondInventoryItem.GetItem())) { // Fill stacks
             // Add sources stacks
             targetItemData.AddStacks(sourceItemData.GetStacks());
 
@@ -196,7 +197,7 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
             int overflowStacks = targetItemData.GetOverflowStacks();
 
             // If greater than 0, target item has exceeded its stack limit
-            if(overflowStacks > 0) {
+            if (overflowStacks > 0) {
                 sourceItemData.SetStacks(overflowStacks);
                 targetItemData.RemoveStacks(overflowStacks);
 
@@ -222,11 +223,15 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     }
 
     public void DropItem() {
-        this.associatedInventoryUI.DropItem(this);
+        if (this.inventoryItem) {
+            this.associatedInventoryUI.DropItem(this);
+        }
     }
 
     public void DeleteItem() {
-        this.associatedInventoryUI.DeleteItem(this);
+        if (this.inventoryItem) {
+            this.associatedInventoryUI.DeleteItem(this);
+        }
     }
 
     public void SetState(CellState state) {
@@ -235,21 +240,21 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     }
 
     public void UpdateItem(InventoryItemData item) {
-        if(item != null && item.GetConfig() != null) {
-            if(!this.inventoryItem) {
+        if (item != null && item.GetConfig() != null) {
+            if (!this.inventoryItem) {
                 GameObject obj = Instantiate(this.slotItemPrefab, this.transform);
                 this.inventoryItem = obj.GetComponent<InventoryItem>();
             }
 
             this.inventoryItem.Setup(item, this);
-        } else if(((item != null && item.GetConfig() == null) || item == null) && this.inventoryItem) {
+        } else if (((item != null && item.GetConfig() == null) || item == null) && this.inventoryItem) {
             Destroy(this.inventoryItem.gameObject);
         }
     }
 
     private bool IsAllowedItemType(ItemType type) {
-        foreach(ItemType itemType in this.allowedItemTypes) {
-            if(itemType.Equals(type)) {
+        foreach (ItemType itemType in this.allowedItemTypes) {
+            if (itemType.Equals(type)) {
                 return true;
             }
         }
@@ -262,15 +267,17 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
 
     public CellType GetCellType() {
         return this.cellType;
-    }                                                               
+    }
 }
 
-public enum CellType {
+public enum CellType
+{
     ITEM,
     DELETE
 }
 
-public enum CellState {
+public enum CellState
+{
     ENABLED,
     SELECTED,
     DISABLED,
