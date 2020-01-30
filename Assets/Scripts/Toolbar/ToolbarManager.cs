@@ -8,6 +8,9 @@ public class ToolbarManager : MonoBehaviour {
     [SerializeField] private ToolbarConfig[] toolbarConfigs;
     [SerializeField] private ToolbarConfig currentToolbar;
 
+    [Header("Don't touch it")]
+    [SerializeField] private int currentSelectedIdx;
+
     private Dictionary<ToolbarType, InventoryItemData[]> toolbars;
 
     public static ToolbarManager instance;
@@ -36,6 +39,14 @@ public class ToolbarManager : MonoBehaviour {
 
     public ToolbarType GetCurrentToolbarType() {
         return this.currentToolbar.GetToolbarType();
+    }
+
+    public InventoryItemData GetSelectedItemData() {
+        return this.toolbars[this.GetCurrentToolbarType()][this.currentSelectedIdx];
+    }
+
+    public void SetCurrentSelectedIdx(int idx) {
+        this.currentSelectedIdx = idx;
     }
 
     public ToolbarConfig GetToolbarConfig(ItemType itemType) {

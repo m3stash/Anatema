@@ -97,6 +97,10 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 	/// </summary>
 	/// <param name="eventData"></param>
 	public void OnBeginDrag(PointerEventData eventData) {
+        if(cell.GetAssociatedInventory().IsDisableDragDrop()) {
+            return;
+        }
+
         sourceCell = cell; // Set source cell for all instances
         draggedItem = this; // Set current dragged Item fo all instances
 
@@ -133,7 +137,11 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 	/// </summary>
 	/// <param name="data"></param>
 	public void OnDrag(PointerEventData data) {
-        if(draggedObject) {
+        if (cell.GetAssociatedInventory().IsDisableDragDrop()) {
+            return;
+        }
+
+        if (draggedObject) {
             draggedObject.transform.position = InputManager.mousePosition;
         }
     }
@@ -143,8 +151,12 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     /// </summary>
     /// <param name="eventData"></param>
     public void OnEndDrag(PointerEventData eventData) {
+        if (cell.GetAssociatedInventory().IsDisableDragDrop()) {
+            return;
+        }
+
         // Check if item is dropped outside of a slot to drop it in the world
-        if(!eventData.pointerCurrentRaycast.gameObject) {
+        if (!eventData.pointerCurrentRaycast.gameObject) {
             sourceCell.DropItem();
         }
 

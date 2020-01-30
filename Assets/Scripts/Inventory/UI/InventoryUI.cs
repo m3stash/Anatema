@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour {
     [Header("Fields to complete manually")]
     [SerializeField] protected Transform slotContainer;
+    [SerializeField] protected bool disableDragDrop;
 
     [Header("Don't touch it")]
     [SerializeField] protected InventoryCell[] cells;
@@ -16,6 +18,14 @@ public class InventoryUI : MonoBehaviour {
         if(!hasBeenInit) {
             this.Init();
         }
+    }
+
+    public void SelectCell(int cellIdx) {
+        this.cells[cellIdx].Select();
+    }
+
+    public bool IsDisableDragDrop() {
+        return this.disableDragDrop;
     }
 
     /// <summary>
@@ -42,7 +52,7 @@ public class InventoryUI : MonoBehaviour {
         throw new System.Exception("Delete method not implemented");
     }
 
-    protected void RefreshUI() {
+    protected virtual void RefreshUI() {
         // In case of this methods is called before Awake()
         if(!hasBeenInit) {
             this.Init();

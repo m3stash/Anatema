@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/Controls/ViewControls.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/Controls/LayoutControls.inputactions'
 
 using System;
 using System.Collections;
@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public class @ViewControls : IInputActionCollection, IDisposable
+public class @LayoutControls : IInputActionCollection, IDisposable
 {
     private InputActionAsset asset;
-    public @ViewControls()
+    public @LayoutControls()
     {
         asset = InputActionAsset.FromJson(@"{
-    ""name"": ""ViewControls"",
+    ""name"": ""LayoutControls"",
     ""maps"": [
         {
             ""name"": ""Inventory"",
@@ -151,8 +151,8 @@ public class @ViewControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Inventory_SwitchDisplay;
     public struct InventoryActions
     {
-        private @ViewControls m_Wrapper;
-        public InventoryActions(@ViewControls wrapper) { m_Wrapper = wrapper; }
+        private @LayoutControls m_Wrapper;
+        public InventoryActions(@LayoutControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @SwitchDisplay => m_Wrapper.m_Inventory_SwitchDisplay;
         public InputActionMap Get() { return m_Wrapper.m_Inventory; }
         public void Enable() { Get().Enable(); }
@@ -184,8 +184,8 @@ public class @ViewControls : IInputActionCollection, IDisposable
     private readonly InputAction m_EscapeMenu_SwitchDisplay;
     public struct EscapeMenuActions
     {
-        private @ViewControls m_Wrapper;
-        public EscapeMenuActions(@ViewControls wrapper) { m_Wrapper = wrapper; }
+        private @LayoutControls m_Wrapper;
+        public EscapeMenuActions(@LayoutControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @SwitchDisplay => m_Wrapper.m_EscapeMenu_SwitchDisplay;
         public InputActionMap Get() { return m_Wrapper.m_EscapeMenu; }
         public void Enable() { Get().Enable(); }
