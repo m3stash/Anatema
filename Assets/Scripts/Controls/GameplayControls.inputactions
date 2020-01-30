@@ -199,7 +199,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "StepperChanged",
+                    "name": "ChangeStepper",
                     "type": "Button",
                     "id": "2f19f8d8-f3e0-4e78-9c46-1fdddade137d",
                     "expectedControlType": "",
@@ -254,7 +254,7 @@
                 {
                     "name": "up",
                     "id": "7e6ab453-bc92-4859-aa34-0ce1a43d95c6",
-                    "path": "<Gamepad>/dpad/up",
+                    "path": "<XInputController>/dpad/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -265,7 +265,7 @@
                 {
                     "name": "down",
                     "id": "99a16600-8a51-45f4-b8a8-90d3eb5fbe1f",
-                    "path": "<Gamepad>/dpad/down",
+                    "path": "<XInputController>/dpad/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -276,7 +276,7 @@
                 {
                     "name": "left",
                     "id": "ce641fe0-6c31-4f51-a972-29a2a565d439",
-                    "path": "<Gamepad>/dpad/left",
+                    "path": "<XInputController>/dpad/left",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -287,7 +287,62 @@
                 {
                     "name": "right",
                     "id": "7e77e756-4fc8-4192-bea2-32d10b7ec352",
-                    "path": "<Gamepad>/dpad/right",
+                    "path": "<XInputController>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Arrows",
+                    "id": "ee38c9ab-967d-48cf-9421-256b79808bd3",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "53351aaa-f92b-4f8d-a06d-36edd4106da2",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "cccd1f8e-11b2-40bf-a333-8a3cf32fbf59",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "880d3ef2-69cd-4c53-823e-c52a35d60aa6",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "742ad1a9-c6b9-445d-b5ad-9e058ebd3bf8",
+                    "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -302,7 +357,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "StepperChanged",
+                    "action": "ChangeStepper",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -313,7 +368,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "StepperChanged",
+                    "action": "ChangeStepper",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -324,7 +379,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "StepperChanged",
+                    "action": "ChangeStepper",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -365,6 +420,17 @@
                     "name": "",
                     "id": "a5df03f6-b6a1-4fd8-a04f-153707c967aa",
                     "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9070c765-9349-4235-a516-a373ce207b05",
+                    "path": "<Keyboard>/n",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

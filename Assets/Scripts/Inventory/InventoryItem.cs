@@ -93,10 +93,35 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     }
 
     /// <summary>
-	/// This item started to drag.
+	/// This item started to drag with mouse action.
 	/// </summary>
 	/// <param name="eventData"></param>
 	public void OnBeginDrag(PointerEventData eventData) {
+        this.StartDrag();
+    }
+
+    /// <summary>
+	/// Drag action from mouse
+	/// </summary>
+	/// <param name="data"></param>
+	public void OnDrag(PointerEventData data) {
+        this.SetDraggedItemPosition(InputManager.mousePosition);
+    }
+
+    /// <summary>
+    /// This item is dropped.
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void OnEndDrag(PointerEventData eventData) {
+        // Check if item is dropped outside of a slot to drop it in the world
+        if (!eventData.pointerCurrentRaycast.gameObject) {
+            sourceCell.DropItem();
+        }
+
+        this.EndDrag();
+    }
+
+    public void StartDrag() {
         if(cell.GetAssociatedInventory().IsDisableDragDrop()) {
             return;
         }
@@ -117,8 +142,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         Image draggedObjectImage = draggedObject.AddComponent<Image>();
         draggedObjectImage.raycastTarget = false;
         draggedObjectImage.sprite = myImage.sprite;
-        draggedObjectImage.color = myImage.color;
-
+        draggedObjectImage.color = new Color(myImage.color.r, myImage.color.g, myImage.color.b, 0.7f);
 
         // Set icon's dimensions
         RectTransform draggedObjectRect = draggedObject.GetComponent<RectTransform>();
@@ -132,34 +156,13 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         OnItemDragStart?.Invoke(this);
     }
 
-    /// <summary>
-	/// Follow mouse position every frame
-	/// </summary>
-	/// <param name="data"></param>
-	public void OnDrag(PointerEventData data) {
-        if (cell.GetAssociatedInventory().IsDisableDragDrop()) {
-            return;
-        }
-
-        if (draggedObject) {
-            draggedObject.transform.position = InputManager.mousePosition;
+    public void SetDraggedItemPosition(Vector2 position) {
+        if(draggedObject) {
+            draggedObject.transform.position = position;
         }
     }
 
-    /// <summary>
-    /// This item is dropped.
-    /// </summary>
-    /// <param name="eventData"></param>
-    public void OnEndDrag(PointerEventData eventData) {
-        if (cell.GetAssociatedInventory().IsDisableDragDrop()) {
-            return;
-        }
-
-        // Check if item is dropped outside of a slot to drop it in the world
-        if (!eventData.pointerCurrentRaycast.gameObject) {
-            sourceCell.DropItem();
-        }
-
+    public void EndDrag() {
         ResetConditions();
     }
 }

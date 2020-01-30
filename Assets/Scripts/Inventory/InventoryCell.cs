@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
-public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler
+public class InventoryCell : MonoBehaviour, IDropHandler
 {
 
     [Header("Fields to complete manually")]
@@ -23,13 +23,12 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     private new Image renderer;
     private Button button;
-
-    public delegate void OnClick(InventoryCell cell);
-    public static event OnClick NotifyClickEvent;
+    private RectTransform rectTransform;
 
     private void Awake() {
         this.renderer = GetComponent<Image>();
         this.button = GetComponent<Button>();
+        this.rectTransform = GetComponent<RectTransform>();
         this.associatedInventoryUI = GetComponentInParent<InventoryUI>();
     }
 
@@ -53,10 +52,14 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler
         return this.state;
     }
 
-    public void Select() {
-        if (this.button) {
-            this.button.Select();
-        }
+    public RectTransform GetRectTransform() {
+        return this.rectTransform;
+    }
+
+    public InventoryCell GetNeighbourCell(Vector3 dir) {
+        Selectable neighbour = this.button.FindSelectable(dir);
+
+        return neighbour ? neighbour.GetComponent<InventoryCell>() : null;
     }
 
     /// <summary>
@@ -86,13 +89,6 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler
 
         if (this.state != CellState.HIDDEN && this.cellType == CellType.ITEM) {
             this.SetState(CellState.ENABLED);
-        }
-    }
-
-    private void NotifyClick() {
-        // Notify if this cell contains an item
-        if (this.inventoryItem) {
-            NotifyClickEvent?.Invoke(this);
         }
     }
 
@@ -126,23 +122,20 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler
         }
     }
 
-    /// <summary>
-    /// Notify when user click on this cell
-    /// </summary>
-    /// <param name="eventData"></param>
-    public void OnPointerClick(PointerEventData eventData) {
-        NotifyClickEvent?.Invoke(this);
-    }
-
     public InventoryUI GetAssociatedInventory() {
         return this.associatedInventoryUI;
     }
 
     /// <summary>
-    /// Item is dropped in this cell
+    /// Callback when drop action via mouse
+    /// Drop item in this cell
     /// </summary>
     /// <param name="data"></param>
     public void OnDrop(PointerEventData data) {
+        this.Drop();
+    }
+
+    public void Drop() {
         // Do something if an item is currently dragged
         if (InventoryItem.draggedObject) {
             InventoryItem inventoryItem = InventoryItem.draggedItem;

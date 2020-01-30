@@ -212,7 +212,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""StepperChanged"",
+                    ""name"": ""ChangeStepper"",
                     ""type"": ""Button"",
                     ""id"": ""2f19f8d8-f3e0-4e78-9c46-1fdddade137d"",
                     ""expectedControlType"": """",
@@ -267,7 +267,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""up"",
                     ""id"": ""7e6ab453-bc92-4859-aa34-0ce1a43d95c6"",
-                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""path"": ""<XInputController>/dpad/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -278,7 +278,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""down"",
                     ""id"": ""99a16600-8a51-45f4-b8a8-90d3eb5fbe1f"",
-                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""path"": ""<XInputController>/dpad/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -289,7 +289,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""left"",
                     ""id"": ""ce641fe0-6c31-4f51-a972-29a2a565d439"",
-                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""path"": ""<XInputController>/dpad/left"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -300,7 +300,62 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""right"",
                     ""id"": ""7e77e756-4fc8-4192-bea2-32d10b7ec352"",
-                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""path"": ""<XInputController>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Arrows"",
+                    ""id"": ""ee38c9ab-967d-48cf-9421-256b79808bd3"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""53351aaa-f92b-4f8d-a06d-36edd4106da2"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""cccd1f8e-11b2-40bf-a333-8a3cf32fbf59"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""880d3ef2-69cd-4c53-823e-c52a35d60aa6"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""742ad1a9-c6b9-445d-b5ad-9e058ebd3bf8"",
+                    ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -315,7 +370,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""StepperChanged"",
+                    ""action"": ""ChangeStepper"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -326,7 +381,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""StepperChanged"",
+                    ""action"": ""ChangeStepper"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -337,7 +392,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""StepperChanged"",
+                    ""action"": ""ChangeStepper"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -378,6 +433,17 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""a5df03f6-b6a1-4fd8-a04f-153707c967aa"",
                     ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9070c765-9349-4235-a516-a373ce207b05"",
+                    ""path"": ""<Keyboard>/n"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -625,7 +691,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         // Inventory
         m_Inventory = asset.FindActionMap("Inventory", throwIfNotFound: true);
         m_Inventory_Navigate = m_Inventory.FindAction("Navigate", throwIfNotFound: true);
-        m_Inventory_StepperChanged = m_Inventory.FindAction("StepperChanged", throwIfNotFound: true);
+        m_Inventory_ChangeStepper = m_Inventory.FindAction("ChangeStepper", throwIfNotFound: true);
         m_Inventory_DropItem = m_Inventory.FindAction("DropItem", throwIfNotFound: true);
         m_Inventory_DeleteItem = m_Inventory.FindAction("DeleteItem", throwIfNotFound: true);
         m_Inventory_Cancel = m_Inventory.FindAction("Cancel", throwIfNotFound: true);
@@ -804,7 +870,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Inventory;
     private IInventoryActions m_InventoryActionsCallbackInterface;
     private readonly InputAction m_Inventory_Navigate;
-    private readonly InputAction m_Inventory_StepperChanged;
+    private readonly InputAction m_Inventory_ChangeStepper;
     private readonly InputAction m_Inventory_DropItem;
     private readonly InputAction m_Inventory_DeleteItem;
     private readonly InputAction m_Inventory_Cancel;
@@ -814,7 +880,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         private @GameplayControls m_Wrapper;
         public InventoryActions(@GameplayControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Navigate => m_Wrapper.m_Inventory_Navigate;
-        public InputAction @StepperChanged => m_Wrapper.m_Inventory_StepperChanged;
+        public InputAction @ChangeStepper => m_Wrapper.m_Inventory_ChangeStepper;
         public InputAction @DropItem => m_Wrapper.m_Inventory_DropItem;
         public InputAction @DeleteItem => m_Wrapper.m_Inventory_DeleteItem;
         public InputAction @Cancel => m_Wrapper.m_Inventory_Cancel;
@@ -831,9 +897,9 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 @Navigate.started -= m_Wrapper.m_InventoryActionsCallbackInterface.OnNavigate;
                 @Navigate.performed -= m_Wrapper.m_InventoryActionsCallbackInterface.OnNavigate;
                 @Navigate.canceled -= m_Wrapper.m_InventoryActionsCallbackInterface.OnNavigate;
-                @StepperChanged.started -= m_Wrapper.m_InventoryActionsCallbackInterface.OnStepperChanged;
-                @StepperChanged.performed -= m_Wrapper.m_InventoryActionsCallbackInterface.OnStepperChanged;
-                @StepperChanged.canceled -= m_Wrapper.m_InventoryActionsCallbackInterface.OnStepperChanged;
+                @ChangeStepper.started -= m_Wrapper.m_InventoryActionsCallbackInterface.OnChangeStepper;
+                @ChangeStepper.performed -= m_Wrapper.m_InventoryActionsCallbackInterface.OnChangeStepper;
+                @ChangeStepper.canceled -= m_Wrapper.m_InventoryActionsCallbackInterface.OnChangeStepper;
                 @DropItem.started -= m_Wrapper.m_InventoryActionsCallbackInterface.OnDropItem;
                 @DropItem.performed -= m_Wrapper.m_InventoryActionsCallbackInterface.OnDropItem;
                 @DropItem.canceled -= m_Wrapper.m_InventoryActionsCallbackInterface.OnDropItem;
@@ -853,9 +919,9 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 @Navigate.started += instance.OnNavigate;
                 @Navigate.performed += instance.OnNavigate;
                 @Navigate.canceled += instance.OnNavigate;
-                @StepperChanged.started += instance.OnStepperChanged;
-                @StepperChanged.performed += instance.OnStepperChanged;
-                @StepperChanged.canceled += instance.OnStepperChanged;
+                @ChangeStepper.started += instance.OnChangeStepper;
+                @ChangeStepper.performed += instance.OnChangeStepper;
+                @ChangeStepper.canceled += instance.OnChangeStepper;
                 @DropItem.started += instance.OnDropItem;
                 @DropItem.performed += instance.OnDropItem;
                 @DropItem.canceled += instance.OnDropItem;
@@ -979,7 +1045,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
     public interface IInventoryActions
     {
         void OnNavigate(InputAction.CallbackContext context);
-        void OnStepperChanged(InputAction.CallbackContext context);
+        void OnChangeStepper(InputAction.CallbackContext context);
         void OnDropItem(InputAction.CallbackContext context);
         void OnDeleteItem(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
