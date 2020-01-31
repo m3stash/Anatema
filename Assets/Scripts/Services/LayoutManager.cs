@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HudManager : MonoBehaviour
-{
+public class LayoutManager : MonoBehaviour {
+
     [SerializeField] private GameObject inventoryLayout;
     [SerializeField] private GameObject defaultLayout;
 
@@ -15,38 +15,31 @@ public class HudManager : MonoBehaviour
             this.defaultLayout
         };
 
-        this.DisplayLayout(this.defaultLayout);
-    }
-
-    // Start is called before the first frame update
-    private void OnEnable() {
         InputManager.OnViewChanged += this.ChangeHUD;
     }
 
-    private void OnDisable() {
+    private void OnDestroy() {
         InputManager.OnViewChanged -= this.ChangeHUD;
     }
 
-    private void ChangeHUD(View view) {
-        switch (view) {
-            case View.INVENTORY:
+    private void ChangeHUD(Layout layout) {
+        switch(layout) {
+            case Layout.INVENTORY:
                 this.DisplayLayout(this.inventoryLayout);
                 break;
 
-            case View.CRAFT:
+            case Layout.MENU:
+                // To implement
                 break;
 
-            case View.MENU:
-                break;
-
-            case View.DEFAULT:
+            case Layout.DEFAULT:
                 this.DisplayLayout(this.defaultLayout);
                 break;
         }
     }
 
     private void DisplayLayout(GameObject layoutToDisplay) {
-        foreach (GameObject layout in this.layouts) {
+        foreach(GameObject layout in this.layouts) {
             layout.SetActive(layout == layoutToDisplay);
         }
     }

@@ -3,119 +3,117 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputManager : MonoBehaviour {
+public class InputManager : MonoBehaviour
+{
 
-    [SerializeField] private View currentView;
+    [SerializeField] private Layout currentLayout;
 
-    private ViewControls viewControls;
+    private LayoutControls layoutControls;
 
     public static Vector2 mousePosition;
 
-    public static Controls controls;
+    public static GameplayControls gameplayControls;
 
     public static InputManager instance;
 
-    public delegate void ViewChanged(View view);
-    public static ViewChanged OnViewChanged;
+    public delegate void LayoutChanged(Layout layout);
+    public static LayoutChanged OnViewChanged;
 
     private void Awake() {
         instance = this;
-    }
 
-    // Start is called before the first frame update
-    void Start() {
-        this.SetView(View.DEFAULT);
+        // Init layout controls
+        this.layoutControls = new LayoutControls();
+        this.layoutControls.Enable();
+
+        // Init gameplay controls
+        gameplayControls = new GameplayControls();
+        gameplayControls.Enable();
     }
 
     private void OnEnable() {
-        if(this.viewControls == null) {
-            this.viewControls = new ViewControls();
-            this.viewControls.Enable();
-        }
+        gameplayControls.Core.Enable();
+        gameplayControls.Core.Position.performed += SetMousePosition;
 
-        if(controls == null) {
-            controls = new Controls();
-            controls.Enable();
-        }
+        layoutControls.Inventory.Enable();
+        layoutControls.Inventory.SwitchDisplay.performed += SwitchInventoryLayout;
 
-        controls.Core.Enable();
-        controls.Core.Position.performed += ctx => this.SetMousePosition(ctx.ReadValue<Vector2>());
+        layoutControls.EscapeMenu.Enable();
+        layoutControls.EscapeMenu.SwitchDisplay.performed += SwitchMenuLayout;
 
-        this.viewControls.Inventory.Enable();
-        this.viewControls.Inventory.SwitchDisplay.performed += ctx => SetView(View.INVENTORY);
-
-        this.viewControls.EscapeMenu.Enable();
-        this.viewControls.EscapeMenu.SwitchDisplay.performed += ctx => SetView(View.MENU);
-
-        StartCoroutine(this.InitConsumers());
-    }
-
-    private IEnumerator InitConsumers() {
-        while(!Player.instance) {
-            yield return null;
-        }
-
-        Player.instance.InitControls();
+        this.SetLayout(Layout.DEFAULT);
     }
 
     private void OnDisable() {
-        StopAllCoroutines();
+        layoutControls.Inventory.SwitchDisplay.performed -= SwitchInventoryLayout;
+        layoutControls.EscapeMenu.SwitchDisplay.performed -= SwitchMenuLayout;
+        gameplayControls.Core.Position.performed -= SetMousePosition;
 
-        this.viewControls.Inventory.Disable();
-        this.viewControls.EscapeMenu.Disable();
+        // Disable layout controls
+        this.DisableLayoutControls();
+        layoutControls.Disable();
 
-        this.viewControls.Disable();
-
-        controls.Core.Disable();
-        controls.Player.Disable();
-        controls.Inventory.Disable();
-        controls.Toolbar.Disable();
-        controls.Disable();
+        // Disable gameplay controls
+        this.DisableGameplayControls();
+        gameplayControls.Core.Disable();
+        gameplayControls.Disable();
     }
 
-    private void SetMousePosition(Vector2 position) {
-        mousePosition = position;
+    private void SetMousePosition(InputAction.CallbackContext ctx) {
+        mousePosition = ctx.ReadValue<Vector2>();
     }
 
-    private void SetView(View view) {
+    private void DisableLayoutControls() {
+        layoutControls.Inventory.Disable();
+        layoutControls.EscapeMenu.Disable();
+    }
+
+    private void DisableGameplayControls() {
+        gameplayControls.Player.Disable();
+        gameplayControls.Inventory.Disable();
+        gameplayControls.Toolbar.Disable();
+        gameplayControls.Shortcuts.Disable();
+        gameplayControls.TileSelector.Disable();
+    }
+
+    private void SwitchInventoryLayout(InputAction.CallbackContext ctx) {
+        this.SetLayout(Layout.INVENTORY);
+    }
+
+    private void SwitchMenuLayout(InputAction.CallbackContext ctx) {
+        this.SetLayout(Layout.MENU);
+    }
+
+    private void SetLayout(Layout layout) {
         // If view is same than current view we need to undisplay it
-        this.currentView = view != this.currentView ? view : View.DEFAULT;
+        this.currentLayout = layout != this.currentLayout ? layout : Layout.DEFAULT;
 
-        switch(this.currentView) {
-            case View.INVENTORY:
-                controls.Inventory.Enable();
+        this.DisableGameplayControls();
 
-                controls.Player.Disable();
-                controls.TileSelector.Disable();
+        switch (this.currentLayout) {
+            case Layout.INVENTORY:
+                gameplayControls.Inventory.Enable();
                 break;
 
-            case View.CRAFT:
-                controls.Toolbar.Enable();
-
-                controls.Player.Disable();
-                controls.TileSelector.Disable();
+            case Layout.MENU:
+                // TODO to implement
                 break;
 
-            case View.MENU:
-                controls.Player.Disable();
-                controls.Inventory.Disable();
-                controls.Toolbar.Disable();
-                controls.TileSelector.Disable();
-                break;
-
-            case View.DEFAULT:
-                controls.Player.Enable();
-                controls.TileSelector.Enable();
+            case Layout.DEFAULT:
+                gameplayControls.Toolbar.Enable();
+                gameplayControls.Player.Enable();
+                gameplayControls.TileSelector.Enable();
+                gameplayControls.Shortcuts.Enable();
                 break;
         }
 
-        OnViewChanged?.Invoke(this.currentView);
+        OnViewChanged?.Invoke(this.currentLayout);
     }
 }
 
-public enum View {
+public enum Layout
+{
     DEFAULT,
     INVENTORY,
-    MENU,
-    CRAFT,
+    MENU
 }

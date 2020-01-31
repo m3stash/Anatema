@@ -21,12 +21,14 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     [SerializeField] private CellState state;
 
     private new Image renderer;
+    private Button button;
 
     public delegate void OnClick(InventoryCell cell);
     public static event OnClick NotifyClickEvent;
 
     private void Awake() {
         this.renderer = GetComponent<Image>();
+        this.button = GetComponent<Button>();
         this.associatedInventoryUI = GetComponentInParent<InventoryUI>();
     }
 
@@ -48,6 +50,12 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
 
     public CellState GetState() {
         return this.state;
+    }
+
+    public void Select() {
+        if(this.button) {
+            this.button.Select();
+        }
     }
 
     /// <summary>
@@ -123,6 +131,10 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
     /// <param name="eventData"></param>
     public void OnPointerClick(PointerEventData eventData) {
         NotifyClickEvent?.Invoke(this);
+    }
+
+    public InventoryUI GetAssociatedInventory() {
+        return this.associatedInventoryUI;
     }
 
     /// <summary>
@@ -224,13 +236,13 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
 
     public void UpdateItem(InventoryItemData item) {
         if(item != null && item.GetConfig() != null) {
-            if(!inventoryItem) {
+            if(!this.inventoryItem) {
                 GameObject obj = Instantiate(this.slotItemPrefab, this.transform);
                 this.inventoryItem = obj.GetComponent<InventoryItem>();
             }
 
-            inventoryItem.Setup(item, this);
-        } else if(((item != null && item.GetConfig() == null) || item == null) && inventoryItem) {
+            this.inventoryItem.Setup(item, this);
+        } else if(((item != null && item.GetConfig() == null) || item == null) && this.inventoryItem) {
             Destroy(this.inventoryItem.gameObject);
         }
     }
@@ -250,7 +262,7 @@ public class InventoryCell : MonoBehaviour, IDropHandler, IPointerClickHandler {
 
     public CellType GetCellType() {
         return this.cellType;
-    }
+    }                                                               
 }
 
 public enum CellType {

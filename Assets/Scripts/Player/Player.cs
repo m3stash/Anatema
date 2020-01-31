@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour {
 
@@ -33,15 +34,18 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public void InitControls() {
-        InputManager.controls.Player.Move.performed += ctx => this.SetGetAxis(ctx.ReadValue<float>());
-        InputManager.controls.Player.Jump.performed += ctx => this.Jump();
-    }
-
     void Start() {
         //toolbar = GameObject.FindGameObjectWithTag("InventoryToolbar").GetComponent<InventoryToolbar>();
         rg2d = gameObject.GetComponent<Rigidbody2D>();
         anim = gameObject.GetComponent<Animator>();
+
+        InputManager.gameplayControls.Player.Move.performed += SetGetAxis;
+        InputManager.gameplayControls.Player.Jump.performed += Jump;
+    }
+
+    private void OnDestroy() {
+        InputManager.gameplayControls.Player.Move.performed -= SetGetAxis;
+        InputManager.gameplayControls.Player.Jump.performed -= Jump;
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
@@ -54,11 +58,11 @@ public class Player : MonoBehaviour {
         }
     }
 
-    private void SetGetAxis(float value) {
-        this.getAxis = value;
+    private void SetGetAxis(InputAction.CallbackContext ctx) {
+        this.getAxis = ctx.ReadValue<float>();
     }
 
-    private void Jump() {
+    private void Jump(InputAction.CallbackContext ctx) {
         rg2d.AddForce(Vector2.up * jumpForces);
     }
 

@@ -32,13 +32,13 @@ public class TileSelector : MonoBehaviour
         wallTilesMap = _wallTilesMap;
         tilesWorldMap = _tilesWorldMap;
 
-        InputManager.controls.TileSelector.PressClick.performed += ctx => this.SetOnClick(true);
-        InputManager.controls.TileSelector.ReleaseClick.performed += ctx => this.SetOnClick(false);
+        InputManager.gameplayControls.TileSelector.PressClick.performed += ctx => this.SetOnClick(true);
+        InputManager.gameplayControls.TileSelector.ReleaseClick.performed += ctx => this.SetOnClick(false);
     }
 
     private void OnDisable() {
-        InputManager.controls.TileSelector.PressClick.performed -= ctx => this.SetOnClick(true);
-        InputManager.controls.TileSelector.ReleaseClick.performed -= ctx => this.SetOnClick(false);
+        InputManager.gameplayControls.TileSelector.PressClick.performed -= ctx => this.SetOnClick(true);
+        InputManager.gameplayControls.TileSelector.ReleaseClick.performed -= ctx => this.SetOnClick(false);
     }
 
     private void DisableCursor() {
