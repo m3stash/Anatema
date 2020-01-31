@@ -20,10 +20,6 @@ public class InventoryUI : MonoBehaviour {
         }
     }
 
-    public void SelectCell(int cellIdx) {
-        this.cells[cellIdx].Select();
-    }
-
     public bool IsDisableDragDrop() {
         return this.disableDragDrop;
     }
@@ -88,6 +84,10 @@ public class InventoryUI : MonoBehaviour {
         }
 
         return -1;
+    }
+
+    public InventoryCell GetInventoryCell(int cellIdx) {
+        return this.cells[cellIdx];
     }
 
     private void Init() {
