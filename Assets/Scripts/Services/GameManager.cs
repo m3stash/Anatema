@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
                 // Disable weapon
                 // Display toolbar
                 // Enable tile selector with grid
+                InputManager.gameplayControls.TileSelector.Enable();
                 InputManager.gameplayControls.Toolbar.Enable();
                 break;
             case GameMode.TOOL:
@@ -45,11 +46,16 @@ public class GameManager : MonoBehaviour
             case GameMode.DEFAULT:
                 // Put sword in hand
                 // Disable tile selector
+                InputManager.gameplayControls.TileSelector.Disable();
                 InputManager.gameplayControls.Toolbar.Disable();
                 break;
         }
 
         OnGameModeChanged?.Invoke(this.gameMode);
+    }
+
+    public GameMode GetGameMode() {
+        return this.gameMode;
     }
 
     /// <summary>
