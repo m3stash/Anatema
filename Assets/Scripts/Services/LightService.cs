@@ -102,18 +102,10 @@ public class LightService : MonoBehaviour {
         return (x < 0 || x > maxW) || (y < 0 || y > maxH);
     }
     private static int GetAmountLight(int tile, int wallTile, int lastLight) {
-        if (tile == 0 && wallTile == 0) {
-            return lastLight + 4;
-        }
-        int newLight = 0;
         if (tile > 0) {
-            newLight = lastLight + 10;
-        } else {
-            if (wallTile > 0) {
-                newLight = lastLight + 5;
-            }
+            return lastLight + 10;
         }
-        return newLight > 100 ? 100 : newLight;
+        return lastLight + 5;
     }
 
     public static void Init() {

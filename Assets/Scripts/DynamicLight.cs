@@ -17,7 +17,6 @@ public class DynamicLight : MonoBehaviour {
             LightService.RecursivDeleteLight(oldPosX, oldPosY, true);
             LightService.RecursivAddNewLight(newPosX, newPosY, 0);
             RefreshLight();
-
             oldPosX = newPosX;
             oldPosY = newPosY;
         }

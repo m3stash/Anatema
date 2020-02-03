@@ -143,7 +143,6 @@ public class ChunkService : MonoBehaviour {
         var chunkData = GetChunkData(chunkPos.x, chunkPos.y);
         ck.tileMapTileMapScript.Init(ck.worldPosition.x, ck.worldPosition.y, WorldManager.tilesWorldMap, chunkData.tilemapData, boundX, boundY);
         ck.wallTileMapScript.Init(ck.worldPosition.x, ck.worldPosition.y, WorldManager.wallTilesMap, chunkData.wallmapData, boundX, boundY);
-        ck.shadowTileMapScript.Init(ck.worldPosition.x, ck.worldPosition.y, WorldManager.tilesShadowMap, chunkData.shadowmapData, boundX, boundY);
         IsVisible isVisibleScript = chunkGo.GetComponent<IsVisible>();
         isVisibleScript.cam = playerCam;
         isVisibleScript.chunk = ck;
