@@ -17,6 +17,7 @@ public class WorldManager : MonoBehaviour {
     public static int[,] tilesWorldMap;
     public static int[,] wallTilesMap;
     public static int[,] objectsMap;
+    public static int[,] dynamicLight;
     public static Dictionary<int, TileBase> tilebaseDictionary;
     private Sprite[] block_sprites;
     public TileBase_cfg tilebase_cfg;
@@ -67,6 +68,7 @@ public class WorldManager : MonoBehaviour {
         tilesWorldMap = new int[worldSizeX, worldSizeY];
         wallTilesMap = new int[worldSizeX, worldSizeY];
         objectsMap = new int[worldSizeX, worldSizeY];
+        dynamicLight = new int[worldSizeX, worldSizeY];
         levelGenerator.GenerateTilesWorldMap(tilesWorldMap, wallTilesMap, objectsMap);
         chunkService.CreateChunksFromMaps(tilesWorldMap);
     }

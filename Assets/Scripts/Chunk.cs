@@ -84,9 +84,15 @@ public class Chunk : MonoBehaviour {
                 var shadow = WorldManager.tilesShadowMap[worldPosition.x + x, worldPosition.y + y] + intensity;
                 var light = WorldManager.tilesLightMap[worldPosition.x + x, worldPosition.y + y];
                 Vector3Int vec3 = new Vector3Int(x, y, 0);
+<<<<<<< develop
                 if(tilesMap[x, y] > 0 || WorldManager.wallTilesMap[worldPosition.x + x, worldPosition.y + y] > 0) {
                     float l;
                     if (light <= shadow && light < 100) {
+=======
+                if (tilesMap[x, y] > 0 || WorldManager.wallTilesMap[worldPosition.x + x, worldPosition.y + y] > 0) {
+                    float l;
+                    if (light <= shadow) {
+>>>>>>> fix(DynamicLight): bugs
                         l = 1 - light * 0.01f;
                     } else {
                         l = 1 - shadow * 0.01f;
