@@ -17,6 +17,7 @@ public class WorldManager : MonoBehaviour {
     public static int[,] tilesWorldMap;
     public static int[,] wallTilesMap;
     public static int[,] objectsMap;
+    public static int[,] dynamicLight;
     public static Dictionary<int, TileBase> tilebaseDictionary;
     private Sprite[] block_sprites;
     public TileBase_cfg tilebase_cfg;
@@ -29,7 +30,7 @@ public class WorldManager : MonoBehaviour {
     // SerializeField
     [SerializeField] private int worldSizeX;
     [SerializeField] private int worldSizeY;
-    [SerializeField]private int chunkSizeField; 
+    [SerializeField] private int chunkSizeField;
     private void InitFolders() {
         FileManager.ManageFolder("chunk-data");
     }
@@ -55,7 +56,7 @@ public class WorldManager : MonoBehaviour {
     }
     private void CreateLightMap() {
         tilesLightMap = new int[worldSizeX, worldSizeY];
-        for(var x = 0; x < worldSizeX; x++) {
+        for (var x = 0; x < worldSizeX; x++) {
             for (var y = 0; y < worldSizeY; y++) {
                 tilesLightMap[x, y] = 100;
             }
@@ -67,6 +68,7 @@ public class WorldManager : MonoBehaviour {
         tilesWorldMap = new int[worldSizeX, worldSizeY];
         wallTilesMap = new int[worldSizeX, worldSizeY];
         objectsMap = new int[worldSizeX, worldSizeY];
+        dynamicLight = new int[worldSizeX, worldSizeY];
         levelGenerator.GenerateTilesWorldMap(tilesWorldMap, wallTilesMap, objectsMap);
         chunkService.CreateChunksFromMaps(tilesWorldMap);
     }
