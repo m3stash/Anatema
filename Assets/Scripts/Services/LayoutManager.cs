@@ -14,15 +14,9 @@ public class LayoutManager : MonoBehaviour {
             this.inventoryLayout,
             this.defaultLayout
         };
-
-        InputManager.OnViewChanged += this.ChangeHUD;
     }
 
-    private void OnDestroy() {
-        InputManager.OnViewChanged -= this.ChangeHUD;
-    }
-
-    private void ChangeHUD(Layout layout) {
+    public void ChangeHUD(Layout layout) {
         switch(layout) {
             case Layout.INVENTORY:
                 this.DisplayLayout(this.inventoryLayout);

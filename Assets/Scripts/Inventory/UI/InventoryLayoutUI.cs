@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
+using UnityEngine.UI;
 
 public class InventoryLayoutUI : MonoBehaviour {
 
+    [Header("Don't touch it")]
     [SerializeField] private InventoryStepperUI[] steppers;
     [SerializeField] private InventoryBagUI inventoryBag;
     [SerializeField] private InventoryToolbarUI toolbar;
@@ -46,14 +48,41 @@ public class InventoryLayoutUI : MonoBehaviour {
         this.steppers[idx].Select();
     }
 
+    /// <summary>
+    /// Used to force drag ending (Used for XBOX controller)
+    /// </summary>
     private void StopItemDrag() {
         if(InventoryItem.draggedItem) {
             InventoryItem.draggedItem.EndDrag();
         }
     }
 
+    /// <summary>
+    /// Used to move dragged item to the current cell position
+    /// </summary>
     private void SetItemDragPositionToCurrentCell() {
         InventoryItem.draggedItem.SetDraggedItemPosition(this.currentSelectedCell.GetRectTransform().position);
+    }
+
+    /// <summary>
+    /// Set current cell and move cursor to it (XBOX controller)
+    /// Manage eraser cell animations for XBOX controller
+    /// </summary>
+    /// <param name="cell"></param>
+    private void SetCurrentSelectedCell(InventoryCell cell) {
+        // If current cell is eraser cell so change opened state
+        if(this.currentSelectedCell != null && this.currentSelectedCell.GetCellType().Equals(CellType.DELETE)) {
+            this.currentSelectedCell.GetComponent<EraserCell>().SetOpenedState(false);
+        }
+
+        this.currentSelectedCell = cell;
+
+        // If current cell is eraser cell and player is currently drag so changed opened state
+        if(InventoryItem.draggedItem && this.currentSelectedCell.GetCellType().Equals(CellType.DELETE)) {
+            this.currentSelectedCell.GetComponent<EraserCell>().SetOpenedState(true);
+        }
+
+        CursorManager.instance.SetPosition(this.currentSelectedCell.GetRectTransform().position);
     }
 
     #region Callbacks
@@ -71,7 +100,7 @@ public class InventoryLayoutUI : MonoBehaviour {
             InventoryCell neighbourCell = this.currentSelectedCell.GetNeighbourCell(new Vector3(direction.x, direction.y, 0));
 
             if(neighbourCell) {
-                this.currentSelectedCell = neighbourCell;
+                this.SetCurrentSelectedCell(neighbourCell);
 
                 if(InventoryItem.draggedItem) {
                     this.SetItemDragPositionToCurrentCell();
@@ -165,7 +194,7 @@ public class InventoryLayoutUI : MonoBehaviour {
             }
         }
 
-        this.currentSelectedCell = this.inventoryBag.GetInventoryCell(0);
+        this.SetCurrentSelectedCell(this.inventoryBag.GetInventoryCell(0));
     }
 
     #endregion

@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(LayoutManager))]
+[RequireComponent(typeof(CursorManager))]
 public class InputManager : MonoBehaviour
 {
-
+    [SerializeField] private bool mouseEnabled = true;
     [SerializeField] private Layout currentLayout;
+
+    private LayoutManager layoutManager;
+    private CursorManager cursorManager;
 
     private LayoutControls layoutControls;
 
@@ -16,11 +21,11 @@ public class InputManager : MonoBehaviour
 
     public static InputManager instance;
 
-    public delegate void LayoutChanged(Layout layout);
-    public static LayoutChanged OnViewChanged;
-
     private void Awake() {
         instance = this;
+
+        this.layoutManager = GetComponent<LayoutManager>();
+        this.cursorManager = GetComponent<CursorManager>();
 
         // Init layout controls
         this.layoutControls = new LayoutControls();
@@ -31,7 +36,7 @@ public class InputManager : MonoBehaviour
         gameplayControls.Enable();
     }
 
-    private void OnEnable() {
+    private void Start() {
         gameplayControls.Core.Enable();
         gameplayControls.Core.Position.performed += SetMousePosition;
 
@@ -44,7 +49,7 @@ public class InputManager : MonoBehaviour
         this.SetLayout(Layout.DEFAULT);
     }
 
-    private void OnDisable() {
+    private void OnDestroy() {
         layoutControls.Inventory.SwitchDisplay.performed -= SwitchInventoryLayout;
         layoutControls.EscapeMenu.SwitchDisplay.performed -= SwitchMenuLayout;
         gameplayControls.Core.Position.performed -= SetMousePosition;
@@ -61,6 +66,14 @@ public class InputManager : MonoBehaviour
 
     private void SetMousePosition(InputAction.CallbackContext ctx) {
         mousePosition = ctx.ReadValue<Vector2>();
+    }
+
+    public bool IsMouseEnabled() {
+        return this.mouseEnabled;
+    }
+
+    public void SetMouseEnable(bool value) {
+        this.mouseEnabled = value;
     }
 
     private void DisableLayoutControls() {
@@ -93,6 +106,8 @@ public class InputManager : MonoBehaviour
         switch (this.currentLayout) {
             case Layout.INVENTORY:
                 gameplayControls.Inventory.Enable();
+
+                this.cursorManager.SetCursorState(CursorState.INVENTORY_NAVIGATION);
                 break;
 
             case Layout.MENU:
@@ -104,10 +119,13 @@ public class InputManager : MonoBehaviour
                 gameplayControls.Player.Enable();
                 gameplayControls.TileSelector.Enable();
                 gameplayControls.Shortcuts.Enable();
+
+                // Disabled cursor in default mode
+                this.cursorManager.SetCursorState(CursorState.DISABLED);
                 break;
         }
 
-        OnViewChanged?.Invoke(this.currentLayout);
+        this.layoutManager.ChangeHUD(this.currentLayout);
     }
 }
 
@@ -116,4 +134,10 @@ public enum Layout
     DEFAULT,
     INVENTORY,
     MENU
+}
+
+public enum InputType
+{
+    MOUSE,
+    CONTROLLER
 }

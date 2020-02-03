@@ -12,6 +12,7 @@ public class DefaultLayoutUI : MonoBehaviour {
         InputManager.gameplayControls.Toolbar.Navigate.performed += this.ManageMouseScroll;
         GameManager.OnGameModeChanged += GameModeChanged;
 
+        this.GameModeChanged(GameManager.instance.GetGameMode());
         this.toolbar.UpdateCellState();
     }
 
@@ -32,5 +33,17 @@ public class DefaultLayoutUI : MonoBehaviour {
 
     private void GameModeChanged(GameMode gameMode) {
         this.toolbar.gameObject.SetActive(gameMode == GameMode.BUILD);
+
+        switch (gameMode) {
+            case GameMode.BUILD:
+                CursorManager.instance.SetCursorState(CursorState.BUILD);
+                break;
+            case GameMode.TOOL:
+                CursorManager.instance.SetCursorState(CursorState.TOOL);
+                break;
+            case GameMode.DEFAULT:
+                CursorManager.instance.SetCursorState(CursorState.DISABLED);
+                break;
+        }
     }
 }

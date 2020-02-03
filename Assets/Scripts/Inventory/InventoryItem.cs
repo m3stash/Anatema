@@ -22,19 +22,9 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public static event DragEvent OnItemDragStart;
     public static event DragEvent OnItemDragEnd;
 
-    private static Canvas canvas;
-        
     private void Awake() {
         this.quantityText = GetComponentInChildren<TextMeshProUGUI>();
         this.iconImage = GetComponentInChildren<Image>();
-
-        // Create a dedicated canvas to drag&drop to avoid layer conflict during drag&drop
-        if(!canvas) {
-            GameObject canvasObj = new GameObject("Drag And Drop Canvas");
-            canvas = canvasObj.AddComponent<Canvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            canvas.sortingOrder = 100;
-        }
     }
 
     private void OnDisable() {
@@ -90,6 +80,9 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         draggedItem = null;
         sourceCell = null;
+
+        // Change cursor state
+        CursorManager.instance.SetCursorState(CursorState.INVENTORY_NAVIGATION);
     }
 
     /// <summary>
@@ -114,7 +107,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     /// <param name="eventData"></param>
     public void OnEndDrag(PointerEventData eventData) {
         // Check if item is dropped outside of a slot to drop it in the world
-        if (!eventData.pointerCurrentRaycast.gameObject) {
+        if(!eventData.pointerCurrentRaycast.gameObject) {
             sourceCell.DropItem();
         }
 
@@ -131,8 +124,8 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         // Create dragged object visible which follow the mouse
         draggedObject = new GameObject();
-        draggedObject.transform.SetParent(canvas.transform);
-        draggedObject.name = "Dragged Icon";
+        draggedObject.transform.SetParent(this.GetAssociatedCell().GetAssociatedInventory().transform.parent);
+        draggedObject.name = "Dragged Item";
 
         // Disable image raycast of child item to avoid drag conflict
         Image myImage = GetComponentInChildren<Image>();
@@ -147,13 +140,17 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         // Set icon's dimensions
         RectTransform draggedObjectRect = draggedObject.GetComponent<RectTransform>();
         RectTransform myRect = GetComponent<RectTransform>();
-        draggedObjectRect.pivot = new Vector2(0.5f, 0.5f);
         draggedObjectRect.anchorMin = new Vector2(0.5f, 0.5f);
-        draggedObjectRect.anchorMax = new Vector2(0.5f, 0.5f);
-        draggedObjectRect.sizeDelta = new Vector2(myRect.rect.width, myRect.rect.height);
+        draggedObjectRect.anchorMax = new Vector2(.5f, 0.5f);
+        draggedObjectRect.pivot = new Vector2(.5f, .5f);
+        draggedObjectRect.sizeDelta = new Vector2(60f, 60f);
+        draggedObject.transform.localScale = new Vector3(1, 1, 1);
 
         // Notify all items about drag start for raycast disabling
         OnItemDragStart?.Invoke(this);
+
+        // Change cursor state
+        CursorManager.instance.SetCursorState(CursorState.INVENTORY_DRAG);
     }
 
     public void SetDraggedItemPosition(Vector2 position) {
