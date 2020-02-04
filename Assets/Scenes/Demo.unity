@@ -546,7 +546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0579257ce1d544c58345ea936165d43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseEnabled: 0
+  mouseEnabled: 1
   currentLayout: 0
 --- !u!114 &631963174
 MonoBehaviour:

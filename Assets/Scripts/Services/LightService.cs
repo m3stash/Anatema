@@ -11,7 +11,7 @@ public class LightService : MonoBehaviour {
         if (IsOutOfBound(x, y))
             return;
         int newLight = GetAmountLight(WorldManager.tilesWorldMap[x, y], WorldManager.wallTilesMap[x, y], lastLight);
-        if (newLight >= 100 || newLight >= WorldManager.tilesLightMap[x, y])
+        if (newLight == 100 || newLight >= WorldManager.tilesLightMap[x, y])
             return;
         WorldManager.tilesLightMap[x, y] = newLight;
         RecursivAddNewLight(x + 1, y, newLight);
@@ -24,10 +24,9 @@ public class LightService : MonoBehaviour {
             return;
         var minLight = GetNeightboorMinOrMaxOpacity(WorldManager.tilesLightMap, x, y, false);
         int newLight = GetAmountLight(WorldManager.tilesWorldMap[x, y], WorldManager.wallTilesMap[x, y], minLight);
-        if (newLight > 100 || newLight <= WorldManager.tilesLightMap[x, y] && !toDelete)
+        if (newLight <= WorldManager.tilesLightMap[x, y] && !toDelete)
             return;
-
-        var isLight = WorldManager.objectsMap[x, y] == 7;
+        var isLight = WorldManager.objectsMap[x, y] == 7 || WorldManager.dynamicLight[x, y] == 1;
         if (!toDelete && isLight)
             return;
         WorldManager.tilesLightMap[x, y] = newLight;
@@ -103,9 +102,9 @@ public class LightService : MonoBehaviour {
     }
     private static int GetAmountLight(int tile, int wallTile, int lastLight) {
         if (tile > 0) {
-            return lastLight + 10;
+            return lastLight + 10 < 100 ? lastLight + 10 : 100;
         }
-        return lastLight + 5;
+        return lastLight + 5 < 100 ? lastLight + 5 : 100;
     }
 
     public static void Init() {
