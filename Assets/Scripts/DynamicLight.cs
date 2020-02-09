@@ -5,11 +5,17 @@ public class DynamicLight : MonoBehaviour {
 
     private int oldPosX;
     private int oldPosY;
+    private Renderer render;
     // event
     public delegate void LightEventHandler();
     public static event LightEventHandler RefreshLight;
+    private void Start() {
+        render = gameObject.GetComponent<Renderer>();
+    }
 
     private void FixedUpdate() {
+        if (!render.isVisible)
+            return;
         var newPosX = (int)transform.position.x;
         var newPosY = (int)transform.position.y;
         if (oldPosX != newPosX || oldPosY != newPosY) {

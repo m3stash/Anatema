@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8051069697303480611}
   - component: {fileID: 323620726239770702}
   - component: {fileID: 8557912851257795488}
+  - component: {fileID: -520448024099445226}
   m_Layer: 24
   m_Name: Tree(Base)
   m_TagString: Untagged
@@ -99,6 +100,19 @@ MonoBehaviour:
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
   renderer: {fileID: 0}
-  defaultScale: {x: 0, y: 0}
+  attractor: {fileID: 0}
+  defaultScale: {x: 0, y: 0, z: 0}
   defaultTag: 
   defaultPrefabSprite: {fileID: 0}
+--- !u!114 &-520448024099445226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5505926547673054016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 036c0acd995a568419693d35208aadbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

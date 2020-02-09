@@ -23,7 +23,7 @@ public class Item : MonoBehaviour {
     [SerializeField] protected new SpriteRenderer renderer;
     [SerializeField] protected Attractor attractor;
 
-    [SerializeField] private Vector2 defaultScale; // Used to reset scale when come back to his pool (Put it in ItemConfig ???)
+    [SerializeField] private Vector3 defaultScale; // Used to reset scale when come back to his pool (Put it in ItemConfig ???)
     [SerializeField] private string defaultTag;
     [SerializeField] private Sprite defaultPrefabSprite;
 
