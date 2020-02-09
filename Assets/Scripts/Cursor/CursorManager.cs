@@ -25,7 +25,6 @@ public class CursorManager : MonoBehaviour
 
         if (state == CursorState.DISABLED) {
             Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
             this.cursorUI.Display(false);
             return;
         }
@@ -35,13 +34,11 @@ public class CursorManager : MonoBehaviour
         if (this.currentConfig) {
             if (InputManager.instance.IsMouseEnabled()) {
                 Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
 
                 this.cursorUI.Display(false);
                 Cursor.SetCursor(this.currentConfig.GetMouseTexture(), Vector2.zero, CursorMode.Auto);
             } else {
                 Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
 
                 this.cursorUI.Display(true);
                 this.cursorUI.SetSprite(this.currentConfig.GetControllerSprite());
