@@ -5,10 +5,10 @@ using UnityEngine.Tilemaps;
 
 public class Chunk : MonoBehaviour {
 
+    private Renderer render;
     private TilemapCollider2D tc2d;
     public TileMapScript tileMapTileMapScript;
     public TileMapScript wallTileMapScript;
-    public TileMapScript shadowTileMapScript;
     public Tilemap tilemapTile;
     public Tilemap tilemapWall;
     public int[,] tilesMap;
@@ -16,9 +16,7 @@ public class Chunk : MonoBehaviour {
     public Vector2Int chunkPosition;
     public Vector2Int worldPosition;
     private bool firstInitialisation = true;
-    private bool isChunkVisible = false;
     private bool alreadyVisible = false;
-
     [SerializeField] private List<Item> items;
 
     private void OnEnable() {
@@ -76,15 +74,15 @@ public class Chunk : MonoBehaviour {
     }
 
     private void RefreshShadowMap() {
-        /*if (!isChunkVisible) // toDO voie à améliorer ça !
-            return;*/
+        if (!render || !render.isVisible)
+            return;
         var intensity = CycleDay.GetIntensity();
         for (var x = 0; x < WorldManager.chunkSize; x++) {
             for (var y = 0; y < WorldManager.chunkSize; y++) {
-                var shadow = WorldManager.tilesShadowMap[worldPosition.x + x, worldPosition.y + y] + intensity;
-                var light = WorldManager.tilesLightMap[worldPosition.x + x, worldPosition.y + y];
                 Vector3Int vec3 = new Vector3Int(x, y, 0);
-                if(tilesMap[x, y] > 0 || WorldManager.wallTilesMap[worldPosition.x + x, worldPosition.y + y] > 0) {
+                if (tilesMap[x, y] > 0 || WorldManager.wallTilesMap[worldPosition.x + x, worldPosition.y + y] > 0) {
+                    var shadow = WorldManager.tilesShadowMap[worldPosition.x + x, worldPosition.y + y] + intensity;
+                    var light = WorldManager.tilesLightMap[worldPosition.x + x, worldPosition.y + y];
                     float l;
                     if (light <= shadow && light < 100) {
                         l = 1 - light * 0.01f;
@@ -103,12 +101,12 @@ public class Chunk : MonoBehaviour {
         ItemManager.instance.DestroyItems(this.items.ToArray());
         tilemapWall.ClearAllTiles();
         tilemapTile.ClearAllTiles(); // for tile not refresh (display with bad sprite number!!)
-        alreadyVisible = false;
         CycleDay.RefreshIntensity -= RefreshShadowMap;
         WorldManager.RefreshLight -= RefreshShadowMap;
         DynamicLight.RefreshLight -= RefreshShadowMap;
         Item.OnItemMoved -= OnItemMoved;
         Item.OnItemDestroyed -= OnItemDestroyed;
+        alreadyVisible = false;
     }
 
     private void RefreshTiles() {
@@ -135,13 +133,14 @@ public class Chunk : MonoBehaviour {
         tilemapWall.SetTiles(positions, tileArrayWall);
     }
     void Start() {
+        this.items = new List<Item>();
+        render = tilemapTile.GetComponent<Renderer>();
         // !! call just one time afer instanciate !!
         InitColliders();
         firstInitialisation = false;
         RefreshTiles();
         tileMapTileMapScript.hasAlreadyInit = true;
         wallTileMapScript.hasAlreadyInit = true;
-        this.items = new List<Item>();
     }
     private void InitColliders() {
         tc2d = GetComponentInChildren<TilemapCollider2D>();
@@ -156,10 +155,9 @@ public class Chunk : MonoBehaviour {
     public void RefreshTile(Vector3Int vector3) {
         tilemapTile.RefreshTile(vector3);
     }
-    public void ChunckVisible(bool isVisible) {
-        // to to rajouter un test pour ne plus passer par ici si le chunk est visible et a déjà été activé!!!!!!!!!!!!!!!!!!
-        isChunkVisible = isVisible;
-        if (isVisible && !alreadyVisible) {
+
+    void Update() {
+        if (render.isVisible && !alreadyVisible) {
             alreadyVisible = true;
             tc2d.enabled = true;
             generateObjectsMap();

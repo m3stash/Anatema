@@ -3,15 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class ChunkPos {
-    public int x;
-    public int y;
-    public ChunkPos(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-}
-
 public enum Direction {
     TOP,
     BOTTOM,
@@ -143,10 +134,6 @@ public class ChunkService : MonoBehaviour {
         var chunkData = GetChunkData(chunkPos.x, chunkPos.y);
         ck.tileMapTileMapScript.Init(ck.worldPosition.x, ck.worldPosition.y, WorldManager.tilesWorldMap, chunkData.tilemapData, boundX, boundY);
         ck.wallTileMapScript.Init(ck.worldPosition.x, ck.worldPosition.y, WorldManager.wallTilesMap, chunkData.wallmapData, boundX, boundY);
-        IsVisible isVisibleScript = chunkGo.GetComponent<IsVisible>();
-        isVisibleScript.cam = playerCam;
-        isVisibleScript.chunk = ck;
-
         chunkGo.SetActive(true);
         yield return new WaitForSeconds(0.1f);
     }
