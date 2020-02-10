@@ -1,157 +1,124 @@
 fileFormatVersion: 2
-guid: 2be321acb93b3dd459c69187f981de8d
+guid: 97ca9eae206e4bf40a17e57045a2e6a3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 21300000
-    second: gold_ore_0
+      213: 8403556442121363228
+    second: cooper_ore_0
   - first:
-      213: 21300002
-    second: gold_ore_1
+      213: -4954334370365205737
+    second: cooper_ore_1
   - first:
-      213: 21300004
-    second: gold_ore_2
+      213: 4016695133945450177
+    second: cooper_ore_2
   - first:
-      213: 21300006
-    second: gold_ore_3
+      213: 2668704765903048432
+    second: cooper_ore_3
   - first:
-      213: 21300008
-    second: gold_ore_4
+      213: 6808735555797485441
+    second: cooper_ore_4
   - first:
-      213: 21300010
-    second: gold_ore_5
+      213: -5704905776400293243
+    second: cooper_ore_5
   - first:
-      213: 21300012
-    second: gold_ore_6
+      213: -2119297745934300141
+    second: cooper_ore_6
   - first:
-      213: 21300014
-    second: gold_ore_7
+      213: 200434409485458134
+    second: cooper_ore_7
   - first:
-      213: 21300016
-    second: gold_ore_8
+      213: 2986246309015248582
+    second: cooper_ore_8
   - first:
-      213: 21300018
-    second: gold_ore_9
+      213: -7544037907094443354
+    second: cooper_ore_9
   - first:
-      213: 21300020
-    second: gold_ore_10
+      213: 6916782673156120205
+    second: cooper_ore_10
   - first:
-      213: 21300022
-    second: gold_ore_11
+      213: -4150112099283568133
+    second: cooper_ore_11
   - first:
-      213: 21300024
-    second: gold_ore_12
+      213: -5646402259982536830
+    second: cooper_ore_12
   - first:
-      213: 21300026
-    second: gold_ore_13
+      213: -3358824834978566485
+    second: cooper_ore_13
   - first:
-      213: 21300028
-    second: gold_ore_14
+      213: 6394358276119405334
+    second: cooper_ore_14
   - first:
-      213: 21300030
-    second: gold_ore_15
+      213: -8633285747502831689
+    second: cooper_ore_15
   - first:
-      213: 21300032
-    second: gold_ore_16
+      213: -2613222921275906369
+    second: cooper_ore_16
   - first:
-      213: 21300034
-    second: gold_ore_17
+      213: 591942220774449098
+    second: cooper_ore_17
   - first:
-      213: 21300036
-    second: gold_ore_18
+      213: -4231791202912812348
+    second: cooper_ore_18
   - first:
-      213: 21300038
-    second: gold_ore_19
+      213: -4747015561539002481
+    second: cooper_ore_19
   - first:
-      213: 21300040
-    second: gold_ore_20
+      213: 7100307446112015288
+    second: cooper_ore_20
   - first:
-      213: 8218093861608600074
-    second: gold_ore_0
+      213: 1707639924790369463
+    second: cooper_ore_21
   - first:
-      213: 5395143017015888626
-    second: gold_ore_1
+      213: 2542266634585073235
+    second: cooper_ore_22
   - first:
-      213: -1381765328810033470
-    second: gold_ore_2
+      213: -5984261828380535728
+    second: cooper_ore_23
   - first:
-      213: 5218114769925476993
-    second: gold_ore_3
+      213: 8989813205851696649
+    second: cooper_ore_24
   - first:
-      213: 3970194524502264318
-    second: gold_ore_4
+      213: 7292813599963702282
+    second: cooper_ore_25
   - first:
-      213: -2140206823733890561
-    second: gold_ore_5
+      213: -8521783382824228094
+    second: cooper_ore_26
   - first:
-      213: 6822255083451511981
-    second: gold_ore_6
+      213: -534975452582762978
+    second: cooper_ore_27
   - first:
-      213: 841056136077854730
-    second: gold_ore_7
+      213: 8694272389645919416
+    second: cooper_ore_28
   - first:
-      213: 8016011768000817399
-    second: gold_ore_8
+      213: 3728206780388079416
+    second: cooper_ore_29
   - first:
-      213: 4457471057990740385
-    second: gold_ore_9
+      213: 7225253554249344317
+    second: cooper_ore_30
   - first:
-      213: 8961806414799418019
-    second: gold_ore_10
+      213: 7759971677470287286
+    second: cooper_ore_31
   - first:
-      213: 7486515432870598762
-    second: gold_ore_11
+      213: -2382087098387865732
+    second: cooper_ore_32
   - first:
-      213: -2365263400189496622
-    second: gold_ore_12
+      213: 3617429261959028866
+    second: cooper_ore_33
   - first:
-      213: 3460555821549650115
-    second: gold_ore_13
+      213: 3297421816972827925
+    second: cooper_ore_34
   - first:
-      213: -4323939442480823578
-    second: gold_ore_14
+      213: 6641567475049398046
+    second: cooper_ore_35
   - first:
-      213: -1271319920800904296
-    second: gold_ore_21
+      213: -8567264058867574439
+    second: cooper_ore_36
   - first:
-      213: -7795967626961791854
-    second: gold_ore_22
+      213: 3785824771182729824
+    second: cooper_ore_37
   - first:
-      213: -8076193886682535688
-    second: gold_ore_23
-  - first:
-      213: 7182172691014068065
-    second: gold_ore_24
-  - first:
-      213: -7384641252556130873
-    second: gold_ore_25
-  - first:
-      213: 4416560384317057465
-    second: gold_ore_26
-  - first:
-      213: -79711903867100613
-    second: gold_ore_27
-  - first:
-      213: 3318539806134792218
-    second: gold_ore_28
-  - first:
-      213: -8960385471506996758
-    second: gold_ore_29
-  - first:
-      213: 3754905548412487895
-    second: gold_ore_30
-  - first:
-      213: 2730373716489136991
-    second: gold_ore_31
-  - first:
-      213: 2454071479336846064
-    second: gold_ore_32
-  - first:
-      213: -7838528633438473972
-    second: gold_ore_33
-  - first:
-      213: -1660148242168814052
-    second: gold_ore_34
+      213: 3430088113384037300
+    second: cooper_ore_38
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -219,7 +186,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
@@ -231,12 +198,12 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: gold_ore_0
+      name: cooper_ore_0
       rect:
         serializedVersion: 2
         x: 0
@@ -250,14 +217,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a02bff763d88c0270800000000000000
-      internalID: 8218093861608600074
+      spriteID: c1fd6966f0e6f9470800000000000000
+      internalID: 8403556442121363228
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_1
+      name: cooper_ore_1
       rect:
         serializedVersion: 2
         x: 18
@@ -271,14 +238,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2fa49a14df56fda40800000000000000
-      internalID: 5395143017015888626
+      spriteID: 7139fdba32bae3bb0800000000000000
+      internalID: -4954334370365205737
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_2
+      name: cooper_ore_2
       rect:
         serializedVersion: 2
         x: 36
@@ -292,14 +259,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2ceb35d11cbf2dce0800000000000000
-      internalID: -1381765328810033470
+      spriteID: 1cecbd561fa2eb730800000000000000
+      internalID: 4016695133945450177
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_3
+      name: cooper_ore_3
       rect:
         serializedVersion: 2
         x: 54
@@ -313,14 +280,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 18290aa8cb77a6840800000000000000
-      internalID: 5218114769925476993
+      spriteID: 0fe0b0e58d4290520800000000000000
+      internalID: 2668704765903048432
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_4
+      name: cooper_ore_4
       rect:
         serializedVersion: 2
         x: 72
@@ -334,14 +301,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ef9882292e6f81730800000000000000
-      internalID: 3970194524502264318
+      spriteID: 18781ece9ec7d7e50800000000000000
+      internalID: 6808735555797485441
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_5
+      name: cooper_ore_5
       rect:
         serializedVersion: 2
         x: 90
@@ -355,14 +322,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ff1797dab357c42e0800000000000000
-      internalID: -2140206823733890561
+      spriteID: 58226981c6a14d0b0800000000000000
+      internalID: -5704905776400293243
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_6
+      name: cooper_ore_6
       rect:
         serializedVersion: 2
         x: 108
@@ -376,14 +343,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: da4fa304ad48dae50800000000000000
-      internalID: 6822255083451511981
+      spriteID: 31ccc48bdedb692e0800000000000000
+      internalID: -2119297745934300141
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_7
+      name: cooper_ore_7
       rect:
         serializedVersion: 2
         x: 126
@@ -397,14 +364,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a08451389180cab00800000000000000
-      internalID: 841056136077854730
+      spriteID: 6da5522980618c200800000000000000
+      internalID: 200434409485458134
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_8
+      name: cooper_ore_8
       rect:
         serializedVersion: 2
         x: 144
@@ -418,14 +385,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7f82a0b7b389e3f60800000000000000
-      internalID: 8016011768000817399
+      spriteID: 6cedcac3237417920800000000000000
+      internalID: 2986246309015248582
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_9
+      name: cooper_ore_9
       rect:
         serializedVersion: 2
         x: 162
@@ -439,14 +406,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1a96f108f4e1cdd30800000000000000
-      internalID: 4457471057990740385
+      spriteID: 6aaed875e713e4790800000000000000
+      internalID: -7544037907094443354
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_10
+      name: cooper_ore_10
       rect:
         serializedVersion: 2
         x: 180
@@ -460,14 +427,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3a2bfebd37bbe5c70800000000000000
-      internalID: 8961806414799418019
+      spriteID: d8e1c0ec1395dff50800000000000000
+      internalID: 6916782673156120205
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_11
+      name: cooper_ore_11
       rect:
         serializedVersion: 2
         x: 198
@@ -481,14 +448,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a685bb5fe1275e760800000000000000
-      internalID: 7486515432870598762
+      spriteID: bf9f620b807d766c0800000000000000
+      internalID: -4150112099283568133
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_12
+      name: cooper_ore_12
       rect:
         serializedVersion: 2
         x: 0
@@ -502,14 +469,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2d2f87f1875ec2fd0800000000000000
-      internalID: -2365263400189496622
+      spriteID: 28f27ca7f03f3a1b0800000000000000
+      internalID: -5646402259982536830
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_13
+      name: cooper_ore_13
       rect:
         serializedVersion: 2
         x: 18
@@ -523,14 +490,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3c080e45f2d560030800000000000000
-      internalID: 3460555821549650115
+      spriteID: baea750cb9e0361d0800000000000000
+      internalID: -3358824834978566485
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_14
+      name: cooper_ore_14
       rect:
         serializedVersion: 2
         x: 36
@@ -544,14 +511,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6e241ac7cf74ef3c0800000000000000
-      internalID: -4323939442480823578
+      spriteID: 6132dae29f25db850800000000000000
+      internalID: 6394358276119405334
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_15
+      name: cooper_ore_15
       rect:
         serializedVersion: 2
         x: 54
@@ -565,14 +532,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e3305410000000000800000000000000
-      internalID: 21300030
+      spriteID: 7b7a6af8a58603880800000000000000
+      internalID: -8633285747502831689
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_16
+      name: cooper_ore_16
       rect:
         serializedVersion: 2
         x: 72
@@ -586,14 +553,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 04305410000000000800000000000000
-      internalID: 21300032
+      spriteID: fb6e07a3997fbbbd0800000000000000
+      internalID: -2613222921275906369
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_17
+      name: cooper_ore_17
       rect:
         serializedVersion: 2
         x: 90
@@ -607,14 +574,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 24305410000000000800000000000000
-      internalID: 21300034
+      spriteID: acf11d44050073800800000000000000
+      internalID: 591942220774449098
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_18
+      name: cooper_ore_18
       rect:
         serializedVersion: 2
         x: 108
@@ -628,14 +595,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 44305410000000000800000000000000
-      internalID: 21300036
+      spriteID: 4c242ca6258a545c0800000000000000
+      internalID: -4231791202912812348
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_19
+      name: cooper_ore_19
       rect:
         serializedVersion: 2
         x: 126
@@ -649,14 +616,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 64305410000000000800000000000000
-      internalID: 21300038
+      spriteID: f8f573f5f763f1eb0800000000000000
+      internalID: -4747015561539002481
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_20
+      name: cooper_ore_20
       rect:
         serializedVersion: 2
         x: 144
@@ -670,14 +637,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 84305410000000000800000000000000
-      internalID: 21300040
+      spriteID: 8b35191d00c598260800000000000000
+      internalID: 7100307446112015288
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_21
+      name: cooper_ore_21
       rect:
         serializedVersion: 2
         x: 162
@@ -691,14 +658,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 89bc8cc844d5b5ee0800000000000000
-      internalID: -1271319920800904296
+      spriteID: 7bc9761d671c2b710800000000000000
+      internalID: 1707639924790369463
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_22
+      name: cooper_ore_22
       rect:
         serializedVersion: 2
         x: 180
@@ -712,14 +679,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2945f728fb82fc390800000000000000
-      internalID: -7795967626961791854
+      spriteID: 35665ced802f74320800000000000000
+      internalID: 2542266634585073235
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_23
+      name: cooper_ore_23
       rect:
         serializedVersion: 2
         x: 198
@@ -733,14 +700,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8f82b1713789bef80800000000000000
-      internalID: -8076193886682535688
+      spriteID: 054d274b291a3fca0800000000000000
+      internalID: -5984261828380535728
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_24
+      name: cooper_ore_24
       rect:
         serializedVersion: 2
         x: 0
@@ -754,14 +721,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 167a76b72043ca360800000000000000
-      internalID: 7182172691014068065
+      spriteID: 90ee7eb0b7b32cc70800000000000000
+      internalID: 8989813205851696649
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_25
+      name: cooper_ore_25
       rect:
         serializedVersion: 2
         x: 18
@@ -775,14 +742,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7c532b308eb748990800000000000000
-      internalID: -7384641252556130873
+      spriteID: a0469f68457453560800000000000000
+      internalID: 7292813599963702282
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_26
+      name: cooper_ore_26
       rect:
         serializedVersion: 2
         x: 36
@@ -796,14 +763,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9b9e7440546ca4d30800000000000000
-      internalID: 4416560384317057465
+      spriteID: 20b6fe5e92b8cb980800000000000000
+      internalID: -8521783382824228094
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_27
+      name: cooper_ore_27
       rect:
         serializedVersion: 2
         x: 54
@@ -817,14 +784,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b32a1ad127ec4eef0800000000000000
-      internalID: -79711903867100613
+      spriteID: e16204909a26398f0800000000000000
+      internalID: -534975452582762978
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_28
+      name: cooper_ore_28
       rect:
         serializedVersion: 2
         x: 72
@@ -838,14 +805,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a1078ad0f52dd0e20800000000000000
-      internalID: 3318539806134792218
+      spriteID: 8b4e4559ca248a870800000000000000
+      internalID: 8694272389645919416
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_29
+      name: cooper_ore_29
       rect:
         serializedVersion: 2
         x: 90
@@ -859,14 +826,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ae1214843e056a380800000000000000
-      internalID: -8960385471506996758
+      spriteID: 837fb3a50504db330800000000000000
+      internalID: 3728206780388079416
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_30
+      name: cooper_ore_30
       rect:
         serializedVersion: 2
         x: 108
@@ -880,14 +847,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7d80542b3ba1c1430800000000000000
-      internalID: 3754905548412487895
+      spriteID: d35292993d1454460800000000000000
+      internalID: 7225253554249344317
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_31
+      name: cooper_ore_31
       rect:
         serializedVersion: 2
         x: 126
@@ -901,14 +868,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f5be563dd6c34e520800000000000000
-      internalID: 2730373716489136991
+      spriteID: 6b565b66025f0bb60800000000000000
+      internalID: 7759971677470287286
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_32
+      name: cooper_ore_32
       rect:
         serializedVersion: 2
         x: 144
@@ -922,14 +889,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0f24a4b120d9e0220800000000000000
-      internalID: 2454071479336846064
+      spriteID: c7fdc84a76021fed0800000000000000
+      internalID: -2382087098387865732
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_33
+      name: cooper_ore_33
       rect:
         serializedVersion: 2
         x: 162
@@ -943,14 +910,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c01fb2afcb3f73390800000000000000
-      internalID: -7838528633438473972
+      spriteID: 280eb2f6fb0b33230800000000000000
+      internalID: 3617429261959028866
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gold_ore_34
+      name: cooper_ore_34
       rect:
         serializedVersion: 2
         x: 180
@@ -964,8 +931,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c16e90738f7f5f8e0800000000000000
-      internalID: -1660148242168814052
+      spriteID: 51dd94b0cabc2cd20800000000000000
+      internalID: 3297421816972827925
       vertices: []
       indices: 
       edges: []
@@ -973,7 +940,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: e242a3e153467c141b912a94b4efe8fc
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8397b114cc906c44a7e53ef5f4c287a, type: 3}
   m_Name: Torch
   m_EditorClassIdentifier: 
-  id: 7
+  id: 16
   prefab: {fileID: 4405146219834199482, guid: 347f0d90607eeed48bc1c4ea6e5aaeab, type: 3}
   displayName: Torch
   description: 

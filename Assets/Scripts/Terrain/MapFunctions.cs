@@ -42,7 +42,7 @@ public class MapFunctions {
                             }
                         }
                         if (empty) {
-                            objectsMap[x, y + 1] = 22; // toDo voir a trouver l'id de l'arbre juste pour essai!
+                            objectsMap[x, y + 1] = 31;
                             var newXGap = x + gapBetweenTrees;
                             newTreeGap = newXGap < xEnd ? newXGap : -1; // min gap between 2 trees
                         }
@@ -58,7 +58,8 @@ public class MapFunctions {
         var heightMap = map.GetUpperBound(1);
         var widthMap = map.GetUpperBound(0);
         for (int x = 0; x < widthMap; x++) {
-            for (int y = heightMap - 250; y < heightMap - 1; y++) {
+            // toDO voir a variabiliser ça 
+            for (int y = heightMap - 300; y < heightMap - 1; y++) {
                 var topNeightboorTile = map[x, y + 1];
                 var currentTile = map[x, y];
                 if (topNeightboorTile == 0 && currentTile == 1) {
@@ -258,7 +259,7 @@ public class MapFunctions {
                     var noise = Mathf.PerlinNoise(x * modifier, y * modifier);
                     // copper
                     if (noise > 0.6f && noise < 0.615f && y < heightCopper) {
-                        map[x, y] = 3;
+                        map[x, y] = 4;
                         copper_count++;
                     }
                     // iron
@@ -268,12 +269,12 @@ public class MapFunctions {
                     }
                     // silver
                     if (noise > 0.5f && noise < 0.510f && y < heightSilver) {
-                        map[x, y] = 4;
+                        map[x, y] = 6;
                         silver_count++;
                     }
                     // gold
                     if (noise > 0.7f && noise < 0.705f && y < heightGold) {
-                        map[x, y] = 6;
+                        map[x, y] = 7;
                         gold_count++;
                     }
                 }
