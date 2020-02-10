@@ -31,10 +31,13 @@ public class Chunk : MonoBehaviour {
             RefreshTiles();
         }
     }
+    public void Awake() {
+        
+    }
 
     private void OnItemMoved(Item item) {
-        int itemPosX = (int)item.transform.position.x / WorldManager.chunkSize;
-        int itemPosY = (int)item.transform.position.y / WorldManager.chunkSize;
+        int itemPosX = (int)item.transform.position.x / WorldManager.GetChunkSize();
+        int itemPosY = (int)item.transform.position.y / WorldManager.GetChunkSize();
         int itemIdxFound = this.items.FindIndex(elem => elem.GetInstanceID() == item.GetInstanceID());
 
         // Add item to this chunk if it's inside position interval and it's not already referenced
@@ -62,8 +65,8 @@ public class Chunk : MonoBehaviour {
     }
 
     private void generateObjectsMap() {
-        for (var x = 0; x < WorldManager.chunkSize; x++) {
-            for (var y = 0; y < WorldManager.chunkSize; y++) {
+        for (var x = 0; x < WorldManager.GetChunkSize(); x++) {
+            for (var y = 0; y < WorldManager.GetChunkSize(); y++) {
                 // toDo refacto is just a poc
                 if (WorldManager.objectsMap[worldPosition.x + x, worldPosition.y + y] == 22) {
                     Item item = ItemManager.instance.CreateItem(6, ItemStatus.ACTIVE, new Vector3(worldPosition.x + x, worldPosition.y + y));
@@ -77,8 +80,8 @@ public class Chunk : MonoBehaviour {
         if (!render || !render.isVisible)
             return;
         var intensity = CycleDay.GetIntensity();
-        for (var x = 0; x < WorldManager.chunkSize; x++) {
-            for (var y = 0; y < WorldManager.chunkSize; y++) {
+        for (var x = 0; x < WorldManager.GetChunkSize(); x++) {
+            for (var y = 0; y < WorldManager.GetChunkSize(); y++) {
                 Vector3Int vec3 = new Vector3Int(x, y, 0);
                 if (tilesMap[x, y] > 0 || WorldManager.wallTilesMap[worldPosition.x + x, worldPosition.y + y] > 0) {
                     var shadow = WorldManager.tilesShadowMap[worldPosition.x + x, worldPosition.y + y] + intensity;
@@ -110,12 +113,12 @@ public class Chunk : MonoBehaviour {
     }
 
     private void RefreshTiles() {
-        Vector3Int[] positions = new Vector3Int[WorldManager.chunkSize * WorldManager.chunkSize];
+        Vector3Int[] positions = new Vector3Int[WorldManager.GetChunkSize() * WorldManager.GetChunkSize()];
         TileBase[] tileArray = new TileBase[positions.Length];
         TileBase[] tileArrayWall = new TileBase[positions.Length];
         for (int index = 0; index < positions.Length; index++) {
-            var x = index % WorldManager.chunkSize;
-            var y = index / WorldManager.chunkSize;
+            var x = index % WorldManager.GetChunkSize();
+            var y = index / WorldManager.GetChunkSize();
             positions[index] = new Vector3Int(x, y, 0);
             var tileBaseIndex = tilesMap[x, y];
             if (tileBaseIndex > 0) {
@@ -146,8 +149,8 @@ public class Chunk : MonoBehaviour {
         tc2d = GetComponentInChildren<TilemapCollider2D>();
         tc2d.enabled = false;
         var bc2d = GetComponentInChildren<BoxCollider2D>();
-        bc2d.offset = new Vector2(WorldManager.chunkSize / 2, WorldManager.chunkSize / 2);
-        bc2d.size = new Vector2(WorldManager.chunkSize, WorldManager.chunkSize);
+        bc2d.offset = new Vector2(WorldManager.GetChunkSize() / 2, WorldManager.GetChunkSize() / 2);
+        bc2d.size = new Vector2(WorldManager.GetChunkSize(), WorldManager.GetChunkSize());
     }
     public void SetTile(Vector3Int vector3, TileBase tilebase) {
         tilemapTile.SetTile(vector3, tilebase);
@@ -160,7 +163,7 @@ public class Chunk : MonoBehaviour {
         if (render.isVisible && !alreadyVisible) {
             alreadyVisible = true;
             tc2d.enabled = true;
-            generateObjectsMap();
+            generateObjectsMap(); // toDO revoir orchestration item manager
             RefreshShadowMap();
         }
     }

@@ -37,8 +37,8 @@ public class ChunkService : MonoBehaviour {
     private int oldPlayerPosY;
 
     public void FixedUpdate() {
-        currentPlayerChunkX = (int)player.transform.position.x / WorldManager.chunkSize;
-        currentPlayerChunkY = (int)player.transform.position.y / WorldManager.chunkSize;
+        currentPlayerChunkX = (int)player.transform.position.x / WorldManager.GetChunkSize();
+        currentPlayerChunkY = (int)player.transform.position.y / WorldManager.GetChunkSize();
         if ((oldPosX != currentPlayerChunkX || oldPosY != currentPlayerChunkY)) {
             this.pool.DeactivateTooFarChunks(new Vector2(currentPlayerChunkX, currentPlayerChunkY), new Vector2(maxChunkGapWithPlayerX, maxChunkGapWithPlayerY));
         }
@@ -66,7 +66,7 @@ public class ChunkService : MonoBehaviour {
         boundX = WorldManager.tilesWorldMap.GetUpperBound(0);
         boundY = WorldManager.tilesWorldMap.GetUpperBound(1);
         playerCam = player.GetComponentInChildren<Camera>();
-        halfChunk = WorldManager.chunkSize / 2;
+        halfChunk = WorldManager.GetChunkSize() / 2;
         this.player = player;
         worldMapTransform = GameObject.FindGameObjectWithTag("WorldMap").gameObject.transform;
         tilebaseDictionary = _tilebaseDictionary;
@@ -74,15 +74,15 @@ public class ChunkService : MonoBehaviour {
         CreatePoolChunk(20, 52);
     }
     public void CreateChunksFromMaps(int[,] tilesMap) {
-        chunkXLength = (tilesMap.GetUpperBound(0) + 1) / WorldManager.chunkSize;
-        chunkYLength = (tilesMap.GetUpperBound(1) + 1) / WorldManager.chunkSize;
+        chunkXLength = (tilesMap.GetUpperBound(0) + 1) / WorldManager.GetChunkSize();
+        chunkYLength = (tilesMap.GetUpperBound(1) + 1) / WorldManager.GetChunkSize();
         int[,][,] tilesMapChunksArray = new int[chunkXLength, chunkYLength][,];
         for (var chkX = 0; chkX < chunkXLength; chkX++) {
             for (var chkY = 0; chkY < chunkYLength; chkY++) {
-                int[,] tileMap = new int[WorldManager.chunkSize, WorldManager.chunkSize];
-                for (var x = 0; x < WorldManager.chunkSize; x++) {
-                    for (var y = 0; y < WorldManager.chunkSize; y++) {
-                        tileMap[x, y] = tilesMap[(chkX * WorldManager.chunkSize) + x, (chkY * WorldManager.chunkSize) + y];
+                int[,] tileMap = new int[WorldManager.GetChunkSize(), WorldManager.GetChunkSize()];
+                for (var x = 0; x < WorldManager.GetChunkSize(); x++) {
+                    for (var y = 0; y < WorldManager.GetChunkSize(); y++) {
+                        tileMap[x, y] = tilesMap[(chkX * WorldManager.GetChunkSize()) + x, (chkY * WorldManager.GetChunkSize()) + y];
                     }
                 }
                 tilesMapChunksArray[chkX, chkY] = tileMap;
@@ -103,9 +103,9 @@ public class ChunkService : MonoBehaviour {
         // spawn player on center start chunk
         oldPosX = xStart;
         oldPosY = yStart;
-        oldPlayerPosX = xStart * WorldManager.chunkSize + (WorldManager.chunkSize / 2);
-        oldPlayerPosY = yStart * WorldManager.chunkSize + (WorldManager.chunkSize / 2);
-        player.transform.position = new Vector3(xStart * WorldManager.chunkSize + (WorldManager.chunkSize / 2), yStart * WorldManager.chunkSize + (WorldManager.chunkSize / 2), 0);
+        oldPlayerPosX = xStart * WorldManager.GetChunkSize() + (WorldManager.GetChunkSize() / 2);
+        oldPlayerPosY = yStart * WorldManager.GetChunkSize() + (WorldManager.GetChunkSize() / 2);
+        player.transform.position = new Vector3(xStart * WorldManager.GetChunkSize() + (WorldManager.GetChunkSize() / 2), yStart * WorldManager.GetChunkSize() + (WorldManager.GetChunkSize() / 2), 0);
     }
     private ChunkDataModel GetChunkData(int PosX, int PosY) {
         /*var chunkPath = "/" + chunkDirectory + "/" + "chunk_" + PosX + "_" + PosY;
@@ -121,14 +121,14 @@ public class ChunkService : MonoBehaviour {
             return chunkData;
         }
         return cacheChunkData[PosX, PosY];*/
-        return TileMapService.CreateChunkDataModel(PosX, PosY, WorldManager.chunkSize);
+        return TileMapService.CreateChunkDataModel(PosX, PosY, WorldManager.GetChunkSize());
     }
     private IEnumerator ManageChunkFromPool(Vector2Int chunkPos) {
         Chunk ck = this.pool.GetOne();
         GameObject chunkGo = ck.gameObject;
         ck.tilesMap = null;
         ck.chunkPosition = chunkPos;
-        ck.worldPosition = new Vector2Int(chunkPos.x * WorldManager.chunkSize, chunkPos.y * WorldManager.chunkSize);
+        ck.worldPosition = new Vector2Int(chunkPos.x * WorldManager.GetChunkSize(), chunkPos.y * WorldManager.GetChunkSize());
         chunkGo.transform.position = new Vector3(ck.worldPosition.x, ck.worldPosition.y, 0);
         ck.tilesMap = tilesMapChunks[chunkPos.x, chunkPos.y]; // ToDo régler le pb de out of range !!!!!!!!! => voir si pas out of bound
         var chunkData = GetChunkData(chunkPos.x, chunkPos.y);
