@@ -29,4 +29,8 @@ public static class FileManager {
         }
     }
 
+    public static void SaveToJson(object entity, string filename) {
+        System.IO.File.WriteAllText(Application.persistentDataPath + "/" + filename + ".json", JsonUtility.ToJson(entity));
+    }
+
 }

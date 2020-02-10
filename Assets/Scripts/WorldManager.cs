@@ -12,6 +12,7 @@ public class WorldManager : MonoBehaviour {
     private LevelGenerator levelGenerator;
     private GameObject tile_selector;
     private GameObject player;
+    private Sprite[] block_sprites;
     public static int[,] tilesLightMap;
     public static int[,] tilesShadowMap;
     public static int[,] tilesWorldMap;
@@ -19,25 +20,34 @@ public class WorldManager : MonoBehaviour {
     public static int[,] objectsMap;
     public static int[,] dynamicLight;
     public static Dictionary<int, TileBase> tilebaseDictionary;
-    private Sprite[] block_sprites;
-    public TileBase_cfg tilebase_cfg;
-    public static int chunkSize;
+
+    [Header("Main Settings")]
+    [SerializeField] private int worldSizeX;
+    [SerializeField] private int worldSizeY;
+    [SerializeField] private int chunkSizeField;
+    [SerializeField] private TileBase_cfg tilebase_cfg;
+    [SerializeField] private static int chunkSize;
+
+    [Header("Debug Settings")]
+    [SerializeField] private bool saveWorldToJson;
+
     // event
     public delegate void LightEventHandler();
     public static event LightEventHandler RefreshLight;
     public delegate void PlayerLoaded(GameObject player);
     public static event PlayerLoaded GetPlayer;
-    // SerializeField
-    [SerializeField] private int worldSizeX;
-    [SerializeField] private int worldSizeY;
-    [SerializeField] private int chunkSizeField;
-    private void InitFolders() {
+
+    /* private void InitFolders() {
         FileManager.ManageFolder("chunk-data");
+    } */
+
+    public static int GetChunkSize() {
+        return chunkSize;
     }
 
     void Start() {
         chunkSize = chunkSizeField;
-        InitFolders();
+        // InitFolders();
         InitResources();
         CreateWorldMap();
         CreateLightMap();
@@ -64,6 +74,7 @@ public class WorldManager : MonoBehaviour {
         tilesShadowMap = new int[worldSizeX, worldSizeY];
         levelGenerator.GenerateWorldLight(tilesLightMap, tilesShadowMap, tilesWorldMap, wallTilesMap);
     }
+
     private void CreateWorldMap() {
         tilesWorldMap = new int[worldSizeX, worldSizeY];
         wallTilesMap = new int[worldSizeX, worldSizeY];
@@ -71,6 +82,10 @@ public class WorldManager : MonoBehaviour {
         dynamicLight = new int[worldSizeX, worldSizeY];
         levelGenerator.GenerateTilesWorldMap(tilesWorldMap, wallTilesMap, objectsMap);
         chunkService.CreateChunksFromMaps(tilesWorldMap);
+        if (saveWorldToJson) {
+            // for test with html canvas map render
+            FileManager.SaveToJson(new ConvertWorldMapToJson(tilesWorldMap, wallTilesMap), "worldMap"); 
+        }
     }
     private void CreatePlayer() {
         player = Instantiate((GameObject)Resources.Load("Prefabs/Characters/Player/Player"), new Vector3(0, 0, 0), transform.rotation);
