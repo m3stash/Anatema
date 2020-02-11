@@ -26,7 +26,7 @@ public class LightService : MonoBehaviour {
         int newLight = GetAmountLight(WorldManager.tilesWorldMap[x, y], WorldManager.wallTilesMap[x, y], minLight);
         if (newLight <= WorldManager.tilesLightMap[x, y] && !toDelete)
             return;
-        var isLight = WorldManager.objectsMap[x, y] == 7 || WorldManager.dynamicLight[x, y] == 1;
+        var isLight = WorldManager.objectsMap[x, y] == 16 || WorldManager.dynamicLight[x, y] == 1;
         if (!toDelete && isLight)
             return;
         WorldManager.tilesLightMap[x, y] = newLight;
@@ -63,7 +63,7 @@ public class LightService : MonoBehaviour {
         var tileWorldMap = WorldManager.tilesWorldMap[x, y];
         var wallTileMap = WorldManager.wallTilesMap[x, y];
         var tileLightMap = WorldManager.tilesLightMap[x, y];
-        var isLight = WorldManager.objectsMap[x, y] == 7;
+        var isLight = WorldManager.objectsMap[x, y] == 16;
         if (IsOutOfBound(x, y) || (tileWorldMap == 0 && wallTileMap == 0 || isLight)) // toDo voir à faire ça autrement ? => lightOpacity == 0.15f
             return;
         var tileShadowMap = WorldManager.tilesShadowMap[x, y];

@@ -92,8 +92,8 @@ public class WorldManager : MonoBehaviour {
         tile_selector.GetComponent<TileSelector>().Init(player, this, wallTilesMap, tilesWorldMap);
     }
     public void AddItem(int posX, int posY, InventoryItem item) {
-        WorldManager.objectsMap[posX, posY] = 7;
-        FurnitureItem newItem = ItemManager.instance.CreateItem(7, ItemStatus.ACTIVE, new Vector3(posX + 0.5f, posY + 0.5f, 0)) as FurnitureItem;
+        WorldManager.objectsMap[posX, posY] = 16;
+        FurnitureItem newItem = ItemManager.instance.CreateItem(16, ItemStatus.ACTIVE, new Vector3(posX + 0.5f, posY + 0.5f, 0)) as FurnitureItem;
         FurnitureConfig config = newItem.GetConfig() as FurnitureConfig;
         // toDo voir a rajouter le bloc en dessous uniquement pour des lights statiques les autres auront le script dynamic light
         /*if (config.CanEmitLight()) {
@@ -102,7 +102,7 @@ public class WorldManager : MonoBehaviour {
         }*/
     }
     public void DeleteItem(int posX, int posY) {
-        if (objectsMap[posX, posY] == 7) { // toDo changer cette merde
+        if (objectsMap[posX, posY] == 16) { // toDo changer cette merde
             LightService.RecursivDeleteLight(posX, posY, true);
             RefreshLight();
         }
