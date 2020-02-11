@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a95d1122625dfc4f9e3a236286726e1, type: 3}
+  m_Name: Iron_ore
+  m_EditorClassIdentifier: 
+  id: 5
+  prefab: {fileID: 7744899684444761357, guid: d319c0d193dda794797475d71d49b286, type: 3}
+  displayName: Iron_ore
+  description: 
+  rarityLevel: 1
+  lootParticlePrefab: {fileID: 2375911006704059128, guid: 925a7cd7c4a6e4ef894368ef75bd4599,
+    type: 3}
+  itemType: 0
+  icon: {fileID: 21300000, guid: 8a7ed6184d58e5646a3a163b18f02d96, type: 3}
+  pooleable: 1
+  poolSize: 10
+  stackable: 1
+  stackLimit: 5
+  width: 1
+  height: 1
+  placeable: 1
+  emitLight: 0
+  scale: {x: 0.5, y: 0.5}
+  blockType: 3
+  durability: 120

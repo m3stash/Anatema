@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c3e0d28a179443b3b7fe007d7f7b32f, type: 3}
   m_Name: Health Potion
   m_EditorClassIdentifier: 
-  id: 4
+  id: 17
   prefab: {fileID: 4405146219834199482, guid: 41abe6f2e9ad06d44bd3eec8f34fedbf, type: 3}
-  displayName: Health Potion
+  displayName: Life Potion
+  description: 
+  rarityLevel: 0
+  lootParticlePrefab: {fileID: 0}
   itemType: 4
-  icon: {fileID: 21300000, guid: 4b243fcec88d17a44ac6a2b4dad47ed9, type: 3}
+  icon: {fileID: 21300000, guid: 3d2a3d3e55901417a8b6b8d2739e8d86, type: 3}
   pooleable: 1
   poolSize: 10
   stackable: 0
@@ -24,5 +27,6 @@ MonoBehaviour:
   width: 0
   height: 0
   placeable: 0
+  emitLight: 0
   scale: {x: 0.5, y: 0.5}
   type: 0

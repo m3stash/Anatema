@@ -65,6 +65,93 @@ TextureImporter:
   - first:
       213: 21300040
     second: silver_ore_20
+  - first:
+      213: -6606649680277887094
+    second: silver_ore_0
+  - first:
+      213: -5140475663560305770
+    second: silver_ore_1
+  - first:
+      213: -8318053184243273790
+    second: silver_ore_2
+  - first:
+      213: -7163282398697338173
+    second: silver_ore_3
+  - first:
+      213: -8422910671532568062
+    second: silver_ore_4
+  - first:
+      213: 6128657331781472194
+    second: silver_ore_5
+  - first:
+      213: -5985267426228674582
+    second: silver_ore_6
+  - first:
+      213: -12069437745018281
+    second: silver_ore_7
+  - first:
+      213: -8643480440768073853
+    second: silver_ore_8
+  - first:
+      213: 6202842018314964913
+    second: silver_ore_9
+  - first:
+      213: -7512408114377700189
+    second: silver_ore_10
+  - first:
+      213: 1747365045506926130
+    second: silver_ore_11
+  - first:
+      213: 452774404729104237
+    second: silver_ore_12
+  - first:
+      213: -6326656945670906939
+    second: silver_ore_13
+  - first:
+      213: -3079801047381615330
+    second: silver_ore_14
+  - first:
+      213: -3376813902337258062
+    second: silver_ore_21
+  - first:
+      213: 2008095592168108860
+    second: silver_ore_22
+  - first:
+      213: 212931869092819419
+    second: silver_ore_23
+  - first:
+      213: -7433978578515031089
+    second: silver_ore_24
+  - first:
+      213: 1881877346211597194
+    second: silver_ore_25
+  - first:
+      213: -8255958045340309170
+    second: silver_ore_26
+  - first:
+      213: 6388901175097525699
+    second: silver_ore_27
+  - first:
+      213: 2831499033495622288
+    second: silver_ore_28
+  - first:
+      213: -3416132523542359514
+    second: silver_ore_29
+  - first:
+      213: 8748756958073587199
+    second: silver_ore_30
+  - first:
+      213: 908332000752676318
+    second: silver_ore_31
+  - first:
+      213: -4395246705734801420
+    second: silver_ore_32
+  - first:
+      213: -9124046118479857352
+    second: silver_ore_33
+  - first:
+      213: 5610825937107016284
+    second: silver_ore_34
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -153,7 +240,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 32
+        y: 36
         width: 16
         height: 16
       alignment: 0
@@ -163,8 +250,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7a424db751b9f474683534db5e4c3e4e
-      internalID: 21300000
+      spriteID: a87a69b8e177054a0800000000000000
+      internalID: -6606649680277887094
       vertices: []
       indices: 
       edges: []
@@ -173,8 +260,8 @@ TextureImporter:
       name: silver_ore_1
       rect:
         serializedVersion: 2
-        x: 16
-        y: 32
+        x: 18
+        y: 36
         width: 16
         height: 16
       alignment: 0
@@ -184,8 +271,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f8e12e0e130eada4f92a066fc41d0e5f
-      internalID: 21300002
+      spriteID: 69392f09e9c59a8b0800000000000000
+      internalID: -5140475663560305770
       vertices: []
       indices: 
       edges: []
@@ -194,8 +281,8 @@ TextureImporter:
       name: silver_ore_2
       rect:
         serializedVersion: 2
-        x: 32
-        y: 32
+        x: 36
+        y: 36
         width: 16
         height: 16
       alignment: 0
@@ -205,8 +292,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b467f3c2f1b1c9c49913e26c5244c196
-      internalID: 21300004
+      spriteID: 2cf6f5a23b6509c80800000000000000
+      internalID: -8318053184243273790
       vertices: []
       indices: 
       edges: []
@@ -215,8 +302,8 @@ TextureImporter:
       name: silver_ore_3
       rect:
         serializedVersion: 2
-        x: 48
-        y: 32
+        x: 54
+        y: 36
         width: 16
         height: 16
       alignment: 0
@@ -226,8 +313,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a66503a1401355d409a6298235195bf1
-      internalID: 21300006
+      spriteID: 3ca46df6c98e69c90800000000000000
+      internalID: -7163282398697338173
       vertices: []
       indices: 
       edges: []
@@ -236,8 +323,8 @@ TextureImporter:
       name: silver_ore_4
       rect:
         serializedVersion: 2
-        x: 64
-        y: 32
+        x: 72
+        y: 36
         width: 16
         height: 16
       alignment: 0
@@ -247,8 +334,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 748691d3c00dbe04cb6d36a98d10468a
-      internalID: 21300008
+      spriteID: 2025478ee5fcb1b80800000000000000
+      internalID: -8422910671532568062
       vertices: []
       indices: 
       edges: []
@@ -257,8 +344,8 @@ TextureImporter:
       name: silver_ore_5
       rect:
         serializedVersion: 2
-        x: 80
-        y: 32
+        x: 90
+        y: 36
         width: 16
         height: 16
       alignment: 0
@@ -268,8 +355,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4896c0169d021bf4bb6dab6dfde0afe9
-      internalID: 21300010
+      spriteID: 2cf8dea4f5d5d0550800000000000000
+      internalID: 6128657331781472194
       vertices: []
       indices: 
       edges: []
@@ -278,8 +365,8 @@ TextureImporter:
       name: silver_ore_6
       rect:
         serializedVersion: 2
-        x: 96
-        y: 32
+        x: 108
+        y: 36
         width: 16
         height: 16
       alignment: 0
@@ -289,8 +376,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 770364241c98ac0489906dbcf0337c8b
-      internalID: 21300012
+      spriteID: aef5ce5bcfe00fca0800000000000000
+      internalID: -5985267426228674582
       vertices: []
       indices: 
       edges: []
@@ -299,8 +386,8 @@ TextureImporter:
       name: silver_ore_7
       rect:
         serializedVersion: 2
-        x: 0
-        y: 16
+        x: 126
+        y: 36
         width: 16
         height: 16
       alignment: 0
@@ -310,8 +397,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c06852cdca9d930438410bd03408d6dc
-      internalID: 21300014
+      spriteID: 75ac19a09ee15dff0800000000000000
+      internalID: -12069437745018281
       vertices: []
       indices: 
       edges: []
@@ -320,8 +407,8 @@ TextureImporter:
       name: silver_ore_8
       rect:
         serializedVersion: 2
-        x: 16
-        y: 16
+        x: 144
+        y: 36
         width: 16
         height: 16
       alignment: 0
@@ -331,8 +418,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6fb3e88944bb83b4f9b7677d7ccbd5d6
-      internalID: 21300016
+      spriteID: 38f6bf095503c0880800000000000000
+      internalID: -8643480440768073853
       vertices: []
       indices: 
       edges: []
@@ -341,8 +428,8 @@ TextureImporter:
       name: silver_ore_9
       rect:
         serializedVersion: 2
-        x: 32
-        y: 16
+        x: 162
+        y: 36
         width: 16
         height: 16
       alignment: 0
@@ -352,8 +439,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bb45dfa0e3e830f4e9698b45ca505585
-      internalID: 21300018
+      spriteID: 1bfc78b93fbe41650800000000000000
+      internalID: 6202842018314964913
       vertices: []
       indices: 
       edges: []
@@ -362,8 +449,8 @@ TextureImporter:
       name: silver_ore_10
       rect:
         serializedVersion: 2
-        x: 48
-        y: 16
+        x: 180
+        y: 36
         width: 16
         height: 16
       alignment: 0
@@ -373,8 +460,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1579670b10127c544b92b23bf2fdb551
-      internalID: 21300020
+      spriteID: 3ac41c65f909eb790800000000000000
+      internalID: -7512408114377700189
       vertices: []
       indices: 
       edges: []
@@ -383,8 +470,8 @@ TextureImporter:
       name: silver_ore_11
       rect:
         serializedVersion: 2
-        x: 64
-        y: 16
+        x: 198
+        y: 36
         width: 16
         height: 16
       alignment: 0
@@ -394,8 +481,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 218347b5644be814e8d8e22fe8acf416
-      internalID: 21300022
+      spriteID: 236ef5e3043ef3810800000000000000
+      internalID: 1747365045506926130
       vertices: []
       indices: 
       edges: []
@@ -404,8 +491,8 @@ TextureImporter:
       name: silver_ore_12
       rect:
         serializedVersion: 2
-        x: 80
-        y: 16
+        x: 0
+        y: 18
         width: 16
         height: 16
       alignment: 0
@@ -415,8 +502,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 88e87da3acaef3847958e43dd0e1ae9c
-      internalID: 21300024
+      spriteID: d6764451ce3984600800000000000000
+      internalID: 452774404729104237
       vertices: []
       indices: 
       edges: []
@@ -425,8 +512,8 @@ TextureImporter:
       name: silver_ore_13
       rect:
         serializedVersion: 2
-        x: 96
-        y: 16
+        x: 18
+        y: 18
         width: 16
         height: 16
       alignment: 0
@@ -436,14 +523,224 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ddf1477b76fecc94091d0491d5b30bdf
-      internalID: 21300026
+      spriteID: 5cb178927033338a0800000000000000
+      internalID: -6326656945670906939
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
       name: silver_ore_14
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 18
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1d51ffc3495245d0800000000000000
+      internalID: -3079801047381615330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: silver_ore_15
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 18
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3305410000000000800000000000000
+      internalID: 21300030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: silver_ore_16
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 18
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04305410000000000800000000000000
+      internalID: 21300032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: silver_ore_17
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 18
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24305410000000000800000000000000
+      internalID: 21300034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: silver_ore_18
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 18
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44305410000000000800000000000000
+      internalID: 21300036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: silver_ore_19
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 18
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64305410000000000800000000000000
+      internalID: 21300038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: silver_ore_20
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 18
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84305410000000000800000000000000
+      internalID: 21300040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: silver_ore_21
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 18
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2bd469e95a52321d0800000000000000
+      internalID: -3376813902337258062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: silver_ore_22
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 18
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c33353e3d403edb10800000000000000
+      internalID: 2008095592168108860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: silver_ore_23
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 18
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd133a2286c74f200800000000000000
+      internalID: 212931869092819419
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: silver_ore_24
       rect:
         serializedVersion: 2
         x: 0
@@ -457,8 +754,218 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6770c1991e2873940b50afcb141fe8e9
-      internalID: 21300028
+      spriteID: fcb8fb7aed335d890800000000000000
+      internalID: -7433978578515031089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: silver_ore_25
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8b0ccbc975cd1a10800000000000000
+      internalID: 1881877346211597194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: silver_ore_26
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4966f256e1fc6d80800000000000000
+      internalID: -8255958045340309170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: silver_ore_27
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c583c6d4cfe9a850800000000000000
+      internalID: 6388901175097525699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: silver_ore_28
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0925e597e518b4720800000000000000
+      internalID: 2831499033495622288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: silver_ore_29
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 622599cb1957790d0800000000000000
+      internalID: -3416132523542359514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: silver_ore_30
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff50438b914d96970800000000000000
+      internalID: 8748756958073587199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: silver_ore_31
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eddabf2642b0b9c00800000000000000
+      internalID: 908332000752676318
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: silver_ore_32
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f7a87c7862f003c0800000000000000
+      internalID: -4395246705734801420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: silver_ore_33
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 839f9b18560e06180800000000000000
+      internalID: -9124046118479857352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: silver_ore_34
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5adfcd5678addd40800000000000000
+      internalID: 5610825937107016284
       vertices: []
       indices: 
       edges: []

@@ -4,8 +4,10 @@ public class LevelGenerator : MonoBehaviour {
     public void GenerateTilesWorldMap(int[,] worldMap, int[,] wallTilesMap, int[,] objectsMap) {
         MapSettings middleMapSettings = Instantiate((MapSettings)Resources.Load("Scriptables/MapSettings/MiddleLayer"));
         MapSettings bottomMapSettings = Instantiate((MapSettings)Resources.Load("Scriptables/MapSettings/BottomLayer"));
+        MapSettings topMapSettings = Instantiate((MapSettings)Resources.Load("Scriptables/MapSettings/TopLayer"));
 
         float seed = Time.time.GetHashCode();
+        // float seed = Random.value;
         worldMap = MapFunctions.RandomWalkTop(worldMap, wallTilesMap, seed);
         worldMap = MapFunctions.PerlinNoiseCave(worldMap, bottomMapSettings.modifier);
 
@@ -20,7 +22,7 @@ public class LevelGenerator : MonoBehaviour {
         worldMap = MapFunctions.DirectionalTunnel(worldMap, middleMapSettings.minPathWidth, middleMapSettings.maxPathWidth,
             middleMapSettings.maxPathChange, middleMapSettings.roughness, middleMapSettings.windyness, (int)startPosX3);
         // generate irons
-        // MapFunctions.GenerateIrons(worldMap);
+        MapFunctions.GenerateIrons(worldMap);
         // toDO attention à générer les colines avant les arbres!
         // add trees
         objectsMap = MapFunctions.AddTrees(worldMap, objectsMap);
