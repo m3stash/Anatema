@@ -1,0 +1,52 @@
+{
+    "name": "ItemColliderControls",
+    "maps": [
+        {
+            "name": "ItemColliderTool",
+            "id": "a3a88a8a-28e3-4b8b-93cb-bfeda042a72f",
+            "actions": [
+                {
+                    "name": "Click",
+                    "type": "Button",
+                    "id": "78192421-da24-4313-9c97-02d8877b7871",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "MousePosition",
+                    "type": "Value",
+                    "id": "a6dc4d26-5d9e-4393-94c6-45d5d7d54904",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "37adf688-f2be-45ed-8fa4-b7d8a55aeab0",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8771cc96-3b07-4559-a3c1-da53dabcc62f",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MousePosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

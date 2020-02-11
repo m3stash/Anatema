@@ -474,6 +474,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b47f42a3c7c544f8a422b9ff86fda15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileSelectorPrefab: {fileID: 114132190777732268, guid: a759f083ff218d24281cbae680bd5c8f,
+    type: 3}
   gameMode: 0
 --- !u!4 &631963169
 Transform:

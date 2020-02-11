@@ -3,180 +3,215 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class TileSelector : MonoBehaviour
-{
+public class TileSelector : MonoBehaviour {
+    [Header("Fields to complete manually")]
+    [SerializeField] private GameObject gridCellPrefab;
+    [SerializeField] private Vector2Int gridSize;
+    [SerializeField] private GameObject selectorCellPrefab;
+    [SerializeField] private GameObject target;
+    [SerializeField] private bool showGrid;
+
+    [Header("Don't touch it")]
+    [SerializeField] private GameObject[] grid;
+    [SerializeField] private float cellWidth;
+    [SerializeField] private float halfGridWidth;
+    [SerializeField] private float halfGridHeight;
+    [SerializeField] private Camera cam;
+    [SerializeField] private GameObject selector;
+
+    [SerializeField] private SpriteRenderer previewItemRenderer;
+    [SerializeField] private CellCollider[] cellsToCheck;
+    [SerializeField] private bool canPoseItem;
 
     private Ray ray;
-    private Camera cam;
-    private float timeClick;
     private bool onClick = false;
-    private GameObject tile_dig_1, tile_dig_2, tile_dig_3, selector;
-    private Vector2 currentTile;
-    private GameObject player;
-    private WorldManager worldManager;
-    //private InventoryService inventoryService;
-    private SpriteRenderer spriteRender;
-    private int[,] wallTilesMap;
-    private int[,] tilesWorldMap;
 
-    public void Init(GameObject _player, WorldManager _worldManager, int[,] _wallTilesMap, int[,] _tilesWorldMap) {
-        worldManager = _worldManager;
-        //inventoryService = GameObject.FindGameObjectWithTag("InventoryContainer").GetComponent<InventoryService>();
-        player = _player;
-        cam = player.GetComponentInChildren<Camera>();
-        tile_dig_1 = gameObject.transform.GetChild(0).gameObject;
-        tile_dig_2 = gameObject.transform.GetChild(1).gameObject;
-        tile_dig_3 = gameObject.transform.GetChild(2).gameObject;
-        selector = gameObject.transform.GetChild(3).gameObject;
-        spriteRender = selector.GetComponent<SpriteRenderer>();
-        wallTilesMap = _wallTilesMap;
-        tilesWorldMap = _tilesWorldMap;
+    private void Awake() {
+        this.selector = Instantiate(this.selectorCellPrefab, this.transform);
+        this.selector.SetActive(false);
+
+        this.CreateGrid();
+    }
+
+    private void OnEnable() {
+        cam = Player.instance.GetComponentInChildren<Camera>();
 
         InputManager.gameplayControls.TileSelector.PressClick.performed += ctx => this.SetOnClick(true);
         InputManager.gameplayControls.TileSelector.ReleaseClick.performed += ctx => this.SetOnClick(false);
+        ToolbarManager.OnSelectedItemChanged += OnCurrentSelectedItemChanged;
+
+        this.target = Player.instance.gameObject;
+
+        this.ManageGridDisplay();
     }
 
     private void OnDisable() {
         InputManager.gameplayControls.TileSelector.PressClick.performed -= ctx => this.SetOnClick(true);
         InputManager.gameplayControls.TileSelector.ReleaseClick.performed -= ctx => this.SetOnClick(false);
+        ToolbarManager.OnSelectedItemChanged -= OnCurrentSelectedItemChanged;
+
+        this.DestroyPreviewItem();
     }
 
-    private void DisableCursor() {
-        timeClick = 0;
-        tile_dig_1.SetActive(false);
-        tile_dig_2.SetActive(false);
-        tile_dig_3.SetActive(false);
+    public void SetShowGrid(bool state) {
+        this.showGrid = state;
+        this.ManageGridDisplay();
     }
 
     private void SetOnClick(bool value) {
         this.onClick = value;
+    }
 
-        if(this.onClick) {
-            DisableCursor();
+    private void ManageGridDisplay() {
+        foreach(GameObject cell in this.grid) {
+            cell.SetActive(this.showGrid);
+        }
+    }
+
+    private void MoveToTarget() {
+        if(this.target) {
+            this.transform.position = new Vector3((int)this.target.transform.position.x + 0.5f, (int)this.target.transform.position.y + 0.5f);
+        }
+    }
+
+    private void OnCurrentSelectedItemChanged() {
+        this.DestroyPreviewItem();
+        this.CreatePreviewItem();
+    }
+
+    private void CreateGrid() {
+        this.grid = new GameObject[this.gridSize.x * this.gridSize.y];
+        int counter = 0;
+        this.cellWidth = this.gridCellPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
+        this.halfGridWidth = ((this.gridSize.x / 2) * this.cellWidth);
+        this.halfGridHeight = ((this.gridSize.y / 2) * this.cellWidth);
+
+        for(int x = 0; x < this.gridSize.x; x++) {
+            for(int y = 0; y < this.gridSize.y; y++) {
+                GameObject gridCell = Instantiate(this.gridCellPrefab,
+                    this.transform.position + new Vector3((x * this.cellWidth) - this.halfGridWidth, (y * this.cellWidth) - this.halfGridHeight),
+                    Quaternion.identity,
+                    this.transform);
+
+                this.grid[counter] = gridCell;
+                counter++;
+            }
+        }
+    }
+
+    private void AddItem(Vector2Int pos) {
+        InventoryItemData itemData = ToolbarManager.instance.UseSelectedItemData();
+
+        if(itemData == null) {
+            return;
+        }
+
+        if(itemData.GetConfig().GetItemType().Equals(ItemType.BLOCK)) {
+            WorldManager.instance.AddTile(pos.x, pos.y, itemData.GetConfig().GetId());
+        } else {
+            WorldManager.instance.AddItem(pos, itemData);
+        }
+
+        onClick = false;
+    }
+
+    private void CreatePreviewItem() {
+        InventoryItemData itemData = ToolbarManager.instance.GetSelectedItemData();
+
+        if(itemData == null) {
+            return;
+        }
+
+        GameObject obj = Instantiate(itemData.GetConfig().GetPrefab(), this.selector.transform.position, Quaternion.identity);
+        obj.transform.parent = this.selector.transform;
+
+        this.previewItemRenderer = obj.GetComponent<SpriteRenderer>();
+        this.cellsToCheck = itemData.GetConfig().GetColliderConfig().GetCellColliders();
+        this.CheckPreviewItemValidity((int)this.transform.position.x, (int)this.transform.position.y);
+    }
+
+    private void CheckPreviewItemValidity(int originX, int originY) {
+        if(!this.previewItemRenderer) {
+            this.canPoseItem = false;
+            this.RefreshPreviewItemRenderer();
+            return;
+        }
+
+        bool allIsValid = true;
+
+        foreach(CellCollider cell in cellsToCheck) {
+            // Check if position is free on tileMap and objectMap
+            bool objectMapValid = WorldManager.objectsMap[originX + cell.GetRelativePosition().x, originY + cell.GetRelativePosition().y] == 0;
+            bool tilesWorlMapValid = WorldManager.tilesWorldMap[originX + cell.GetRelativePosition().x, originY + cell.GetRelativePosition().y] == 0;
+
+            // TODO: Check neighbour constraint to avoid fly item
+
+            if(!objectMapValid || !tilesWorlMapValid) {
+                allIsValid = false;
+                break;
+            }
+        }
+
+        this.canPoseItem = allIsValid;
+        this.RefreshPreviewItemRenderer();
+    }
+
+    private void RefreshPreviewItemRenderer() {
+        if(this.previewItemRenderer) {
+            this.previewItemRenderer.color = this.canPoseItem ? new Color(1, 1, 1, 0.5f) : new Color(1, 0, 0, 0.5f);
+        }
+    }
+
+    private void DestroyPreviewItem() {
+        if(this.previewItemRenderer) {
+            Destroy(this.previewItemRenderer.gameObject);
         }
     }
 
 
     private void Update() {
-        // toDo refaire tout le system et récupérer les différents tiles, object, wall afin de comparer les valeurs et ne plus utiliser le hit!
+        this.MoveToTarget();
+
         ray = cam.ScreenPointToRay(InputManager.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(ray.origin, Vector2.zero);
-        var tsX = (int)hit.point.x + 0.5f;
-        var tsY = (int)hit.point.y + 0.5f;
-        var posX = (int)ray.origin.x;
-        var posY = (int)ray.origin.y;
+        int posX = (int)ray.origin.x;
+        int posY = (int)ray.origin.y;
 
-        // string tmpType = "Tool"; // Change this to test other cases
-        string tmpType = "Tool"; // todo a enlever
+        // Manage selector tile
+        if(posX <= (int)this.target.transform.position.x + 0.5f + this.halfGridWidth &&
+            posX >= (int)this.target.transform.position.x - 0.5f - this.halfGridWidth &&
+            posY >= (int)this.target.transform.position.y - 0.5f - this.halfGridHeight &&
+            posY <= (int)this.target.transform.position.y + 0.5f + this.halfGridHeight) {
 
-        // ToDo passer par un ENUM
-        switch (tmpType) {
-            case "Block":
-                ActiveSelector((int)ray.origin.x + 0.5f, (int)ray.origin.y + 0.5f);
-                if (tilesWorldMap[posX, posY] == 0) {
-                    spriteRender.color = Color.white;
-                    if (onClick)
-                        AddBlock(posX, posY, 4);
-                } else {
-                    spriteRender.color = Color.red;
-                }
-                break;
-            case "Crafting":
-                ActiveSelector(tsX, tsY);
-                break;
-            case "Tool":
-                if (tilesWorldMap[posX, posY] > 0) {
-                    ActiveSelector(tsX, tsY);
-                    spriteRender.color = Color.white;
-                    if (onClick) {
-                        // ne plus utiliser: tilesObjetMap mais le int[,] objectsMap
+            if(!this.selector.activeSelf) {
+                this.selector.SetActive(true);
+            }
 
-                        if (WorldManager.objectsMap[posX, posY] > 0) {
-                            DeleteItem(posX, posY);
+            if(this.selector.transform.position != new Vector3(posX + 0.5f, posY + 0.5f)) {
+                this.selector.transform.position = new Vector2(posX + 0.5f, posY + 0.5f);
+                this.CheckPreviewItemValidity(posX, posY);
+            }
+        } else if(this.selector.activeSelf) {
+            this.selector.SetActive(false);
+        }
+
+        // Perform action on click
+        if(onClick) {
+            switch(GameManager.instance.GetGameMode()) {
+                case GameMode.BUILD:
+                    if(canPoseItem) {
+                        this.AddItem(new Vector2Int(posX, posY));
+                    }
+                    break;
+                case GameMode.TOOL:
+                    if(WorldManager.tilesWorldMap[posX, posY] > 0) {
+                        if(WorldManager.objectsMap[posX, posY] > 0) {
+                            WorldManager.instance.DeleteItem(posX, posY);
                         } else {
-                            DeleteTile(hit);
+                            WorldManager.instance.DeleteTile((int)posX, (int)posY);
                         }
-                        // tester si tile ou torche !
                     }
-                } else {
-                    DisableCursor();
-                    selector.SetActive(false);
-                }
-                break;
-            case "Furniture":
-                if (tilesWorldMap[posX, posY] > 0) {
-                    ActiveSelector(tsX, tsY);
-                    spriteRender.color = Color.white;
-                    if (onClick) {
-                        Debug.Log("posX" + posX);
-                        Debug.Log("posY" + posY);
-                        AddConsummable(null, posX, posY);
-                    }
-                } else {
-                    DisableCursor();
-                    selector.SetActive(false);
-                }
-                break;
-            default:
-                DisableCursor();
-                selector.SetActive(false);
-                break;
+                    break;
+            }
         }
-    }
-
-
-    private void ActiveSelectorSize() {
-        //selector.transform.localScale = new Vector3(inventoryService.seletedItem.config.GetWidth(), inventoryService.seletedItem.config.GetHeight(), 0);
-        selector.transform.localScale = new Vector3(1, 1, 0);
-    }
-
-    private void ActiveSelector(float tsX, float tsY) {
-        if ((int)player.transform.position.x - tsX < 2 && (int)player.transform.position.x - tsX > -3 && (int)player.transform.position.y - tsY < 2 && (int)player.transform.position.y - tsY > -3) {
-            gameObject.transform.position = new Vector3(tsX, tsY, gameObject.transform.position.z);
-            selector.SetActive(true);
-        } else {
-            DisableCursor();
-            selector.SetActive(false);
-        }
-    }
-
-    private void DeleteItem(int posX, int posY) {
-        worldManager.DeleteItem(posX, posY);
-    }
-
-    private void DeleteTile(RaycastHit2D hit) {
-        if (timeClick > 0.1f && onClick) {
-            tile_dig_1.SetActive(true);
-        }
-        if (timeClick > 0.2f && onClick) {
-            tile_dig_1.SetActive(false);
-            tile_dig_2.SetActive(true);
-        }
-        if (timeClick > 0.3f && onClick) {
-            tile_dig_2.SetActive(false);
-            tile_dig_3.SetActive(true);
-            worldManager.DeleteTile((int)hit.point.x, (int)hit.point.y);
-            // tile_dig_3.SetActive(false);
-            DisableCursor();
-            // timeClick = 0;
-        }
-        if (onClick) {
-            timeClick += Time.deltaTime;
-        }
-    }
-
-    private void AddBlock(int x, int y, int id) {
-        if (timeClick > 0.4f && onClick) {
-            worldManager.AddTile(x, y, id);
-            //inventoryService.RemoveItem();
-        }
-        if (onClick) {
-            timeClick += Time.deltaTime;
-        }
-    }
-
-    private void AddConsummable(InventoryItem item, int posX, int posY) {
-        worldManager.AddItem(posX, posY, item);
-        onClick = false;
     }
 }

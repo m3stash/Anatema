@@ -18,6 +18,9 @@ public class ToolbarManager : MonoBehaviour {
     public delegate void ToolbarChanged(ToolbarType config);
     public static event ToolbarChanged OnToolbarChanged;
 
+    public delegate void SelectedItemChanged();
+    public static event SelectedItemChanged OnSelectedItemChanged;
+
     void Awake() {
         if(instance) {
             Destroy(this);
@@ -45,8 +48,28 @@ public class ToolbarManager : MonoBehaviour {
         return this.toolbars[this.GetCurrentToolbarType()][this.currentSelectedIdx];
     }
 
+    public InventoryItemData UseSelectedItemData() {
+        InventoryItemData itemData = this.toolbars[this.GetCurrentToolbarType()][this.currentSelectedIdx];
+
+        if(itemData == null) {
+            return null;
+        }
+
+        if(itemData.GetStacks() - 1 > 0) {
+            itemData.RemoveStacks(1);
+            this.ReplaceItem(itemData, this.currentSelectedIdx, this.GetCurrentToolbarType());
+        } else {
+            this.DeleteItem(this.currentSelectedIdx, this.GetCurrentToolbarType());
+            OnSelectedItemChanged?.Invoke();
+        }
+
+        return itemData;
+    }
+
     public void SetCurrentSelectedIdx(int idx) {
         this.currentSelectedIdx = idx;
+
+        OnSelectedItemChanged?.Invoke();
     }
 
     public ToolbarConfig GetToolbarConfig(ItemType itemType) {

@@ -22,8 +22,14 @@ public class ToolbarUI : InventoryUI
     }
 
     private void OnEnable() {
+        ToolbarManager.OnToolbarChanged += ToolbarChanged;
+
         this.UpdateCellState();
         this.RefreshItems();
+    }
+
+    private void OnDisable() {
+        ToolbarManager.OnToolbarChanged -= ToolbarChanged;
     }
 
     public void SelectNextSlot() {
@@ -45,6 +51,12 @@ public class ToolbarUI : InventoryUI
     public void UpdateCellState() {
         for (int i = 0; i < this.cells.Length; i++) {
             this.cells[i].SetState(i == this.currentSelectedIdx ? CellState.SELECTED : CellState.ENABLED);
+        }
+    }
+
+    private void ToolbarChanged(ToolbarType type) {
+        if(this.toolbarType.Equals(type)) {
+            this.RefreshItems();
         }
     }
 

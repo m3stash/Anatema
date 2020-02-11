@@ -10,7 +10,6 @@ public class WorldManager : MonoBehaviour {
     private ChunkService chunkService;
     private LightService lightService;
     private LevelGenerator levelGenerator;
-    private GameObject tile_selector;
     private GameObject player;
     private Sprite[] block_sprites;
     public static int[,] tilesLightMap;
@@ -31,6 +30,7 @@ public class WorldManager : MonoBehaviour {
     [Header("Debug Settings")]
     [SerializeField] private bool saveWorldToJson;
 
+    public static WorldManager instance;
     // event
     public delegate void LightEventHandler();
     public static event LightEventHandler RefreshLight;
@@ -43,6 +43,10 @@ public class WorldManager : MonoBehaviour {
 
     public static int GetChunkSize() {
         return chunkSize;
+    }
+
+    private void Awake() {
+        instance = this;
     }
 
     void Start() {
@@ -62,7 +66,6 @@ public class WorldManager : MonoBehaviour {
         lightService = gameObject.GetComponent<LightService>();
         block_sprites = Resources.LoadAll<Sprite>("Sprites/blocks");
         tilebaseDictionary = tilebase_cfg.GetDico();
-        tile_selector = Instantiate(Resources.Load("Prefabs/tile_selector")) as GameObject;
     }
     private void CreateLightMap() {
         tilesLightMap = new int[worldSizeX, worldSizeY];
@@ -89,12 +92,15 @@ public class WorldManager : MonoBehaviour {
     }
     private void CreatePlayer() {
         player = Instantiate((GameObject)Resources.Load("Prefabs/Characters/Player/Player"), new Vector3(0, 0, 0), transform.rotation);
-        tile_selector.GetComponent<TileSelector>().Init(player, this, wallTilesMap, tilesWorldMap);
     }
-    public void AddItem(int posX, int posY, InventoryItem item) {
-        WorldManager.objectsMap[posX, posY] = 16;
-        FurnitureItem newItem = ItemManager.instance.CreateItem(16, ItemStatus.ACTIVE, new Vector3(posX + 0.5f, posY + 0.5f, 0)) as FurnitureItem;
-        FurnitureConfig config = newItem.GetConfig() as FurnitureConfig;
+    public void AddItem(Vector2Int pos, InventoryItemData item) { 
+        // Fill objects map with item id for origin cell and -1 for adjacent cells
+        foreach (CellCollider cell in item.GetConfig().GetColliderConfig().GetCellColliders()) {
+            WorldManager.objectsMap[pos.x + cell.GetRelativePosition().x, pos.y + cell.GetRelativePosition().y] = cell.IsOrigin() ? item.GetConfig().GetId() : -1;
+        }
+
+        ItemManager.instance.CreateItem(item.GetConfig().GetId(), ItemStatus.ACTIVE, new Vector3(pos.x + 0.5f, pos.y + 0.5f, 0));
+
         // toDo voir a rajouter le bloc en dessous uniquement pour des lights statiques les autres auront le script dynamic light
         /*if (config.CanEmitLight()) {
             LightService.RecursivAddNewLight(posX, posY, 0);
@@ -102,10 +108,14 @@ public class WorldManager : MonoBehaviour {
         }*/
     }
     public void DeleteItem(int posX, int posY) {
-        if (objectsMap[posX, posY] == 16) { // toDo changer cette merde
+        if (objectsMap[posX, posY] == 7) { 
             LightService.RecursivDeleteLight(posX, posY, true);
             RefreshLight();
         }
+
+        // Delete recursively for object which take more than 1 cell
+        objectsMap[posX, posY] = 0;
+
         ItemManager.instance.CreateItem(7, ItemStatus.PICKABLE, new Vector3(posX, posY));
     }
     public void DeleteTile(int x, int y) {
@@ -115,7 +125,7 @@ public class WorldManager : MonoBehaviour {
         lightService.RecursivDeleteShadow(x, y);
         RefreshLight();
         ItemManager.instance.CreateItem(id, ItemStatus.PICKABLE, new Vector3(x + 0.5f, y + 0.5f)); // Todo 0.5f is equals to an half block size (Refactor it)
-        ItemManager.instance.CreateItem(7, ItemStatus.PICKABLE, new Vector3(x + 0.5f, y + 0.5f)); // Todo 0.5f is equals to an half block size (Refactor it)
+        ItemManager.instance.CreateItem(16, ItemStatus.PICKABLE, new Vector3(x + 0.5f, y + 0.5f)); // Todo 0.5f is equals to an half block size (Refactor it)
         RefreshChunkNeightboorTiles(x, y, currentChunk.tilemapTile);
     }
     public void AddTile(int x, int y, int id) {
