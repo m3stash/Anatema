@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Health Potion
   m_EditorClassIdentifier: 
   id: 17
-  prefab: {fileID: 4405146219834199482, guid: 41abe6f2e9ad06d44bd3eec8f34fedbf, type: 3}
+  prefab: {fileID: 4915791588426460112, guid: ac4ef3471dc834e48b2224ac1e2018f9, type: 3}
   displayName: Life Potion
   description: 
   rarityLevel: 0
@@ -24,9 +24,8 @@ MonoBehaviour:
   poolSize: 10
   stackable: 0
   stackLimit: 99
-  width: 0
-  height: 0
   placeable: 0
+  colliderConfig: {fileID: 0}
   emitLight: 0
   scale: {x: 0.5, y: 0.5}
   type: 0

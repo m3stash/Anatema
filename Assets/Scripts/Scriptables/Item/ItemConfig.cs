@@ -41,11 +41,9 @@ public class ItemConfig : ScriptableObject {
 
     [Header("Common Settings")]
 
-    [SerializeField] private int width;
-
-    [SerializeField] private int height;
-
     [SerializeField] private bool placeable;
+
+    [SerializeField] private ItemColliderConfig colliderConfig;
 
     /////////////////////////////////////
 
@@ -97,12 +95,8 @@ public class ItemConfig : ScriptableObject {
         return (int)Enum.Parse(typeof(Stacks), this.stackLimit.ToString());
     }
 
-    public int GetWidth() {
-        return this.width;
-    }
-
-    public int GetHeight() {
-        return this.height;
+    public ItemColliderConfig GetColliderConfig() {
+        return this.colliderConfig;
     }
 
     public bool IsPlaceable() {

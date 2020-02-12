@@ -17,6 +17,8 @@ public class Shortcut : MonoBehaviour
 
     private void OnEnable() {
         GameManager.OnGameModeChanged += GameModeChanged;
+
+        this.GameModeChanged(GameManager.instance.GetGameMode());
     }
 
     private void OnDisable() {
