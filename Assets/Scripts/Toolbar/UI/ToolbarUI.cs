@@ -33,7 +33,11 @@ public class ToolbarUI : InventoryUI
     }
 
     public void SelectNextSlot() {
-        currentSelectedIdx = (currentSelectedIdx < this.cells.Length - 1) ? currentSelectedIdx + 1 : 0;
+        if (this.cells.Length > 0) {
+            currentSelectedIdx = (currentSelectedIdx < this.cells.Length - 1) ? currentSelectedIdx + 1 : 0;
+        } else {
+            currentSelectedIdx = 0;
+        }
 
         ToolbarManager.instance.SetCurrentSelectedIdx(this.currentSelectedIdx);
 
@@ -41,7 +45,11 @@ public class ToolbarUI : InventoryUI
     }
 
     public void SelectPreviousSlot() {
-        currentSelectedIdx = (currentSelectedIdx > 0) ? currentSelectedIdx - 1 : this.cells.Length - 1;
+        if (this.cells.Length > 0) {
+            currentSelectedIdx = (currentSelectedIdx > 0) ? currentSelectedIdx - 1 : this.cells.Length - 1;
+        } else {
+            currentSelectedIdx = 0;
+        }
 
         ToolbarManager.instance.SetCurrentSelectedIdx(this.currentSelectedIdx);
 
@@ -55,7 +63,7 @@ public class ToolbarUI : InventoryUI
     }
 
     private void ToolbarChanged(ToolbarType type) {
-        if(this.toolbarType.Equals(type)) {
+        if (this.toolbarType.Equals(type)) {
             this.RefreshItems();
         }
     }

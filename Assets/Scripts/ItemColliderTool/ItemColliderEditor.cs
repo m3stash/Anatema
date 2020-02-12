@@ -104,12 +104,23 @@ public class ItemColliderEditor : MonoBehaviour {
     /// </summary>
     /// <param name="ctx"></param>
     private void Click(InputAction.CallbackContext ctx) {
-        RaycastHit2D hit = Physics2D.Raycast(this.camera.ScreenToWorldPoint(this.mousePosition), Vector2.zero);
+        // Need to catch all cause of collider surounding in some cases
+        RaycastHit2D[] hits = Physics2D.RaycastAll(this.camera.ScreenToWorldPoint(this.mousePosition), Vector2.zero, 10, (1 << 25));
 
-        ItemColliderCell cell = hit.collider?.GetComponent<ItemColliderCell>();
+        if(hits.Length > 0) {
+            CellContactPoint contactPoint = hits.Where(elem => elem.collider.GetComponent<CellContactPoint>()).Select(elem => elem.collider.GetComponent<CellContactPoint>()).FirstOrDefault();
 
-        if(cell) {
-            cell.Select();
+            if(contactPoint) {
+                contactPoint.Select();
+                return;
+            }
+
+            ItemColliderCell cell = hits.Where(elem => elem.collider.GetComponent<ItemColliderCell>()).Select(elem => elem.collider.GetComponent<ItemColliderCell>()).First();
+
+            if (cell) {
+                cell.Select();
+                return;
+            }
         }
     }
 
@@ -169,9 +180,9 @@ public class ItemColliderEditor : MonoBehaviour {
     /// Set other cell position relative to origin cell
     /// </summary>
     private void SetOriginCell() {
-        RaycastHit2D hit = Physics2D.Raycast(this.currentItemLoaded.transform.position, Vector2.zero);
+        RaycastHit2D hit = Physics2D.Raycast(this.currentItemLoaded.transform.position, Vector2.zero, 1, (1 << 25));
 
-        ItemColliderCell cell = hit.collider?.GetComponent<ItemColliderCell>();
+        ItemColliderCell cell = hit.collider?.GetComponentInParent<ItemColliderCell>();
 
         if(cell) {
             cell.SetOrigin();

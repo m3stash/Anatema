@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2129007704028549441}
   - component: {fileID: -9075835843826859415}
   - component: {fileID: -7090708707747679770}
+  - component: {fileID: -4521341231389037604}
   m_Layer: 14
   m_Name: Chest
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 4405146219834199482}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalScale: {x: 0.66, y: 0.464, z: 0.4}
   m_Children:
   - {fileID: 4772002744127462133}
   m_Father: {fileID: 0}
@@ -71,7 +72,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 81745725
-  m_SortingLayer: 6
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ca2e150af950976499bbbe5ffec5e523, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -118,10 +119,10 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 1.4938487, y: 1.2488221}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     oldSize: {x: 3, y: 3}
     newSize: {x: 0.5625, y: 0.625}
     adaptiveTilingThreshold: 0.5
@@ -129,8 +130,20 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5625, y: 0.625}
+  m_Size: {x: 3.0101974, y: 2.495785}
   m_EdgeRadius: 0
+--- !u!114 &-4521341231389037604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4405146219834199482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 036c0acd995a568419693d35208aadbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3343495709543078732
 PrefabInstance:
   m_ObjectHideFlags: 0

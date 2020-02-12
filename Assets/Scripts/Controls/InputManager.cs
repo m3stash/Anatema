@@ -106,7 +106,7 @@ public class InputManager : MonoBehaviour
         switch (this.currentLayout) {
             case Layout.INVENTORY:
                 gameplayControls.Inventory.Enable();
-
+                GameManager.instance.SetGameMode(GameMode.DEFAULT);
                 this.cursorManager.SetCursorState(CursorState.INVENTORY_NAVIGATION);
                 break;
 

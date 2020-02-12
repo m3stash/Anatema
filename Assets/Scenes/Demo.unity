@@ -2779,6 +2779,12 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -27.528564
       objectReference: {fileID: 0}
+    - target: {fileID: 4480673717475791183, guid: da741aeca4e38934c8ba0a1a415f126e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a320863e035e3984fb2bf02dd226cf0b,
+        type: 3}
     - target: {fileID: 4588724754182615469, guid: da741aeca4e38934c8ba0a1a415f126e,
         type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2828,6 +2834,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0.100097656
+      objectReference: {fileID: 0}
+    - target: {fileID: 5241601022475072454, guid: da741aeca4e38934c8ba0a1a415f126e,
+        type: 3}
+      propertyPath: disableDragDrop
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5241601022489671630, guid: da741aeca4e38934c8ba0a1a415f126e,
         type: 3}

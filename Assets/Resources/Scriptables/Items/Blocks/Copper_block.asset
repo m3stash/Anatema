@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Copper_block
   m_EditorClassIdentifier: 
   id: 4
-  prefab: {fileID: 7365588319519017843, guid: 4684fa129ee029f449d2055f798727d1, type: 3}
+  prefab: {fileID: 4915791588426460112, guid: 17027fab61ec1d845813203dcce17736, type: 3}
   displayName: Copper Block
   description: Block of copper ore
   rarityLevel: 0

@@ -109,6 +109,7 @@ public class Item : MonoBehaviour {
                 }
 
                 this.transform.localScale = this.defaultScale;
+                this.transform.rotation = Quaternion.Euler(Vector3.zero);
                 this.transform.tag = this.defaultTag;
                 this.renderer.sprite = this.defaultPrefabSprite;
                 this.status = ItemStatus.INACTIVE;

@@ -72,18 +72,21 @@ public class Player : MonoBehaviour {
 
         this.DetectPickableItemsInArea();
 
+        int direction = 0;
 
         if(getAxis < -0.1f) { 
             transform.localScale = new Vector3(-1, 1, 1);
-            // this.transform.position = new Vector2(this.transform.position.x + Input.GetAxis("Horizontal") * speed * Time.deltaTime, this.transform.position.y);
+            direction = -1;
         }
 
         if(getAxis > 0.1f) {
             transform.localScale = new Vector3(1, 1, 1);
-            // this.transform.position = new Vector2(this.transform.position.x + Input.GetAxis("Horizontal") * speed * Time.deltaTime, this.transform.position.y);
+            direction = 1;
         }
 
-        Vector3 targetVelocity = new Vector2(getAxis * 10f, rg2d.velocity.y);
+
+
+        Vector3 targetVelocity = new Vector2(direction * 10f, rg2d.velocity.y);
         // And then smoothing it out and applying it to the character
         rg2d.velocity = Vector3.SmoothDamp(rg2d.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 

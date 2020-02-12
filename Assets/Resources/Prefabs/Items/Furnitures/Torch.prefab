@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -9075835843826859415}
   - component: {fileID: -7090708707747679770}
   - component: {fileID: 6507604075954550713}
+  - component: {fileID: -2687040580306034489}
   m_Layer: 14
   m_Name: Torch
   m_TagString: Untagged
@@ -29,8 +30,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4405146219834199482}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 242.30641, y: 849.83777, z: -171.61995}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.7694, y: 1.613, z: 1}
   m_Children:
   - {fileID: 4772002744127462133}
   m_Father: {fileID: 0}
@@ -73,9 +74,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 81745725
-  m_SortingLayer: 6
+  m_SortingLayer: 5
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2281c47218a4a4946b5d784491209174, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c1133b888b523414889c89fea3101d22, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -165,7 +166,7 @@ MonoBehaviour:
   collider: {fileID: 0}
   renderer: {fileID: 0}
   attractor: {fileID: 0}
-  defaultScale: {x: 0, y: 0}
+  defaultScale: {x: 0, y: 0, z: 0}
   defaultTag: 
   defaultPrefabSprite: {fileID: 0}
 --- !u!61 &-7090708707747679770
@@ -184,7 +185,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     oldSize: {x: 0.5625, y: 0.625}
     newSize: {x: 0.5625, y: 0.625}
     adaptiveTilingThreshold: 0.5
@@ -206,6 +207,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b6a9045c25e98b40b186426c92ff1e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-2687040580306034489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4405146219834199482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c7e2e5b8ea442841aa26fb7bd93274e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftCollisionSprite: {fileID: 21300000, guid: a320863e035e3984fb2bf02dd226cf0b,
+    type: 3}
+  rightCollisionSprite: {fileID: 21300000, guid: d80376672de08554d947387a97e401bf,
+    type: 3}
+  topCollisionSprite: {fileID: 0}
+  bottomCollisionSprite: {fileID: 21300000, guid: c1133b888b523414889c89fea3101d22,
+    type: 3}
 --- !u!1001 &3343495709543078732
 PrefabInstance:
   m_ObjectHideFlags: 0

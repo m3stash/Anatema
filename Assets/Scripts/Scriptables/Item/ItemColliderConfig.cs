@@ -21,10 +21,34 @@ public class CellCollider {
 
     [SerializeField] private Vector2Int position;
     [SerializeField] private bool origin;
+    [SerializeField] private ContactType leftContactType;
+    [SerializeField] private ContactType rightContactType;
+    [SerializeField] private ContactType topContactType;
+    [SerializeField] private ContactType bottomContactType;
 
     public CellCollider(ItemColliderCell cell) {
-        position = cell.GetPosition();
-        origin = cell.IsOrigin();
+        this.position = cell.GetPosition();
+        this.origin = cell.IsOrigin();
+        this.leftContactType = cell.GetLeftContactPoint().GetContactType();
+        this.rightContactType = cell.GetRightContactPoint().GetContactType();
+        this.topContactType = cell.GetTopContactPoint().GetContactType();
+        this.bottomContactType = cell.GetBottomContactPoint().GetContactType();
+    }
+
+    public ContactType GetLeftContactType() {
+        return this.leftContactType;
+    }
+
+    public ContactType GetRightContactType() {
+        return this.rightContactType;
+    }
+
+    public ContactType GetTopContactType() {
+        return this.topContactType;
+    }
+
+    public ContactType GetBottomContactType() {
+        return this.bottomContactType;
     }
 
     /// <summary>
