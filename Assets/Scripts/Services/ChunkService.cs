@@ -121,7 +121,9 @@ public class ChunkService : MonoBehaviour {
             return chunkData;
         }
         return cacheChunkData[PosX, PosY];*/
-        return TileMapService.CreateChunkDataModel(PosX, PosY, WorldManager.GetChunkSize());
+        // return TileMapService.CreateChunkDataModel(PosX, PosY, WorldManager.GetChunkSize());
+        return null;
+
     }
     private IEnumerator ManageChunkFromPool(Vector2Int chunkPos) {
         Chunk ck = this.pool.GetOne();
@@ -131,9 +133,8 @@ public class ChunkService : MonoBehaviour {
         ck.worldPosition = new Vector2Int(chunkPos.x * WorldManager.GetChunkSize(), chunkPos.y * WorldManager.GetChunkSize());
         chunkGo.transform.position = new Vector3(ck.worldPosition.x, ck.worldPosition.y, 0);
         ck.tilesMap = tilesMapChunks[chunkPos.x, chunkPos.y]; // ToDo régler le pb de out of range !!!!!!!!! => voir si pas out of bound
-        var chunkData = GetChunkData(chunkPos.x, chunkPos.y);
-        ck.tileMapTileMapScript.Init(ck.worldPosition.x, ck.worldPosition.y, WorldManager.tilesWorldMap, chunkData.tilemapData, boundX, boundY);
-        ck.wallTileMapScript.Init(ck.worldPosition.x, ck.worldPosition.y, WorldManager.wallTilesMap, chunkData.wallmapData, boundX, boundY);
+        ck.tileMapTileMapScript.Init(ck.worldPosition.x, ck.worldPosition.y, WorldManager.tilesWorldMap, boundX, boundY);
+        ck.wallTileMapScript.Init(ck.worldPosition.x, ck.worldPosition.y, WorldManager.wallTilesMap, boundX, boundY);
         chunkGo.SetActive(true);
         yield return new WaitForSeconds(0.1f);
     }

@@ -46,12 +46,14 @@ public class LightService : MonoBehaviour {
         int newShadow = GetAmountLight(tileWorldMap, wallTileMap, shadowOpacity);
         var lightOpacity = GetNeightboorMinOrMaxOpacity(WorldManager.tilesLightMap, x, y, false);
         int newLight = GetAmountLight(tileWorldMap, wallTileMap, lightOpacity);
-        if (newShadow >= tileShadowMap && newLight >= tileLightMap)
+        bool badNewShadow = newShadow >= tileShadowMap;
+        bool badNewLight = newLight >= tileLightMap;
+        if (badNewShadow && badNewLight)
             return;
-        if (newShadow < tileShadowMap) {
+        if (!badNewShadow) {
             WorldManager.tilesShadowMap[x, y] = newShadow;
         }
-        if (newLight < tileLightMap) {
+        if (!badNewLight) {
             WorldManager.tilesLightMap[x, y] = newLight;
         }
         RecursivDeleteShadow(x + 1, y);

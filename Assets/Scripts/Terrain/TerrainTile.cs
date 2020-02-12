@@ -17,32 +17,22 @@ namespace UnityEngine.Tilemaps {
         public Sprite[] m_Sprites;
         public Texture2D texture2d;
 
-        public override void RefreshTile(Vector3Int location, ITilemap tileMap) {
+        /*public override void RefreshTile(Vector3Int location, ITilemap tileMap) {
             for (int yd = -1; yd <= 1; yd++) {
                 for (int xd = -1; xd <= 1; xd++) {
                     Vector3Int position = new Vector3Int(location.x + xd, location.y + yd, location.z);
                     // utilité ???
-                    /*if (TileValue(tileMap, position)) {
-                        tileMap.RefreshTile(position);
-                    }*/
+                    //if (TileValue(tileMap, position)) {
+                    //    tileMap.RefreshTile(position);
+                    //}
                     tileMap.RefreshTile(position);
                 }
             }
-        }
+        }*/
 
         public override void GetTileData(Vector3Int location, ITilemap tileMap, ref TileData tileData) {
             tileMap.GetComponent<TileMapScript>().SetTileData(location.x, location.y, ref tileData, m_Sprites);
         }
-
-        /*private bool CheckIfSameId(int otherId, int currentId) {
-            if (otherId > 0) {
-                if((currentId == 1 && otherId == 2) || (currentId == 2 && otherId == 1)) {
-                    return true;
-                }
-                return otherId == currentId;
-            }
-            return otherId == currentId;
-        }*/
 
         private bool TileValue(ITilemap tileMap, Vector3Int position) {
             TileBase tile = tileMap.GetTile(position);

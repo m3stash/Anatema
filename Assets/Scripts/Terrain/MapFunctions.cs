@@ -309,7 +309,7 @@ public class MapFunctions {
             //Circle through from the lastheight to the bottom
             for (int y = lastHeight; y >= 0; y--) {
                 map[x, y] = 1;
-                wallMap[x, y] = 1;
+                wallMap[x, y] = 37; // toDo voir a changer le fond selon les biomes !!
             }
         }
 

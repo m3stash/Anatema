@@ -17,6 +17,7 @@ public class Chunk : MonoBehaviour {
     public Vector2Int worldPosition;
     private bool firstInitialisation = true;
     private bool alreadyVisible = false;
+    private int chunkSize;
     [SerializeField] private List<Item> items;
 
     private void OnEnable() {
@@ -26,8 +27,6 @@ public class Chunk : MonoBehaviour {
         Item.OnItemMoved += OnItemMoved;
         Item.OnItemDestroyed += OnItemDestroyed;
         if (!firstInitialisation) {
-            tileMapTileMapScript.hasAlreadyInit = true;
-            wallTileMapScript.hasAlreadyInit = true;
             RefreshTiles();
         }
     }
@@ -110,37 +109,33 @@ public class Chunk : MonoBehaviour {
     }
 
     private void RefreshTiles() {
-        Vector3Int[] positions = new Vector3Int[WorldManager.GetChunkSize() * WorldManager.GetChunkSize()];
+        Vector3Int[] positions = new Vector3Int[chunkSize * chunkSize];
         TileBase[] tileArray = new TileBase[positions.Length];
         TileBase[] tileArrayWall = new TileBase[positions.Length];
         for (int index = 0; index < positions.Length; index++) {
-            var x = index % WorldManager.GetChunkSize();
-            var y = index / WorldManager.GetChunkSize();
+            var x = index % chunkSize;
+            var y = index / chunkSize;
             positions[index] = new Vector3Int(x, y, 0);
             var tileBaseIndex = tilesMap[x, y];
             if (tileBaseIndex > 0) {
                 tileArray[index] = ChunkService.tilebaseDictionary[tileBaseIndex];
-            } else {
-                tileArray[index] = null;
             }
-            if (WorldManager.wallTilesMap[x + worldPosition.x, y + worldPosition.y] > 0) {
-                tileArrayWall[index] = ChunkService.tilebaseDictionary[37];
-            } else {
-                tileArrayWall[index] = null;
+            var tileWallIndex = WorldManager.wallTilesMap[x + worldPosition.x, y + worldPosition.y];
+            if (tileWallIndex > 0) {
+                tileArrayWall[index] = ChunkService.tilebaseDictionary[tileWallIndex];
             }
         }
         tilemapTile.SetTiles(positions, tileArray);
         tilemapWall.SetTiles(positions, tileArrayWall);
     }
     void Start() {
+        chunkSize = WorldManager.GetChunkSize();
         this.items = new List<Item>();
         render = tilemapTile.GetComponent<Renderer>();
         // !! call just one time afer instanciate !!
         InitColliders();
         firstInitialisation = false;
         RefreshTiles();
-        tileMapTileMapScript.hasAlreadyInit = true;
-        wallTileMapScript.hasAlreadyInit = true;
     }
     private void InitColliders() {
         tc2d = GetComponentInChildren<TilemapCollider2D>();
