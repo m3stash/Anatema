@@ -26,7 +26,7 @@ public class LightService : MonoBehaviour {
         int newLight = GetAmountLight(WorldManager.tilesWorldMap[x, y], WorldManager.wallTilesMap[x, y], minLight);
         if (newLight <= WorldManager.tilesLightMap[x, y] && !toDelete)
             return;
-        var isLight = WorldManager.objectsMap[x, y] == 16 || WorldManager.dynamicLight[x, y] == 1;
+        var isLight = LightService.IsLight(x, y);
         if (!toDelete && isLight)
             return;
         WorldManager.tilesLightMap[x, y] = newLight;
@@ -46,12 +46,14 @@ public class LightService : MonoBehaviour {
         int newShadow = GetAmountLight(tileWorldMap, wallTileMap, shadowOpacity);
         var lightOpacity = GetNeightboorMinOrMaxOpacity(WorldManager.tilesLightMap, x, y, false);
         int newLight = GetAmountLight(tileWorldMap, wallTileMap, lightOpacity);
-        if (newShadow >= tileShadowMap && newLight >= tileLightMap)
+        bool badNewShadow = newShadow >= tileShadowMap;
+        bool badNewLight = newLight >= tileLightMap;
+        if (badNewShadow && badNewLight)
             return;
-        if (newShadow < tileShadowMap) {
+        if (!badNewShadow) {
             WorldManager.tilesShadowMap[x, y] = newShadow;
         }
-        if (newLight < tileLightMap) {
+        if (!badNewLight) {
             WorldManager.tilesLightMap[x, y] = newLight;
         }
         RecursivDeleteShadow(x + 1, y);
@@ -59,24 +61,32 @@ public class LightService : MonoBehaviour {
         RecursivDeleteShadow(x - 1, y);
         RecursivDeleteShadow(x, y - 1);
     }
+
+    public static bool IsLight(int x, int y) {
+        // toDo voir à refactorer ça proprement !!
+        return WorldManager.objectsMap[x, y] == 16 || WorldManager.dynamicLight[x, y] == 1;
+    }
+
     public void RecursivAddShadow(int x, int y) {
         var tileWorldMap = WorldManager.tilesWorldMap[x, y];
         var wallTileMap = WorldManager.wallTilesMap[x, y];
         var tileLightMap = WorldManager.tilesLightMap[x, y];
-        var isLight = WorldManager.objectsMap[x, y] == 16;
-        if (IsOutOfBound(x, y) || (tileWorldMap == 0 && wallTileMap == 0 || isLight)) // toDo voir à faire ça autrement ? => lightOpacity == 0.15f
+        var isLight = LightService.IsLight(x, y);
+        if (isLight || IsOutOfBound(x, y) || (tileWorldMap == 0 && wallTileMap == 0))
             return;
         var tileShadowMap = WorldManager.tilesShadowMap[x, y];
         var shadowOpacity = GetNeightboorMinOrMaxOpacity(WorldManager.tilesShadowMap, x, y, false);
         int newShadow = GetAmountLight(tileWorldMap, wallTileMap, shadowOpacity);
         var lightOpacity = GetNeightboorMinOrMaxOpacity(WorldManager.tilesLightMap, x, y, false);
         int newLight = GetAmountLight(tileWorldMap, wallTileMap, lightOpacity);
+        bool badNewShadow = newShadow <= tileShadowMap;
+        bool badNewLight = newLight <= tileLightMap;
         if (newLight <= tileLightMap && newShadow <= tileShadowMap)
             return;
-        if (newShadow > tileShadowMap) {
+        if (!badNewShadow) {
             WorldManager.tilesShadowMap[x, y] = newShadow;
         }
-        if (newLight > tileLightMap) {
+        if (!badNewLight) {
             WorldManager.tilesLightMap[x, y] = newLight;
         }
         RecursivAddShadow(x + 1, y);

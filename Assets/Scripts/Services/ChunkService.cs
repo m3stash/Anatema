@@ -56,9 +56,6 @@ public class ChunkService : MonoBehaviour {
         oldPosY = currentPlayerChunkY;
     }
 
-    public int[,] GetTilesMapChunks(int x, int y) {
-        return tilesMapChunks[x, y];
-    }
     public Chunk GetChunk(int posX, int posY) {
         return this.pool.GetChunk(new Vector2(posX, posY));
     }
@@ -107,33 +104,15 @@ public class ChunkService : MonoBehaviour {
         oldPlayerPosY = yStart * WorldManager.GetChunkSize() + (WorldManager.GetChunkSize() / 2);
         player.transform.position = new Vector3(xStart * WorldManager.GetChunkSize() + (WorldManager.GetChunkSize() / 2), yStart * WorldManager.GetChunkSize() + (WorldManager.GetChunkSize() / 2), 0);
     }
-    private ChunkDataModel GetChunkData(int PosX, int PosY) {
-        /*var chunkPath = "/" + chunkDirectory + "/" + "chunk_" + PosX + "_" + PosY;
-        var chunkData = FileManager.GetFile<ChunkDataModel>(chunkPath);
-        if (chunkData == null) {
-            var chunkDataModel = TileMapService.CreateChunkDataModel(PosX, PosY, tilesWorldMap, wallTilesMap, chunkSize);
-            // FileManager.Save(chunkDataModel, chunkPath);
-            return chunkDataModel;
-        } 
-        return chunkData;*/
-        /*if(cacheChunkData[PosX, PosY] == null) {
-            var chunkData = TileMapService.CreateChunkDataModel(PosX, PosY, tilesWorldMap, wallTilesMap, chunkSize);
-            return chunkData;
-        }
-        return cacheChunkData[PosX, PosY];*/
-        return TileMapService.CreateChunkDataModel(PosX, PosY, WorldManager.GetChunkSize());
-    }
+
     private IEnumerator ManageChunkFromPool(Vector2Int chunkPos) {
         Chunk ck = this.pool.GetOne();
         GameObject chunkGo = ck.gameObject;
-        ck.tilesMap = null;
         ck.chunkPosition = chunkPos;
         ck.worldPosition = new Vector2Int(chunkPos.x * WorldManager.GetChunkSize(), chunkPos.y * WorldManager.GetChunkSize());
         chunkGo.transform.position = new Vector3(ck.worldPosition.x, ck.worldPosition.y, 0);
-        ck.tilesMap = tilesMapChunks[chunkPos.x, chunkPos.y]; // ToDo régler le pb de out of range !!!!!!!!! => voir si pas out of bound
-        var chunkData = GetChunkData(chunkPos.x, chunkPos.y);
-        ck.tileMapTileMapScript.Init(ck.worldPosition.x, ck.worldPosition.y, WorldManager.tilesWorldMap, chunkData.tilemapData, boundX, boundY);
-        ck.wallTileMapScript.Init(ck.worldPosition.x, ck.worldPosition.y, WorldManager.wallTilesMap, chunkData.wallmapData, boundX, boundY);
+        ck.tileMapTileMapScript.Init(ck.worldPosition.x, ck.worldPosition.y, WorldManager.tilesWorldMap, boundX, boundY);
+        ck.wallTileMapScript.Init(ck.worldPosition.x, ck.worldPosition.y, WorldManager.wallTilesMap, boundX, boundY);
         chunkGo.SetActive(true);
         yield return new WaitForSeconds(0.1f);
     }

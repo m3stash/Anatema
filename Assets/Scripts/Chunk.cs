@@ -11,12 +11,12 @@ public class Chunk : MonoBehaviour {
     public TileMapScript wallTileMapScript;
     public Tilemap tilemapTile;
     public Tilemap tilemapWall;
-    public int[,] tilesMap;
     public GameObject player;
     public Vector2Int chunkPosition;
     public Vector2Int worldPosition;
     private bool firstInitialisation = true;
     private bool alreadyVisible = false;
+    private int chunkSize;
     [SerializeField] private List<Item> items;
 
     private void OnEnable() {
@@ -26,8 +26,6 @@ public class Chunk : MonoBehaviour {
         Item.OnItemMoved += OnItemMoved;
         Item.OnItemDestroyed += OnItemDestroyed;
         if (!firstInitialisation) {
-            tileMapTileMapScript.hasAlreadyInit = true;
-            wallTileMapScript.hasAlreadyInit = true;
             RefreshTiles();
         }
     }
@@ -61,7 +59,7 @@ public class Chunk : MonoBehaviour {
         }
     }
 
-    private void generateObjectsMap() {
+    private void GenerateObjectsMap() {
         for (var x = 0; x < WorldManager.GetChunkSize(); x++) {
             for (var y = 0; y < WorldManager.GetChunkSize(); y++) {
                 // toDo refacto is just a poc
@@ -80,9 +78,11 @@ public class Chunk : MonoBehaviour {
         for (var x = 0; x < WorldManager.GetChunkSize(); x++) {
             for (var y = 0; y < WorldManager.GetChunkSize(); y++) {
                 Vector3Int vec3 = new Vector3Int(x, y, 0);
-                if (tilesMap[x, y] > 0 || WorldManager.wallTilesMap[worldPosition.x + x, worldPosition.y + y] > 0) {
-                    var shadow = WorldManager.tilesShadowMap[worldPosition.x + x, worldPosition.y + y] + intensity;
-                    var light = WorldManager.tilesLightMap[worldPosition.x + x, worldPosition.y + y];
+                int worldX = worldPosition.x + x;
+                int worldY = worldPosition.y + y;
+                if (WorldManager.tilesWorldMap[worldX, worldY] > 0 || WorldManager.wallTilesMap[worldX, worldY] > 0) {
+                    var shadow = WorldManager.tilesShadowMap[worldX, worldY] + intensity;
+                    var light = WorldManager.tilesLightMap[worldX, worldY];
                     float l;
                     if (light <= shadow && light < 100) {
                         l = 1 - light * 0.01f;
@@ -110,37 +110,35 @@ public class Chunk : MonoBehaviour {
     }
 
     private void RefreshTiles() {
-        Vector3Int[] positions = new Vector3Int[WorldManager.GetChunkSize() * WorldManager.GetChunkSize()];
+        Vector3Int[] positions = new Vector3Int[chunkSize * chunkSize];
         TileBase[] tileArray = new TileBase[positions.Length];
         TileBase[] tileArrayWall = new TileBase[positions.Length];
         for (int index = 0; index < positions.Length; index++) {
-            var x = index % WorldManager.GetChunkSize();
-            var y = index / WorldManager.GetChunkSize();
+            var x = index % chunkSize;
+            var y = index / chunkSize;
             positions[index] = new Vector3Int(x, y, 0);
-            var tileBaseIndex = tilesMap[x, y];
+            int posX = worldPosition.x + x;
+            int posY = worldPosition.y + y;
+            var tileBaseIndex = WorldManager.tilesWorldMap[posX, posY];
             if (tileBaseIndex > 0) {
                 tileArray[index] = ChunkService.tilebaseDictionary[tileBaseIndex];
-            } else {
-                tileArray[index] = null;
             }
-            if (WorldManager.wallTilesMap[x + worldPosition.x, y + worldPosition.y] > 0) {
-                tileArrayWall[index] = ChunkService.tilebaseDictionary[37];
-            } else {
-                tileArrayWall[index] = null;
+            var tileWallIndex = WorldManager.wallTilesMap[posX, posY];
+            if (tileWallIndex > 0) {
+                tileArrayWall[index] = ChunkService.tilebaseDictionary[tileWallIndex];
             }
         }
         tilemapTile.SetTiles(positions, tileArray);
         tilemapWall.SetTiles(positions, tileArrayWall);
     }
     void Start() {
+        chunkSize = WorldManager.GetChunkSize();
         this.items = new List<Item>();
         render = tilemapTile.GetComponent<Renderer>();
         // !! call just one time afer instanciate !!
         InitColliders();
         firstInitialisation = false;
         RefreshTiles();
-        tileMapTileMapScript.hasAlreadyInit = true;
-        wallTileMapScript.hasAlreadyInit = true;
     }
     private void InitColliders() {
         tc2d = GetComponentInChildren<TilemapCollider2D>();
@@ -160,7 +158,7 @@ public class Chunk : MonoBehaviour {
         if (render.isVisible && !alreadyVisible) {
             alreadyVisible = true;
             tc2d.enabled = true;
-            generateObjectsMap(); // toDO revoir orchestration item manager
+            GenerateObjectsMap(); // toDO revoir orchestration item manager
             RefreshShadowMap();
         }
     }

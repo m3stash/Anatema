@@ -136,12 +136,8 @@ public class WorldManager : MonoBehaviour {
         RefreshChunkNeightboorTiles(x, y, currentChunk.tilemapTile);
     }
     private Chunk ManageChunkTile(int x, int y, int id) {
-        int chunkX = (int)x / chunkSize;
-        int chunkY = (int)y / chunkSize;
-        var tilemap = chunkService.GetTilesMapChunks(chunkX, chunkY);
-        tilemap[x % chunkSize, y % chunkSize] = id;
         tilesWorldMap[x, y] = id;
-        return chunkService.GetChunk(chunkX, chunkY);
+        return chunkService.GetChunk((int)x / chunkSize, (int)y / chunkSize);
     }
     public void RefreshChunkNeightboorTiles(int x, int y, Tilemap tilemap) {
         var topBoundMap = chunkSize - 1;
