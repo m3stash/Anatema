@@ -11,7 +11,6 @@ public class Chunk : MonoBehaviour {
     public TileMapScript wallTileMapScript;
     public Tilemap tilemapTile;
     public Tilemap tilemapWall;
-    public int[,] tilesMap;
     public GameObject player;
     public Vector2Int chunkPosition;
     public Vector2Int worldPosition;
@@ -64,7 +63,7 @@ public class Chunk : MonoBehaviour {
         for (var x = 0; x < WorldManager.GetChunkSize(); x++) {
             for (var y = 0; y < WorldManager.GetChunkSize(); y++) {
                 // toDo refacto is just a poc
-                if (WorldManager.objectsMap[worldPosition.x + x, worldPosition.y + y] == 31) {
+                if (WorldManager.objectsMap[worldPosition.x + x][worldPosition.y + y] == 31) {
                     Item item = ItemManager.instance.CreateItem(31, ItemStatus.ACTIVE, new Vector3(worldPosition.x + x, worldPosition.y + y));
                     this.items.Add(item);
                 }
@@ -79,9 +78,9 @@ public class Chunk : MonoBehaviour {
         for (var x = 0; x < WorldManager.GetChunkSize(); x++) {
             for (var y = 0; y < WorldManager.GetChunkSize(); y++) {
                 Vector3Int vec3 = new Vector3Int(x, y, 0);
-                if (tilesMap[x, y] > 0 || WorldManager.wallTilesMap[worldPosition.x + x, worldPosition.y + y] > 0) {
-                    var shadow = WorldManager.tilesShadowMap[worldPosition.x + x, worldPosition.y + y] + intensity;
-                    var light = WorldManager.tilesLightMap[worldPosition.x + x, worldPosition.y + y];
+                if (WorldManager.tilesWorldMap[worldPosition.x + x][worldPosition.x + y] > 0 || WorldManager.wallTilesMap[worldPosition.x + x][worldPosition.y + y] > 0) {
+                    var shadow = WorldManager.tilesShadowMap[worldPosition.x + x][worldPosition.y + y] + intensity;
+                    var light = WorldManager.tilesLightMap[worldPosition.x + x][worldPosition.y + y];
                     float l;
                     if (light <= shadow && light < 100) {
                         l = 1 - light * 0.01f;
@@ -112,17 +111,17 @@ public class Chunk : MonoBehaviour {
         Vector3Int[] positions = new Vector3Int[chunkSize * chunkSize];
         TileBase[] tileArray = new TileBase[positions.Length];
         TileBase[] tileArrayWall = new TileBase[positions.Length];
-        for (int index = 0; index < positions.Length; index++) {
-            var x = index % chunkSize;
-            var y = index / chunkSize;
-            positions[index] = new Vector3Int(x, y, 0);
-            var tileBaseIndex = tilesMap[x, y];
+        for (int i = 0; i < positions.Length; i++) {
+            var x = i % chunkSize;
+            var y = i / chunkSize;
+            positions[i] = new Vector3Int(x, y, 0);
+            var tileBaseIndex = WorldManager.tilesWorldMap[x + worldPosition.x][y + worldPosition.y];
             if (tileBaseIndex > 0) {
-                tileArray[index] = ChunkService.tilebaseDictionary[tileBaseIndex];
+                tileArray[i] = ChunkService.tilebaseDictionary[tileBaseIndex];
             }
-            var tileWallIndex = WorldManager.wallTilesMap[x + worldPosition.x, y + worldPosition.y];
+            var tileWallIndex = WorldManager.wallTilesMap[x + worldPosition.x][y + worldPosition.y];
             if (tileWallIndex > 0) {
-                tileArrayWall[index] = ChunkService.tilebaseDictionary[tileWallIndex];
+                tileArrayWall[i] = ChunkService.tilebaseDictionary[tileWallIndex];
             }
         }
         tilemapTile.SetTiles(positions, tileArray);

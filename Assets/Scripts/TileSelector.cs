@@ -141,8 +141,8 @@ public class TileSelector : MonoBehaviour {
 
         foreach(CellCollider cell in cellsToCheck) {
             // Check if position is free on tileMap and objectMap
-            bool objectMapValid = WorldManager.objectsMap[originX + cell.GetRelativePosition().x, originY + cell.GetRelativePosition().y] == 0;
-            bool tilesWorlMapValid = WorldManager.tilesWorldMap[originX + cell.GetRelativePosition().x, originY + cell.GetRelativePosition().y] == 0;
+            bool objectMapValid = WorldManager.objectsMap[originX + cell.GetRelativePosition().x][originY + cell.GetRelativePosition().y] == 0;
+            bool tilesWorlMapValid = WorldManager.tilesWorldMap[originX + cell.GetRelativePosition().x][originY + cell.GetRelativePosition().y] == 0;
 
             // TODO: Check neighbour constraint to avoid fly item
 
@@ -203,8 +203,8 @@ public class TileSelector : MonoBehaviour {
                     }
                     break;
                 case GameMode.TOOL:
-                    if(WorldManager.tilesWorldMap[posX, posY] > 0) {
-                        if(WorldManager.objectsMap[posX, posY] > 0) {
+                    if(WorldManager.tilesWorldMap[posX][posY] > 0) {
+                        if(WorldManager.objectsMap[posX][posY] > 0) {
                             WorldManager.instance.DeleteItem(posX, posY);
                         } else {
                             WorldManager.instance.DeleteTile((int)posX, (int)posY);

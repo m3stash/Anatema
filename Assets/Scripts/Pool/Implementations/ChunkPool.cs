@@ -33,4 +33,7 @@ public class ChunkPool : Pool<Chunk> {
         List<Chunk> chunksToDeactivate = this.usedObjects.FindAll((Chunk chunk) => Mathf.Abs(chunk.chunkPosition.x - origin.x) >= gap.x || Mathf.Abs(chunk.chunkPosition.y - origin.y) >= gap.y);
         this.ReturnObjects(chunksToDeactivate.ToArray());
     }
+    public Chunk getChunk(Vector2 chunkPos) {
+        return this.usedObjects.Find((Chunk chunk) => chunk.chunkPosition.x == chunkPos.x && chunk.chunkPosition.y == chunkPos.y);
+    }
 }

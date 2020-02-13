@@ -18,8 +18,8 @@ public class CalculateLightForObjects : MonoBehaviour {
             return;
         int x = (int)transform.position.x;
         int y = (int)transform.position.y;
-        int newShadow = WorldManager.tilesShadowMap[x, y] + CycleDay.GetIntensity();
-        int newLight = WorldManager.tilesLightMap[x, y];
+        int newShadow = WorldManager.tilesShadowMap[x][y] + CycleDay.GetIntensity();
+        int newLight = WorldManager.tilesLightMap[x][y];
         if (oldShadow != newShadow || oldLight != newLight) {
             float l;
             if (newLight <= newShadow && newLight < 100) {

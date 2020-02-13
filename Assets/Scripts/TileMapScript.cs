@@ -7,12 +7,12 @@ public class TileMapScript : MonoBehaviour {
 
     private System.Random rand = new System.Random();
 
-    public int[,] map;
+    public int[][] map;
     public int PosX;
     public int PosY;
     private int boundX;
     private int boundY;
-    public void Init(int PosX, int PosY, int[,]map, int boundX, int boundY) {
+    public void Init(int PosX, int PosY, int[][] map, int boundX, int boundY) {
         this.PosX = PosX;
         this.PosY = PosY;
         this.map = map;
@@ -27,30 +27,30 @@ public class TileMapScript : MonoBehaviour {
         int xMore = currentTilePosX + 1;
         int yMore = currentTilePosY + 1;
         int yLess = currentTilePosY - 1;
-        var currentId = map[currentTilePosX, currentTilePosY];
+        var currentId = map[currentTilePosX][currentTilePosY];
         int maskTilemap = 0;
         if (yMore <= boundY) {
-            maskTilemap += CheckId(currentId, map[currentTilePosX, yMore], 1);
+            maskTilemap += CheckId(currentId, map[currentTilePosX][yMore], 1);
         }
         if (xMore <= boundX) {
-            maskTilemap += CheckId(currentId, map[xMore, currentTilePosY], 4);
+            maskTilemap += CheckId(currentId, map[xMore][currentTilePosY], 4);
             if (yMore <= boundY) {
-                maskTilemap += CheckId(currentId, map[xMore, yMore], 2);
+                maskTilemap += CheckId(currentId, map[xMore][yMore], 2);
             }
             if (yLess > -1) {
-                maskTilemap += CheckId(currentId, map[xMore, yLess], 8);
+                maskTilemap += CheckId(currentId, map[xMore][yLess], 8);
             }
         }
         if (yLess > -1) {
-            maskTilemap += CheckId(currentId, map[currentTilePosX, yLess], 16);
+            maskTilemap += CheckId(currentId, map[currentTilePosX][yLess], 16);
         }
         if (xLess > -1) {
-            maskTilemap += CheckId(currentId, map[xLess, currentTilePosY], 64);
+            maskTilemap += CheckId(currentId, map[xLess][currentTilePosY], 64);
             if (yLess > -1) {
-                maskTilemap += CheckId(currentId, map[xLess, yLess], 32);
+                maskTilemap += CheckId(currentId, map[xLess][yLess], 32);
             }
             if (yMore <= boundY) {
-                maskTilemap += CheckId(currentId, map[xLess, yMore], 128);
+                maskTilemap += CheckId(currentId, map[xLess][yMore], 128);
             }
         }
         maskTilemap = GetMaskByOriginal(maskTilemap);

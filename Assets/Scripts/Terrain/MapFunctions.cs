@@ -10,9 +10,9 @@ public class MapFunctions {
             tilemap.ClearAllTiles();
     }
 
-    public static int[,] AddTrees(int[,] worldMap, int[,] objectsMap) {
-        var heightMap = worldMap.GetUpperBound(1);
-        var widthMap = worldMap.GetUpperBound(0);
+    public static int[][] AddTrees(int[][] worldMap, int[][] objectsMap) {
+        var widthMap = worldMap.Length;
+        var heightMap = worldMap[0].Length;
         // toDo voir a gérer les bordures du monde pour pas calculer dans le vide
         // left to right
         var newTreeGap = -1;
@@ -20,14 +20,14 @@ public class MapFunctions {
         var xStart = 5;
         var gapBetweenTrees = 5;
         for (int x = xStart; x < xEnd; x++) {
-            if(x < newTreeGap) {
+            if (x < newTreeGap) {
                 continue;
             }
             // top to bottom
             for (int y = heightMap - 50; y > heightMap - 250; y--) {
-                if (worldMap[x, y] == 1) {
+                if (worldMap[x][y] == 1) {
                     // si current != 0 && gauche et droite != 0 continu sinon on ne va pas plus bas !
-                    if (worldMap[x - 1, y] == 1 && worldMap[x + 1, y] == 1) {
+                    if (worldMap[x - 1][y] == 1 && worldMap[x + 1][y] == 1) {
                         var empty = true;
                         // tree collider => x = 3 && y = 5
                         for (int xx = x - 1; xx <= x + 1; xx++) {
@@ -35,14 +35,14 @@ public class MapFunctions {
                                 break;
                             }
                             for (int yy = y + 1; yy <= y + 5; yy++) {
-                                if (worldMap[xx, yy] > 0) {
+                                if (worldMap[xx][yy] > 0) {
                                     empty = false;
                                     break;
                                 }
                             }
                         }
                         if (empty) {
-                            objectsMap[x, y + 1] = 31;
+                            objectsMap[x][y + 1] = 31;
                             var newXGap = x + gapBetweenTrees;
                             newTreeGap = newXGap < xEnd ? newXGap : -1; // min gap between 2 trees
                         }
@@ -54,45 +54,45 @@ public class MapFunctions {
         return objectsMap;
     }
 
-    public static int[,] AddGrassOntop(int[,] map) {
-        var heightMap = map.GetUpperBound(1);
-        var widthMap = map.GetUpperBound(0);
+    public static int[][] AddGrassOntop(int[][] map) {
+        var heightMap = map[0].Length;
+        var widthMap = map.Length;
         for (int x = 0; x < widthMap; x++) {
             // toDO voir a variabiliser ça 
             for (int y = heightMap - 300; y < heightMap - 1; y++) {
-                var topNeightboorTile = map[x, y + 1];
-                var currentTile = map[x, y];
+                var topNeightboorTile = map[x][y + 1];
+                var currentTile = map[x][y];
                 if (topNeightboorTile == 0 && currentTile == 1) {
-                    map[x, y] = 2;
+                    map[x][y] = 2;
                 }
                 if (currentTile == 0 && topNeightboorTile == 1 && x - 4 > 0) {
                     var fiveLeftVoid = true;
                     for (int z = x; z > x - 4; z--) {
-                        if(map[z, y] > 0) {
+                        if (map[z][y] > 0) {
                             fiveLeftVoid = false;
                             break;
                         }
                     }
-                    map[x, y + 1] = fiveLeftVoid == true ? 2 : topNeightboorTile;
+                    map[x][y + 1] = fiveLeftVoid == true ? 2 : topNeightboorTile;
                 }
                 if (currentTile == 0 && topNeightboorTile == 1 && x + 4 < widthMap) {
                     var fiveRightVoid = true;
                     for (int z = x; z < x + 4; z++) {
-                        if (map[z, y] > 0) {
+                        if (map[z][y] > 0) {
                             fiveRightVoid = false;
                             break;
                         }
                     }
-                    map[x, y + 1] = fiveRightVoid == true ? 2 : topNeightboorTile;
+                    map[x][y + 1] = fiveRightVoid == true ? 2 : topNeightboorTile;
                 }
-                
+
             }
         }
         return map;
     }
 
-    public static int[,] GenerateArray(int width, int height) {
-        int[,] map = new int[width, height];
+    public static int[][] GenerateArray(int width, int height) {
+        int[][] map = new int[width][];
         /*for (int x = 0; x < map.GetUpperBound(0); x++) {
             for (int y = 0; y < map.GetUpperBound(1); y++) {
                 map[x, y] = 1;
@@ -101,11 +101,11 @@ public class MapFunctions {
         return map;
     }
 
-    public static void RenderMap(int[,] map, Tilemap tilemap, TileBase[] tile) {
+    public static void RenderMap(int[][] map, Tilemap tilemap, TileBase[] tile) {
         tilemap.ClearAllTiles();
-        for (int x = 0; x < map.GetUpperBound(0); x++) {
-            for (int y = 0; y < map.GetUpperBound(1); y++) {
-                var tileId = map[x, y];
+        for (int x = 0; x < map.Length; x++) {
+            for (int y = 0; y < map[0].Length; y++) {
+                var tileId = map[x][y];
                 if (tileId > 0) {
                     tilemap.SetTile(new Vector3Int(x, y, 0), tile[tileId]);
                 } else {
@@ -115,24 +115,25 @@ public class MapFunctions {
         }
     }
 
-    public static int[,] PerlinNoise(int[,] map, float seed) {
+    public static int[][] PerlinNoise(int[][] map, float seed) {
         int newPoint;
         //Used to reduced the position of the perlin point
         float reduction = 0.5f;
+        int heightMap = map[0].Length;
         //Create the perlin
-        for (int x = 0; x < map.GetUpperBound(0); x++) {
-            newPoint = Mathf.FloorToInt((Mathf.PerlinNoise(x, seed) - reduction) * map.GetUpperBound(1));
+        for (int x = 0; x < map.Length; x++) {
+            newPoint = Mathf.FloorToInt((Mathf.PerlinNoise(x, seed) - reduction) * heightMap);
 
             //Make sure the noise starts near the halfway point of the height
-            newPoint += (map.GetUpperBound(1) / 2);
+            newPoint += (heightMap / 2);
             for (int y = newPoint; y >= 0; y--) {
-                map[x, y] = 1;
+                map[x][y] = 1;
             }
         }
         return map;
     }
 
-    public static int[,] PerlinNoiseSmooth(int[,] map, float seed, int interval) {
+    public static int[][] PerlinNoiseSmooth(int[][] map, float seed, int interval) {
         //Smooth the noise and store it in the int array
         if (interval > 1) {
             int newPoint, points;
@@ -146,8 +147,8 @@ public class MapFunctions {
             List<int> noiseY = new List<int>();
 
             //Generate the noise
-            for (int x = 0; x < map.GetUpperBound(0); x += interval) {
-                newPoint = Mathf.FloorToInt((Mathf.PerlinNoise(x, (seed * reduction))) * map.GetUpperBound(1));
+            for (int x = 0; x < map.Length; x += interval) {
+                newPoint = Mathf.FloorToInt((Mathf.PerlinNoise(x, (seed * reduction))) * map[0].Length);
                 noiseY.Add(newPoint);
                 noiseX.Add(x);
             }
@@ -172,7 +173,7 @@ public class MapFunctions {
                 //Work our way through from the last x to the current x
                 for (int x = lastPos.x; x < currentPos.x; x++) {
                     for (int y = Mathf.FloorToInt(currHeight); y > 0; y--) {
-                        map[x, y] = 1;
+                        map[x][y] = 1;
                     }
                     currHeight += heightChange;
                 }
@@ -185,116 +186,85 @@ public class MapFunctions {
         return map;
     }
 
-    public static int[,] PerlinNoiseCave(int[,] map, float modifier) {
-        var maxHeight = map.GetUpperBound(1) - 250;
+    public static int[][] PerlinNoiseCave(int[][] map, float modifier) {
+        var maxHeight = map[0].Length - 250;
         var rand = Random.Range(0.01f, 1);
 
-        for (int x = 0; x < map.GetUpperBound(0); x++) {
+        for (int x = 0; x < map.Length; x++) {
             for (int y = 0; y < maxHeight; y++) {
                 modifier = 0.04f;
                 // grottes
                 var res = Mathf.PerlinNoise((x + rand) * modifier, (y + rand) * modifier);
                 if (res > 0 && res < 0.3f) {
-                    map[x, y] = 0;
+                    map[x][y] = 0;
                 }
                 modifier = 0.08f;
                 res = Mathf.PerlinNoise((x + rand) * modifier, (y + rand) * modifier);
                 // gruyère
                 if (res > 0.8f) {
-                    map[x, y] = 0;
+                    map[x][y] = 0;
                 }
             }
         }
-
-
-        /*for (int x = 0; x < map.GetUpperBound(0); x++) {
-            for (int y = 0; y < maxHeight; y++) {
-                modifier = 0.06f;
-                var res = Mathf.PerlinNoise((x + rand) * modifier, (y + rand) * modifier);
-
-                if (res > 0 && res < 0.2f) {
-                    map[x, y] = 1;
-                }
-                if (res > 0.3f && res < 0.4f) {
-                    map[x, y] = 1;
-                }
-                if (res > 0.4f && res < 0.6f) {
-                    map[x, y] = 1;
-                }
-                if (res > 0.7f) {
-                    map[x, y] = 0;
-                }
-            }
-        }*/
-
-        // original perlin noise..
-        /*int newPoint;
-        modifier = 0.06f;
-        for (int x = 0; x < map.GetUpperBound(0); x++) {
-            // for (int y = 0; y < map.GetUpperBound(1); y++) ///////////////////////////////////////
-            for (int y = 0; y < 50; y++) {
-                //Generate a new point using perlin noise, then round it to a value of either 0 or 1
-                newPoint = Mathf.RoundToInt(Mathf.PerlinNoise(x * modifier, y * modifier));
-                map[x, y] = newPoint;
-            }
-        }*/
-
         return map;
     }
 
-    public static int[,] GenerateIrons(int[,] map) {
+    public static int[][] GenerateIrons(int[][] map) {
         var copper_count = 0;
         var silver_count = 0;
         var iron_count = 0;
         var gold_count = 0;
-        var heightCopper = map.GetUpperBound(1) - 225;
-        var heightSilver = map.GetUpperBound(1) - 255;
-        var heightGold = map.GetUpperBound(1) - 400;
-        var maxHeight = map.GetUpperBound(1);
+        int mapHeight = map[0].Length;
+        var heightCopper = mapHeight - 225;
+        var heightSilver = mapHeight - 255;
+        var heightGold = mapHeight - 400;
+        var maxHeight = mapHeight;
         var modifier = 0.06f;
-        for (int x = 0; x < map.GetUpperBound(0); x++) {
+        for (int x = 0; x < map.Length; x++) {
             for (int y = 0; y < maxHeight; y++) {
-                if(map[x, y] > 0) {
+                if (map[x][y] > 0) {
                     modifier = 0.9f;
                     var noise = Mathf.PerlinNoise(x * modifier, y * modifier);
                     // copper
                     if (noise > 0.6f && noise < 0.615f && y < heightCopper) {
-                        map[x, y] = 4;
+                        map[x][y] = 4;
                         copper_count++;
                     }
                     // iron
                     if (noise > 0.3f && noise < 0.305f && y < heightCopper) {
-                        map[x, y] = 5;
+                        map[x][y] = 5;
                         iron_count++;
                     }
                     // silver
                     if (noise > 0.5f && noise < 0.510f && y < heightSilver) {
-                        map[x, y] = 6;
+                        map[x][y] = 6;
                         silver_count++;
                     }
                     // gold
                     if (noise > 0.7f && noise < 0.705f && y < heightGold) {
-                        map[x, y] = 7;
+                        map[x][y] = 7;
                         gold_count++;
                     }
                 }
             }
         }
-        Debug.Log("Cooper => "+ copper_count);
+        Debug.Log("Cooper => " + copper_count);
         Debug.Log("Iron => " + iron_count);
         Debug.Log("Silver => " + silver_count);
         Debug.Log("Gold => " + gold_count);
         return map;
     }
 
-    public static int[,] RandomWalkTop(int[,] map, int[,] wallMap, float seed) {
+    public static int[][] RandomWalkTop(int[][] map, int[][] wallMap, float seed) {
         System.Random rand = new System.Random(seed.GetHashCode());
-        var mapHeight = map.GetUpperBound(1);
+        // var mapHeight = map.GetUpperBound(1);
+        var mapHeight = map[0].Length;
         var min = rand.Next(mapHeight - 300, mapHeight - 200);
         var max = rand.Next(mapHeight - 200, mapHeight - 100);
         int lastHeight = Random.Range(min, max);
-
-        for (int x = 0; x < map.GetUpperBound(0); x++) {
+        var mapWidth = map.Length;
+        for (int x = 0; x < mapWidth; x++) {
+            // for (int x = 0; x < map.GetUpperBound(0); x++) {
             int nextMove = rand.Next(4);
             //If heads, and we aren't near the bottom, minus some height
             if (nextMove == 0 && lastHeight > 3) {
@@ -308,20 +278,21 @@ public class MapFunctions {
 
             //Circle through from the lastheight to the bottom
             for (int y = lastHeight; y >= 0; y--) {
-                map[x, y] = 1;
-                wallMap[x, y] = 37; // toDo voir a changer le fond selon les biomes !!
+                map[x][y] = 1;
+                wallMap[x][y] = 37; // toDo voir a changer le fond selon les biomes !!
             }
         }
 
         return map;
     }
 
-    public static int[,] RandomWalkTopSmoothed(int[,] map, float seed, int minSectionWidth) {
+    public static int[][] RandomWalkTopSmoothed(int[][] map, float seed, int minSectionWidth) {
         //Seed our random
         System.Random rand = new System.Random(seed.GetHashCode());
-
+        int mapWidth = map.Length;
+        int mapHeiht = map[0].Length;
         //Determine the start position
-        int lastHeight = Random.Range(0, map.GetUpperBound(1));
+        int lastHeight = Random.Range(0, mapHeiht);
 
         //Used to determine which direction to go
         int nextMove = 0;
@@ -329,7 +300,7 @@ public class MapFunctions {
         int sectionWidth = 0;
 
         //Work through the array width
-        for (int x = 0; x <= map.GetUpperBound(0); x++) {
+        for (int x = 0; x <= mapWidth; x++) {
             //Determine the next move
             nextMove = rand.Next(2);
 
@@ -337,7 +308,7 @@ public class MapFunctions {
             if (nextMove == 0 && lastHeight > 0 && sectionWidth > minSectionWidth) {
                 lastHeight--;
                 sectionWidth = 0;
-            } else if (nextMove == 1 && lastHeight < map.GetUpperBound(1) && sectionWidth > minSectionWidth) {
+            } else if (nextMove == 1 && lastHeight < mapHeiht && sectionWidth > minSectionWidth) {
                 lastHeight++;
                 sectionWidth = 0;
             }
@@ -346,7 +317,7 @@ public class MapFunctions {
 
             //Work our way from the height down to 0
             for (int y = lastHeight; y >= 0; y--) {
-                map[x, y] = 1;
+                map[x][y] = 1;
             }
         }
 
@@ -354,21 +325,22 @@ public class MapFunctions {
         return map;
     }
 
-    public static int[,] RandomWalkCave(int[,] map, float seed, int requiredFloorPercent) {
+    public static int[][] RandomWalkCave(int[][] map, float seed, int requiredFloorPercent) {
         //Seed our random
         System.Random rand = new System.Random(seed.GetHashCode());
-
+        int mapWidth = map.Length;
+        int mapHeight = map[0].Length;
         //Define our start x position
-        int floorX = rand.Next(1, map.GetUpperBound(0) - 1);
+        int floorX = rand.Next(1, mapWidth - 1);
         //Define our start y position
-        int floorY = rand.Next(1, map.GetUpperBound(1) - 1);
+        int floorY = rand.Next(1, mapHeight - 1);
         //Determine our required floorAmount
-        int reqFloorAmount = ((map.GetUpperBound(1) * map.GetUpperBound(0)) * requiredFloorPercent) / 100;
+        int reqFloorAmount = ((mapHeight * mapWidth) * requiredFloorPercent) / 100;
         //Used for our while loop, when this reaches our reqFloorAmount we will stop tunneling
         int floorCount = 0;
 
         //Set our start position to not be a tile (0 = no tile, 1 = tile)
-        map[floorX, floorY] = 0;
+        map[floorX][floorY] = 0;
         //Increase our floor count
         floorCount++;
 
@@ -379,14 +351,14 @@ public class MapFunctions {
             switch (randDir) {
                 case 0: //Up
                     //Ensure that the edges are still tiles
-                    if ((floorY + 1) < map.GetUpperBound(1) - 1) {
+                    if ((floorY + 1) < mapHeight - 1) {
                         //Move the y up one
                         floorY++;
 
                         //Check if that piece is currently still a tile
-                        if (map[floorX, floorY] == 1) {
+                        if (map[floorX][floorY] == 1) {
                             //Change it to not a tile
-                            map[floorX, floorY] = 0;
+                            map[floorX][floorY] = 0;
                             //Increase floor count
                             floorCount++;
                         }
@@ -398,9 +370,9 @@ public class MapFunctions {
                         //Move the y down one
                         floorY--;
                         //Check if that piece is currently still a tile
-                        if (map[floorX, floorY] == 1) {
+                        if (map[floorX][floorY] == 1) {
                             //Change it to not a tile
-                            map[floorX, floorY] = 0;
+                            map[floorX][floorY] = 0;
                             //Increase the floor count
                             floorCount++;
                         }
@@ -408,13 +380,13 @@ public class MapFunctions {
                     break;
                 case 2: //Right
                     //Ensure that the edges are still tiles
-                    if ((floorX + 1) < map.GetUpperBound(0) - 1) {
+                    if ((floorX + 1) < map.Length - 1) {
                         //Move the x to the right
                         floorX++;
                         //Check if that piece is currently still a tile
-                        if (map[floorX, floorY] == 1) {
+                        if (map[floorX][floorY] == 1) {
                             //Change it to not a tile
-                            map[floorX, floorY] = 0;
+                            map[floorX][floorY] = 0;
                             //Increase the floor count
                             floorCount++;
                         }
@@ -426,9 +398,9 @@ public class MapFunctions {
                         //Move the x to the left
                         floorX--;
                         //Check if that piece is currently still a tile
-                        if (map[floorX, floorY] == 1) {
+                        if (map[floorX][floorY] == 1) {
                             //Change it to not a tile
-                            map[floorX, floorY] = 0;
+                            map[floorX][floorY] = 0;
                             //Increase the floor count
                             floorCount++;
                         }
@@ -440,21 +412,22 @@ public class MapFunctions {
         return map;
     }
 
-    public static int[,] RandomWalkCaveCustom(int[,] map, float seed, int requiredFloorPercent) {
+    public static int[][] RandomWalkCaveCustom(int[][] map, float seed, int requiredFloorPercent) {
         //Seed our random
         System.Random rand = new System.Random(seed.GetHashCode());
-
+        int mapWidth = map.Length;
+        int mapHeight = map.Length;
         //Define our start x position
-        int floorX = Random.Range(1, map.GetUpperBound(0) - 1);
+        int floorX = Random.Range(1, mapHeight - 1);
         //Define our start y position
-        int floorY = Random.Range(1, map.GetUpperBound(1) - 1);
+        int floorY = Random.Range(1, mapHeight - 1);
         //Determine our required floorAmount
-        int reqFloorAmount = ((map.GetUpperBound(1) * map.GetUpperBound(0)) * requiredFloorPercent) / 100;
+        int reqFloorAmount = ((mapHeight * mapWidth) * requiredFloorPercent) / 100;
         //Used for our while loop, when this reaches our reqFloorAmount we will stop tunneling
         int floorCount = 0;
 
         //Set our start position to not be a tile (0 = no tile, 1 = tile)
-        map[floorX, floorY] = 0;
+        map[floorX][floorY] = 0;
         //Increase our floor count
         floorCount++;
 
@@ -465,16 +438,16 @@ public class MapFunctions {
             switch (randDir) {
                 case 0: //North-West
                     //Ensure we don't go off the map
-                    if ((floorY + 1) < map.GetUpperBound(1) && (floorX - 1) > 0) {
+                    if ((floorY + 1) < mapHeight && (floorX - 1) > 0) {
                         //Move the y up 
                         floorY++;
                         //Move the x left
                         floorX--;
 
                         //Check if the position is a tile
-                        if (map[floorX, floorY] == 1) {
+                        if (map[floorX][floorY] == 1) {
                             //Change it to not a tile
-                            map[floorX, floorY] = 0;
+                            map[floorX][floorY] = 0;
                             //Increase floor count
                             floorCount++;
                         }
@@ -482,14 +455,14 @@ public class MapFunctions {
                     break;
                 case 1: //North
                     //Ensure we don't go off the map
-                    if ((floorY + 1) < map.GetUpperBound(1)) {
+                    if ((floorY + 1) < mapHeight) {
                         //Move the y up
                         floorY++;
 
                         //Check if the position is a tile
-                        if (map[floorX, floorY] == 1) {
+                        if (map[floorX][floorY] == 1) {
                             //Change it to not a tile
-                            map[floorX, floorY] = 0;
+                            map[floorX][floorY] = 0;
                             //Increase the floor count
                             floorCount++;
                         }
@@ -497,16 +470,16 @@ public class MapFunctions {
                     break;
                 case 2: //North-East
                     //Ensure we don't go off the map
-                    if ((floorY + 1) < map.GetUpperBound(1) && (floorX + 1) < map.GetUpperBound(0)) {
+                    if ((floorY + 1) < mapHeight && (floorX + 1) < mapWidth) {
                         //Move the y up
                         floorY++;
                         //Move the x right
                         floorX++;
 
                         //Check if the position is a tile
-                        if (map[floorX, floorY] == 1) {
+                        if (map[floorX][floorY] == 1) {
                             //Change it to not a tile
-                            map[floorX, floorY] = 0;
+                            map[floorX][floorY] = 0;
                             //Increase the floor count
                             floorCount++;
                         }
@@ -514,14 +487,14 @@ public class MapFunctions {
                     break;
                 case 3: //East
                     //Ensure we don't go off the map
-                    if ((floorX + 1) < map.GetUpperBound(0)) {
+                    if ((floorX + 1) < map.Length) {
                         //Move the x right
                         floorX++;
 
                         //Check if the position is a tile
-                        if (map[floorX, floorY] == 1) {
+                        if (map[floorX][floorY] == 1) {
                             //Change it to not a tile
-                            map[floorX, floorY] = 0;
+                            map[floorX][floorY] = 0;
                             //Increase the floor count
                             floorCount++;
                         }
@@ -529,16 +502,16 @@ public class MapFunctions {
                     break;
                 case 4: //South-East
                     //Ensure we don't go off the map
-                    if ((floorY - 1) > 0 && (floorX + 1) < map.GetUpperBound(0)) {
+                    if ((floorY - 1) > 0 && (floorX + 1) < mapWidth) {
                         //Move the y down
                         floorY--;
                         //Move the x right
                         floorX++;
 
                         //Check if the position is a tile
-                        if (map[floorX, floorY] == 1) {
+                        if (map[floorX][floorY] == 1) {
                             //Change it to not a tile
-                            map[floorX, floorY] = 0;
+                            map[floorX][floorY] = 0;
                             //Increase the floor count
                             floorCount++;
                         }
@@ -551,9 +524,9 @@ public class MapFunctions {
                         floorY--;
 
                         //Check if the position is a tile
-                        if (map[floorX, floorY] == 1) {
+                        if (map[floorX][floorY] == 1) {
                             //Change it to not a tile
-                            map[floorX, floorY] = 0;
+                            map[floorX][floorY] = 0;
                             //Increase the floor count
                             floorCount++;
                         }
@@ -568,9 +541,9 @@ public class MapFunctions {
                         floorX--;
 
                         //Check if the position is a tile
-                        if (map[floorX, floorY] == 1) {
+                        if (map[floorX][floorY] == 1) {
                             //Change it to not a tile
-                            map[floorX, floorY] = 0;
+                            map[floorX][floorY] = 0;
                             //Increase the floor count
                             floorCount++;
                         }
@@ -583,9 +556,9 @@ public class MapFunctions {
                         floorX--;
 
                         //Check if the position is a tile
-                        if (map[floorX, floorY] == 1) {
+                        if (map[floorX][floorY] == 1) {
                             //Change it to not a tile
-                            map[floorX, floorY] = 0;
+                            map[floorX][floorY] = 0;
                             //Increase the floor count
                             floorCount++;
                         }
@@ -597,7 +570,7 @@ public class MapFunctions {
         return map;
     }
 
-    public static int[,] DirectionalTunnel(int[,] map, int minPathWidth, int maxPathWidth, int maxPathChange, int roughness, int windyness, int startPosX) {
+    public static int[][] DirectionalTunnel(int[][] map, int minPathWidth, int maxPathWidth, int maxPathChange, int roughness, int windyness, int startPosX) {
         //This value goes from its minus counterpart to its positive value, in this case with a width value of 1, the width of the tunnel is 3
         int tunnelWidth = 1;
         //Set up our seed for the random.
@@ -605,11 +578,11 @@ public class MapFunctions {
 
         //Create the first part of the tunnel
         for (int i = -tunnelWidth; i <= tunnelWidth; i++) {
-            map[startPosX + i, 0] = 0;
+            map[startPosX + i][0] = 0;
         }
 
         //Cycle through the array
-        for (int y = 1; y < map.GetUpperBound(1); y++) {
+        for (int y = 1; y < map[0].Length; y++) {
             //Check if we can change the roughness
             if (rand.Next(0, 100) > roughness) {
 
@@ -639,35 +612,38 @@ public class MapFunctions {
                     startPosX = maxPathWidth;
                 }
                 //Check we arent too close to the right side of the map
-                if (startPosX > (map.GetUpperBound(0) - maxPathWidth)) {
-                    startPosX = map.GetUpperBound(0) - maxPathWidth;
+                int mapWidth = map.Length;
+                if (startPosX > (mapWidth - maxPathWidth)) {
+                    startPosX = mapWidth - maxPathWidth;
                 }
             }
 
             //Work through the width of the tunnel
             for (int i = -tunnelWidth; i <= tunnelWidth; i++) {
-                map[startPosX + i, y] = 0;
+                map[startPosX + i][y] = 0;
             }
         }
         return map;
     }
 
-    public static int[,] GenerateCellularAutomata(int width, int height, float seed, int fillPercent, bool edgesAreWalls) {
+    public static int[][] GenerateCellularAutomata(int width, int height, float seed, int fillPercent, bool edgesAreWalls) {
         //Seed our random number generator
         System.Random rand = new System.Random(seed.GetHashCode());
 
         //Set up the size of our array
-        int[,] map = new int[width, height];
-
+        int[][] map = new int[width][];
+        WorldManager.Create2dArray(map, height);
         //Start looping through setting the cells.
-        for (int x = 0; x < map.GetUpperBound(0); x++) {
-            for (int y = 0; y < map.GetUpperBound(1); y++) {
-                if (edgesAreWalls && (x == 0 || x == map.GetUpperBound(0) - 1 || y == 0 || y == map.GetUpperBound(1) - 1)) {
+        int mapWidth = map.Length;
+        int mapHeight = map[0].Length;
+        for (int x = 0; x < mapWidth; x++) {
+            for (int y = 0; y < mapHeight; y++) {
+                if (edgesAreWalls && (x == 0 || x == mapWidth - 1 || y == 0 || y == mapHeight - 1)) {
                     //Set the cell to be active if edges are walls
-                    map[x, y] = 1;
+                    map[x][y] = 1;
                 } else {
                     //Set the cell to be active if the result of rand.Next() is less than the fill percentage
-                    map[x, y] = (rand.Next(0, 100) < fillPercent) ? 1 : 0;
+                    map[x][y] = (rand.Next(0, 100) < fillPercent) ? 1 : 0;
                 }
             }
         }

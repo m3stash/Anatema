@@ -12,12 +12,12 @@ public class WorldManager : MonoBehaviour {
     private LevelGenerator levelGenerator;
     private GameObject player;
     private Sprite[] block_sprites;
-    public static int[,] tilesLightMap;
-    public static int[,] tilesShadowMap;
-    public static int[,] tilesWorldMap;
-    public static int[,] wallTilesMap;
-    public static int[,] objectsMap;
-    public static int[,] dynamicLight;
+    public static int[][] tilesLightMap;
+    public static int[][] tilesShadowMap;
+    public static int[][] tilesWorldMap;
+    public static int[][] wallTilesMap;
+    public static int[][] objectsMap;
+    public static int[][] dynamicLight;
     public static Dictionary<int, TileBase> tilebaseDictionary;
 
     [Header("Main Settings")]
@@ -68,35 +68,47 @@ public class WorldManager : MonoBehaviour {
         tilebaseDictionary = tilebase_cfg.GetDico();
     }
     private void CreateLightMap() {
-        tilesLightMap = new int[worldSizeX, worldSizeY];
+        tilesLightMap = new int[worldSizeX][];
+        WorldManager.Create2dArray(tilesLightMap, worldSizeY);
+        Create2dArray(tilesLightMap, worldSizeY);
         for (var x = 0; x < worldSizeX; x++) {
             for (var y = 0; y < worldSizeY; y++) {
-                tilesLightMap[x, y] = 100;
+                tilesLightMap[x][y] = 100;
             }
         }
-        tilesShadowMap = new int[worldSizeX, worldSizeY];
+        tilesShadowMap = new int[worldSizeX][];
+        WorldManager.Create2dArray(tilesShadowMap, worldSizeY);
         levelGenerator.GenerateWorldLight(tilesLightMap, tilesShadowMap, tilesWorldMap, wallTilesMap);
     }
 
+    public static void Create2dArray(int[][] array, int height) {
+        for (var x = 0; x < array.Length; x++) {
+            array[x] = new int[height];
+        }
+    }
+
     private void CreateWorldMap() {
-        tilesWorldMap = new int[worldSizeX, worldSizeY];
-        wallTilesMap = new int[worldSizeX, worldSizeY];
-        objectsMap = new int[worldSizeX, worldSizeY];
-        dynamicLight = new int[worldSizeX, worldSizeY];
+        tilesWorldMap = new int[worldSizeX][];
+        Create2dArray(tilesWorldMap, worldSizeY);
+        wallTilesMap = new int[worldSizeX][];
+        Create2dArray(wallTilesMap, worldSizeY);
+        objectsMap = new int[worldSizeX][];
+        Create2dArray(objectsMap, worldSizeY);
+        dynamicLight = new int[worldSizeX][];
+        Create2dArray(dynamicLight, worldSizeY);
         levelGenerator.GenerateTilesWorldMap(tilesWorldMap, wallTilesMap, objectsMap);
-        chunkService.CreateChunksFromMaps(tilesWorldMap);
         if (saveWorldToJson) {
             // for test with html canvas map render
-            FileManager.SaveToJson(new ConvertWorldMapToJson(tilesWorldMap, wallTilesMap), "worldMap"); 
+            FileManager.SaveToJson(new ConvertWorldMapToJson(tilesWorldMap, wallTilesMap), "worldMap");
         }
     }
     private void CreatePlayer() {
         player = Instantiate((GameObject)Resources.Load("Prefabs/Characters/Player/Player"), new Vector3(0, 0, 0), transform.rotation);
     }
-    public void AddItem(Vector2Int pos, InventoryItemData item) { 
+    public void AddItem(Vector2Int pos, InventoryItemData item) {
         // Fill objects map with item id for origin cell and -1 for adjacent cells
         foreach (CellCollider cell in item.GetConfig().GetColliderConfig().GetCellColliders()) {
-            WorldManager.objectsMap[pos.x + cell.GetRelativePosition().x, pos.y + cell.GetRelativePosition().y] = cell.IsOrigin() ? item.GetConfig().GetId() : -1;
+            WorldManager.objectsMap[pos.x + cell.GetRelativePosition().x][pos.y + cell.GetRelativePosition().y] = cell.IsOrigin() ? item.GetConfig().GetId() : -1;
         }
 
         ItemManager.instance.CreateItem(item.GetConfig().GetId(), ItemStatus.ACTIVE, new Vector3(pos.x + 0.5f, pos.y + 0.5f, 0));
@@ -108,19 +120,20 @@ public class WorldManager : MonoBehaviour {
         }*/
     }
     public void DeleteItem(int posX, int posY) {
-        if (objectsMap[posX, posY] == 7) { 
+        if (objectsMap[posX][posY] == 7) {
             LightService.RecursivDeleteLight(posX, posY, true);
             RefreshLight();
         }
 
         // Delete recursively for object which take more than 1 cell
-        objectsMap[posX, posY] = 0;
+        objectsMap[posX][posY] = 0;
 
         ItemManager.instance.CreateItem(7, ItemStatus.PICKABLE, new Vector3(posX, posY));
     }
     public void DeleteTile(int x, int y) {
-        var id = tilesWorldMap[x, y];
-        Chunk currentChunk = ManageChunkTile(x, y, 0);
+        var id = tilesWorldMap[x][y];
+        tilesWorldMap[x][y] = 0;
+        Chunk currentChunk = chunkService.GetChunk((int)x / chunkSize, (int)y / chunkSize);
         currentChunk.SetTile(new Vector3Int(x % chunkSize, y % chunkSize, 0), null);
         lightService.RecursivDeleteShadow(x, y);
         RefreshLight();
@@ -129,20 +142,14 @@ public class WorldManager : MonoBehaviour {
         RefreshChunkNeightboorTiles(x, y, currentChunk.tilemapTile);
     }
     public void AddTile(int x, int y, int id) {
-        Chunk currentChunk = ManageChunkTile(x, y, id);
+        tilesWorldMap[x][y] = id;
+        Chunk currentChunk = chunkService.GetChunk((int)x / chunkSize, (int)y / chunkSize);
         currentChunk.SetTile(new Vector3Int(x % chunkSize, y % chunkSize, 0), tilebaseDictionary[id]);
         lightService.RecursivAddShadow(x, y);
         RefreshLight();
         RefreshChunkNeightboorTiles(x, y, currentChunk.tilemapTile);
     }
-    private Chunk ManageChunkTile(int x, int y, int id) {
-        int chunkX = (int)x / chunkSize;
-        int chunkY = (int)y / chunkSize;
-        var tilemap = chunkService.GetTilesMapChunks(chunkX, chunkY);
-        tilemap[x % chunkSize, y % chunkSize] = id;
-        tilesWorldMap[x, y] = id;
-        return chunkService.GetChunk(chunkX, chunkY);
-    }
+
     public void RefreshChunkNeightboorTiles(int x, int y, Tilemap tilemap) {
         var topBoundMap = chunkSize - 1;
         var rightBoundMap = chunkSize - 1;

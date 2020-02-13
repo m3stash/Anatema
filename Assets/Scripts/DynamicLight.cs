@@ -19,15 +19,15 @@ public class DynamicLight : MonoBehaviour {
         var newPosX = (int)transform.position.x;
         var newPosY = (int)transform.position.y;
         if (oldPosX != newPosX || oldPosY != newPosY) {
-            WorldManager.dynamicLight[oldPosX, oldPosY] = 0;
+            WorldManager.dynamicLight[oldPosX][oldPosY] = 0;
             LightService.RecursivDeleteLight(oldPosX, oldPosY, true);
             LightService.RecursivAddNewLight(newPosX, newPosY, 0);
-            WorldManager.dynamicLight[newPosX, newPosY] = 1;
+            WorldManager.dynamicLight[newPosX][newPosY] = 1;
             RefreshLight();
             oldPosX = newPosX;
             oldPosY = newPosY;
         } else {
-            WorldManager.dynamicLight[newPosX, newPosY] = 1;
+            WorldManager.dynamicLight[newPosX][newPosY] = 1;
         }
     }
 
@@ -37,7 +37,7 @@ public class DynamicLight : MonoBehaviour {
     }
 
     private void OnDisable() {
-        WorldManager.dynamicLight[oldPosX, oldPosY] = 0;
+        WorldManager.dynamicLight[oldPosX][oldPosY] = 0;
         LightService.RecursivDeleteLight(oldPosX, oldPosY, true);
     }
 }
