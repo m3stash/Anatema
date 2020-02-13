@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9edbe9d36ea4b8847b3cc1bbb94a5f6f, type: 3}
-  m_Name: Iron_ore
+  m_Name: Silver_ore
   m_EditorClassIdentifier: 
-  id: 39
-  prefab: {fileID: 7744899684444761357, guid: d319c0d193dda794797475d71d49b286, type: 3}
-  displayName: Iron Ore
-  description: Iron ore can be used for many things
+  id: 40
+  prefab: {fileID: 1939852074744650754, guid: 0e7b7e9efb227934baf3b83164071dfa, type: 3}
+  displayName: Silver Ore
+  description: Silver ore can be used for many things
   rarityLevel: 0
   lootParticlePrefab: {fileID: 0}
   itemType: 9
-  icon: {fileID: 21300000, guid: 8a7ed6184d58e5646a3a163b18f02d96, type: 3}
+  icon: {fileID: 21300000, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
   pooleable: 1
   poolSize: 5
   stackable: 1

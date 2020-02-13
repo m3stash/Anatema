@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a95d1122625dfc4f9e3a236286726e1, type: 3}
+  m_Name: Copper_block
+  m_EditorClassIdentifier: 
+  id: 4
+  prefab: {fileID: 7365588319519017843, guid: 4684fa129ee029f449d2055f798727d1, type: 3}
+  displayName: Copper Block
+  description: Block of copper ore
+  rarityLevel: 0
+  lootParticlePrefab: {fileID: 2375911006704059128, guid: 925a7cd7c4a6e4ef894368ef75bd4599,
+    type: 3}
+  itemType: 0
+  icon: {fileID: 8403556442121363228, guid: 97ca9eae206e4bf40a17e57045a2e6a3, type: 3}
+  pooleable: 1
+  poolSize: 10
+  stackable: 1
+  stackLimit: 5
+  placeable: 1
+  colliderConfig: {fileID: 11400000, guid: 057046e81e2e8e84fb7accb6dd94bc82, type: 2}
+  emitLight: 0
+  scale: {x: 0.5, y: 0.5}
+  blockType: 3
+  durability: 110

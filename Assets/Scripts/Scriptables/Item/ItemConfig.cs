@@ -169,7 +169,11 @@ public enum ItemType {
     WEAPON,
     FURNITURE,
     CONSUMABLE,
-    EQUIPMENT
+    EQUIPMENT,
+    ACCESORIES,
+    WORLD_OBJECT_MAP,
+    MISCELLANEOUS,
+    ORE
 }
 
 public enum RarityLevel {
