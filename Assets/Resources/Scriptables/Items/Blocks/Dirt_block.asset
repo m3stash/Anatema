@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a95d1122625dfc4f9e3a236286726e1, type: 3}
-  m_Name: Dirt
+  m_Name: Dirt_block
   m_EditorClassIdentifier: 
   id: 1
   prefab: {fileID: 4915791588426460112, guid: ede4cbc9fe7f4704b89c4a6a403c8c61, type: 3}
-  displayName: Dirt
-  description: 
+  displayName: Dirt Block
+  description: Block of dirt
   rarityLevel: 3
   lootParticlePrefab: {fileID: 2375911006704059128, guid: 925a7cd7c4a6e4ef894368ef75bd4599,
     type: 3}
@@ -25,8 +25,8 @@ MonoBehaviour:
   poolSize: 50
   stackable: 1
   stackLimit: 5
-  colliderConfig: {fileID: 11400000, guid: 057046e81e2e8e84fb7accb6dd94bc82, type: 2}
   placeable: 1
+  colliderConfig: {fileID: 11400000, guid: 057046e81e2e8e84fb7accb6dd94bc82, type: 2}
   emitLight: 0
   scale: {x: 0.5, y: 0.5}
   blockType: 0

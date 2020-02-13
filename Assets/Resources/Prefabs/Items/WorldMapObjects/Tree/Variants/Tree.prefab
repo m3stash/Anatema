@@ -1,5 +1,26 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &7571547975830450968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4529551933393023209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a6d81ed850cb224095ea56aa1e08481, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  configuration: {fileID: 0}
+  associatedPool: {fileID: 0}
+  rigidbody: {fileID: 0}
+  collider: {fileID: 0}
+  renderer: {fileID: 0}
+  attractor: {fileID: 0}
+  defaultScale: {x: 0, y: 0, z: 0}
+  defaultTag: 
+  defaultPrefabSprite: {fileID: 0}
 --- !u!1001 &8265451642927893417
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26,7 +47,7 @@ PrefabInstance:
     - target: {fileID: 5505926547673054016, guid: 72245d82a8215ed43a30b1393dd0d5eb,
         type: 3}
       propertyPath: m_Name
-      value: OldTree2
+      value: Tree
       objectReference: {fileID: 0}
     - target: {fileID: 8051069697303480611, guid: 72245d82a8215ed43a30b1393dd0d5eb,
         type: 3}
@@ -83,5 +104,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8557912851257795488, guid: 72245d82a8215ed43a30b1393dd0d5eb, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 72245d82a8215ed43a30b1393dd0d5eb, type: 3}
+--- !u!1 &4529551933393023209 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5505926547673054016, guid: 72245d82a8215ed43a30b1393dd0d5eb,
+    type: 3}
+  m_PrefabInstance: {fileID: 8265451642927893417}
+  m_PrefabAsset: {fileID: 0}

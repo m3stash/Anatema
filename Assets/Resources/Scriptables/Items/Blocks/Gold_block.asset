@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a95d1122625dfc4f9e3a236286726e1, type: 3}
-  m_Name: SIlver_ore
+  m_Name: Gold_block
   m_EditorClassIdentifier: 
-  id: 6
-  prefab: {fileID: 1939852074744650754, guid: 0e7b7e9efb227934baf3b83164071dfa, type: 3}
-  displayName: Silver_ore
-  description: 
-  rarityLevel: 1
+  id: 7
+  prefab: {fileID: 1942538336399908619, guid: 33be8e12d5ddf0648bd63a575028e603, type: 3}
+  displayName: Gold Block
+  description: Block of gold ore
+  rarityLevel: 2
   lootParticlePrefab: {fileID: 2375911006704059128, guid: 925a7cd7c4a6e4ef894368ef75bd4599,
     type: 3}
   itemType: 0
-  icon: {fileID: 21300000, guid: 8a7ed6184d58e5646a3a163b18f02d96, type: 3}
+  icon: {fileID: 21300000, guid: 2be321acb93b3dd459c69187f981de8d, type: 3}
   pooleable: 1
   poolSize: 10
   stackable: 1
   stackLimit: 5
-  placeable: 0
-  colliderConfig: {fileID: 0}
+  placeable: 1
+  colliderConfig: {fileID: 11400000, guid: 057046e81e2e8e84fb7accb6dd94bc82, type: 2}
   emitLight: 0
   scale: {x: 0.5, y: 0.5}
   blockType: 3
-  durability: 130
+  durability: 140
