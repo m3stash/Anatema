@@ -25,7 +25,7 @@ public class BackgroundParallaxManager : MonoBehaviour {
         WorldManager.GetPlayer -= SetPlayer;
     }
     private void SetPlayer(GameObject player) {
-        this.player = player;
+        this.player = Camera.main.gameObject;
         rg2d = player.GetComponent<Rigidbody2D>();
         oldPosY = player.transform.position.y;
         oldPosX = player.transform.position.x;

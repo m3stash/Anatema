@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEditor;
 using System;
+using Cinemachine;
 
 public class WorldManager : MonoBehaviour {
 
@@ -92,6 +93,7 @@ public class WorldManager : MonoBehaviour {
     }
     private void CreatePlayer() {
         player = Instantiate((GameObject)Resources.Load("Prefabs/Characters/Player/Player"), new Vector3(0, 0, 0), transform.rotation);
+        GameObject.FindObjectOfType<CinemachineVirtualCamera>().Follow = player.transform;
     }
     public void AddItem(Vector2Int pos, InventoryItemData item) { 
         // Fill objects map with item id for origin cell and -1 for adjacent cells

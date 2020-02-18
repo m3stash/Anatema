@@ -39,7 +39,7 @@ public class TileSelector : MonoBehaviour
     }
 
     private void OnEnable() {
-        cam = Player.instance.GetComponentInChildren<Camera>();
+        cam = Camera.main;
 
         InputManager.gameplayControls.TileSelector.PressClick.performed += OnInteractButtonPress;
         InputManager.gameplayControls.TileSelector.ReleaseClick.performed += OnInteractButtonReleased;
@@ -55,7 +55,9 @@ public class TileSelector : MonoBehaviour
             this.SetTileSelectorPosition(0, 0, true);
         }
 
-        this.OnCurrentSelectedItemChanged();
+        if (GameManager.instance.GetGameMode() == GameMode.BUILD) {
+            this.OnCurrentSelectedItemChanged();
+        }
     }
 
     private void OnDisable() {
@@ -267,7 +269,7 @@ public class TileSelector : MonoBehaviour
             this.selector.SetActive(true);
         }
 
-        if(force) {
+        if (force) {
             this.selector.SetActive(true);
             this.selector.transform.localPosition = new Vector2(x, y);
             this.CheckPreviewItemValidity(x, y);
@@ -282,7 +284,7 @@ public class TileSelector : MonoBehaviour
 
                 this.selector.transform.position = new Vector2(x + 0.5f, y + 0.5f);
 
-                if(this.previewItemRenderer && this.previewItemRenderer.GetComponent<ItemRotation>()) {
+                if (this.previewItemRenderer && this.previewItemRenderer.GetComponent<ItemRotation>()) {
                     this.previewItemRenderer.GetComponent<ItemRotation>().RefreshUI();
                 }
 
