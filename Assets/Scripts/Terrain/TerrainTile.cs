@@ -43,6 +43,11 @@ namespace UnityEngine.Tilemaps {
                 for (var i = 0; i < numberTiles; i++) {
                     var newName = name + "_" + i;
                     Tile.m_Sprites[i] = (Sprite)EditorGUILayout.ObjectField(newName, tiles[i], typeof(Sprite), false, null);
+
+                    if(i == 0) {
+                        Sprite sprite = Sprite.Create(Tile.m_Sprites[i].texture, Tile.m_Sprites[i].rect, new Vector2(0, 0), Tile.m_Sprites[i].pixelsPerUnit);
+                        AssetDatabase.CreateAsset(sprite, "Assets/Resources/Sprites/Items/Blocks/" + name + "_block.asset");
+                    }
                 }
                 EditorUtility.SetDirty(Tile);
             }

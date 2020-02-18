@@ -28,7 +28,9 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     }
 
     private void OnDisable() {
-        this.ResetConditions();
+        if (!cell.GetAssociatedInventory().IsDisableDragDrop()) {
+            this.ResetConditions();
+        }
     }
 
     public void Setup(InventoryItemData item, InventoryCell cell) {
@@ -160,6 +162,10 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     }
 
     public void EndDrag() {
+        if (cell.GetAssociatedInventory().IsDisableDragDrop()) {
+            return;
+        }
+
         ResetConditions();
     }
 }

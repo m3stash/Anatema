@@ -82,6 +82,12 @@ public class ItemManager : MonoBehaviour {
     public Item CreateItem(int itemIdx, ItemStatus status, Vector3 position) {
         Item item = this.CreateItem(itemIdx, status);
         item.transform.position = position;
+
+        // Check if item contains item rotation or not
+        if(item.GetComponent<ItemRotation>()) {
+            item.GetComponent<ItemRotation>().RefreshUI();
+        }
+
         return item;
     }
 

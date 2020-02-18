@@ -13,39 +13,39 @@ MonoBehaviour:
   m_Name: Silver_ore
   m_EditorClassIdentifier: 
   m_Sprites:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 21300002, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 21300004, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 21300006, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 21300008, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 21300010, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 21300012, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 21300014, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 21300016, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 21300018, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 21300020, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 21300022, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 21300024, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 21300026, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 21300028, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 21300030, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 21300032, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 21300034, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 21300036, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 21300038, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 21300040, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: -3376813902337258062, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 2008095592168108860, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 212931869092819419, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: -7433978578515031089, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 1881877346211597194, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: -8255958045340309170, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 6388901175097525699, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 2831499033495622288, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: -3416132523542359514, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 8748756958073587199, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 908332000752676318, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: -4395246705734801420, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: -9124046118479857352, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
+  - {fileID: 5610825937107016284, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
   texture2d: {fileID: 2800000, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}

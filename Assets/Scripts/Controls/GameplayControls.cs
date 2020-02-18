@@ -145,6 +145,14 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Navigate"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""895dbc35-38e4-4d50-9bcc-c44f94e5449e"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -152,6 +160,17 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""e25adeb5-52f5-4e1b-b2ef-ebc32b0bd955"",
                     ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PressClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f9e73344-3861-41a4-a52d-55dc9c7ac57b"",
+                    ""path"": ""<XInputController>/rightShoulder"",
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
@@ -169,6 +188,72 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""action"": ""ReleaseClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d34fced6-03e8-4579-8c42-5cf47f70aa34"",
+                    ""path"": ""<XInputController>/rightShoulder"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ReleaseClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""LR"",
+                    ""id"": ""d0cbdadc-8da5-454b-b960-b8c24c21f0e9"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone(min=0.9,max=0.925)"",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""4fa69552-87e2-429f-b520-6309cc073f14"",
+                    ""path"": ""<XInputController>/rightStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""9e728a5b-256f-4730-9017-f06496579fe3"",
+                    ""path"": ""<XInputController>/rightStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""48cec733-75ab-453a-a2cc-98f0a578cdf6"",
+                    ""path"": ""<XInputController>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""6fe9d727-8c51-4a0c-a71c-201f212af605"",
+                    ""path"": ""<XInputController>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -685,6 +770,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         m_TileSelector = asset.FindActionMap("TileSelector", throwIfNotFound: true);
         m_TileSelector_PressClick = m_TileSelector.FindAction("PressClick", throwIfNotFound: true);
         m_TileSelector_ReleaseClick = m_TileSelector.FindAction("ReleaseClick", throwIfNotFound: true);
+        m_TileSelector_Navigate = m_TileSelector.FindAction("Navigate", throwIfNotFound: true);
         // Core
         m_Core = asset.FindActionMap("Core", throwIfNotFound: true);
         m_Core_Position = m_Core.FindAction("Position", throwIfNotFound: true);
@@ -797,12 +883,14 @@ public class @GameplayControls : IInputActionCollection, IDisposable
     private ITileSelectorActions m_TileSelectorActionsCallbackInterface;
     private readonly InputAction m_TileSelector_PressClick;
     private readonly InputAction m_TileSelector_ReleaseClick;
+    private readonly InputAction m_TileSelector_Navigate;
     public struct TileSelectorActions
     {
         private @GameplayControls m_Wrapper;
         public TileSelectorActions(@GameplayControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @PressClick => m_Wrapper.m_TileSelector_PressClick;
         public InputAction @ReleaseClick => m_Wrapper.m_TileSelector_ReleaseClick;
+        public InputAction @Navigate => m_Wrapper.m_TileSelector_Navigate;
         public InputActionMap Get() { return m_Wrapper.m_TileSelector; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -818,6 +906,9 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 @ReleaseClick.started -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnReleaseClick;
                 @ReleaseClick.performed -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnReleaseClick;
                 @ReleaseClick.canceled -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnReleaseClick;
+                @Navigate.started -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnNavigate;
+                @Navigate.performed -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnNavigate;
+                @Navigate.canceled -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnNavigate;
             }
             m_Wrapper.m_TileSelectorActionsCallbackInterface = instance;
             if (instance != null)
@@ -828,6 +919,9 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 @ReleaseClick.started += instance.OnReleaseClick;
                 @ReleaseClick.performed += instance.OnReleaseClick;
                 @ReleaseClick.canceled += instance.OnReleaseClick;
+                @Navigate.started += instance.OnNavigate;
+                @Navigate.performed += instance.OnNavigate;
+                @Navigate.canceled += instance.OnNavigate;
             }
         }
     }
@@ -1037,6 +1131,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
     {
         void OnPressClick(InputAction.CallbackContext context);
         void OnReleaseClick(InputAction.CallbackContext context);
+        void OnNavigate(InputAction.CallbackContext context);
     }
     public interface ICoreActions
     {

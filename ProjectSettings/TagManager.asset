@@ -36,7 +36,7 @@ TagManager:
   - Background_5
   - Background_6
   - Objects
-  - 
+  - GridCell
   - 
   - 
   - 
@@ -77,15 +77,18 @@ TagManager:
   - name: Objects
     uniqueID: 425719475
     locked: 0
-  - name: Player
-    uniqueID: 1077892909
-    locked: 0
   - name: Items
     uniqueID: 81745725
+    locked: 0
+  - name: Player
+    uniqueID: 1077892909
     locked: 0
   - name: Light
     uniqueID: 3940043855
     locked: 0
   - name: Rain
     uniqueID: 3850902871
+    locked: 0
+  - name: GridCell
+    uniqueID: 4085159089
     locked: 0

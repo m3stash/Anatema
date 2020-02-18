@@ -15,97 +15,283 @@ MonoBehaviour:
   cellColliders:
   - position: {x: -5, y: 6}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: -5, y: 7}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: -4, y: 5}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: -4, y: 6}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: -4, y: 7}
     origin: 0
-  - position: {x: -3, y: 4}
-    origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: -3, y: 5}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: -3, y: 6}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: -3, y: 7}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: -2, y: 4}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: -2, y: 5}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: -2, y: 6}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: -1, y: 0}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 2
   - position: {x: -1, y: 1}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: -1, y: 4}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: -1, y: 5}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: -1, y: 6}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: -1, y: 7}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 0, y: 0}
     origin: 1
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 2
   - position: {x: 0, y: 1}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 0, y: 2}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 0, y: 3}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 0, y: 4}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 0, y: 5}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 0, y: 6}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 0, y: 7}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 1, y: 0}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 2
   - position: {x: 1, y: 1}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 1, y: 2}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 1, y: 3}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 1, y: 4}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 1, y: 5}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 1, y: 6}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 1, y: 7}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 1, y: 8}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 2, y: 2}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 2, y: 3}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 2, y: 4}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 2, y: 5}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 2, y: 6}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 2, y: 7}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 2, y: 8}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 3, y: 3}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 3, y: 4}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 3, y: 5}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 3, y: 6}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 3, y: 7}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 3, y: 8}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0

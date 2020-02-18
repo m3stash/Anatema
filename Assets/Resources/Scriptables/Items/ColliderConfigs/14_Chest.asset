@@ -15,9 +15,25 @@ MonoBehaviour:
   cellColliders:
   - position: {x: 0, y: 0}
     origin: 1
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 2
   - position: {x: 0, y: 1}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 1, y: 0}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 2
   - position: {x: 1, y: 1}
     origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
