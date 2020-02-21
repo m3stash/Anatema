@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 
-public class TileSelector : MonoBehaviour
-{
+public class TileSelector : MonoBehaviour {
     [Header("Fields to complete manually")]
     [SerializeField] private GameObject gridCellPrefab;
     [SerializeField] private Vector2Int gridSize;
@@ -31,6 +30,8 @@ public class TileSelector : MonoBehaviour
     private bool onClick = false;
     private Vector2 previousMoveDir;
 
+    private int horipadX, horipadY;
+
     private void Awake() {
         this.selector = Instantiate(this.selectorCellPrefab, this.transform);
         this.selector.SetActive(false);
@@ -39,29 +40,37 @@ public class TileSelector : MonoBehaviour
     }
 
     private void OnEnable() {
-        cam = Player.instance.GetComponentInChildren<Camera>();
+        cam = Camera.main;
 
         InputManager.gameplayControls.TileSelector.PressClick.performed += OnInteractButtonPress;
         InputManager.gameplayControls.TileSelector.ReleaseClick.performed += OnInteractButtonReleased;
         InputManager.gameplayControls.TileSelector.Navigate.performed += OnNavigate;
+        InputManager.gameplayControls.TileSelector.HorizontalMove.performed += OnHorizontalMove;
+        InputManager.gameplayControls.TileSelector.VerticalMove.performed += OnVerticalMove;
         ToolbarManager.OnSelectedItemChanged += OnCurrentSelectedItemChanged;
 
-        this.target = Player.instance.gameObject;
+        if(Player.instance) { // Todo should be deleted when orchestration where refactored
+            this.target = Player.instance.gameObject;
+        }
 
         this.ManageGridDisplay();
 
-        if (!InputManager.instance.IsMouseEnabled()) {
+        if(!InputManager.instance.IsMouseEnabled()) {
             this.previousMoveDir = Vector2.zero;
             this.SetTileSelectorPosition(0, 0, true);
         }
 
-        this.OnCurrentSelectedItemChanged();
+        if(GameManager.instance.GetGameMode() == GameMode.BUILD) {
+            this.OnCurrentSelectedItemChanged();
+        }
     }
 
     private void OnDisable() {
         InputManager.gameplayControls.TileSelector.PressClick.performed -= OnInteractButtonPress;
         InputManager.gameplayControls.TileSelector.ReleaseClick.performed -= OnInteractButtonReleased;
         InputManager.gameplayControls.TileSelector.Navigate.performed -= OnNavigate;
+        InputManager.gameplayControls.TileSelector.HorizontalMove.performed -= OnHorizontalMove;
+        InputManager.gameplayControls.TileSelector.VerticalMove.performed -= OnVerticalMove;
         ToolbarManager.OnSelectedItemChanged -= OnCurrentSelectedItemChanged;
 
         this.DestroyPreviewItem();
@@ -82,13 +91,37 @@ public class TileSelector : MonoBehaviour
         this.SetOnClick(false);
     }
 
+    private void OnHorizontalMove(InputAction.CallbackContext ctx) {
+        this.horipadX = (int)ctx.ReadValue<float>();
+
+        Vector2 dir = new Vector2(this.horipadX, this.horipadY);
+
+        if(dir != this.previousMoveDir) {
+            this.DoNavigation(dir);
+        }
+    }
+
+    private void OnVerticalMove(InputAction.CallbackContext ctx) {
+        this.horipadY = (int)-ctx.ReadValue<float>();
+
+        Vector2 dir = new Vector2(this.horipadX, this.horipadY);
+
+        if(dir != this.previousMoveDir) {
+            this.DoNavigation(dir);
+        }
+    }
+
     private void OnNavigate(InputAction.CallbackContext ctx) {
         Vector2 dir = ctx.ReadValue<Vector2>();
 
-        if (dir != this.previousMoveDir) {
-            this.previousMoveDir = dir;
-            this.SetTileSelectorPosition((int)this.selector.transform.position.x + (int)dir.x, (int)this.selector.transform.position.y + (int)dir.y);
+        if(dir != this.previousMoveDir) {
+            this.DoNavigation(dir);
         }
+    }
+
+    private void DoNavigation(Vector2 dir) {
+        this.previousMoveDir = dir;
+        this.SetTileSelectorPosition((int)this.selector.transform.position.x + (int)dir.x, (int)this.selector.transform.position.y + (int)dir.y);
     }
 
     private void SetOnClick(bool value) {
@@ -96,14 +129,18 @@ public class TileSelector : MonoBehaviour
     }
 
     private void ManageGridDisplay() {
-        foreach (GameObject cell in this.grid) {
+        foreach(GameObject cell in this.grid) {
             cell.SetActive(this.showGrid);
         }
     }
 
     private void MoveToTarget() {
-        if (this.target) {
+        if(this.target && Vector3.Distance(this.target.transform.position, this.transform.position) > 0.5f) {
             this.transform.position = new Vector3((int)this.target.transform.position.x + 0.5f, (int)this.target.transform.position.y + 0.5f);
+
+            if(this.previewItemRenderer) {
+                this.CheckPreviewItemValidity((int)this.previewItemRenderer.transform.position.x, (int)this.previewItemRenderer.transform.position.y);
+            }
         }
     }
 
@@ -119,8 +156,8 @@ public class TileSelector : MonoBehaviour
         this.halfGridWidth = ((this.gridSize.x / 2) * this.cellWidth);
         this.halfGridHeight = ((this.gridSize.y / 2) * this.cellWidth);
 
-        for (int x = 0; x < this.gridSize.x; x++) {
-            for (int y = 0; y < this.gridSize.y; y++) {
+        for(int x = 0; x < this.gridSize.x; x++) {
+            for(int y = 0; y < this.gridSize.y; y++) {
                 GameObject gridCell = Instantiate(this.gridCellPrefab,
                     this.transform.position + new Vector3((x * this.cellWidth) - this.halfGridWidth, (y * this.cellWidth) - this.halfGridHeight),
                     Quaternion.identity,
@@ -135,11 +172,11 @@ public class TileSelector : MonoBehaviour
     private void AddItem(Vector2Int pos) {
         InventoryItemData itemData = ToolbarManager.instance.UseSelectedItemData();
 
-        if (itemData == null) {
+        if(itemData == null) {
             return;
         }
 
-        if (itemData.GetConfig().GetItemType().Equals(ItemType.BLOCK)) {
+        if(itemData.GetConfig().GetItemType().Equals(ItemType.BLOCK)) {
             WorldManager.instance.AddTile(pos.x, pos.y, itemData.GetConfig().GetId());
         } else {
             WorldManager.instance.AddItem(pos, itemData);
@@ -151,15 +188,15 @@ public class TileSelector : MonoBehaviour
     private void CreatePreviewItem() {
         InventoryItemData itemData = ToolbarManager.instance.GetSelectedItemData();
 
-        if (itemData == null) {
+        if(itemData == null) {
             return;
         }
 
         GameObject obj = Instantiate(itemData.GetConfig().GetPrefab(), this.selector.transform.position + new Vector3(-0.5f, -0.5f), Quaternion.identity);
         obj.transform.parent = this.selector.transform;
 
-        foreach (Component component in obj.GetComponents<Component>()) {
-            if (component.GetType() != typeof(SpriteRenderer) && component.GetType() != typeof(Transform) && component.GetType() != typeof(ItemRotation)) {
+        foreach(Component component in obj.GetComponents<Component>()) {
+            if(component.GetType() != typeof(SpriteRenderer) && component.GetType() != typeof(Transform) && component.GetType() != typeof(ItemRotation)) {
                 Destroy(component);
             }
         }
@@ -170,7 +207,7 @@ public class TileSelector : MonoBehaviour
     }
 
     private void CheckPreviewItemValidity(int originX, int originY) {
-        if (!this.previewItemRenderer) {
+        if(!this.previewItemRenderer) {
             this.canPoseItem = false;
             this.RefreshPreviewItemRenderer();
             return;
@@ -182,12 +219,12 @@ public class TileSelector : MonoBehaviour
         int allContacts = 0;
         int validContacts = 0;
 
-        foreach (CellCollider cell in cellsToCheck) {
+        foreach(CellCollider cell in cellsToCheck) {
             // Check if position is free on tileMap and objectMap
             bool objectMapValid = WorldManager.objectsMap[originX + cell.GetRelativePosition().x, originY + cell.GetRelativePosition().y] == 0;
             bool tilesWorlMapValid = WorldManager.tilesWorldMap[originX + cell.GetRelativePosition().x, originY + cell.GetRelativePosition().y] == 0;
 
-            if (!objectMapValid || !tilesWorlMapValid) {
+            if(!objectMapValid || !tilesWorlMapValid) {
                 allIsValid = false;
                 break;
             }
@@ -195,51 +232,51 @@ public class TileSelector : MonoBehaviour
             bool mandatoriesContactValid = true;
 
             // Check left cell if a contact has been set
-            if (mandatoriesContactValid && cell.GetLeftContactType() != ContactType.NONE) {
+            if(mandatoriesContactValid && cell.GetLeftContactType() != ContactType.NONE) {
                 bool leftContactValid = WorldManager.tilesWorldMap[originX + cell.GetRelativePosition().x - 1, originY + cell.GetRelativePosition().y] > 0;
                 allContacts += 1;
                 validContacts += leftContactValid ? 1 : 0;
 
-                if (cell.GetLeftContactType() == ContactType.MANDATORY) {
+                if(cell.GetLeftContactType() == ContactType.MANDATORY) {
                     mandatoriesContactValid = leftContactValid;
                 }
             }
 
             // Check right cell if a contact has been set
-            if (mandatoriesContactValid && cell.GetRightContactType() != ContactType.NONE) {
+            if(mandatoriesContactValid && cell.GetRightContactType() != ContactType.NONE) {
                 bool rightContactValid = WorldManager.tilesWorldMap[originX + cell.GetRelativePosition().x + 1, originY + cell.GetRelativePosition().y] > 0;
                 allContacts += 1;
                 validContacts += rightContactValid ? 1 : 0;
 
-                if (cell.GetRightContactType() == ContactType.MANDATORY) {
+                if(cell.GetRightContactType() == ContactType.MANDATORY) {
                     mandatoriesContactValid = rightContactValid;
                 }
             }
 
             // Check top cell if a contact has been set
-            if (mandatoriesContactValid && cell.GetTopContactType() != ContactType.NONE) {
+            if(mandatoriesContactValid && cell.GetTopContactType() != ContactType.NONE) {
                 bool topContactValid = WorldManager.tilesWorldMap[originX + cell.GetRelativePosition().x, originY + cell.GetRelativePosition().y + 1] > 0;
                 allContacts += 1;
                 validContacts += topContactValid ? 1 : 0;
 
-                if (cell.GetTopContactType() == ContactType.MANDATORY) {
+                if(cell.GetTopContactType() == ContactType.MANDATORY) {
                     mandatoriesContactValid = topContactValid;
                 }
             }
 
             // Check bottom cell if a contact has been set
-            if (mandatoriesContactValid && cell.GetBottomContactType() != ContactType.NONE) {
+            if(mandatoriesContactValid && cell.GetBottomContactType() != ContactType.NONE) {
                 bool bottomContactValid = WorldManager.tilesWorldMap[originX + cell.GetRelativePosition().x, originY + cell.GetRelativePosition().y - 1] > 0;
                 allContacts += 1;
                 validContacts += bottomContactValid ? 1 : 0;
 
-                if (cell.GetBottomContactType() == ContactType.MANDATORY) {
+                if(cell.GetBottomContactType() == ContactType.MANDATORY) {
                     mandatoriesContactValid = bottomContactValid;
                 }
             }
 
             // If a mandatory contact set, it need to be valid !
-            if (!mandatoriesContactValid) {
+            if(!mandatoriesContactValid) {
                 allIsValid = false;
                 break;
             }
@@ -251,19 +288,19 @@ public class TileSelector : MonoBehaviour
     }
 
     private void RefreshPreviewItemRenderer() {
-        if (this.previewItemRenderer) {
+        if(this.previewItemRenderer) {
             this.previewItemRenderer.color = this.canPoseItem ? new Color(1, 1, 1, 0.5f) : new Color(1, 0, 0, 0.5f);
         }
     }
 
     private void DestroyPreviewItem() {
-        if (this.previewItemRenderer) {
+        if(this.previewItemRenderer) {
             Destroy(this.previewItemRenderer.gameObject);
         }
     }
 
     private void SetTileSelectorPosition(int x, int y, bool force = false) {
-        if (!this.selector.activeSelf) {
+        if(!this.selector.activeSelf) {
             this.selector.SetActive(true);
         }
 
@@ -274,8 +311,8 @@ public class TileSelector : MonoBehaviour
             return;
         }
 
-        if (this.selector.transform.position != new Vector3(x + 0.5f, y + 0.5f)) {
-            if (x <= (int)this.target.transform.position.x + 0.5f + this.halfGridWidth &&
+        if(this.selector.transform.position != new Vector3(x + 0.5f, y + 0.5f)) {
+            if(x <= (int)this.target.transform.position.x + 0.5f + this.halfGridWidth &&
                 x >= (int)this.target.transform.position.x - 0.5f - this.halfGridWidth &&
                 y >= (int)this.target.transform.position.y - 0.5f - this.halfGridHeight &&
                 y <= (int)this.target.transform.position.y + 0.5f + this.halfGridHeight) {
@@ -299,7 +336,7 @@ public class TileSelector : MonoBehaviour
         this.MoveToTarget();
 
         // Manage selector tile for mouse
-        if (InputManager.instance.IsMouseEnabled()) {
+        if(InputManager.instance.IsMouseEnabled()) {
             ray = cam.ScreenPointToRay(InputManager.mousePosition);
             posX = (int)ray.origin.x;
             posY = (int)ray.origin.y;
@@ -311,16 +348,16 @@ public class TileSelector : MonoBehaviour
         }
 
         // Perform action on click
-        if (onClick) {
-            switch (GameManager.instance.GetGameMode()) {
+        if(onClick) {
+            switch(GameManager.instance.GetGameMode()) {
                 case GameMode.BUILD:
-                    if (canPoseItem) {
+                    if(canPoseItem) {
                         this.AddItem(new Vector2Int(posX, posY));
                     }
                     break;
                 case GameMode.TOOL:
-                    if (WorldManager.tilesWorldMap[posX, posY] > 0) {
-                        if (WorldManager.objectsMap[posX, posY] > 0) {
+                    if(WorldManager.tilesWorldMap[posX, posY] > 0) {
+                        if(WorldManager.objectsMap[posX, posY] > 0) {
                             WorldManager.instance.DeleteItem(posX, posY);
                         } else {
                             WorldManager.instance.DeleteTile((int)posX, (int)posY);

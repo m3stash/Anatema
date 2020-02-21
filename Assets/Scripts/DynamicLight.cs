@@ -14,11 +14,11 @@ public class DynamicLight : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        if (!render.isVisible)
+        if(!render.isVisible)
             return;
         var newPosX = (int)transform.position.x;
         var newPosY = (int)transform.position.y;
-        if (oldPosX != newPosX || oldPosY != newPosY) {
+        if(oldPosX != newPosX || oldPosY != newPosY) {
             WorldManager.dynamicLight[oldPosX, oldPosY] = 0;
             LightService.RecursivDeleteLight(oldPosX, oldPosY, true);
             LightService.RecursivAddNewLight(newPosX, newPosY, 0);
@@ -37,7 +37,9 @@ public class DynamicLight : MonoBehaviour {
     }
 
     private void OnDisable() {
-        WorldManager.dynamicLight[oldPosX, oldPosY] = 0;
+        if(WorldManager.dynamicLight != null) { // Todo should be deleted after orchestraction refactored
+            WorldManager.dynamicLight[oldPosX, oldPosY] = 0;
+        }
         LightService.RecursivDeleteLight(oldPosX, oldPosY, true);
     }
 }

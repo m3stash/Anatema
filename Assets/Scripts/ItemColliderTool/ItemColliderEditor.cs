@@ -47,6 +47,8 @@ public class ItemColliderEditor : MonoBehaviour {
         ItemConfigButton.OnSelect += LoadItem;
     }
 
+#if UNITY_EDITOR
+
     /// <summary>
     /// Save asset to scriptable object
     /// </summary>
@@ -63,6 +65,8 @@ public class ItemColliderEditor : MonoBehaviour {
 
         Debug.Log("Saved to : " + AssetDatabase.GetAssetPath(config));
     }
+
+#endif
 
     /// <summary>
     /// Action performed when text value changed in input field

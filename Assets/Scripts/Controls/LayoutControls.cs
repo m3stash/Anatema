@@ -41,6 +41,17 @@ public class @LayoutControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""69881bf8-5491-46c7-ace7-c875203c36af"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/button9"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchDisplay"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""c591f06e-6861-4880-9326-fdf2f3a99d24"",
                     ""path"": ""<Gamepad>/select"",
                     ""interactions"": """",
@@ -81,6 +92,17 @@ public class @LayoutControls : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""bdfbec68-5971-4b47-9e4c-ca669afaeb57"",
                     ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchDisplay"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aa16732b-f080-4641-81a5-9dbb807e78a6"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/button10"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

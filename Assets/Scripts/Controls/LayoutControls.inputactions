@@ -1,5 +1,5 @@
 {
-    "name": "ViewControls",
+    "name": "LayoutControls",
     "maps": [
         {
             "name": "Inventory",
@@ -19,6 +19,17 @@
                     "name": "",
                     "id": "01bfaff2-adbc-4813-b127-4e11969db6da",
                     "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchDisplay",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "69881bf8-5491-46c7-ace7-c875203c36af",
+                    "path": "<HID::HORI CO.,LTD. HORIPAD S>/button9",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -68,6 +79,17 @@
                     "name": "",
                     "id": "bdfbec68-5971-4b47-9e4c-ca669afaeb57",
                     "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchDisplay",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "aa16732b-f080-4641-81a5-9dbb807e78a6",
+                    "path": "<HID::HORI CO.,LTD. HORIPAD S>/button10",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

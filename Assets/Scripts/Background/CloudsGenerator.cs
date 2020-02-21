@@ -60,7 +60,7 @@ public class CloudsGenerator : MonoBehaviour {
         }
     }
     private void SetPlayer(GameObject player) {
-        camera = player.GetComponentInChildren<Camera>();
+        camera = Camera.main;
         var rightCam = camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x;
         var leftCam = camera.ScreenToWorldPoint(new Vector3(0, 0, 0)).x;
         cameraWidth = (int)(rightCam - leftCam);

@@ -78,7 +78,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1359319807767924
@@ -377,7 +377,13 @@ MonoBehaviour:
   selectorCellPrefab: {fileID: 6011728340333794127, guid: 15c81daf990d3af46b5fad7dde4fabc2,
     type: 3}
   target: {fileID: 0}
+  showGrid: 0
   grid: []
   cellWidth: 0
+  halfGridWidth: 0
+  halfGridHeight: 0
   cam: {fileID: 0}
   selector: {fileID: 0}
+  previewItemRenderer: {fileID: 0}
+  cellsToCheck: []
+  canPoseItem: 0
