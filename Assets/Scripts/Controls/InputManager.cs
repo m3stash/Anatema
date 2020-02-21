@@ -87,6 +87,7 @@ public class InputManager : MonoBehaviour
         gameplayControls.Toolbar.Disable();
         gameplayControls.Shortcuts.Disable();
         gameplayControls.TileSelector.Disable();
+        gameplayControls.Camera.Disable();
     }
 
     private void SwitchInventoryLayout(InputAction.CallbackContext ctx) {
@@ -119,6 +120,7 @@ public class InputManager : MonoBehaviour
                 gameplayControls.Player.Enable();
                 gameplayControls.TileSelector.Enable();
                 gameplayControls.Shortcuts.Enable();
+                gameplayControls.Camera.Enable();
 
                 // Disabled cursor in default mode
                 this.cursorManager.SetCursorState(CursorState.DISABLED);

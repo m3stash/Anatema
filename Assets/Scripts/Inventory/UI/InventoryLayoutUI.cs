@@ -15,6 +15,8 @@ public class InventoryLayoutUI : MonoBehaviour {
 
     private int currentSelectedStepperIdx;
 
+    private Vector2 lastMoveDirection;
+
     private void Awake() {
         this.steppers = GetComponentsInChildren<InventoryStepperUI>();
         this.inventoryBag = GetComponentInChildren<InventoryBagUI>();
@@ -96,7 +98,7 @@ public class InventoryLayoutUI : MonoBehaviour {
     private void NavigateAction(InputAction.CallbackContext ctx) {
         Vector2 direction = ctx.ReadValue<Vector2>();
 
-        if(direction != Vector2.zero) {
+        if(direction != this.lastMoveDirection) {
             InventoryCell neighbourCell = this.currentSelectedCell.GetNeighbourCell(new Vector3(direction.x, direction.y, 0));
 
             if(neighbourCell) {
@@ -106,6 +108,8 @@ public class InventoryLayoutUI : MonoBehaviour {
                     this.SetItemDragPositionToCurrentCell();
                 }
             }
+
+            this.lastMoveDirection = direction;
         }
     }
 

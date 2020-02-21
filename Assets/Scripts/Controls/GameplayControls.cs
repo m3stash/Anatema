@@ -103,6 +103,39 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""LeftStickSwitch"",
+                    ""id"": ""2d8c781a-f58c-43ea-93df-9aed26b861ea"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""6e7bf136-8ba3-405b-b1ef-39ec6c21dcc4"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/stick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""f50c8744-44c2-4f50-ab2a-8f444ff5aa73"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/stick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""18c3a9b5-c9e0-40d0-bd5e-164c37f38d82"",
                     ""path"": ""<Keyboard>/space"",
@@ -117,6 +150,17 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""47071eb1-c4ed-42a3-b75f-5de3218e51a3"",
                     ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""351d77eb-f2ce-4883-9ff8-462a068175b9"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/button3"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -153,6 +197,22 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""HorizontalMove"",
+                    ""type"": ""Value"",
+                    ""id"": ""3c3ae861-baa0-43eb-9771-62353fc4b636"",
+                    ""expectedControlType"": ""Double"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""VerticalMove"",
+                    ""type"": ""Value"",
+                    ""id"": ""d829c719-dbd6-4a55-88bd-ddc2b710cbcd"",
+                    ""expectedControlType"": ""Double"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -180,6 +240,17 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""16d4e606-cb43-45e6-bb5f-6671f1d87990"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/button6"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PressClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""5276de37-311f-408c-824b-5c0a7f60d317"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": ""Press(behavior=1)"",
@@ -193,6 +264,17 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""d34fced6-03e8-4579-8c42-5cf47f70aa34"",
                     ""path"": ""<XInputController>/rightShoulder"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ReleaseClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5a7ea777-1e97-4809-b0cf-6fa51a59a6a9"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/button6"",
                     ""interactions"": ""Press(behavior=1)"",
                     ""processors"": """",
                     ""groups"": """",
@@ -254,6 +336,28 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b6ccd913-72b2-4c79-84e9-2257f8c94fd3"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HorizontalMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""43d342e8-2230-475a-bea5-0bd5d0521d92"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/rz"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""VerticalMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -394,6 +498,116 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""CrossSwitch"",
+                    ""id"": ""50bd933e-f951-4d05-b9df-581aaf8b1416"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""118fff92-4549-4280-9cbc-d5465968f47a"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/hat/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""379fa94b-bff7-467c-9749-79a74adf9b0f"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/hat/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""b3f68449-0b92-4102-8fef-572a912774bb"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/hat/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""c3bb74b6-4d24-4de9-a926-ddf6b31cecaa"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/hat/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""leftStickHoripad"",
+                    ""id"": ""a9ac7995-431e-4e85-9c92-1dd5454c0cde"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""e14467bd-e9db-42b0-8bb7-35ac420a1e2d"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/stick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""6fa193e5-8c18-4a25-8478-a349b75835c1"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/stick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""32913f74-ebe7-4f15-9ae1-913d2999eb99"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/stick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""30bcae0d-c1c9-479a-828e-f8fad442a0e9"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/stick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": ""Arrows"",
                     ""id"": ""ee38c9ab-967d-48cf-9421-256b79808bd3"",
                     ""path"": ""2DVector"",
@@ -482,9 +696,53 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""BumpersSwitch"",
+                    ""id"": ""d7a61b35-42c1-4c20-94fe-09d49a15e815"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeStepper"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""db4f00e5-3553-4c87-b6f7-33e1471f8752"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/button5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeStepper"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""2d625370-2a61-4ddc-bb10-40440c7abb1e"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/button6"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeStepper"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""73f5e417-6c1e-47a2-86b0-e5bb66bfa9d3"",
                     ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DropItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a4e533dc-8788-43ae-92f9-d4cc6025162f"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/button2"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -505,6 +763,17 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""5f10f014-4e12-4cd3-a0fd-6dd81dc9c73e"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/button4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DeleteItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""bf747fe0-d229-4c1e-805d-02ff37a5057c"",
                     ""path"": ""<XInputController>/buttonNorth"",
                     ""interactions"": """",
@@ -516,8 +785,30 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""2cd0b152-b219-4a0b-bceb-4ddb6a22224a"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/trigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""a5df03f6-b6a1-4fd8-a04f-153707c967aa"",
                     ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b098e40f-9004-4c4d-80ef-6054429fa185"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/button3"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -589,6 +880,39 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""name"": ""positive"",
                     ""id"": ""99ccea08-ec0f-4b26-9ee3-584702537008"",
                     ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""CrossSwitch"",
+                    ""id"": ""84c4cb93-2df7-4588-99f8-b73681597672"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""24903827-1f23-4f63-8f29-ad3c705880f4"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/hat/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""40f3b198-6415-4700-8512-358adae639e6"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/hat/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -693,6 +1017,17 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""c9b79bb2-1c5b-4d96-92be-25de492b336b"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/hat/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""build"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""6357e9dd-6f96-4772-80d7-72ae981b496d"",
                     ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
@@ -706,6 +1041,17 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""6f27b443-e7d8-45fe-9686-232e77affd48"",
                     ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""weapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bc55d2ae-21e2-4942-9964-1c1a952970d9"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/hat/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -737,6 +1083,17 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""8b0d4193-c0f3-4418-8ac3-9b1b1720154c"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/hat/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""potion"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""d9f4cec9-c534-4393-b5ce-848a0308b5f7"",
                     ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
@@ -756,6 +1113,99 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""action"": ""tool"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fd9ba853-5278-4551-a9a3-32c908e94a7e"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/hat/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""tool"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Camera"",
+            ""id"": ""36ecce96-855a-4c3a-b482-f6d669be9726"",
+            ""actions"": [
+                {
+                    ""name"": ""LookVertical"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""7e01e78d-b657-43c6-9b16-7f738fde3650"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""XBOX"",
+                    ""id"": ""234dcb8a-5233-4538-af6d-66e6bc628c70"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LookVertical"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""9695d6ad-2cca-46a7-829b-dcc89098ff47"",
+                    ""path"": ""<XInputController>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LookVertical"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""3f3375bc-2747-4312-98ac-7cce285daf9d"",
+                    ""path"": ""<XInputController>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LookVertical"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""HORIPAD"",
+                    ""id"": ""1f85b9ed-717f-4838-bb6f-f4cebcd4f8db"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LookVertical"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""04b5e4d4-3a60-49b3-a9bf-41c9e4457933"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/stick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LookVertical"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""50afc30d-ba35-4ec6-8222-f898ed76ec89"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/stick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LookVertical"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -771,6 +1221,8 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         m_TileSelector_PressClick = m_TileSelector.FindAction("PressClick", throwIfNotFound: true);
         m_TileSelector_ReleaseClick = m_TileSelector.FindAction("ReleaseClick", throwIfNotFound: true);
         m_TileSelector_Navigate = m_TileSelector.FindAction("Navigate", throwIfNotFound: true);
+        m_TileSelector_HorizontalMove = m_TileSelector.FindAction("HorizontalMove", throwIfNotFound: true);
+        m_TileSelector_VerticalMove = m_TileSelector.FindAction("VerticalMove", throwIfNotFound: true);
         // Core
         m_Core = asset.FindActionMap("Core", throwIfNotFound: true);
         m_Core_Position = m_Core.FindAction("Position", throwIfNotFound: true);
@@ -791,6 +1243,9 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         m_Shortcuts_weapon = m_Shortcuts.FindAction("weapon", throwIfNotFound: true);
         m_Shortcuts_potion = m_Shortcuts.FindAction("potion", throwIfNotFound: true);
         m_Shortcuts_tool = m_Shortcuts.FindAction("tool", throwIfNotFound: true);
+        // Camera
+        m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
+        m_Camera_LookVertical = m_Camera.FindAction("LookVertical", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -884,6 +1339,8 @@ public class @GameplayControls : IInputActionCollection, IDisposable
     private readonly InputAction m_TileSelector_PressClick;
     private readonly InputAction m_TileSelector_ReleaseClick;
     private readonly InputAction m_TileSelector_Navigate;
+    private readonly InputAction m_TileSelector_HorizontalMove;
+    private readonly InputAction m_TileSelector_VerticalMove;
     public struct TileSelectorActions
     {
         private @GameplayControls m_Wrapper;
@@ -891,6 +1348,8 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         public InputAction @PressClick => m_Wrapper.m_TileSelector_PressClick;
         public InputAction @ReleaseClick => m_Wrapper.m_TileSelector_ReleaseClick;
         public InputAction @Navigate => m_Wrapper.m_TileSelector_Navigate;
+        public InputAction @HorizontalMove => m_Wrapper.m_TileSelector_HorizontalMove;
+        public InputAction @VerticalMove => m_Wrapper.m_TileSelector_VerticalMove;
         public InputActionMap Get() { return m_Wrapper.m_TileSelector; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -909,6 +1368,12 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 @Navigate.started -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnNavigate;
                 @Navigate.performed -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnNavigate;
                 @Navigate.canceled -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnNavigate;
+                @HorizontalMove.started -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnHorizontalMove;
+                @HorizontalMove.performed -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnHorizontalMove;
+                @HorizontalMove.canceled -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnHorizontalMove;
+                @VerticalMove.started -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnVerticalMove;
+                @VerticalMove.performed -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnVerticalMove;
+                @VerticalMove.canceled -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnVerticalMove;
             }
             m_Wrapper.m_TileSelectorActionsCallbackInterface = instance;
             if (instance != null)
@@ -922,6 +1387,12 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 @Navigate.started += instance.OnNavigate;
                 @Navigate.performed += instance.OnNavigate;
                 @Navigate.canceled += instance.OnNavigate;
+                @HorizontalMove.started += instance.OnHorizontalMove;
+                @HorizontalMove.performed += instance.OnHorizontalMove;
+                @HorizontalMove.canceled += instance.OnHorizontalMove;
+                @VerticalMove.started += instance.OnVerticalMove;
+                @VerticalMove.performed += instance.OnVerticalMove;
+                @VerticalMove.canceled += instance.OnVerticalMove;
             }
         }
     }
@@ -1122,6 +1593,39 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         }
     }
     public ShortcutsActions @Shortcuts => new ShortcutsActions(this);
+
+    // Camera
+    private readonly InputActionMap m_Camera;
+    private ICameraActions m_CameraActionsCallbackInterface;
+    private readonly InputAction m_Camera_LookVertical;
+    public struct CameraActions
+    {
+        private @GameplayControls m_Wrapper;
+        public CameraActions(@GameplayControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @LookVertical => m_Wrapper.m_Camera_LookVertical;
+        public InputActionMap Get() { return m_Wrapper.m_Camera; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CameraActions set) { return set.Get(); }
+        public void SetCallbacks(ICameraActions instance)
+        {
+            if (m_Wrapper.m_CameraActionsCallbackInterface != null)
+            {
+                @LookVertical.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnLookVertical;
+                @LookVertical.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnLookVertical;
+                @LookVertical.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnLookVertical;
+            }
+            m_Wrapper.m_CameraActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @LookVertical.started += instance.OnLookVertical;
+                @LookVertical.performed += instance.OnLookVertical;
+                @LookVertical.canceled += instance.OnLookVertical;
+            }
+        }
+    }
+    public CameraActions @Camera => new CameraActions(this);
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -1132,6 +1636,8 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         void OnPressClick(InputAction.CallbackContext context);
         void OnReleaseClick(InputAction.CallbackContext context);
         void OnNavigate(InputAction.CallbackContext context);
+        void OnHorizontalMove(InputAction.CallbackContext context);
+        void OnVerticalMove(InputAction.CallbackContext context);
     }
     public interface ICoreActions
     {
@@ -1156,5 +1662,9 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         void OnWeapon(InputAction.CallbackContext context);
         void OnPotion(InputAction.CallbackContext context);
         void OnTool(InputAction.CallbackContext context);
+    }
+    public interface ICameraActions
+    {
+        void OnLookVertical(InputAction.CallbackContext context);
     }
 }
