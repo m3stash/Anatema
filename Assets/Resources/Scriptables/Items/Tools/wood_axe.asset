@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfa4da70465092d4693b4a38b272ebc4, type: 3}
+  m_Name: wood_axe
+  m_EditorClassIdentifier: 
+  id: 45
+  prefab: {fileID: 8041107496577635304, guid: 8866202f87d96a34d9353a4e71e0ee22, type: 3}
+  displayName: Wood Axe
+  description: Used to cut trees
+  rarityLevel: 0
+  lootParticlePrefab: {fileID: 0}
+  itemType: 1
+  icon: {fileID: 21300000, guid: 4b243fcec88d17a44ac6a2b4dad47ed9, type: 3}
+  pooleable: 0
+  poolSize: 1
+  stackable: 0
+  stackLimit: 0
+  placeable: 0
+  colliderConfig: {fileID: 0}
+  emitLight: 0
+  scale: {x: 0.5, y: 0.5}

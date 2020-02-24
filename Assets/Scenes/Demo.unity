@@ -414,6 +414,7 @@ GameObject:
   - component: {fileID: 631963171}
   - component: {fileID: 631963170}
   - component: {fileID: 631963174}
+  - component: {fileID: 631963175}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -437,7 +438,8 @@ MonoBehaviour:
     type: 3}
   worldManager: {fileID: 164844707}
   gameMode: 0
-  tileSelectorReference: {fileID: 0}
+  buildSelector: {fileID: 0}
+  toolSelector: {fileID: 0}
 --- !u!4 &631963169
 Transform:
   m_ObjectHideFlags: 0
@@ -531,6 +533,24 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f10dd923d4203e14e82c25de990e90da, type: 2}
   currentConfig: {fileID: 0}
   currentState: 0
+--- !u!114 &631963175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 631963167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68487560af459804480e02abe7b57efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectorPrefab: {fileID: 6011728340333794127, guid: eef30b2f35b3daa449f9a48ffe7d3433,
+    type: 3}
+  currentToolType: 1
+  currentHoveredItem: {fileID: 0}
+  cam: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!1001 &706079571
 PrefabInstance:
   m_ObjectHideFlags: 0
