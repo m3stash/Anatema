@@ -28,7 +28,7 @@ public class InfinitParallax : MonoBehaviour {
         var playerX = (int)player.transform.position.x;
         if (playerX == playerOldposX)
             return;
-        if (player.transform.localScale.x == 1) {
+        if (player.transform.localScale.x > 0) {
             foreach (GameObject item in repeatItems) {
                 var middleGo = (int)(item.transform.position.x + (this.widthGo / 2));
                 if (playerX > middleGo && Mathf.Abs(playerX - middleGo) > this.widthGo) {
@@ -36,7 +36,7 @@ public class InfinitParallax : MonoBehaviour {
                 }
             }
         }
-        if (player.transform.localScale.x == -1) {
+        if (player.transform.localScale.x < 0) {
             foreach (GameObject item in repeatItems) {
                 var middleGo = (int)(item.transform.position.x - (this.widthGo / 2));
                 if (playerX < middleGo && Mathf.Abs(playerX - middleGo) > this.widthGo) {

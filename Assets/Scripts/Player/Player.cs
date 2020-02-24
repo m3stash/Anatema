@@ -75,12 +75,12 @@ public class Player : MonoBehaviour {
         int direction = 0;
 
         if(getAxis < -0.1f) { 
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
             direction = -1;
         }
 
         if(getAxis > 0.1f) {
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
             direction = 1;
         }
 
