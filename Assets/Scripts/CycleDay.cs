@@ -84,17 +84,17 @@ public class CycleDay : MonoBehaviour {
         // On divise 1 / 24 afin d'avoir l'intensité par heure = 0.01
         switch (currentHour) {
             case 0:
-                intensity = 70;
+                intensity = 90;
                 AmbiantIntensity = 0.10f;
                 moonIntensity = 1.5f;
                 break;
             case 1:
-                intensity = 70;
+                intensity = 90;
                 AmbiantIntensity = 0.10f;
                 moonIntensity = 1.5f;
                 break;
             case 2:
-                intensity = 70;
+                intensity = 80;
                 AmbiantIntensity = 0.10f;
                 moonIntensity = 1.5f;
                 break;
@@ -168,7 +168,7 @@ public class CycleDay : MonoBehaviour {
                 moonIntensity = 1.2f;
                 break;
             case 24:
-                intensity = 70;
+                intensity = 80;
                 AmbiantIntensity = 0.10f;
                 moonIntensity = 1.5f;
                 break;

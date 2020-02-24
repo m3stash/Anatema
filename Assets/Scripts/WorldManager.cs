@@ -88,7 +88,7 @@ public class WorldManager : MonoBehaviour {
         chunkService.CreateChunksFromMaps(tilesWorldMap);
         if (saveWorldToJson) {
             // for test with html canvas map render
-            FileManager.SaveToJson(new ConvertWorldMapToJson(tilesWorldMap, wallTilesMap), "worldMap"); 
+            FileManager.SaveToJson(new ConvertWorldMapToJson(tilesWorldMap, wallTilesMap, objectsMap), "worldMap"); 
         }
     }
     private void CreatePlayer() {

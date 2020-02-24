@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldMapObjectItem : Item
-{
-   
+public class WorldMapObjectItem : Item {
+
 }

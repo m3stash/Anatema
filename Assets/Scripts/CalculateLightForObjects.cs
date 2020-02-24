@@ -22,7 +22,7 @@ public class CalculateLightForObjects : MonoBehaviour {
         int newLight = WorldManager.tilesLightMap[x, y];
         if (oldShadow != newShadow || oldLight != newLight) {
             float l;
-            if (newLight <= newShadow && newLight < 100) {
+            if (newLight <= newShadow) {
                 l = 1 - newLight * 0.01f;
             } else {
                 l = 1 - newShadow * 0.01f;

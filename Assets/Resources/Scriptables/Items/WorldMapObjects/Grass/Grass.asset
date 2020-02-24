@@ -10,21 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 59d26623cf97843ae8898be456d23c8f, type: 3}
-  m_Name: Tree
+  m_Name: Grass
   m_EditorClassIdentifier: 
-  id: 31
-  prefab: {fileID: 4529551933393023209, guid: c136b674ce2514ea18f0c1dc61339ada, type: 3}
-  displayName: Tree
+  id: 25
+  prefab: {fileID: 8014544017313771258, guid: a4aae9b04a291684897b34d2078aa4c6, type: 3}
+  displayName: Grass
   description: 
   rarityLevel: 0
-  lootParticlePrefab: {fileID: 0}
+  lootParticlePrefab: {fileID: 2375911006704059128, guid: 925a7cd7c4a6e4ef894368ef75bd4599,
+    type: 3}
   itemType: 7
-  icon: {fileID: 21300000, guid: 6bfa38c0497733e48ac135aa1f00a1b7, type: 3}
+  icon: {fileID: 21300000, guid: c34c02fe68bfe2a47b79f17cb0a5f0df, type: 3}
   pooleable: 1
-  poolSize: 50
+  poolSize: 100
   stackable: 0
   stackLimit: 0
-  placeable: 1
-  colliderConfig: {fileID: 11400000, guid: db73353b21988e74888c9021cfbfe11d, type: 2}
+  placeable: 0
+  colliderConfig: {fileID: 0}
   emitLight: 0
   scale: {x: 0, y: 0}
