@@ -10,7 +10,7 @@ public class BackgroundParallax : MonoBehaviour {
     Vector3 newPos;
 
     void Update() {
-        newPos = BackgroundParallaxManager.GetNewVector2(speed, moveAxeY, transform, invertAxeY, ySpeed);
+        newPos = BackgroundParallaxManager.GetNewVector3(speed, moveAxeY, transform, invertAxeY, ySpeed);
         transform.position = Vector3.Lerp(transform.position, newPos, Time.deltaTime);
     }
 }

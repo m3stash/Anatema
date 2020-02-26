@@ -7,15 +7,13 @@ public class BackgroundParallaxManager : MonoBehaviour {
 
     //public float speed;
     private GameObject player;
+    private GameObject camera;
     private float oldPosY;
     private float oldPosX;
     private static float x;
     private static float y;
     private Rigidbody2D rg2d;
     public static BackgroundParallaxManager instance;
-    //Vector2 newPos;
-
-    // TO DO voir a remplacer le player par transform de la camera !!
 
     private void OnEnable() {
         WorldManager.GetPlayer += SetPlayer;
@@ -25,13 +23,15 @@ public class BackgroundParallaxManager : MonoBehaviour {
         WorldManager.GetPlayer -= SetPlayer;
     }
     private void SetPlayer(GameObject player) {
-        this.player = Camera.main.gameObject;
+        // var cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        camera = Camera.main.gameObject;
+        this.player = player;
         rg2d = player.GetComponent<Rigidbody2D>();
         oldPosY = player.transform.position.y;
         oldPosX = player.transform.position.x;
     }
 
-    public static Vector3 GetNewVector2(float speed, bool moveAxeY, Transform t, bool invertAxeY, float ySpeed) {
+    public static Vector3 GetNewVector3(float speed, bool moveAxeY, Transform t, bool invertAxeY, float ySpeed) {
         var newY = moveAxeY ? t.position.y - y : t.position.y;
         if (invertAxeY) {
             newY = moveAxeY ? t.position.y - (y * ySpeed) : t.position.y;
@@ -45,15 +45,15 @@ public class BackgroundParallaxManager : MonoBehaviour {
         x = 0f;
         y = 0f;
         if (rg2d.velocity.y != 0) {
-            float newDist = player.transform.position.y - oldPosY;
+            float newDist = camera.transform.position.y - oldPosY;
             y = newDist;
-            oldPosY = player.transform.position.y;
+            oldPosY = camera.transform.position.y;
         }
-        bool ifEqualX = Mathf.Approximately(player.transform.position.x, oldPosX);
+        bool ifEqualX = Mathf.Approximately(camera.transform.position.x, oldPosX);
         if (!ifEqualX) {
-            float newDist = player.transform.position.x - oldPosX;
+            float newDist = camera.transform.position.x - oldPosX;
             x = -newDist;
-            oldPosX = player.transform.position.x;
+            oldPosX = camera.transform.position.x;
         }
     }
 

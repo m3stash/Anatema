@@ -6,7 +6,7 @@ SpriteAtlas:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SpriteAtlas
+  m_Name: Tiles
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -37,7 +37,7 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 2be321acb93b3dd459c69187f981de8d, type: 3}
     - {fileID: 2800000, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
     - {fileID: 2800000, guid: 8a7ed6184d58e5646a3a163b18f02d96, type: 3}
-    totalSpriteSurfaceArea: 62720
+    totalSpriteSurfaceArea: 403760
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -532,5 +532,5 @@ SpriteAtlas:
   - cooper_ore_26
   - cooper_ore_21
   - cooper_ore_20
-  m_Tag: SpriteAtlas
+  m_Tag: Tiles
   m_IsVariant: 0

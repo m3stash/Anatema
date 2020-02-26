@@ -10,21 +10,20 @@ public class MapFunctions {
             tilemap.ClearAllTiles();
     }
 
-    public static int[,] AddTrees(int[,] worldMap, int[,] objectsMap) {
+    public static int[,] AddTrees(int[,] worldMap, int[,] objectsMap, int[,] wallMap) {
         var heightMap = worldMap.GetUpperBound(1);
         var widthMap = worldMap.GetUpperBound(0);
         // toDo voir a gérer les bordures du monde pour pas calculer dans le vide
         // left to right
-        var newTreeGap = -1;
-        var xEnd = widthMap - 5;
-        var xStart = 5;
-        var gapBetweenTrees = 5;
+        int newTreeGap = -1;
+        int xEnd = widthMap - 5;
+        int xStart = 5;
         for (int x = xStart; x < xEnd; x++) {
-            if(x < newTreeGap) {
+            if (x < newTreeGap) {
                 continue;
             }
             // top to bottom
-            for (int y = heightMap - 50; y > heightMap - 250; y--) {
+            for (int y = heightMap - 50; y > heightMap - 300; y--) {
                 if (worldMap[x, y] == 1) {
                     // si current != 0 && gauche et droite != 0 continu sinon on ne va pas plus bas !
                     if (worldMap[x - 1, y] == 1 && worldMap[x + 1, y] == 1) {
@@ -35,7 +34,7 @@ public class MapFunctions {
                                 break;
                             }
                             for (int yy = y + 1; yy <= y + 5; yy++) {
-                                if (worldMap[xx, yy] > 0) {
+                                if (worldMap[xx, yy] > 0 || wallMap[xx, yy] > 0) {
                                     empty = false;
                                     break;
                                 }
@@ -43,8 +42,8 @@ public class MapFunctions {
                         }
                         if (empty) {
                             objectsMap[x, y + 1] = 31;
-                            var newXGap = x + gapBetweenTrees;
-                            newTreeGap = newXGap < xEnd ? newXGap : -1; // min gap between 2 trees
+                            var newXGap = x + Random.Range(5, 8);
+                            newTreeGap = newXGap < xEnd ? newXGap : -1;
                         }
                     }
                     break;
@@ -54,28 +53,60 @@ public class MapFunctions {
         return objectsMap;
     }
 
-    public static int[,] AddGrassOntop(int[,] map) {
+    public static int[,] AddGrasses(int[,] worldMap, int[,] objectsMap, int[,] wallMap) {
+        var heightMap = worldMap.GetUpperBound(1);
+        var widthMap = worldMap.GetUpperBound(0);
+        int idGrassWorldObject = 25;
+        int newGap = -1;
+        for (int x = 0; x < widthMap; x++) {
+            if (x < newGap)
+                continue;
+            int deepCount = 0;
+            for (int y = heightMap - 1; y > heightMap - 300; y--) {
+                if (deepCount == 15)
+                    break;
+                if (worldMap[x, y] == 2) {
+                    if (objectsMap[x, y + 1] == 0 && worldMap[x, y + 1] == 0 && deepCount < 15) {
+                        objectsMap[x, y + 1] = idGrassWorldObject;
+                        var newXGap = x + Random.Range(1, 4);
+                        newGap = newXGap < widthMap ? newXGap : -1;
+                    }
+                }
+                if (wallMap[x, y] > 0) {
+                    deepCount++;
+                }
+            }
+        }
+        return objectsMap;
+    }
+
+    public static int[,] AddGrassOntop(int[,] map, int[,] wallMap) {
         var heightMap = map.GetUpperBound(1);
         var widthMap = map.GetUpperBound(0);
+        int idGrass = 2;
+        int idDirt = 1;
+        int maxDeep = 15;
         for (int x = 0; x < widthMap; x++) {
-            // toDO voir a variabiliser ça 
-            for (int y = heightMap - 300; y < heightMap - 1; y++) {
+            int deepCount = 0;
+            for (int y = heightMap - 1; y > heightMap - 300; y--) {
+                if (deepCount > maxDeep)
+                    break;
                 var topNeightboorTile = map[x, y + 1];
                 var currentTile = map[x, y];
-                if (topNeightboorTile == 0 && currentTile == 1) {
-                    map[x, y] = 2;
+                if (topNeightboorTile == 0 && currentTile == idDirt) {
+                    map[x, y] = idGrass;
                 }
-                if (currentTile == 0 && topNeightboorTile == 1 && x - 4 > 0) {
+                if (currentTile == 0 && topNeightboorTile == idDirt && x - 4 > 0) {
                     var fiveLeftVoid = true;
                     for (int z = x; z > x - 4; z--) {
-                        if(map[z, y] > 0) {
+                        if (map[z, y] > 0) {
                             fiveLeftVoid = false;
                             break;
                         }
                     }
-                    map[x, y + 1] = fiveLeftVoid == true ? 2 : topNeightboorTile;
+                    map[x, y + 1] = fiveLeftVoid == true ? idGrass : topNeightboorTile;
                 }
-                if (currentTile == 0 && topNeightboorTile == 1 && x + 4 < widthMap) {
+                if (currentTile == 0 && topNeightboorTile == idDirt && x + 4 < widthMap) {
                     var fiveRightVoid = true;
                     for (int z = x; z < x + 4; z++) {
                         if (map[z, y] > 0) {
@@ -83,9 +114,11 @@ public class MapFunctions {
                             break;
                         }
                     }
-                    map[x, y + 1] = fiveRightVoid == true ? 2 : topNeightboorTile;
+                    map[x, y + 1] = fiveRightVoid == true ? idGrass : topNeightboorTile;
                 }
-                
+                if (wallMap[x, y] > 0) {
+                    deepCount++;
+                }
             }
         }
         return map;
@@ -186,8 +219,8 @@ public class MapFunctions {
     }
 
     public static int[,] PerlinNoiseCave(int[,] map, float modifier) {
-        var maxHeight = map.GetUpperBound(1) - 250;
-        var rand = Random.Range(0.01f, 1);
+        int maxHeight = map.GetUpperBound(1);
+        float rand = Random.Range(0, 1);
 
         for (int x = 0; x < map.GetUpperBound(0); x++) {
             for (int y = 0; y < maxHeight; y++) {
@@ -243,32 +276,32 @@ public class MapFunctions {
     }
 
     public static int[,] GenerateIrons(int[,] map) {
-        var copper_count = 0;
-        var silver_count = 0;
-        var iron_count = 0;
-        var gold_count = 0;
-        var heightCopper = map.GetUpperBound(1) - 225;
-        var heightSilver = map.GetUpperBound(1) - 255;
-        var heightGold = map.GetUpperBound(1) - 400;
-        var maxHeight = map.GetUpperBound(1);
-        var modifier = 0.06f;
+        int height = map.GetUpperBound(1);
+        int copper_count = 0;
+        int silver_count = 0;
+        int iron_count = 0;
+        int gold_count = 0;
+        float heightCopper = height / 2f;
+        float heightIron = height / 3;
+        float heightSilver = height / 4;
+        float heightGold = height - height / 3f;
+        float modifier = 0.9f;
         for (int x = 0; x < map.GetUpperBound(0); x++) {
-            for (int y = 0; y < maxHeight; y++) {
-                if(map[x, y] > 0) {
-                    modifier = 0.9f;
-                    var noise = Mathf.PerlinNoise(x * modifier, y * modifier);
+            for (int y = 0; y < height; y++) {
+                float noise = Mathf.PerlinNoise(x * modifier, y * modifier);
+                if (map[x, y] > 0) {
                     // copper
-                    if (noise > 0.6f && noise < 0.615f && y < heightCopper) {
+                    if (noise > 0.6f && noise < 0.630f && y > heightCopper) {
                         map[x, y] = 4;
                         copper_count++;
                     }
                     // iron
-                    if (noise > 0.3f && noise < 0.305f && y < heightCopper) {
+                    if (noise > 0.3f && noise < 0.315f && y > heightIron && y < height - heightIron) {
                         map[x, y] = 5;
                         iron_count++;
                     }
                     // silver
-                    if (noise > 0.5f && noise < 0.510f && y < heightSilver) {
+                    if (noise > 0.5f && noise < 0.510f && y > heightSilver) {
                         map[x, y] = 6;
                         silver_count++;
                     }
@@ -280,10 +313,40 @@ public class MapFunctions {
                 }
             }
         }
-        Debug.Log("Cooper => "+ copper_count);
+        Debug.Log("Cooper => " + copper_count);
         Debug.Log("Iron => " + iron_count);
         Debug.Log("Silver => " + silver_count);
         Debug.Log("Gold => " + gold_count);
+        return map;
+    }
+
+    public static int[,] GenerateMountain(int[,] map, int[,] wallMap, float seed, Wave[] waves) {
+        return GenerateNoiseMap(3, waves, map);
+    }
+
+    public static int[,] GenerateNoiseMap(float scale, Wave[] waves, int[,] map) {
+        // create an empty noise map with the mapDepth and mapWidth coordinates
+
+        for (int y = 0; y < map.GetUpperBound(1); y++) {
+            for (int x = 0; x < map.GetUpperBound(0); x++) {
+                // calculate sample indices based on the coordinates, the scale and the offset
+                float sampleX = x / scale;
+                float sampleY = y / scale;
+
+                float noise = 0f;
+                float normalization = 0f;
+                foreach (Wave wave in waves) {
+                    // generate noise value using PerlinNoise for a given Wave
+                    noise += wave.amplitude * Mathf.PerlinNoise(sampleX * wave.frequency + wave.seed, sampleY * wave.frequency + wave.seed);
+                    normalization += wave.amplitude;
+                }
+                // normalize the noise value so that it is within 0 and 1
+                noise /= normalization;
+                if(noise < 0.5f && map[x, y] == 0) {
+                    map[x, y] = 1;
+                }
+            }
+        }
         return map;
     }
 
@@ -315,6 +378,7 @@ public class MapFunctions {
 
         return map;
     }
+
 
     public static int[,] RandomWalkTopSmoothed(int[,] map, float seed, int minSectionWidth) {
         //Seed our random

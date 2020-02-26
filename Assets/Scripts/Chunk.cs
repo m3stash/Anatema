@@ -62,9 +62,9 @@ public class Chunk : MonoBehaviour {
     private void GenerateObjectsMap() {
         for (var x = 0; x < WorldManager.GetChunkSize(); x++) {
             for (var y = 0; y < WorldManager.GetChunkSize(); y++) {
-                // toDo refacto is just a poc
-                if (WorldManager.objectsMap[worldPosition.x + x, worldPosition.y + y] == 31) {
-                    Item item = ItemManager.instance.CreateItem(31, ItemStatus.ACTIVE, new Vector3(worldPosition.x + x, worldPosition.y + y));
+                int currId = WorldManager.objectsMap[worldPosition.x + x, worldPosition.y + y];
+                if (currId > 0) {
+                    Item item = ItemManager.instance.CreateItem(currId, ItemStatus.ACTIVE, new Vector3(worldPosition.x + x, worldPosition.y + y));
                     this.items.Add(item);
                 }
             }
@@ -84,7 +84,7 @@ public class Chunk : MonoBehaviour {
                     var shadow = WorldManager.tilesShadowMap[worldX, worldY] + intensity;
                     var light = WorldManager.tilesLightMap[worldX, worldY];
                     float l;
-                    if (light <= shadow && light < 100) {
+                    if (light <= shadow) {
                         l = 1 - light * 0.01f;
                     } else {
                         l = 1 - shadow * 0.01f;

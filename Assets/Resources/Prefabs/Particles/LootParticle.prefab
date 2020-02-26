@@ -68,7 +68,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 81745725
-  m_SortingLayer: 6
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 54a987e2b242a4c85aab2a55abb715b9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.08235294}
@@ -4817,7 +4817,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 81745725
-  m_SortingLayer: 6
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_RenderMode: 0
   m_SortMode: 0
@@ -4854,6 +4854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfc0498ba96414650a905050fb69939b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotation: {x: 0, y: 0, z: 0}
 --- !u!95 &783346787944147507
 Animator:
   serializedVersion: 3
@@ -4941,7 +4942,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 81745725
-  m_SortingLayer: 6
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 54a987e2b242a4c85aab2a55abb715b9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.07450981}
@@ -5022,7 +5023,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 81745725
-  m_SortingLayer: 6
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 54a987e2b242a4c85aab2a55abb715b9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.08235294}
@@ -5103,7 +5104,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 81745725
-  m_SortingLayer: 6
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 54a987e2b242a4c85aab2a55abb715b9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.07450981}
@@ -5184,7 +5185,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 81745725
-  m_SortingLayer: 6
+  m_SortingLayer: 5
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 54a987e2b242a4c85aab2a55abb715b9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.7176471}
