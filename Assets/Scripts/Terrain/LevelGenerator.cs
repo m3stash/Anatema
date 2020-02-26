@@ -7,8 +7,21 @@ public class LevelGenerator : MonoBehaviour {
         MapSettings topMapSettings = Instantiate((MapSettings)Resources.Load("Scriptables/MapSettings/TopLayer"));
 
         float seed = Time.time.GetHashCode();
+        float time = 0f;
+        for (var y = 0; y < 1023; y++) {
+            time += 0.001f;
+            for (var x = 0; x < 4095; x++) {
+                time += 0.001f;
+                var xScale = 1 / 4095;
+                float p = Perlin1D.Fbm(x * xScale + time, 1);
+                if (p > 0) {
+                    worldMap[x, y] = 1;
+                }
+            }
+        }
+
         // float seed = Random.value;
-        worldMap = MapFunctions.RandomWalkTop(worldMap, wallTilesMap, seed);
+        // worldMap = MapFunctions.RandomWalkTop(worldMap, wallTilesMap, seed);
         worldMap = MapFunctions.PerlinNoiseCave(worldMap, bottomMapSettings.modifier);
 
         // Création des 3 tunnels 
