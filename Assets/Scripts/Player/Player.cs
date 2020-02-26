@@ -25,6 +25,7 @@ public class Player : MonoBehaviour {
     public float duration = 1.0F;*/
 
     public static Player instance;
+    private Vector3 localScale;
 
     private void Awake() {
         if(instance == null) {
@@ -38,7 +39,7 @@ public class Player : MonoBehaviour {
         //toolbar = GameObject.FindGameObjectWithTag("InventoryToolbar").GetComponent<InventoryToolbar>();
         rg2d = gameObject.GetComponent<Rigidbody2D>();
         anim = gameObject.GetComponent<Animator>();
-
+        localScale = gameObject.GetComponent<Transform>().localScale;
         InputManager.gameplayControls.Player.Move.performed += SetGetAxis;
         InputManager.gameplayControls.Player.Jump.performed += Jump;
     }
@@ -75,12 +76,12 @@ public class Player : MonoBehaviour {
         int direction = 0;
 
         if(getAxis < -0.1f) { 
-            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            transform.localScale = new Vector3(-localScale.x, localScale.y, localScale.z);
             direction = -1;
         }
 
         if(getAxis > 0.1f) {
-            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            transform.localScale = new Vector3(localScale.x, localScale.y, localScale.z);
             direction = 1;
         }
 
