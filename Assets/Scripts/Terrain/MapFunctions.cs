@@ -291,17 +291,17 @@ public class MapFunctions {
                 float noise = Mathf.PerlinNoise(x * modifier, y * modifier);
                 if (map[x, y] > 0) {
                     // copper
-                    if (noise > 0.6f && noise < 0.615f && y < heightCopper) {
+                    if (noise > 0.6f && noise < 0.630f && y > heightCopper) {
                         map[x, y] = 4;
                         copper_count++;
                     }
                     // iron
-                    if (noise > 0.3f && noise < 0.305f && y < heightCopper) {
+                    if (noise > 0.3f && noise < 0.315f && y > heightIron && y < height - heightIron) {
                         map[x, y] = 5;
                         iron_count++;
                     }
                     // silver
-                    if (noise > 0.5f && noise < 0.510f && y < heightSilver) {
+                    if (noise > 0.5f && noise < 0.510f && y > heightSilver) {
                         map[x, y] = 6;
                         silver_count++;
                     }
