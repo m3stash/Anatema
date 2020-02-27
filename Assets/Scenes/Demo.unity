@@ -502,7 +502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0579257ce1d544c58345ea936165d43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseEnabled: 0
+  mouseEnabled: 1
   currentLayout: 0
 --- !u!114 &631963174
 MonoBehaviour:
@@ -7683,6 +7683,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WorldMap
       objectReference: {fileID: 0}
+    - target: {fileID: 3346800735364998951, guid: 41de9baee7b18384084a60e85753b5a1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3346800735364998955, guid: 41de9baee7b18384084a60e85753b5a1,
         type: 3}
       propertyPath: m_Enabled
@@ -7732,7 +7737,7 @@ PrefabInstance:
     - target: {fileID: 5241601021040083780, guid: da741aeca4e38934c8ba0a1a415f126e,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.453125
+      value: 0.45312548
       objectReference: {fileID: 0}
     - target: {fileID: 5241601021144882319, guid: da741aeca4e38934c8ba0a1a415f126e,
         type: 3}

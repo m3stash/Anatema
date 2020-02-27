@@ -102,7 +102,6 @@ public class WorldManager : MonoBehaviour {
         }
 
         ItemManager.instance.CreateItem(item.GetConfig().GetId(), ItemStatus.ACTIVE, new Vector3(pos.x, pos.y, 0));
-
         // toDo voir a rajouter le bloc en dessous uniquement pour des lights statiques les autres auront le script dynamic light
         /*if (config.CanEmitLight()) {
             LightService.RecursivAddNewLight(posX, posY, 0);

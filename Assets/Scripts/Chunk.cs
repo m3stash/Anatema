@@ -29,7 +29,6 @@ public class Chunk : MonoBehaviour {
             RefreshTiles();
         }
     }
-
     private void OnItemMoved(Item item) {
         int itemPosX = (int)item.transform.position.x / WorldManager.GetChunkSize();
         int itemPosY = (int)item.transform.position.y / WorldManager.GetChunkSize();
