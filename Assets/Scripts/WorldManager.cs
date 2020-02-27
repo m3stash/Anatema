@@ -30,7 +30,7 @@ public class WorldManager : MonoBehaviour {
 
     [Header("Debug Settings")]
     [SerializeField] private bool saveWorldToJson;
-
+    public bool worldManagerIsInit = false;
     public static WorldManager instance;
     // event
     public delegate void LightEventHandler();
@@ -60,6 +60,7 @@ public class WorldManager : MonoBehaviour {
         LightService.Init();
         chunkService.Init(tilebaseDictionary, player);
         GetPlayer(player);
+        worldManagerIsInit = true;
     }
     private void InitResources() {
         chunkService = gameObject.GetComponent<ChunkService>();

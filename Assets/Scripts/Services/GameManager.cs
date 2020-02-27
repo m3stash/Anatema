@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void Start() {
+        ItemManager.instance.Init();
         worldManager.SetActive(true);
         // GameObject.FindGameObjectWithTag("WorldMap").gameObject.SetActive(true);
         InputManager.gameplayControls.Shortcuts.build.performed += BuildModeTriggered;

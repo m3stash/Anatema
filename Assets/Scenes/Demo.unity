@@ -277,6 +277,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &164844707 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3346800735364998951, guid: 41de9baee7b18384084a60e85753b5a1,
+    type: 3}
+  m_PrefabInstance: {fileID: 3346800735229358723}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &378605063
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,6 +435,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileSelectorPrefab: {fileID: 114132190777732268, guid: a759f083ff218d24281cbae680bd5c8f,
     type: 3}
+  worldManager: {fileID: 164844707}
   gameMode: 0
   tileSelectorReference: {fileID: 0}
 --- !u!4 &631963169
@@ -7737,7 +7744,7 @@ PrefabInstance:
     - target: {fileID: 5241601021040083780, guid: da741aeca4e38934c8ba0a1a415f126e,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.45312548
+      value: 0.453125
       objectReference: {fileID: 0}
     - target: {fileID: 5241601021144882319, guid: da741aeca4e38934c8ba0a1a415f126e,
         type: 3}

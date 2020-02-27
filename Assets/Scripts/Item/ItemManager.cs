@@ -17,7 +17,7 @@ public class ItemManager : MonoBehaviour {
         }
     }
 
-    private void Start() {
+    public void Init() {
         // Initialize item database with all item configs
         this.itemDatabase = new List<ItemConfig>(Resources.LoadAll<ItemConfig>("Scriptables/Items")).ToDictionary((ItemConfig item) => item.GetId(), item => item);
 
