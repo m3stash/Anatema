@@ -29,7 +29,6 @@ public class Chunk : MonoBehaviour {
             RefreshTiles();
         }
     }
-
     private void OnItemMoved(Item item) {
         int itemPosX = (int)item.transform.position.x / WorldManager.GetChunkSize();
         int itemPosY = (int)item.transform.position.y / WorldManager.GetChunkSize();
@@ -98,15 +97,17 @@ public class Chunk : MonoBehaviour {
     }
 
     private void OnDisable() {
-        ItemManager.instance.DestroyItems(this.items.ToArray());
-        tilemapWall.ClearAllTiles();
-        tilemapTile.ClearAllTiles(); // for tile not refresh (display with bad sprite number!!)
-        CycleDay.RefreshIntensity -= RefreshShadowMap;
-        WorldManager.RefreshLight -= RefreshShadowMap;
-        DynamicLight.RefreshLight -= RefreshShadowMap;
-        Item.OnItemMoved -= OnItemMoved;
-        Item.OnItemDestroyed -= OnItemDestroyed;
-        alreadyVisible = false;
+        if (WorldManager.instance != null) {
+            ItemManager.instance.DestroyItems(this.items.ToArray());
+            tilemapWall.ClearAllTiles();
+            tilemapTile.ClearAllTiles(); // for tile not refresh (display with bad sprite number!!)
+            CycleDay.RefreshIntensity -= RefreshShadowMap;
+            WorldManager.RefreshLight -= RefreshShadowMap;
+            DynamicLight.RefreshLight -= RefreshShadowMap;
+            Item.OnItemMoved -= OnItemMoved;
+            Item.OnItemDestroyed -= OnItemDestroyed;
+            alreadyVisible = false;
+        }
     }
 
     private void RefreshTiles() {

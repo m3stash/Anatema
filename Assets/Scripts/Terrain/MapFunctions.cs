@@ -10,7 +10,28 @@ public class MapFunctions {
             tilemap.ClearAllTiles();
     }
 
+    private static bool CheckNoColliders(ItemConfig itemConf, int x, int y, int[,] worldMap, int[,] objectsMap, int[,] wallMap) {
+        bool empty = true;
+        foreach (CellCollider cell in itemConf.GetColliderConfig().GetCellColliders()) {
+            if (!empty) {
+                break;
+            }
+            bool noColliders = WorldManager.objectsMap[x + cell.GetRelativePosition().x, y + cell.GetRelativePosition().y] == 0 && worldMap[x, y] == 0 && wallMap[x, y] == 0;
+            if (!noColliders) {
+                empty = false;
+            }
+        }
+        return empty;
+    }
+
+    private static void SetColliders(ItemConfig itemConf, int x, int y, int[,] objectsMap) {
+        foreach (CellCollider cell in itemConf.GetColliderConfig().GetCellColliders()) {
+            WorldManager.objectsMap[x + cell.GetRelativePosition().x, y + cell.GetRelativePosition().y] = cell.IsOrigin() ? itemConf.GetId() : -1;
+        }
+    }
+
     public static int[,] AddTrees(int[,] worldMap, int[,] objectsMap, int[,] wallMap) {
+        ItemConfig itemConf = ItemManager.instance.GetItemWithId(31);
         var heightMap = worldMap.GetUpperBound(1);
         var widthMap = worldMap.GetUpperBound(0);
         // toDo voir a gérer les bordures du monde pour pas calculer dans le vide
@@ -24,10 +45,11 @@ public class MapFunctions {
             }
             // top to bottom
             for (int y = heightMap - 50; y > heightMap - 300; y--) {
-                if (worldMap[x, y] == 1) {
+                /*if (worldMap[x, y] == 1) {
                     // si current != 0 && gauche et droite != 0 continu sinon on ne va pas plus bas !
                     if (worldMap[x - 1, y] == 1 && worldMap[x + 1, y] == 1) {
-                        var empty = true;
+                        bool empty = true;
+                        
                         // tree collider => x = 3 && y = 5
                         for (int xx = x - 1; xx <= x + 1; xx++) {
                             if (!empty) {
@@ -45,6 +67,15 @@ public class MapFunctions {
                             var newXGap = x + Random.Range(5, 8);
                             newTreeGap = newXGap < xEnd ? newXGap : -1;
                         }
+                    }
+                    break;
+                }*/
+                if (worldMap[x, y - 1] == 1) {
+                    if (CheckNoColliders(itemConf, x, y, worldMap, objectsMap, wallMap)) {
+                        SetColliders(itemConf, x, y, objectsMap);
+                        objectsMap[x, y] = 31; // toDo refacto plus tard pour les différents ID d'arbre
+                        var newXGap = x + Random.Range(5, 8);
+                        newTreeGap = newXGap < xEnd ? newXGap : -1;
                     }
                     break;
                 }
@@ -342,7 +373,7 @@ public class MapFunctions {
                 }
                 // normalize the noise value so that it is within 0 and 1
                 noise /= normalization;
-                if(noise < 0.5f && map[x, y] == 0) {
+                if (noise < 0.5f && map[x, y] == 0) {
                     map[x, y] = 1;
                 }
             }

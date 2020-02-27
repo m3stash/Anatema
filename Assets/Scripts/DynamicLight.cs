@@ -37,9 +37,11 @@ public class DynamicLight : MonoBehaviour {
     }
 
     private void OnDisable() {
-        if (WorldManager.dynamicLight != null) { // Todo should be deleted after orchestraction refactored
-            WorldManager.dynamicLight[oldPosX, oldPosY] = 0;
+        if (WorldManager.instance != null && WorldManager.instance.worldManagerIsInit) {
+            if (WorldManager.dynamicLight != null) {
+                WorldManager.dynamicLight[oldPosX, oldPosY] = 0;
+            }
+            LightService.RecursivDeleteLight(oldPosX, oldPosY, true);
         }
-        LightService.RecursivDeleteLight(oldPosX, oldPosY, true);
     }
 }

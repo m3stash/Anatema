@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     [Header("Fields to complete")]
     [SerializeField] private TileSelector tileSelectorPrefab;
+    [SerializeField] private GameObject worldManager;
 
     [Header("Don't touch it")]
     [SerializeField] private GameMode gameMode = GameMode.DEFAULT;
@@ -22,6 +23,9 @@ public class GameManager : MonoBehaviour
     }
 
     private void Start() {
+        ItemManager.instance.Init();
+        worldManager.SetActive(true);
+        // GameObject.FindGameObjectWithTag("WorldMap").gameObject.SetActive(true);
         InputManager.gameplayControls.Shortcuts.build.performed += BuildModeTriggered;
         InputManager.gameplayControls.Shortcuts.tool.performed += ToolModeTriggered;
         InputManager.gameplayControls.Shortcuts.weapon.performed += WeaponModeTriggered;

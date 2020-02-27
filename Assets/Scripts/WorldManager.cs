@@ -30,7 +30,7 @@ public class WorldManager : MonoBehaviour {
 
     [Header("Debug Settings")]
     [SerializeField] private bool saveWorldToJson;
-
+    public bool worldManagerIsInit = false;
     public static WorldManager instance;
     // event
     public delegate void LightEventHandler();
@@ -60,6 +60,7 @@ public class WorldManager : MonoBehaviour {
         LightService.Init();
         chunkService.Init(tilebaseDictionary, player);
         GetPlayer(player);
+        worldManagerIsInit = true;
     }
     private void InitResources() {
         chunkService = gameObject.GetComponent<ChunkService>();
@@ -102,7 +103,6 @@ public class WorldManager : MonoBehaviour {
         }
 
         ItemManager.instance.CreateItem(item.GetConfig().GetId(), ItemStatus.ACTIVE, new Vector3(pos.x, pos.y, 0));
-
         // toDo voir a rajouter le bloc en dessous uniquement pour des lights statiques les autres auront le script dynamic light
         /*if (config.CanEmitLight()) {
             LightService.RecursivAddNewLight(posX, posY, 0);
