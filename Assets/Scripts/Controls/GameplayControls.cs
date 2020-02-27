@@ -1291,6 +1291,14 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""LookDirection"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""e4903f1d-89d7-4d19-9dbd-56e90fcb40ed"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -1359,6 +1367,17 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""action"": ""ReleaseClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f7392748-8a6f-4b5a-bf7b-e664debc654c"",
+                    ""path"": ""<XInputController>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LookDirection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1404,6 +1423,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         m_ToolSelector = asset.FindActionMap("ToolSelector", throwIfNotFound: true);
         m_ToolSelector_PressClick = m_ToolSelector.FindAction("PressClick", throwIfNotFound: true);
         m_ToolSelector_ReleaseClick = m_ToolSelector.FindAction("ReleaseClick", throwIfNotFound: true);
+        m_ToolSelector_LookDirection = m_ToolSelector.FindAction("LookDirection", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1798,12 +1818,14 @@ public class @GameplayControls : IInputActionCollection, IDisposable
     private IToolSelectorActions m_ToolSelectorActionsCallbackInterface;
     private readonly InputAction m_ToolSelector_PressClick;
     private readonly InputAction m_ToolSelector_ReleaseClick;
+    private readonly InputAction m_ToolSelector_LookDirection;
     public struct ToolSelectorActions
     {
         private @GameplayControls m_Wrapper;
         public ToolSelectorActions(@GameplayControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @PressClick => m_Wrapper.m_ToolSelector_PressClick;
         public InputAction @ReleaseClick => m_Wrapper.m_ToolSelector_ReleaseClick;
+        public InputAction @LookDirection => m_Wrapper.m_ToolSelector_LookDirection;
         public InputActionMap Get() { return m_Wrapper.m_ToolSelector; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1819,6 +1841,9 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 @ReleaseClick.started -= m_Wrapper.m_ToolSelectorActionsCallbackInterface.OnReleaseClick;
                 @ReleaseClick.performed -= m_Wrapper.m_ToolSelectorActionsCallbackInterface.OnReleaseClick;
                 @ReleaseClick.canceled -= m_Wrapper.m_ToolSelectorActionsCallbackInterface.OnReleaseClick;
+                @LookDirection.started -= m_Wrapper.m_ToolSelectorActionsCallbackInterface.OnLookDirection;
+                @LookDirection.performed -= m_Wrapper.m_ToolSelectorActionsCallbackInterface.OnLookDirection;
+                @LookDirection.canceled -= m_Wrapper.m_ToolSelectorActionsCallbackInterface.OnLookDirection;
             }
             m_Wrapper.m_ToolSelectorActionsCallbackInterface = instance;
             if (instance != null)
@@ -1829,6 +1854,9 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 @ReleaseClick.started += instance.OnReleaseClick;
                 @ReleaseClick.performed += instance.OnReleaseClick;
                 @ReleaseClick.canceled += instance.OnReleaseClick;
+                @LookDirection.started += instance.OnLookDirection;
+                @LookDirection.performed += instance.OnLookDirection;
+                @LookDirection.canceled += instance.OnLookDirection;
             }
         }
     }
@@ -1879,5 +1907,6 @@ public class @GameplayControls : IInputActionCollection, IDisposable
     {
         void OnPressClick(InputAction.CallbackContext context);
         void OnReleaseClick(InputAction.CallbackContext context);
+        void OnLookDirection(InputAction.CallbackContext context);
     }
 }

@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour {
     [Header("Fields to complete")]
-    [SerializeField] private TileSelector tileSelectorPrefab;
     [SerializeField] private GameObject worldManager;
     [SerializeField] private BuildSelector tileSelectorPrefab;
 
