@@ -67,7 +67,7 @@ public class CycleDay : MonoBehaviour {
             } else {
                 currentHour = hour;
             }
-            // currentHour = 12;
+            currentHour = 0;
             if (lastHour != currentHour) {
                 SetIntensity(currentHour);
                 SetGlobalColor(currentHour);

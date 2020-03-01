@@ -22,12 +22,17 @@ public class CalculateLightForObjects : MonoBehaviour {
         int newLight = WorldManager.tilesLightMap[x, y];
         if (oldShadow != newShadow || oldLight != newLight) {
             float l;
+            float oldL;
             if (newLight <= newShadow) {
                 l = 1 - newLight * 0.01f;
+                oldL = 1 - oldLight * 0.01f;
             } else {
                 l = 1 - newShadow * 0.01f;
+                oldL = 1 - oldShadow * 0.01f;
             }
-            render.material.color = new Color(l, l, l, 1);
+            // Debug.Log("Light "+l);
+            // Debug.Log("oldL " + oldL);
+            render.material.color = Color.Lerp(new Color(oldL, oldL, oldL, 1), new Color(l, l, l, 1), Time.time);
             oldShadow = newShadow;
             oldLight = newLight;
         }
