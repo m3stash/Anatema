@@ -6,13 +6,14 @@ using UnityEngine.InputSystem;
 public class ToolSelector : MonoBehaviour
 {
     [Header("Fields to complete")]
-    [SerializeField] private GameObject selectorPrefab;
+    [SerializeField] private DigSelector digSelectorPrefab;
+    [SerializeField] private GameObject digParticle;
 
     [Header("Don't touch it")]
     [SerializeField] private ToolType currentToolType = ToolType.PICKAXE;
     [SerializeField] private Item currentHoveredItem;
     [SerializeField] private Camera cam;
-    [SerializeField] private GameObject selector;
+    [SerializeField] private DigSelector digSelector;
 
     private Ray ray;
     private int posX;
@@ -20,6 +21,13 @@ public class ToolSelector : MonoBehaviour
 
     private Vector2Int selectedTilePosition;
     private bool selectedTile;
+    private float currentTileDurability;
+    private BlockConfig currentTileConfig;
+
+    private Vector3 hitPoint;
+
+    private float digTime; // Represent the time since button pressed to dig
+    private bool isDiging;
 
     private Vector3 lookDirection;
 
@@ -33,8 +41,8 @@ public class ToolSelector : MonoBehaviour
             InputManager.gameplayControls.Core.Position.performed += OnMousePositionChanged;
         }
 
-        this.selector = Instantiate(this.selectorPrefab);
-        this.selector.SetActive(false);
+        this.digSelector = Instantiate(this.digSelectorPrefab);
+        this.digSelector.gameObject.SetActive(false);
     }
 
     private void OnDisable() {
@@ -45,7 +53,9 @@ public class ToolSelector : MonoBehaviour
             InputManager.gameplayControls.Core.Position.performed -= OnMousePositionChanged;
         }
 
-        Destroy(this.selector);
+        if (this.digSelector) {
+            Destroy(this.digSelector.gameObject);
+        }
     }
 
     // Update is called once per frame
@@ -58,6 +68,28 @@ public class ToolSelector : MonoBehaviour
         // Don't do anymore if there isn't player
         if (!Player.instance) {
             return;
+        }
+
+        if (this.isDiging) {
+            if (this.selectedTile) { // Always check it in case of player move without change its look direction
+                this.digTime += Time.deltaTime;
+
+                if (this.digTime >= 0.2f) { // Todo replace with tool speed
+                    this.digTime = 0f;
+                    this.currentTileDurability += 25f; // Todo replace with tool power
+
+                    if (this.currentTileDurability >= this.currentTileConfig.GetDurability()) {
+                        this.digSelector.ResetSetup();
+                        WorldManager.instance.DeleteTile(this.selectedTilePosition.x, this.selectedTilePosition.y);
+                    } else {
+                        this.digSelector.Setup(this.currentTileConfig.GetDurability(), this.currentTileDurability);
+                        Instantiate(this.digParticle, this.hitPoint + (-this.lookDirection.normalized * 0.2f), Quaternion.LookRotation(-this.lookDirection, Vector3.up));
+                    }
+                }
+            } else {
+                this.digTime = 0f;
+            }
+
         }
 
         Debug.DrawRay(Player.instance.transform.position + new Vector3(0, 1f), this.lookDirection.normalized * 2f, Color.red);
@@ -76,6 +108,8 @@ public class ToolSelector : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(Player.instance.transform.position + new Vector3(0, 1f), this.lookDirection.normalized, 2f, layers);
 
         if (hit.collider) {
+            this.hitPoint = hit.point;
+
             int x = 0;
 
             if (this.lookDirection.x > 0) {
@@ -97,17 +131,23 @@ public class ToolSelector : MonoBehaviour
             }
 
             if (WorldManager.tilesWorldMap[x, y] > 0) {
-                this.selector.transform.position = new Vector3(x + 0.5f, y + 0.5f);
-                this.selector.SetActive(true);
+                this.digSelector.transform.position = new Vector3(x + 0.5f, y + 0.5f);
+                this.digSelector.gameObject.SetActive(true);
+
+                if (this.selectedTilePosition != new Vector2Int(x, y)) {
+                    this.digTime = 0f;
+                    this.currentTileDurability = 0;
+                    this.currentTileConfig = (BlockConfig)ItemManager.instance.GetItemWithId(WorldManager.tilesWorldMap[x, y]);
+                }
 
                 this.selectedTile = true;
                 this.selectedTilePosition = new Vector2Int(x, y);
             } else {
-                this.selector.SetActive(false);
+                this.digSelector.gameObject.SetActive(false);
             }
         } else {
             this.selectedTile = false;
-            this.selector.SetActive(false);
+            this.digSelector.gameObject.SetActive(false);
         }
     }
 
@@ -123,8 +163,6 @@ public class ToolSelector : MonoBehaviour
 
             dir = new Vector3(ray.origin.x - Player.instance.transform.position.x, ray.origin.y - Player.instance.transform.position.y);
 
-        } else { // For controllers
-            //dir = 
         }
 
         int layers = (1 << 14); // Only items
@@ -144,12 +182,16 @@ public class ToolSelector : MonoBehaviour
     }
 
     private void OnInteractButtonPress(InputAction.CallbackContext ctx) {
-        // TODO do destroy animation on tiles
+        if (this.currentToolType == ToolType.PICKAXE) {
+            this.isDiging = true;
+        }
     }
 
     private void OnInteractButtonReleased(InputAction.CallbackContext ctx) {
-        if (this.currentToolType == ToolType.PICKAXE && this.selectedTile) {
-            WorldManager.instance.DeleteTile(this.selectedTilePosition.x, this.selectedTilePosition.y);
+        if (this.currentToolType == ToolType.PICKAXE) {
+            this.isDiging = false;
+            this.digTime = 0f;
+            this.digSelector.ResetSetup();
         } else if (this.currentToolType == ToolType.AXE) {
         } else if (this.currentToolType == ToolType.HAMMER) {
             if (this.currentHoveredItem) {

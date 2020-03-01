@@ -1304,17 +1304,6 @@ public class @GameplayControls : IInputActionCollection, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""bc7fc5ad-8dad-48b4-972d-af501c9955c5"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PressClick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""238f8782-806b-4e4d-a10e-1f023ffd5a01"",
                     ""path"": ""<XInputController>/rightShoulder"",
                     ""interactions"": ""Press"",
@@ -1328,6 +1317,17 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""59bf25e0-3d21-46fc-beb2-2544f93ca1b5"",
                     ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/button6"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PressClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6003b1c7-049c-4835-b045-3f52114fe49a"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",

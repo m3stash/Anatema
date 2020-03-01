@@ -434,9 +434,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b47f42a3c7c544f8a422b9ff86fda15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  worldManager: {fileID: 164844707}
   tileSelectorPrefab: {fileID: 114132190777732268, guid: a759f083ff218d24281cbae680bd5c8f,
     type: 3}
-  worldManager: {fileID: 164844707}
   gameMode: 0
   buildSelector: {fileID: 0}
   toolSelector: {fileID: 0}
@@ -545,12 +545,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68487560af459804480e02abe7b57efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectorPrefab: {fileID: 6011728340333794127, guid: eef30b2f35b3daa449f9a48ffe7d3433,
+  digSelectorPrefab: {fileID: 2330548700639349988, guid: ba6e647eb2e34974cb7e30b6cb0cfc44,
+    type: 3}
+  digParticle: {fileID: 8578199165565181692, guid: 0d176ace631ae884c8c67273e78eae82,
     type: 3}
   currentToolType: 1
   currentHoveredItem: {fileID: 0}
   cam: {fileID: 0}
-  selector: {fileID: 0}
+  digSelector: {fileID: 0}
 --- !u!1001 &706079571
 PrefabInstance:
   m_ObjectHideFlags: 0
