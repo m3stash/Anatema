@@ -13,6 +13,7 @@ public class Item : MonoBehaviour {
     protected int stacks;
     protected ItemStatus status;
     protected ParticleSystem lootParticle;
+    protected SpriteRenderer[] renderers;
 
     // Fields bellow are only used for pickable items
     protected Vector3 oldPosition;
@@ -37,6 +38,7 @@ public class Item : MonoBehaviour {
         // Get components references
         this.rigidbody = GetComponent<Rigidbody2D>();
         this.renderer = GetComponent<SpriteRenderer>();
+        this.renderers = GetComponentsInChildren<SpriteRenderer>();
 
         this.configuration = config;
         this.associatedPool = associatedPool;
@@ -46,6 +48,9 @@ public class Item : MonoBehaviour {
         this.defaultTag = this.transform.tag;
         this.defaultPrefabSprite = this.renderer.sprite;
         this.status = status;
+
+        // Remove outline shader to prevent problem with pooling
+        this.DisplayOutlineShader(false);
 
         // Manage default status
         switch(this.status) {
@@ -84,6 +89,12 @@ public class Item : MonoBehaviour {
     public virtual void Setup(Item item) {
         this.configuration = item.configuration;
         this.stacks = item.stacks;
+    }
+
+    public void DisplayOutlineShader(bool state) {
+        foreach(SpriteRenderer renderer in this.renderers) {
+            renderer.color = state ? Color.red : Color.white;
+        }
     }
 
     /// <summary>

@@ -88,6 +88,7 @@ public class InputManager : MonoBehaviour
         gameplayControls.Shortcuts.Disable();
         gameplayControls.TileSelector.Disable();
         gameplayControls.Camera.Disable();
+        gameplayControls.ToolSelector.Disable();
     }
 
     private void SwitchInventoryLayout(InputAction.CallbackContext ctx) {
@@ -119,6 +120,7 @@ public class InputManager : MonoBehaviour
                 gameplayControls.Toolbar.Enable();
                 gameplayControls.Player.Enable();
                 gameplayControls.TileSelector.Enable();
+                gameplayControls.ToolSelector.Enable();
                 gameplayControls.Shortcuts.Enable();
                 gameplayControls.Camera.Enable();
 

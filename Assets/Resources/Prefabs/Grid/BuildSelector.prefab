@@ -335,7 +335,7 @@ GameObject:
   - component: {fileID: 4033100715263608}
   - component: {fileID: 114132190777732268}
   m_Layer: 0
-  m_Name: Tile_selector
+  m_Name: BuildSelector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GameManager : MonoBehaviour
-{
+public class GameManager : MonoBehaviour {
     [Header("Fields to complete")]
-    [SerializeField] private TileSelector tileSelectorPrefab;
     [SerializeField] private GameObject worldManager;
+    [SerializeField] private BuildSelector tileSelectorPrefab;
 
     [Header("Don't touch it")]
     [SerializeField] private GameMode gameMode = GameMode.DEFAULT;
-    [SerializeField] private TileSelector tileSelectorReference;
+    [SerializeField] private BuildSelector buildSelector;
+    [SerializeField] private ToolSelector toolSelector;
 
     public delegate void GameModeChanged(GameMode gameMode);
     public static event GameModeChanged OnGameModeChanged;
@@ -20,6 +20,9 @@ public class GameManager : MonoBehaviour
 
     private void Awake() {
         instance = this;
+
+        this.toolSelector = GetComponent<ToolSelector>();
+        this.toolSelector.enabled = false;
     }
 
     private void Start() {
@@ -30,8 +33,8 @@ public class GameManager : MonoBehaviour
         InputManager.gameplayControls.Shortcuts.tool.performed += ToolModeTriggered;
         InputManager.gameplayControls.Shortcuts.weapon.performed += WeaponModeTriggered;
 
-        this.tileSelectorReference = Instantiate(this.tileSelectorPrefab);
-        this.tileSelectorReference.gameObject.SetActive(false);
+        this.buildSelector = Instantiate(this.tileSelectorPrefab);
+        this.buildSelector.gameObject.SetActive(false);
 
         this.SetGameMode(GameMode.DEFAULT);
     }
@@ -48,21 +51,21 @@ public class GameManager : MonoBehaviour
         // Disable all controls and enable only usefull
         this.DisableAllGameplayControls();
 
-        this.tileSelectorReference.gameObject.SetActive(false);
+        this.buildSelector.gameObject.SetActive(false);
+        this.toolSelector.enabled = false;
 
-        switch (this.gameMode) {
+        switch(this.gameMode) {
             case GameMode.BUILD:
-                this.tileSelectorReference.SetShowGrid(true);
-                this.tileSelectorReference.gameObject.SetActive(true);
+                this.buildSelector.SetShowGrid(true);
+                this.buildSelector.gameObject.SetActive(true);
 
                 InputManager.gameplayControls.TileSelector.Enable();
                 InputManager.gameplayControls.Toolbar.Enable();
                 break;
             case GameMode.TOOL:
-                this.tileSelectorReference.SetShowGrid(false);
-                this.tileSelectorReference.gameObject.SetActive(true);
+                this.toolSelector.enabled = true;
 
-                InputManager.gameplayControls.TileSelector.Enable();
+                InputManager.gameplayControls.ToolSelector.Enable();
                 InputManager.gameplayControls.Shortcuts.weapon.Enable();
                 break;
             case GameMode.DEFAULT:
@@ -105,6 +108,7 @@ public class GameManager : MonoBehaviour
 
     private void DisableAllGameplayControls() {
         InputManager.gameplayControls.TileSelector.Disable();
+        InputManager.gameplayControls.ToolSelector.Disable();
         InputManager.gameplayControls.Toolbar.Disable();
 
         // Disable shortcuts to avoid to use them in build mode
@@ -113,8 +117,7 @@ public class GameManager : MonoBehaviour
     }
 }
 
-public enum GameMode
-{
+public enum GameMode {
     DEFAULT,
     BUILD,
     TOOL,

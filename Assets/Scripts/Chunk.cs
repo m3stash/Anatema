@@ -144,9 +144,6 @@ public class Chunk : MonoBehaviour {
     private void InitColliders() {
         tc2d = GetComponentInChildren<TilemapCollider2D>();
         tc2d.enabled = false;
-        var bc2d = GetComponentInChildren<BoxCollider2D>();
-        bc2d.offset = new Vector2(WorldManager.GetChunkSize() / 2, WorldManager.GetChunkSize() / 2);
-        bc2d.size = new Vector2(WorldManager.GetChunkSize(), WorldManager.GetChunkSize());
     }
     public void SetTile(Vector3Int vector3, TileBase tilebase) {
         tilemapTile.SetTile(vector3, tilebase);

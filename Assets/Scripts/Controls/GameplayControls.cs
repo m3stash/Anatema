@@ -213,6 +213,14 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Double"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Click"",
+                    ""type"": ""Button"",
+                    ""id"": ""f555f03f-b0dd-4916-919e-4752c12196ca"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -356,6 +364,28 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""VerticalMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2ed023b4-c3c6-4371-8354-0939e592a6ff"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""df9e8228-2130-4e6d-ac4a-42af6fc1a62e"",
+                    ""path"": ""<XInputController>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Click"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1241,6 +1271,115 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""ToolSelector"",
+            ""id"": ""270bb24e-2f6f-4246-869b-3bda7576fb36"",
+            ""actions"": [
+                {
+                    ""name"": ""PressClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""7f8db891-05b2-4699-855f-f9447ac873a3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""ReleaseClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""1ca10135-078c-44d5-8ac1-27fde30e4ce9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""LookDirection"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""e4903f1d-89d7-4d19-9dbd-56e90fcb40ed"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""238f8782-806b-4e4d-a10e-1f023ffd5a01"",
+                    ""path"": ""<XInputController>/rightShoulder"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PressClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""59bf25e0-3d21-46fc-beb2-2544f93ca1b5"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/button6"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PressClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6003b1c7-049c-4835-b045-3f52114fe49a"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PressClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc197d66-8178-4442-bbfc-74536df67565"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ReleaseClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b7115d44-69ff-4497-b5e5-4b2f3b429e8a"",
+                    ""path"": ""<XInputController>/rightShoulder"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ReleaseClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ccc0e5b7-66f5-4905-acfe-f7bbc30fd3a1"",
+                    ""path"": ""<HID::HORI CO.,LTD. HORIPAD S>/button6"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ReleaseClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f7392748-8a6f-4b5a-bf7b-e664debc654c"",
+                    ""path"": ""<XInputController>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LookDirection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -1256,6 +1395,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         m_TileSelector_Navigate = m_TileSelector.FindAction("Navigate", throwIfNotFound: true);
         m_TileSelector_HorizontalMove = m_TileSelector.FindAction("HorizontalMove", throwIfNotFound: true);
         m_TileSelector_VerticalMove = m_TileSelector.FindAction("VerticalMove", throwIfNotFound: true);
+        m_TileSelector_Click = m_TileSelector.FindAction("Click", throwIfNotFound: true);
         // Core
         m_Core = asset.FindActionMap("Core", throwIfNotFound: true);
         m_Core_Position = m_Core.FindAction("Position", throwIfNotFound: true);
@@ -1279,6 +1419,11 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_LookVertical = m_Camera.FindAction("LookVertical", throwIfNotFound: true);
+        // ToolSelector
+        m_ToolSelector = asset.FindActionMap("ToolSelector", throwIfNotFound: true);
+        m_ToolSelector_PressClick = m_ToolSelector.FindAction("PressClick", throwIfNotFound: true);
+        m_ToolSelector_ReleaseClick = m_ToolSelector.FindAction("ReleaseClick", throwIfNotFound: true);
+        m_ToolSelector_LookDirection = m_ToolSelector.FindAction("LookDirection", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1374,6 +1519,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
     private readonly InputAction m_TileSelector_Navigate;
     private readonly InputAction m_TileSelector_HorizontalMove;
     private readonly InputAction m_TileSelector_VerticalMove;
+    private readonly InputAction m_TileSelector_Click;
     public struct TileSelectorActions
     {
         private @GameplayControls m_Wrapper;
@@ -1383,6 +1529,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         public InputAction @Navigate => m_Wrapper.m_TileSelector_Navigate;
         public InputAction @HorizontalMove => m_Wrapper.m_TileSelector_HorizontalMove;
         public InputAction @VerticalMove => m_Wrapper.m_TileSelector_VerticalMove;
+        public InputAction @Click => m_Wrapper.m_TileSelector_Click;
         public InputActionMap Get() { return m_Wrapper.m_TileSelector; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1407,6 +1554,9 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 @VerticalMove.started -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnVerticalMove;
                 @VerticalMove.performed -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnVerticalMove;
                 @VerticalMove.canceled -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnVerticalMove;
+                @Click.started -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnClick;
+                @Click.performed -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnClick;
+                @Click.canceled -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnClick;
             }
             m_Wrapper.m_TileSelectorActionsCallbackInterface = instance;
             if (instance != null)
@@ -1426,6 +1576,9 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 @VerticalMove.started += instance.OnVerticalMove;
                 @VerticalMove.performed += instance.OnVerticalMove;
                 @VerticalMove.canceled += instance.OnVerticalMove;
+                @Click.started += instance.OnClick;
+                @Click.performed += instance.OnClick;
+                @Click.canceled += instance.OnClick;
             }
         }
     }
@@ -1659,6 +1812,55 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         }
     }
     public CameraActions @Camera => new CameraActions(this);
+
+    // ToolSelector
+    private readonly InputActionMap m_ToolSelector;
+    private IToolSelectorActions m_ToolSelectorActionsCallbackInterface;
+    private readonly InputAction m_ToolSelector_PressClick;
+    private readonly InputAction m_ToolSelector_ReleaseClick;
+    private readonly InputAction m_ToolSelector_LookDirection;
+    public struct ToolSelectorActions
+    {
+        private @GameplayControls m_Wrapper;
+        public ToolSelectorActions(@GameplayControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @PressClick => m_Wrapper.m_ToolSelector_PressClick;
+        public InputAction @ReleaseClick => m_Wrapper.m_ToolSelector_ReleaseClick;
+        public InputAction @LookDirection => m_Wrapper.m_ToolSelector_LookDirection;
+        public InputActionMap Get() { return m_Wrapper.m_ToolSelector; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ToolSelectorActions set) { return set.Get(); }
+        public void SetCallbacks(IToolSelectorActions instance)
+        {
+            if (m_Wrapper.m_ToolSelectorActionsCallbackInterface != null)
+            {
+                @PressClick.started -= m_Wrapper.m_ToolSelectorActionsCallbackInterface.OnPressClick;
+                @PressClick.performed -= m_Wrapper.m_ToolSelectorActionsCallbackInterface.OnPressClick;
+                @PressClick.canceled -= m_Wrapper.m_ToolSelectorActionsCallbackInterface.OnPressClick;
+                @ReleaseClick.started -= m_Wrapper.m_ToolSelectorActionsCallbackInterface.OnReleaseClick;
+                @ReleaseClick.performed -= m_Wrapper.m_ToolSelectorActionsCallbackInterface.OnReleaseClick;
+                @ReleaseClick.canceled -= m_Wrapper.m_ToolSelectorActionsCallbackInterface.OnReleaseClick;
+                @LookDirection.started -= m_Wrapper.m_ToolSelectorActionsCallbackInterface.OnLookDirection;
+                @LookDirection.performed -= m_Wrapper.m_ToolSelectorActionsCallbackInterface.OnLookDirection;
+                @LookDirection.canceled -= m_Wrapper.m_ToolSelectorActionsCallbackInterface.OnLookDirection;
+            }
+            m_Wrapper.m_ToolSelectorActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @PressClick.started += instance.OnPressClick;
+                @PressClick.performed += instance.OnPressClick;
+                @PressClick.canceled += instance.OnPressClick;
+                @ReleaseClick.started += instance.OnReleaseClick;
+                @ReleaseClick.performed += instance.OnReleaseClick;
+                @ReleaseClick.canceled += instance.OnReleaseClick;
+                @LookDirection.started += instance.OnLookDirection;
+                @LookDirection.performed += instance.OnLookDirection;
+                @LookDirection.canceled += instance.OnLookDirection;
+            }
+        }
+    }
+    public ToolSelectorActions @ToolSelector => new ToolSelectorActions(this);
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -1671,6 +1873,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         void OnNavigate(InputAction.CallbackContext context);
         void OnHorizontalMove(InputAction.CallbackContext context);
         void OnVerticalMove(InputAction.CallbackContext context);
+        void OnClick(InputAction.CallbackContext context);
     }
     public interface ICoreActions
     {
@@ -1699,5 +1902,11 @@ public class @GameplayControls : IInputActionCollection, IDisposable
     public interface ICameraActions
     {
         void OnLookVertical(InputAction.CallbackContext context);
+    }
+    public interface IToolSelectorActions
+    {
+        void OnPressClick(InputAction.CallbackContext context);
+        void OnReleaseClick(InputAction.CallbackContext context);
+        void OnLookDirection(InputAction.CallbackContext context);
     }
 }
