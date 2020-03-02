@@ -1,33 +1,12 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &560091175557944906
+--- !u!1001 &1993634256878333987
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2198146187288449751, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: c34c02fe68bfe2a47b79f17cb0a5f0df,
-        type: 3}
-    - target: {fileID: 2198146187288449751, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2198146187288449751, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 0.8787879
-      objectReference: {fileID: 0}
-    - target: {fileID: 2198146187288449751, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3239125416396832519, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -83,20 +62,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3239125416396832519, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
+    - target: {fileID: 5045834208776346278, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
         type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
+      propertyPath: m_Offset.y
+      value: 0.16793501
       objectReference: {fileID: 0}
-    - target: {fileID: 3239125416396832519, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
+    - target: {fileID: 5045834208776346278, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
         type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
+      propertyPath: m_Size.y
+      value: 0.33587003
+      objectReference: {fileID: 0}
+    - target: {fileID: 5045834208776346278, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
+        type: 3}
+      propertyPath: m_Offset.x
+      value: 0.4686383
+      objectReference: {fileID: 0}
+    - target: {fileID: 5045834208776346278, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.74541676
       objectReference: {fileID: 0}
     - target: {fileID: 7565122301584111792, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
         type: 3}
       propertyPath: m_Name
-      value: Grass
+      value: Grass_3
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6546073565240245380, guid: 3f9e4ba60a54b214aa32a825dd9ecc39, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3f9e4ba60a54b214aa32a825dd9ecc39, type: 3}

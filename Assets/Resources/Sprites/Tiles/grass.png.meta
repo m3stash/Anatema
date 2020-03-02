@@ -212,6 +212,9 @@ TextureImporter:
   - first:
       213: 8813381661560772920
     second: grass_34
+  - first:
+      213: 6772836760113797712
+    second: grass_35
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -1026,6 +1029,27 @@ TextureImporter:
       bones: []
       spriteID: 83995470deb6f4a70800000000000000
       internalID: 8813381661560772920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grass_35
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 0
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05a5a483623fdfd50800000000000000
+      internalID: 6772836760113797712
       vertices: []
       indices: 
       edges: []

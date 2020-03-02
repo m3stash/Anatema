@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 59d26623cf97843ae8898be456d23c8f, type: 3}
-  m_Name: Grass
+  m_Name: Grass_1
   m_EditorClassIdentifier: 
   id: 25
   prefab: {fileID: 8014544017313771258, guid: a4aae9b04a291684897b34d2078aa4c6, type: 3}
-  displayName: Grass
+  displayName: Grass_1
   description: 
   rarityLevel: 0
   lootParticlePrefab: {fileID: 2375911006704059128, guid: 925a7cd7c4a6e4ef894368ef75bd4599,
@@ -22,7 +22,7 @@ MonoBehaviour:
   itemType: 7
   icon: {fileID: 21300000, guid: c34c02fe68bfe2a47b79f17cb0a5f0df, type: 3}
   pooleable: 1
-  poolSize: 100
+  poolSize: 25
   stackable: 0
   stackLimit: 0
   placeable: 0
