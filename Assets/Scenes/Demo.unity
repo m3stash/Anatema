@@ -549,6 +549,8 @@ MonoBehaviour:
     type: 3}
   digParticle: {fileID: 8578199165565181692, guid: 0d176ace631ae884c8c67273e78eae82,
     type: 3}
+  notAllowedItemIds: ffffffff0e0000001f00000021000000
+  allowedItemsIds: 10000000
   currentToolType: 1
   currentHoveredItem: {fileID: 0}
   cam: {fileID: 0}

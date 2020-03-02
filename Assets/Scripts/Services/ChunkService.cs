@@ -3,13 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public enum Direction {
-    TOP,
-    BOTTOM,
-    LEFT,
-    RIGHT
-}
-
 public class ChunkService : MonoBehaviour {
 
     public int poolSize;
