@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class MapFunctions {
 
+    private static System.Random rand = new System.Random();
     public static void ClearMap(Tilemap tilemap) {
         if (tilemap)
             tilemap.ClearAllTiles();
@@ -87,7 +88,7 @@ public class MapFunctions {
     public static int[,] AddGrasses(int[,] worldMap, int[,] objectsMap, int[,] wallMap) {
         var heightMap = worldMap.GetUpperBound(1);
         var widthMap = worldMap.GetUpperBound(0);
-        int idGrassWorldObject = 25;
+        int[] ids = new int[] { 25, 46, 47 };
         int newGap = -1;
         for (int x = 0; x < widthMap; x++) {
             if (x < newGap)
@@ -98,7 +99,7 @@ public class MapFunctions {
                     break;
                 if (worldMap[x, y] == 2) {
                     if (objectsMap[x, y + 1] == 0 && worldMap[x, y + 1] == 0 && deepCount < 15) {
-                        objectsMap[x, y + 1] = idGrassWorldObject;
+                        objectsMap[x, y + 1] = ids[rand.Next(0, ids.Length)];
                         var newXGap = x + Random.Range(1, 4);
                         newGap = newXGap < widthMap ? newXGap : -1;
                     }

@@ -31,12 +31,21 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 2800000, guid: 6bfa38c0497733e48ac135aa1f00a1b7, type: 3}
-    totalSpriteSurfaceArea: 996402
+    - {fileID: 2800000, guid: c34c02fe68bfe2a47b79f17cb0a5f0df, type: 3}
+    - {fileID: 2800000, guid: 892718387f4f97d4eb0ff98fa0ccb13b, type: 3}
+    - {fileID: 21300000, guid: 74e51d5785edb15428a8d3bf8dc7ac52, type: 3}
+    totalSpriteSurfaceArea: 1026502
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 6bfa38c0497733e48ac135aa1f00a1b7, type: 3}
+  - {fileID: 21300000, guid: 74e51d5785edb15428a8d3bf8dc7ac52, type: 3}
+  - {fileID: 21300000, guid: 892718387f4f97d4eb0ff98fa0ccb13b, type: 3}
+  - {fileID: 21300000, guid: c34c02fe68bfe2a47b79f17cb0a5f0df, type: 3}
   m_PackedSpriteNamesToIndex:
   - tree_1
+  - grass_3
+  - grass_2
+  - grass_1
   m_Tag: Level
   m_IsVariant: 0
