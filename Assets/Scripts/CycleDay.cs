@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System;
-
+using UnityEngine.Experimental.Rendering.Universal;
 
 public class CycleDay : MonoBehaviour {
-    [SerializeField] private Light AmbiantLight;
+    // [SerializeField] private Light AmbiantLight;
+    [SerializeField] private Light2D AmbiantLight;
     [SerializeField] private int startHour = 8;
     [SerializeField] private int durationDayOnMinute;
     [SerializeField] private int currentHour = 0;

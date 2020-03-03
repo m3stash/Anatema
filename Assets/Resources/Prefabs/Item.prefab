@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8899334717928196170}
   - component: {fileID: 5878353474128706535}
   - component: {fileID: 8947751870462095420}
-  - component: {fileID: 7477468576792537058}
+  - component: {fileID: 4262699684412192730}
   m_Layer: 14
   m_Name: Item
   m_TagString: Untagged
@@ -109,6 +109,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -131,7 +132,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 81745725
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -144,7 +145,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7477468576792537058
+--- !u!114 &4262699684412192730
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -153,15 +154,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 8471903306220810807}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdf32bb42d2bfa1428a1c2c442b6c677, type: 3}
+  m_Script: {fileID: 11500000, guid: 3bd0546d2ef6c4a9ab564a67f0788ded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameDisplay: 
-  id: 0
-  config: {fileID: 0}
-  maxStacks: 0
-  currentStack: 0
-  type: 
-  width: 0
-  height: 0
-  furnitureType: 
+  configuration: {fileID: 0}
+  associatedPool: {fileID: 0}
+  rigidbody: {fileID: 0}
+  collider: {fileID: 0}
+  renderer: {fileID: 0}
+  attractor: {fileID: 0}
+  defaultScale: {x: 0, y: 0, z: 0}
+  defaultTag: 
+  defaultPrefabSprite: {fileID: 0}
