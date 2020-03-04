@@ -19,3 +19,4 @@ MonoBehaviour:
     rightContactType: 1
     topContactType: 0
     bottomContactType: 1
+  unAllowedBlockTypes: 0500000004000000

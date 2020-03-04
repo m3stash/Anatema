@@ -23,5 +23,8 @@ public enum BlockType {
     GRASS,
     SAND,
     ORE,
-    COPPER
+    WATER,
+    LAVA,
+    STONE,
+    WOOD
 }
