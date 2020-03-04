@@ -26,5 +26,8 @@ MonoBehaviour:
   stackLimit: 0
   placeable: 1
   colliderConfig: {fileID: 11400000, guid: db73353b21988e74888c9021cfbfe11d, type: 2}
+  minPosY: 0
+  maxPosY: 0
+  checkWallValidity: 1
   emitLight: 0
   scale: {x: 0, y: 0}
