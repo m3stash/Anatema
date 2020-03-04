@@ -681,5 +681,5 @@ PlayerSettings:
   organizationId: 12c0b61-66d1-48f4-be5c-e4c90c15a7f2
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 1
-  disableOldInputManagerSupport: 1
+  disableOldInputManagerSupport: 0
   legacyClampBlendShapeWeights: 1

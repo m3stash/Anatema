@@ -12,6 +12,11 @@ public class DigSelector : MonoBehaviour
     [SerializeField] private float maxDurability;
     [SerializeField] private float currentDurability;
     [SerializeField] private float statePartitionSize;
+    [SerializeField] private new SpriteRenderer renderer;
+
+    private void Awake() {
+        this.renderer = GetComponent<SpriteRenderer>();
+    }
 
     private void OnDisable() {
         this.stateRenderer.enabled = false;
@@ -29,9 +34,19 @@ public class DigSelector : MonoBehaviour
         this.stateRenderer.enabled = true;
     }
 
+    public void SetErrorState() {
+        this.renderer.color = Color.red;
+        this.ResetSetup();
+    }
+
+    public void SetValidState() {
+        this.renderer.color = Color.white;
+    }
+
     public void ResetSetup() {
         this.maxDurability = 0f;
         this.currentDurability = 0f;
         this.stateRenderer.enabled = false;
+        this.stateRenderer.sprite = this.orderedStateSprites[0];
     }
 }

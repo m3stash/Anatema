@@ -25,7 +25,7 @@ MonoBehaviour:
   poolSize: 25
   stackable: 0
   stackLimit: 0
-  placeable: 0
-  colliderConfig: {fileID: 0}
+  placeable: 1
+  colliderConfig: {fileID: 11400000, guid: 057046e81e2e8e84fb7accb6dd94bc82, type: 2}
   emitLight: 0
-  scale: {x: 0, y: 0}
+  scale: {x: 0.5, y: 0.5}
