@@ -53,7 +53,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 93b08cd0859fa94479ce85e6f5446818, type: 2}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -137,6 +137,7 @@ MonoBehaviour:
   topCollisionSprite: {fileID: 0}
   bottomCollisionSprite: {fileID: 21300000, guid: c1133b888b523414889c89fea3101d22,
     type: 3}
+  collisionSide: 0
 --- !u!61 &4257458700067399318
 BoxCollider2D:
   m_ObjectHideFlags: 0

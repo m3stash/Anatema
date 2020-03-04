@@ -1,0 +1,443 @@
+fileFormatVersion: 2
+guid: 1d95669dfcce52640ab2889089de29dc
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: b2a9591990af98743ba3ff7cf1000886, type: 3}
+  textureImporterSettings:
+    alphaSource: 1
+    mipMapMode: 0
+    enableMipMap: 1
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+    convertToNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    isReadable: 0
+    streamingMipmaps: 1
+    streamingMipmapsPriority: 0
+    nPOTScale: 1
+    sRGBTexture: 1
+    spriteMode: 2
+    spriteExtrude: 1
+    spriteMeshType: 1
+    alignment: 0
+    spritePivot: {x: 0.5, y: 0.5}
+    spritePixelsToUnits: 100
+    spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+    spriteGenerateFallbackPhysicsShape: 0
+    generateCubemap: 6
+    cubemapConvolution: 0
+    seamlessCubemap: 0
+    alphaIsTransparency: 1
+    spriteTessellationDetail: -1
+    textureType: 8
+    textureShape: 1
+    singleChannelComponent: 0
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
+    normalMap: 0
+    textureFormat: 0
+    maxTextureSize: 0
+    lightmap: 0
+    compressionQuality: 0
+    linearTexture: 0
+    grayScaleToAlpha: 0
+    rGBM: 0
+    cubemapConvolutionSteps: 0
+    cubemapConvolutionExponent: 0
+    maxTextureSizeSet: 0
+    compressionQualitySet: 0
+    textureFormatSet: 0
+  spriteImportData:
+  - name: 
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    spriteID: 
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 0, y: 0}
+  mosaicSpriteImportData: []
+  rigSpriteImportData:
+  - name: Objet dynamique vectoriel copie 3
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 1534
+      width: 215
+      height: 132
+    spriteID: 043cf90adb24ee4498a4a33c3705e915
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -672, y: 803}
+  - name: Objet dynamique vectoriel copie 2
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 1814
+      width: 214
+      height: 132
+    spriteID: ab3f137c3679d2d4a80e4781fbda6c43
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -778, y: 1074}
+  - name: Objet dynamique vectoriel copie
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 1674
+      width: 215
+      height: 132
+    spriteID: 959ebedc6aec7b141b0957aa085144a1
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -188, y: 943}
+  - name: Objet dynamique vectoriel
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 1051
+      y: 4
+      width: 214
+      height: 132
+    spriteID: 9b678580b14f2eb41a20fe342237d313
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 753, y: -736}
+  - name: Objet dynamique vectoriel_1
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 1412
+      width: 389
+      height: 114
+    spriteID: ed3f70f0991800e44856b842b6487edb
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -401, y: 729}
+  - name: Objet dynamique vectoriel_2
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 442
+      y: 1693
+      width: 534
+      height: 340
+    spriteID: e71ab6328bb0a5544a561255806a13a8
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 110, y: 765}
+  - name: Objet dynamique vectoriel_3
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 442
+      y: 653
+      width: 601
+      height: 512
+    spriteID: 784cdc2547fdcc54b8639d408612dba4
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -157, y: -275}
+  - name: Objet dynamique vectoriel_4
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 442
+      y: 4
+      width: 601
+      height: 641
+    spriteID: 46bcce52b1211a34986de16253d7a33b
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 143, y: -1155}
+  - name: Objet dynamique vectoriel_5
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 442
+      y: 1173
+      width: 599
+      height: 512
+    spriteID: 5e2b7a71baacbf149b1f3e4a3c88fc6a
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 442, y: 206}
+  - name: Objet dynamique vectoriel_6
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 430
+      height: 1400
+    spriteID: 7d25e1702d7d97f4b916d3c3f6fadd0a
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -381, y: 4}
+  - name: Calque 1
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 401
+      y: 1412
+      width: 0
+      height: 0
+    spriteID: 8d12e81d524e04548b8493dde770a724
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -799, y: -388}
+  platformSettings: []
+  mosaicLayers: 1
+  documentPivot: {x: 0, y: 0}
+  documentAlignment: 7
+  importHiddenLayers: 0
+  importedTextureWidth: 2048
+  importedTextureHeight: 2048
+  documentSize: {x: 1200, y: 1800}
+  paperDollMode: 0
+  keepDupilcateSpriteName: 0
+  spriteCategoryList:
+    categories: []
+  textureActualWidth: 2048
+  textureActualHeight: 2048
+  spritePackingTag: 
+  resliceFromLayer: 0
+  characterMode: 1
+  mosaicPSDLayers: []
+  rigPSDLayers:
+  - name: Groupe 1
+    spriteName: 
+    isGroup: 1
+    parentIndex: -1
+    spriteID: 
+    layerID: 58
+    mosaicPosition: {x: 0, y: 0}
+  - name: Objet dynamique vectoriel copie 3
+    spriteName: Objet dynamique vectoriel copie 3
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 043cf90adb24ee4498a4a33c3705e915
+    layerID: 46
+    mosaicPosition: {x: 4, y: 1534}
+  - name: Objet dynamique vectoriel copie 2
+    spriteName: Objet dynamique vectoriel copie 2
+    isGroup: 0
+    parentIndex: 0
+    spriteID: ab3f137c3679d2d4a80e4781fbda6c43
+    layerID: 45
+    mosaicPosition: {x: 4, y: 1814}
+  - name: Objet dynamique vectoriel copie
+    spriteName: Objet dynamique vectoriel copie
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 959ebedc6aec7b141b0957aa085144a1
+    layerID: 44
+    mosaicPosition: {x: 4, y: 1674}
+  - name: Objet dynamique vectoriel
+    spriteName: Objet dynamique vectoriel
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 9b678580b14f2eb41a20fe342237d313
+    layerID: 42
+    mosaicPosition: {x: 1051, y: 4}
+  - name: Objet dynamique vectoriel
+    spriteName: Objet dynamique vectoriel_1
+    isGroup: 0
+    parentIndex: 0
+    spriteID: ed3f70f0991800e44856b842b6487edb
+    layerID: 40
+    mosaicPosition: {x: 4, y: 1412}
+  - name: Objet dynamique vectoriel
+    spriteName: Objet dynamique vectoriel_2
+    isGroup: 0
+    parentIndex: 0
+    spriteID: e71ab6328bb0a5544a561255806a13a8
+    layerID: 36
+    mosaicPosition: {x: 442, y: 1693}
+  - name: Objet dynamique vectoriel
+    spriteName: Objet dynamique vectoriel_3
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 784cdc2547fdcc54b8639d408612dba4
+    layerID: 34
+    mosaicPosition: {x: 442, y: 653}
+  - name: Objet dynamique vectoriel
+    spriteName: Objet dynamique vectoriel_4
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 46bcce52b1211a34986de16253d7a33b
+    layerID: 38
+    mosaicPosition: {x: 442, y: 4}
+  - name: Objet dynamique vectoriel
+    spriteName: Objet dynamique vectoriel_5
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 5e2b7a71baacbf149b1f3e4a3c88fc6a
+    layerID: 32
+    mosaicPosition: {x: 442, y: 1173}
+  - name: Objet dynamique vectoriel
+    spriteName: Objet dynamique vectoriel_6
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 7d25e1702d7d97f4b916d3c3f6fadd0a
+    layerID: 30
+    mosaicPosition: {x: 4, y: 4}
+  - name: Calque 1
+    spriteName: Calque 1
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 8d12e81d524e04548b8493dde770a724
+    layerID: 2
+    mosaicPosition: {x: 401, y: 1412}
+  characterData:
+    bones: []
+    parts: []
+    dimension: {x: 0, y: 0}
+    characterGroups: []
+  generateGOHierarchy: 0
+  textureAssetName: tree_3 Texture
+  prefabAssetName: tree_3 Prefab
+  spriteLibAssetName: tree_3 Sprite Lib
+  secondarySpriteTextures: []
