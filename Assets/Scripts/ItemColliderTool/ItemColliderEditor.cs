@@ -5,12 +5,15 @@ using UnityEngine.InputSystem;
 using System.Linq;
 using UnityEditor;
 using TMPro;
+using System;
 
 public class ItemColliderEditor : MonoBehaviour {
     [Header("Fields to complete manually")]
     [SerializeField] private GameObject gridCellPrefab;
     [SerializeField] private ItemConfigButton itemConfigButtonPrefab;
-    [SerializeField] private GameObject scrollViewContent;
+    [SerializeField] private GameObject itemScrollViewContent;
+    [SerializeField] private BlockTypeButton blockTypeButtonPrefab;
+    [SerializeField] private GameObject blockTypeScrollViewContent;
     [SerializeField] private TMP_InputField assetNameInputField;
 
     [Header("Modified in runtime")]
@@ -41,6 +44,7 @@ public class ItemColliderEditor : MonoBehaviour {
         this.controls.ItemColliderTool.MousePosition.performed += SetMousePosition;
 
         this.InitItemConfigList();
+        this.InitBlockTypeConfigList();
 
         this.cellWidth = this.gridCellPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
 
@@ -58,8 +62,13 @@ public class ItemColliderEditor : MonoBehaviour {
             .Select(elem => new CellCollider(elem))
             .ToArray();
 
+        BlockType[] unAllowedBlockTypes = GameObject.FindObjectsOfType<BlockTypeButton>()
+            .Where((BlockTypeButton button) => !button.IsSelected())
+            .Select(elem => elem.GetBlockType())
+            .ToArray();
+
         ItemColliderConfig config = ScriptableObject.CreateInstance<ItemColliderConfig>();
-        config.SetCellColliders(selectedCells);
+        config.Setup(selectedCells, unAllowedBlockTypes);
 
         AssetDatabase.CreateAsset(config, "Assets/Resources/Scriptables/Items/ColliderConfigs/" + this.assetName + ".asset");
 
@@ -96,9 +105,18 @@ public class ItemColliderEditor : MonoBehaviour {
     private void InitItemConfigList() {
         ItemConfig[] items = Resources.LoadAll<ItemConfig>("Scriptables/Items");
 
+        items = items.Where(elem => elem.IsPlaceable()).OrderBy(elem => elem.GetId()).ToArray();
+
         foreach(ItemConfig config in items) {
-            ItemConfigButton current = Instantiate(this.itemConfigButtonPrefab, this.scrollViewContent.transform);
+            ItemConfigButton current = Instantiate(this.itemConfigButtonPrefab, this.itemScrollViewContent.transform);
             current.Setup(config);
+        }
+    }
+
+    private void InitBlockTypeConfigList() {
+        foreach(BlockType blockType in (BlockType[])Enum.GetValues(typeof(BlockType))) {
+            BlockTypeButton current = Instantiate(this.blockTypeButtonPrefab, this.blockTypeScrollViewContent.transform);
+            current.Setup(blockType);
         }
     }
 
@@ -121,7 +139,7 @@ public class ItemColliderEditor : MonoBehaviour {
 
             ItemColliderCell cell = hits.Where(elem => elem.collider.GetComponent<ItemColliderCell>()).Select(elem => elem.collider.GetComponent<ItemColliderCell>()).First();
 
-            if (cell) {
+            if(cell) {
                 cell.Select();
                 return;
             }

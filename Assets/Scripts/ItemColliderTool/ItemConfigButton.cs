@@ -16,7 +16,7 @@ public class ItemConfigButton : MonoBehaviour
     public void Setup(ItemConfig config) {
         this.button = GetComponent<Button>();
         this.itemConfig = config;
-        this.button.GetComponentInChildren<TextMeshProUGUI>().text = this.itemConfig.GetDisplayName();
+        this.button.GetComponentInChildren<TextMeshProUGUI>().text = this.itemConfig.GetId() + "_" + this.itemConfig.GetDisplayName();
 
         // Add a listener on click event to notify grid editor
         this.button.onClick.AddListener(() => OnSelect?.Invoke(this.itemConfig));

@@ -6,13 +6,19 @@ using UnityEngine;
 public class ItemColliderConfig : ScriptableObject {
 
     [SerializeField] private CellCollider[] cellColliders;
+    [SerializeField] private BlockType[] unAllowedBlockTypes;
 
-    public void SetCellColliders(CellCollider[] cellColliders) {
+    public void Setup(CellCollider[] cellColliders, BlockType[] unAllowedBlockTypes) {
         this.cellColliders = cellColliders;
+        this.unAllowedBlockTypes = unAllowedBlockTypes;
     }
 
     public CellCollider[] GetCellColliders() {
         return this.cellColliders;
+    }
+
+    public BlockType[] GetUnAllowedBlockTypes() {
+        return this.unAllowedBlockTypes;
     }
 }
 
