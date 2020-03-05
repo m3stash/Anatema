@@ -13,6 +13,12 @@ MonoBehaviour:
   m_Name: 31_Tree
   m_EditorClassIdentifier: 
   cellColliders:
+  - position: {x: -5, y: 3}
+    origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: -5, y: 4}
     origin: 0
     leftContactType: 0
@@ -20,6 +26,12 @@ MonoBehaviour:
     topContactType: 0
     bottomContactType: 0
   - position: {x: -5, y: 5}
+    origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
+  - position: {x: -5, y: 6}
     origin: 0
     leftContactType: 0
     rightContactType: 0
@@ -73,9 +85,15 @@ MonoBehaviour:
     rightContactType: 0
     topContactType: 0
     bottomContactType: 0
-  - position: {x: -2, y: 3}
+  - position: {x: -3, y: 7}
     origin: 0
     leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
+  - position: {x: -2, y: 3}
+    origin: 0
+    leftContactType: 1
     rightContactType: 0
     topContactType: 0
     bottomContactType: 0
@@ -89,7 +107,7 @@ MonoBehaviour:
     origin: 0
     leftContactType: 0
     rightContactType: 0
-    topContactType: 0
+    topContactType: 1
     bottomContactType: 0
   - position: {x: -2, y: 6}
     origin: 0
@@ -109,6 +127,12 @@ MonoBehaviour:
     rightContactType: 0
     topContactType: 0
     bottomContactType: 0
+  - position: {x: -2, y: 9}
+    origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: -1, y: 0}
     origin: 0
     leftContactType: 0
@@ -118,7 +142,7 @@ MonoBehaviour:
   - position: {x: -1, y: 1}
     origin: 0
     leftContactType: 0
-    rightContactType: 1
+    rightContactType: 0
     topContactType: 0
     bottomContactType: 0
   - position: {x: -1, y: 2}
@@ -155,7 +179,7 @@ MonoBehaviour:
     origin: 0
     leftContactType: 0
     rightContactType: 0
-    topContactType: 1
+    topContactType: 0
     bottomContactType: 0
   - position: {x: -1, y: 8}
     origin: 0
@@ -185,7 +209,7 @@ MonoBehaviour:
     origin: 0
     leftContactType: 0
     rightContactType: 0
-    topContactType: 0
+    topContactType: 1
     bottomContactType: 0
   - position: {x: 0, y: 3}
     origin: 0
@@ -196,13 +220,13 @@ MonoBehaviour:
   - position: {x: 0, y: 4}
     origin: 0
     leftContactType: 0
-    rightContactType: 1
+    rightContactType: 0
     topContactType: 0
     bottomContactType: 0
   - position: {x: 0, y: 5}
     origin: 0
     leftContactType: 0
-    rightContactType: 0
+    rightContactType: 1
     topContactType: 0
     bottomContactType: 0
   - position: {x: 0, y: 6}
@@ -265,10 +289,16 @@ MonoBehaviour:
     rightContactType: 0
     topContactType: 0
     bottomContactType: 0
+  - position: {x: 1, y: 9}
+    origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 2, y: 3}
     origin: 0
     leftContactType: 0
-    rightContactType: 1
+    rightContactType: 0
     topContactType: 0
     bottomContactType: 0
   - position: {x: 2, y: 4}
@@ -284,6 +314,18 @@ MonoBehaviour:
     topContactType: 0
     bottomContactType: 0
   - position: {x: 2, y: 6}
+    origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
+  - position: {x: 2, y: 7}
+    origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
+  - position: {x: 2, y: 8}
     origin: 0
     leftContactType: 0
     rightContactType: 0
@@ -313,6 +355,12 @@ MonoBehaviour:
     rightContactType: 0
     topContactType: 0
     bottomContactType: 0
+  - position: {x: 4, y: 3}
+    origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
   - position: {x: 4, y: 4}
     origin: 0
     leftContactType: 0
@@ -325,4 +373,10 @@ MonoBehaviour:
     rightContactType: 0
     topContactType: 0
     bottomContactType: 0
-  unAllowedBlockTypes: 0300000004000000050000000600000007000000
+  - position: {x: 4, y: 6}
+    origin: 0
+    leftContactType: 0
+    rightContactType: 0
+    topContactType: 0
+    bottomContactType: 0
+  unAllowedBlockTypes: 070000000600000005000000040000000300000002000000

@@ -6,43 +6,84 @@ using UnityEngine.Tilemaps;
 public class MapFunctions {
 
     private static System.Random rand = new System.Random();
+
     public static void ClearMap(Tilemap tilemap) {
         if(tilemap)
             tilemap.ClearAllTiles();
     }
 
+    /// <summary>
+    /// Used to check if item can be posed on specific position
+    /// Return true if collision are valids and cells are free
+    /// </summary>
+    /// <param name="itemConfig">Item to pose</param>
+    /// <param name="originX">Origin position X to pose item</param>
+    /// <param name="originY">Origin position Y to pose item</param>
+    /// <returns></returns>
     private static bool CheckCanPoseItem(ItemConfig itemConfig, int originX, int originY) {
         bool allIsValid = true;
 
         System.Tuple<int, int, bool> validityCheck = new System.Tuple<int, int, bool>(0, 0, true);
+        BlockType[] unallowedBlockTypes = itemConfig.GetColliderConfig().GetUnAllowedBlockTypes();
 
-        foreach (CellCollider cell in itemConfig.GetColliderConfig().GetCellColliders()) {
+        foreach(CellCollider cell in itemConfig.GetColliderConfig().GetCellColliders()) {
             if(!allIsValid) {
                 break;
             }
 
+            int posX = originX + cell.GetRelativePosition().x;
+            int posY = originY + cell.GetRelativePosition().y;
+
             // Check if position is free on tileMap and objectMap
-            bool objectMapValid = WorldManager.objectsMap[originX + cell.GetRelativePosition().x, originY + cell.GetRelativePosition().y] == 0;
-            bool tilesWorlMapValid = WorldManager.tilesWorldMap[originX + cell.GetRelativePosition().x, originY + cell.GetRelativePosition().y] == 0;
+            bool objectMapValid = WorldManager.objectsMap[posX, posY] == 0;
+            bool tilesWorlMapValid = WorldManager.tilesWorldMap[posX, posY] == 0;
 
             if(!objectMapValid || !tilesWorlMapValid) {
                 allIsValid = false;
                 break;
             }
 
-            // Manage wall map
-            if(itemConfig.NeedToCheckWallValidity() && WorldManager.wallTilesMap[originX + cell.GetRelativePosition().x, originY + cell.GetRelativePosition().y] > 0) {
+            // If item need to check wall validity and this wall map position is not empty => not valid
+            if(itemConfig.NeedToCheckWallValidity() && WorldManager.wallTilesMap[posX, posY] > 0) {
                 allIsValid = false;
                 break;
             }
 
-            //bool mandatoriesContactValid = true;
-            validityCheck = MapFunctions.CheckCellColliderContact(validityCheck, originX, originY, cell, itemConfig, cell.GetLeftContactType(), Direction.LEFT);
-            validityCheck = MapFunctions.CheckCellColliderContact(validityCheck, originX, originY, cell, itemConfig, cell.GetRightContactType(), Direction.RIGHT);
-            validityCheck = MapFunctions.CheckCellColliderContact(validityCheck, originX, originY, cell, itemConfig, cell.GetTopContactType(), Direction.TOP);
-            validityCheck = MapFunctions.CheckCellColliderContact(validityCheck, originX, originY, cell, itemConfig, cell.GetBottomContactType(), Direction.BOTTOM);
+            if(!WorldManager.instance.IsOutOfBound(posX - 1, posY)) {
+                validityCheck = MapFunctions.CheckCellColliderContact(validityCheck, WorldManager.tilesWorldMap[posX - 1, posY], unallowedBlockTypes, cell.GetLeftContactType());
+            }
 
-            // If a mandatory contact set, it need to be valid !
+            // Check if mandatories all still valid else stop treatment
+            if(!validityCheck.Item3) {
+                allIsValid = false;
+                break;
+            }
+
+            if(!WorldManager.instance.IsOutOfBound(posX + 1, posY)) {
+                validityCheck = MapFunctions.CheckCellColliderContact(validityCheck, WorldManager.tilesWorldMap[posX + 1, posY], unallowedBlockTypes, cell.GetRightContactType());
+            }
+
+            // Check if mandatories all still valid else stop treatment
+            if(!validityCheck.Item3) {
+                allIsValid = false;
+                break;
+            }
+
+            if(!WorldManager.instance.IsOutOfBound(posX, posY + 1)) {
+                validityCheck = MapFunctions.CheckCellColliderContact(validityCheck, WorldManager.tilesWorldMap[posX, posY + 1], unallowedBlockTypes, cell.GetTopContactType());
+            }
+
+            // Check if mandatories all still valid else stop treatment
+            if(!validityCheck.Item3) {
+                allIsValid = false;
+                break;
+            }
+
+            if(!WorldManager.instance.IsOutOfBound(posX, posY - 1)) {
+                validityCheck = MapFunctions.CheckCellColliderContact(validityCheck, WorldManager.tilesWorldMap[posX, posY - 1], unallowedBlockTypes, cell.GetBottomContactType());
+            }
+
+            // Check if mandatories all still valid else stop treatment
             if(!validityCheck.Item3) {
                 allIsValid = false;
                 break;
@@ -54,37 +95,33 @@ public class MapFunctions {
 
     }
 
-    private static System.Tuple<int, int, bool> CheckCellColliderContact(System.Tuple<int, int, bool> validityCheck, int originX, int originY, CellCollider cell, ItemConfig itemConfig, ContactType contactType, Direction direction) {
+    /// <summary>
+    /// Used to check neighbour validity of cell
+    /// </summary>
+    /// <param name="validityCheck">Inital tuple with (allContacts, validContacts, mandatoriesContactValid)</param>
+    /// <param name="neighbourItemId">neighbourItemId</param>
+    /// <param name="unallowedBlockTypes">all block types unallowed to pose over</param>
+    /// <param name="contactType">contact type to check for this cell in function of the direction</param>
+    /// <returns>Tuple which contains sum of all contacts, valid contacts, and mandatories validity after treatment</returns>
+    private static System.Tuple<int, int, bool> CheckCellColliderContact(System.Tuple<int, int, bool> validityCheck, int neighbourItemId, BlockType[] unallowedBlockTypes, ContactType contactType) {
         int allContacts = validityCheck.Item1;
         int validContacts = validityCheck.Item2;
         bool mandatoriesContactValid = validityCheck.Item3;
-        
-        // Check left cell if a contact has been set
-        if (mandatoriesContactValid && contactType != ContactType.NONE) {
-            int itemId = -1;
 
-            if(direction == Direction.LEFT) {
-                itemId = WorldManager.tilesWorldMap[originX + cell.GetRelativePosition().x - 1, originY + cell.GetRelativePosition().y];
-            } else if (direction == Direction.RIGHT) {
-                itemId = WorldManager.tilesWorldMap[originX + cell.GetRelativePosition().x + 1, originY + cell.GetRelativePosition().y];
-            } else if (direction == Direction.TOP) {
-                itemId = WorldManager.tilesWorldMap[originX + cell.GetRelativePosition().x, originY + cell.GetRelativePosition().y + 1];
-            } else if (direction == Direction.BOTTOM) {
-                itemId = WorldManager.tilesWorldMap[originX + cell.GetRelativePosition().x, originY + cell.GetRelativePosition().y - 1];
-            }
-
+        // Check if there is contact to check in direction
+        if(mandatoriesContactValid && contactType != ContactType.NONE) {
             bool contactValid = false;
 
             // Check if block type is valid to pose over it
-            if (itemId > 0) {
-                BlockConfig blockConfig = (BlockConfig)ItemManager.instance.GetItemWithId(itemId);
-                contactValid = itemId > 0 && MapFunctions.IsBlockTypeAllowed(blockConfig.GetBlockType(), itemConfig.GetColliderConfig().GetUnAllowedBlockTypes());
+            if(neighbourItemId > 0) {
+                BlockConfig blockConfig = (BlockConfig)ItemManager.instance.GetItemWithId(neighbourItemId);
+                contactValid = CommonService.ArrayContains(unallowedBlockTypes, blockConfig.GetBlockType());
             }
 
             allContacts += 1;
             validContacts += contactValid ? 1 : 0;
 
-            if (contactType == ContactType.MANDATORY) {
+            if(contactType == ContactType.MANDATORY) {
                 mandatoriesContactValid = contactValid;
             }
         }
@@ -92,26 +129,22 @@ public class MapFunctions {
         return new System.Tuple<int, int, bool>(allContacts, validContacts, mandatoriesContactValid);
     }
 
-    private static bool IsBlockTypeAllowed(BlockType typeToCompare, BlockType[] unallowedBlockTypes) {
-        for(int i = 0; i < unallowedBlockTypes.Length; i++) {
-            if(unallowedBlockTypes[i] == typeToCompare) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private static void SetColliders(ItemConfig itemConf, int x, int y, int[,] objectsMap) {
-        foreach(CellCollider cell in itemConf.GetColliderConfig().GetCellColliders()) {
-            WorldManager.objectsMap[x + cell.GetRelativePosition().x, y + cell.GetRelativePosition().y] = cell.IsOrigin() ? itemConf.GetId() : -1;
+    /// <summary>
+    /// Used to fill objectMap array with item id and its colliders (-1)
+    /// </summary>
+    /// <param name="itemConfig">Item to add</param>
+    /// <param name="x">origin position X</param>
+    /// <param name="y">origin position Y</param>
+    private static void SetItemInObjectsMap(ItemConfig itemConfig, int x, int y) {
+        foreach(CellCollider cell in itemConfig.GetColliderConfig().GetCellColliders()) {
+            WorldManager.objectsMap[x + cell.GetRelativePosition().x, y + cell.GetRelativePosition().y] = cell.IsOrigin() ? itemConfig.GetId() : -1;
         }
     }
 
-    public static int[,] AddTrees(int[,] worldMap, int[,] objectsMap, int[,] wallMap) {
+    public static int[,] AddTrees() {
         ItemConfig itemConf = ItemManager.instance.GetItemWithId(31);
-        var heightMap = worldMap.GetUpperBound(1);
-        var widthMap = worldMap.GetUpperBound(0);
+        var heightMap = WorldManager.tilesWorldMap.GetUpperBound(1);
+        var widthMap = WorldManager.tilesWorldMap.GetUpperBound(0);
         // toDo voir a gérer les bordures du monde pour pas calculer dans le vide
         // left to right
         int newTreeGap = -1;
@@ -148,10 +181,10 @@ public class MapFunctions {
                     }
                     break;
                 }*/
-                if(worldMap[x, y - 1] == 1) {
+                if(WorldManager.tilesWorldMap[x, y - 1] == 1) {
                     if(CheckCanPoseItem(itemConf, x, y)) {
-                        SetColliders(itemConf, x, y, objectsMap);
-                        objectsMap[x, y] = 31; // toDo refacto plus tard pour les différents ID d'arbre
+                        SetItemInObjectsMap(itemConf, x, y);
+                        WorldManager.objectsMap[x, y] = 31; // toDo refacto plus tard pour les différents ID d'arbre
                         var newXGap = x + Random.Range(5, 8);
                         newTreeGap = newXGap < xEnd ? newXGap : -1;
                     }
@@ -159,12 +192,12 @@ public class MapFunctions {
                 }
             }
         }
-        return objectsMap;
+        return WorldManager.objectsMap;
     }
 
-    public static int[,] AddGrasses(int[,] worldMap, int[,] objectsMap, int[,] wallMap) {
-        var heightMap = worldMap.GetUpperBound(1);
-        var widthMap = worldMap.GetUpperBound(0);
+    public static int[,] AddGrasses() {
+        var heightMap = WorldManager.tilesWorldMap.GetUpperBound(1);
+        var widthMap = WorldManager.tilesWorldMap.GetUpperBound(0);
         int[] ids = new int[] { 25, 46, 47 };
         int newGap = -1;
         for(int x = 0; x < widthMap; x++) {
@@ -174,19 +207,19 @@ public class MapFunctions {
             for(int y = heightMap - 1; y > heightMap - 300; y--) {
                 if(deepCount == 15)
                     break;
-                if(worldMap[x, y] == 2) {
-                    if(objectsMap[x, y + 1] == 0 && worldMap[x, y + 1] == 0 && deepCount < 15) {
-                        objectsMap[x, y + 1] = ids[rand.Next(0, ids.Length)];
+                if(WorldManager.tilesWorldMap[x, y] == 2) {
+                    if(WorldManager.objectsMap[x, y + 1] == 0 && WorldManager.tilesWorldMap[x, y + 1] == 0 && deepCount < 15) {
+                        WorldManager.objectsMap[x, y + 1] = ids[rand.Next(0, ids.Length)];
                         var newXGap = x + Random.Range(1, 4);
                         newGap = newXGap < widthMap ? newXGap : -1;
                     }
                 }
-                if(wallMap[x, y] > 0) {
+                if(WorldManager.wallTilesMap[x, y] > 0) {
                     deepCount++;
                 }
             }
         }
-        return objectsMap;
+        return WorldManager.objectsMap;
     }
 
     public static int[,] AddGrassOntop(int[,] map, int[,] wallMap) {
