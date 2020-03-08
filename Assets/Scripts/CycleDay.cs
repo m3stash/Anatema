@@ -22,7 +22,7 @@ public class CycleDay : MonoBehaviour {
     private Color32 newColor;
     private float AmbiantIntensity;
     private int lastHour = -1;
-    private Light[] moonLight;
+    private Light2D[] moonLight;
     private float moonIntensity;
     private Material[] moonMat;
     // event
@@ -31,10 +31,10 @@ public class CycleDay : MonoBehaviour {
 
     void Start() {
         moonMat = new Material[2];
-        moonLight = new Light[2];
-        moonLight[0] = moon[0].GetComponentInChildren<Light>();
+        moonLight = new Light2D[2];
+        moonLight[0] = moon[0].GetComponentInChildren<Light2D>();
         moonMat[0] = moon[0].GetComponent<Renderer>().material;
-        moonLight[1] = moon[1].GetComponentInChildren<Light>();
+        moonLight[1] = moon[1].GetComponentInChildren<Light2D>();
         moonMat[1] = moon[1].GetComponent<Renderer>().material;
         tileLightMap = GetComponentInChildren<Tilemap>();
         timerDay = startHour * 60 * 60;

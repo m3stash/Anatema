@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d81561b428f64024ebb79b5d2da426d2
+guid: 5a5ae287c01ba1c468afa852f36811aa
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -86,7 +86,7 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   mosaicSpriteImportData: []
   rigSpriteImportData:
-  - name: Objet dynamique vectoriel
+  - name: tree_2_feuillage_1
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -97,7 +97,7 @@ ScriptedImporter:
       y: 4
       width: 601
       height: 512
-    spriteID: 3c955f53620fce747b7fd10747fb12db
+    spriteID: 02a90f8d37e56424eb7c189d3dcafa0d
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -108,7 +108,7 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 613, y: -544}
-  - name: Objet dynamique vectoriel_1
+  - name: tree_2_feuillage_2
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -119,7 +119,7 @@ ScriptedImporter:
       y: 4
       width: 601
       height: 512
-    spriteID: 156f246220d99854792f306565ed1e3d
+    spriteID: 5eae307fccf67ff4eb5bb51b458c13a7
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -130,7 +130,7 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 623, y: -544}
-  - name: Objet dynamique vectoriel_2
+  - name: tree_2_feuillage_3
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -141,7 +141,7 @@ ScriptedImporter:
       y: 4
       width: 601
       height: 641
-    spriteID: df9fdd09a5f67a341903cfaf17543e18
+    spriteID: 303ed670d0a9c9441a18694af9984369
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -152,7 +152,7 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: -295, y: -755}
-  - name: Objet dynamique vectoriel_3
+  - name: tree_2_feuillage_4
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -163,7 +163,7 @@ ScriptedImporter:
       y: 653
       width: 471
       height: 401
-    spriteID: 46bdf5871173ddf4b96c45be026721ee
+    spriteID: e37eac1f6ecd78e4a9a82c967e279c96
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -174,10 +174,10 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 98, y: 95}
-  - name: Objet dynamique vectoriel_4
+  - name: tree_2_tronc
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
+    pivot: {x: 0.35, y: 0}
+    alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
@@ -185,7 +185,7 @@ ScriptedImporter:
       y: 653
       width: 430
       height: 840
-    spriteID: 0cdf61fe5556a554394b9a9ffc7245a0
+    spriteID: 164fbdbd6a241c7488582dae596b64bc
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -196,28 +196,6 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: -381, y: 653}
-  - name: Calque 1
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 1831
-      y: 4
-      width: 0
-      height: 0
-    spriteID: c04e15154b0dc564fa00cbc3a3868f80
-    internalID: 0
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: 631, y: -1396}
   platformSettings: []
   mosaicLayers: 1
   documentPivot: {x: 0, y: 0}
@@ -237,55 +215,48 @@ ScriptedImporter:
   characterMode: 1
   mosaicPSDLayers: []
   rigPSDLayers:
-  - name: Objet dynamique vectoriel
-    spriteName: Objet dynamique vectoriel
+  - name: tree_2_feuillage_1
+    spriteName: tree_2_feuillage_1
     isGroup: 0
     parentIndex: -1
-    spriteID: 3c955f53620fce747b7fd10747fb12db
+    spriteID: 02a90f8d37e56424eb7c189d3dcafa0d
     layerID: 26
     mosaicPosition: {x: 613, y: 4}
-  - name: Objet dynamique vectoriel
-    spriteName: Objet dynamique vectoriel_1
+  - name: tree_2_feuillage_2
+    spriteName: tree_2_feuillage_2
     isGroup: 0
     parentIndex: -1
-    spriteID: 156f246220d99854792f306565ed1e3d
+    spriteID: 5eae307fccf67ff4eb5bb51b458c13a7
     layerID: 24
     mosaicPosition: {x: 1222, y: 4}
-  - name: Objet dynamique vectoriel
-    spriteName: Objet dynamique vectoriel_2
+  - name: tree_2_feuillage_3
+    spriteName: tree_2_feuillage_3
     isGroup: 0
     parentIndex: -1
-    spriteID: df9fdd09a5f67a341903cfaf17543e18
+    spriteID: 303ed670d0a9c9441a18694af9984369
     layerID: 28
     mosaicPosition: {x: 4, y: 4}
-  - name: Objet dynamique vectoriel
-    spriteName: Objet dynamique vectoriel_3
+  - name: tree_2_feuillage_4
+    spriteName: tree_2_feuillage_4
     isGroup: 0
     parentIndex: -1
-    spriteID: 46bdf5871173ddf4b96c45be026721ee
+    spriteID: e37eac1f6ecd78e4a9a82c967e279c96
     layerID: 22
     mosaicPosition: {x: 442, y: 653}
-  - name: Objet dynamique vectoriel
-    spriteName: Objet dynamique vectoriel_4
+  - name: tree_2_tronc
+    spriteName: tree_2_tronc
     isGroup: 0
     parentIndex: -1
-    spriteID: 0cdf61fe5556a554394b9a9ffc7245a0
+    spriteID: 164fbdbd6a241c7488582dae596b64bc
     layerID: 20
     mosaicPosition: {x: 4, y: 653}
-  - name: Calque 1
-    spriteName: Calque 1
-    isGroup: 0
-    parentIndex: -1
-    spriteID: c04e15154b0dc564fa00cbc3a3868f80
-    layerID: 2
-    mosaicPosition: {x: 1831, y: 4}
   characterData:
     bones: []
     parts: []
     dimension: {x: 0, y: 0}
     characterGroups: []
   generateGOHierarchy: 0
-  textureAssetName: tree_2 Texture
-  prefabAssetName: tree_2 Prefab
-  spriteLibAssetName: tree_2 Sprite Lib
+  textureAssetName: tree_4 Texture
+  prefabAssetName: tree_4 Prefab
+  spriteLibAssetName: tree_4 Sprite Lib
   secondarySpriteTextures: []

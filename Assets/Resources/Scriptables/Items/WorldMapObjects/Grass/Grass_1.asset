@@ -20,7 +20,7 @@ MonoBehaviour:
   lootParticlePrefab: {fileID: 2375911006704059128, guid: 925a7cd7c4a6e4ef894368ef75bd4599,
     type: 3}
   itemType: 7
-  icon: {fileID: 21300000, guid: c34c02fe68bfe2a47b79f17cb0a5f0df, type: 3}
+  icon: {fileID: -8846012020167115747, guid: 850c2a50296a74f458fe408e5a133c41, type: 3}
   pooleable: 1
   poolSize: 25
   stackable: 0

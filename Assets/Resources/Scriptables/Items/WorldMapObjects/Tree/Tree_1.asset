@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d26623cf97843ae8898be456d23c8f, type: 3}
+  m_Name: Tree_1
+  m_EditorClassIdentifier: 
+  id: 31
+  prefab: {fileID: 4529551933393023209, guid: c136b674ce2514ea18f0c1dc61339ada, type: 3}
+  displayName: Tree_1
+  description: 
+  rarityLevel: 0
+  lootParticlePrefab: {fileID: 2375911006704059128, guid: 925a7cd7c4a6e4ef894368ef75bd4599,
+    type: 3}
+  itemType: 7
+  icon: {fileID: 603505140417611364, guid: 229d8202c72260340ac7607fd8c198f8, type: 3}
+  pooleable: 1
+  poolSize: 20
+  stackable: 0
+  stackLimit: 0
+  placeable: 1
+  colliderConfig: {fileID: 11400000, guid: db73353b21988e74888c9021cfbfe11d, type: 2}
+  minPosY: 0
+  maxPosY: 0
+  checkWallValidity: 1
+  emitLight: 0
+  scale: {x: 0, y: 0}

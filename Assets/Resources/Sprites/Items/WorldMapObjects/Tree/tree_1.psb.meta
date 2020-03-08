@@ -176,8 +176,8 @@ ScriptedImporter:
     uvTransform: {x: -349, y: 1113}
   - name: tree_1_tronc
     originalName: 
-    pivot: {x: 0.5, y: 0}
-    alignment: 7
+    pivot: {x: 0.35, y: 0}
+    alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
