@@ -6,46 +6,156 @@ using UnityEngine.Tilemaps;
 public class MapFunctions {
 
     private static System.Random rand = new System.Random();
+
     public static void ClearMap(Tilemap tilemap) {
-        if (tilemap)
+        if(tilemap)
             tilemap.ClearAllTiles();
     }
 
-    private static bool CheckNoColliders(ItemConfig itemConf, int x, int y, int[,] worldMap, int[,] objectsMap, int[,] wallMap) {
-        bool empty = true;
-        foreach (CellCollider cell in itemConf.GetColliderConfig().GetCellColliders()) {
-            if (!empty) {
+    /// <summary>
+    /// Used to check if item can be posed on specific position
+    /// Return true if collision are valids and cells are free
+    /// </summary>
+    /// <param name="itemConfig">Item to pose</param>
+    /// <param name="originX">Origin position X to pose item</param>
+    /// <param name="originY">Origin position Y to pose item</param>
+    /// <returns></returns>
+    private static bool CheckCanPoseItem(ItemConfig itemConfig, int originX, int originY) {
+        bool allIsValid = true;
+
+        System.Tuple<int, int, bool> validityCheck = new System.Tuple<int, int, bool>(0, 0, true);
+        BlockType[] unallowedBlockTypes = itemConfig.GetColliderConfig().GetUnAllowedBlockTypes();
+
+        foreach(CellCollider cell in itemConfig.GetColliderConfig().GetCellColliders()) {
+            if(!allIsValid) {
                 break;
             }
-            bool noColliders = WorldManager.objectsMap[x + cell.GetRelativePosition().x, y + cell.GetRelativePosition().y] == 0 && worldMap[x, y] == 0 && wallMap[x, y] == 0;
-            if (!noColliders) {
-                empty = false;
+
+            int posX = originX + cell.GetRelativePosition().x;
+            int posY = originY + cell.GetRelativePosition().y;
+
+            // Check if position is free on tileMap and objectMap
+            bool objectMapValid = WorldManager.objectsMap[posX, posY] == 0;
+            bool tilesWorlMapValid = WorldManager.tilesWorldMap[posX, posY] == 0;
+
+            if(!objectMapValid || !tilesWorlMapValid) {
+                allIsValid = false;
+                break;
+            }
+
+            // If item need to check wall validity and this wall map position is not empty => not valid
+            if(itemConfig.NeedToCheckWallValidity() && WorldManager.wallTilesMap[posX, posY] > 0) {
+                allIsValid = false;
+                break;
+            }
+
+            if(!WorldManager.instance.IsOutOfBound(posX - 1, posY)) {
+                validityCheck = MapFunctions.CheckCellColliderContact(validityCheck, WorldManager.tilesWorldMap[posX - 1, posY], unallowedBlockTypes, cell.GetLeftContactType());
+            }
+
+            // Check if mandatories all still valid else stop treatment
+            if(!validityCheck.Item3) {
+                allIsValid = false;
+                break;
+            }
+
+            if(!WorldManager.instance.IsOutOfBound(posX + 1, posY)) {
+                validityCheck = MapFunctions.CheckCellColliderContact(validityCheck, WorldManager.tilesWorldMap[posX + 1, posY], unallowedBlockTypes, cell.GetRightContactType());
+            }
+
+            // Check if mandatories all still valid else stop treatment
+            if(!validityCheck.Item3) {
+                allIsValid = false;
+                break;
+            }
+
+            if(!WorldManager.instance.IsOutOfBound(posX, posY + 1)) {
+                validityCheck = MapFunctions.CheckCellColliderContact(validityCheck, WorldManager.tilesWorldMap[posX, posY + 1], unallowedBlockTypes, cell.GetTopContactType());
+            }
+
+            // Check if mandatories all still valid else stop treatment
+            if(!validityCheck.Item3) {
+                allIsValid = false;
+                break;
+            }
+
+            if(!WorldManager.instance.IsOutOfBound(posX, posY - 1)) {
+                validityCheck = MapFunctions.CheckCellColliderContact(validityCheck, WorldManager.tilesWorldMap[posX, posY - 1], unallowedBlockTypes, cell.GetBottomContactType());
+            }
+
+            // Check if mandatories all still valid else stop treatment
+            if(!validityCheck.Item3) {
+                allIsValid = false;
+                break;
             }
         }
-        return empty;
+
+        // If all checks are valid and simple contacts are valids
+        return allIsValid && ((validityCheck.Item1 > 0 && validityCheck.Item2 > 0) || validityCheck.Item1 == validityCheck.Item2);
+
     }
 
-    private static void SetColliders(ItemConfig itemConf, int x, int y, int[,] objectsMap) {
-        foreach (CellCollider cell in itemConf.GetColliderConfig().GetCellColliders()) {
-            WorldManager.objectsMap[x + cell.GetRelativePosition().x, y + cell.GetRelativePosition().y] = cell.IsOrigin() ? itemConf.GetId() : -1;
+    /// <summary>
+    /// Used to check neighbour validity of cell
+    /// </summary>
+    /// <param name="validityCheck">Inital tuple with (allContacts, validContacts, mandatoriesContactValid)</param>
+    /// <param name="neighbourItemId">neighbourItemId</param>
+    /// <param name="unallowedBlockTypes">all block types unallowed to pose over</param>
+    /// <param name="contactType">contact type to check for this cell in function of the direction</param>
+    /// <returns>Tuple which contains sum of all contacts, valid contacts, and mandatories validity after treatment</returns>
+    private static System.Tuple<int, int, bool> CheckCellColliderContact(System.Tuple<int, int, bool> validityCheck, int neighbourItemId, BlockType[] unallowedBlockTypes, ContactType contactType) {
+        int allContacts = validityCheck.Item1;
+        int validContacts = validityCheck.Item2;
+        bool mandatoriesContactValid = validityCheck.Item3;
+
+        // Check if there is contact to check in direction
+        if(mandatoriesContactValid && contactType != ContactType.NONE) {
+            bool contactValid = false;
+
+            // Check if block type is valid to pose over it
+            if(neighbourItemId > 0) {
+                BlockConfig blockConfig = (BlockConfig)ItemManager.instance.GetItemWithId(neighbourItemId);
+                contactValid = CommonService.ArrayContains(unallowedBlockTypes, blockConfig.GetBlockType());
+            }
+
+            allContacts += 1;
+            validContacts += contactValid ? 1 : 0;
+
+            if(contactType == ContactType.MANDATORY) {
+                mandatoriesContactValid = contactValid;
+            }
+        }
+
+        return new System.Tuple<int, int, bool>(allContacts, validContacts, mandatoriesContactValid);
+    }
+
+    /// <summary>
+    /// Used to fill objectMap array with item id and its colliders (-1)
+    /// </summary>
+    /// <param name="itemConfig">Item to add</param>
+    /// <param name="x">origin position X</param>
+    /// <param name="y">origin position Y</param>
+    private static void SetItemInObjectsMap(ItemConfig itemConfig, int x, int y) {
+        foreach(CellCollider cell in itemConfig.GetColliderConfig().GetCellColliders()) {
+            WorldManager.objectsMap[x + cell.GetRelativePosition().x, y + cell.GetRelativePosition().y] = cell.IsOrigin() ? itemConfig.GetId() : -1;
         }
     }
 
-    public static int[,] AddTrees(int[,] worldMap, int[,] objectsMap, int[,] wallMap) {
+    public static int[,] AddTrees() {
         ItemConfig itemConf = ItemManager.instance.GetItemWithId(31);
-        var heightMap = worldMap.GetUpperBound(1);
-        var widthMap = worldMap.GetUpperBound(0);
+        var heightMap = WorldManager.tilesWorldMap.GetUpperBound(1);
+        var widthMap = WorldManager.tilesWorldMap.GetUpperBound(0);
         // toDo voir a gérer les bordures du monde pour pas calculer dans le vide
         // left to right
         int newTreeGap = -1;
         int xEnd = widthMap - 5;
         int xStart = 5;
-        for (int x = xStart; x < xEnd; x++) {
-            if (x < newTreeGap) {
+        for(int x = xStart; x < xEnd; x++) {
+            if(x < newTreeGap) {
                 continue;
             }
             // top to bottom
-            for (int y = heightMap - 50; y > heightMap - 300; y--) {
+            for(int y = heightMap - 50; y > heightMap - 300; y--) {
                 /*if (worldMap[x, y] == 1) {
                     // si current != 0 && gauche et droite != 0 continu sinon on ne va pas plus bas !
                     if (worldMap[x - 1, y] == 1 && worldMap[x + 1, y] == 1) {
@@ -71,10 +181,10 @@ public class MapFunctions {
                     }
                     break;
                 }*/
-                if (worldMap[x, y - 1] == 1) {
-                    if (CheckNoColliders(itemConf, x, y, worldMap, objectsMap, wallMap)) {
-                        SetColliders(itemConf, x, y, objectsMap);
-                        objectsMap[x, y] = 31; // toDo refacto plus tard pour les différents ID d'arbre
+                if(WorldManager.tilesWorldMap[x, y - 1] == 1) {
+                    if(CheckCanPoseItem(itemConf, x, y)) {
+                        SetItemInObjectsMap(itemConf, x, y);
+                        WorldManager.objectsMap[x, y] = 31; // toDo refacto plus tard pour les différents ID d'arbre
                         var newXGap = x + Random.Range(5, 8);
                         newTreeGap = newXGap < xEnd ? newXGap : -1;
                     }
@@ -82,34 +192,34 @@ public class MapFunctions {
                 }
             }
         }
-        return objectsMap;
+        return WorldManager.objectsMap;
     }
 
-    public static int[,] AddGrasses(int[,] worldMap, int[,] objectsMap, int[,] wallMap) {
-        var heightMap = worldMap.GetUpperBound(1);
-        var widthMap = worldMap.GetUpperBound(0);
+    public static int[,] AddGrasses() {
+        var heightMap = WorldManager.tilesWorldMap.GetUpperBound(1);
+        var widthMap = WorldManager.tilesWorldMap.GetUpperBound(0);
         int[] ids = new int[] { 25, 46, 47 };
         int newGap = -1;
-        for (int x = 0; x < widthMap; x++) {
-            if (x < newGap)
+        for(int x = 0; x < widthMap; x++) {
+            if(x < newGap)
                 continue;
             int deepCount = 0;
-            for (int y = heightMap - 1; y > heightMap - 300; y--) {
-                if (deepCount == 15)
+            for(int y = heightMap - 1; y > heightMap - 300; y--) {
+                if(deepCount == 15)
                     break;
-                if (worldMap[x, y] == 2) {
-                    if (objectsMap[x, y + 1] == 0 && worldMap[x, y + 1] == 0 && deepCount < 15) {
-                        objectsMap[x, y + 1] = ids[rand.Next(0, ids.Length)];
+                if(WorldManager.tilesWorldMap[x, y] == 2) {
+                    if(WorldManager.objectsMap[x, y + 1] == 0 && WorldManager.tilesWorldMap[x, y + 1] == 0 && deepCount < 15) {
+                        WorldManager.objectsMap[x, y + 1] = ids[rand.Next(0, ids.Length)];
                         var newXGap = x + Random.Range(1, 4);
                         newGap = newXGap < widthMap ? newXGap : -1;
                     }
                 }
-                if (wallMap[x, y] > 0) {
+                if(WorldManager.wallTilesMap[x, y] > 0) {
                     deepCount++;
                 }
             }
         }
-        return objectsMap;
+        return WorldManager.objectsMap;
     }
 
     public static int[,] AddGrassOntop(int[,] map, int[,] wallMap) {
@@ -118,37 +228,37 @@ public class MapFunctions {
         int idGrass = 2;
         int idDirt = 1;
         int maxDeep = 15;
-        for (int x = 0; x < widthMap; x++) {
+        for(int x = 0; x < widthMap; x++) {
             int deepCount = 0;
-            for (int y = heightMap - 1; y > heightMap - 300; y--) {
-                if (deepCount > maxDeep)
+            for(int y = heightMap - 1; y > heightMap - 300; y--) {
+                if(deepCount > maxDeep)
                     break;
                 var topNeightboorTile = map[x, y + 1];
                 var currentTile = map[x, y];
-                if (topNeightboorTile == 0 && currentTile == idDirt) {
+                if(topNeightboorTile == 0 && currentTile == idDirt) {
                     map[x, y] = idGrass;
                 }
-                if (currentTile == 0 && topNeightboorTile == idDirt && x - 4 > 0) {
+                if(currentTile == 0 && topNeightboorTile == idDirt && x - 4 > 0) {
                     var fiveLeftVoid = true;
-                    for (int z = x; z > x - 4; z--) {
-                        if (map[z, y] > 0) {
+                    for(int z = x; z > x - 4; z--) {
+                        if(map[z, y] > 0) {
                             fiveLeftVoid = false;
                             break;
                         }
                     }
                     map[x, y + 1] = fiveLeftVoid == true ? idGrass : topNeightboorTile;
                 }
-                if (currentTile == 0 && topNeightboorTile == idDirt && x + 4 < widthMap) {
+                if(currentTile == 0 && topNeightboorTile == idDirt && x + 4 < widthMap) {
                     var fiveRightVoid = true;
-                    for (int z = x; z < x + 4; z++) {
-                        if (map[z, y] > 0) {
+                    for(int z = x; z < x + 4; z++) {
+                        if(map[z, y] > 0) {
                             fiveRightVoid = false;
                             break;
                         }
                     }
                     map[x, y + 1] = fiveRightVoid == true ? idGrass : topNeightboorTile;
                 }
-                if (wallMap[x, y] > 0) {
+                if(wallMap[x, y] > 0) {
                     deepCount++;
                 }
             }
@@ -168,10 +278,10 @@ public class MapFunctions {
 
     public static void RenderMap(int[,] map, Tilemap tilemap, TileBase[] tile) {
         tilemap.ClearAllTiles();
-        for (int x = 0; x < map.GetUpperBound(0); x++) {
-            for (int y = 0; y < map.GetUpperBound(1); y++) {
+        for(int x = 0; x < map.GetUpperBound(0); x++) {
+            for(int y = 0; y < map.GetUpperBound(1); y++) {
                 var tileId = map[x, y];
-                if (tileId > 0) {
+                if(tileId > 0) {
                     tilemap.SetTile(new Vector3Int(x, y, 0), tile[tileId]);
                 } else {
                     tilemap.SetTile(new Vector3Int(x, y, 0), null);
@@ -185,12 +295,12 @@ public class MapFunctions {
         //Used to reduced the position of the perlin point
         float reduction = 0.5f;
         //Create the perlin
-        for (int x = 0; x < map.GetUpperBound(0); x++) {
+        for(int x = 0; x < map.GetUpperBound(0); x++) {
             newPoint = Mathf.FloorToInt((Mathf.PerlinNoise(x, seed) - reduction) * map.GetUpperBound(1));
 
             //Make sure the noise starts near the halfway point of the height
             newPoint += (map.GetUpperBound(1) / 2);
-            for (int y = newPoint; y >= 0; y--) {
+            for(int y = newPoint; y >= 0; y--) {
                 map[x, y] = 1;
             }
         }
@@ -199,7 +309,7 @@ public class MapFunctions {
 
     public static int[,] PerlinNoiseSmooth(int[,] map, float seed, int interval) {
         //Smooth the noise and store it in the int array
-        if (interval > 1) {
+        if(interval > 1) {
             int newPoint, points;
             //Used to reduced the position of the perlin point
             float reduction = 0.5f;
@@ -211,7 +321,7 @@ public class MapFunctions {
             List<int> noiseY = new List<int>();
 
             //Generate the noise
-            for (int x = 0; x < map.GetUpperBound(0); x += interval) {
+            for(int x = 0; x < map.GetUpperBound(0); x += interval) {
                 newPoint = Mathf.FloorToInt((Mathf.PerlinNoise(x, (seed * reduction))) * map.GetUpperBound(1));
                 noiseY.Add(newPoint);
                 noiseX.Add(x);
@@ -220,7 +330,7 @@ public class MapFunctions {
             points = noiseY.Count;
 
             //Start at 1 so we have a previous position already
-            for (int i = 1; i < points; i++) {
+            for(int i = 1; i < points; i++) {
                 //Get the current position
                 currentPos = new Vector2Int(noiseX[i], noiseY[i]);
                 //Also get the last position
@@ -235,8 +345,8 @@ public class MapFunctions {
                 float currHeight = lastPos.y;
 
                 //Work our way through from the last x to the current x
-                for (int x = lastPos.x; x < currentPos.x; x++) {
-                    for (int y = Mathf.FloorToInt(currHeight); y > 0; y--) {
+                for(int x = lastPos.x; x < currentPos.x; x++) {
+                    for(int y = Mathf.FloorToInt(currHeight); y > 0; y--) {
                         map[x, y] = 1;
                     }
                     currHeight += heightChange;
@@ -254,18 +364,18 @@ public class MapFunctions {
         int maxHeight = map.GetUpperBound(1);
         float rand = Random.Range(0, 1);
 
-        for (int x = 0; x < map.GetUpperBound(0); x++) {
-            for (int y = 0; y < maxHeight; y++) {
+        for(int x = 0; x < map.GetUpperBound(0); x++) {
+            for(int y = 0; y < maxHeight; y++) {
                 modifier = 0.04f;
                 // grottes
                 var res = Mathf.PerlinNoise((x + rand) * modifier, (y + rand) * modifier);
-                if (res > 0 && res < 0.3f) {
+                if(res > 0 && res < 0.3f) {
                     map[x, y] = 0;
                 }
                 modifier = 0.08f;
                 res = Mathf.PerlinNoise((x + rand) * modifier, (y + rand) * modifier);
                 // gruyère
-                if (res > 0.8f) {
+                if(res > 0.8f) {
                     map[x, y] = 0;
                 }
             }
@@ -318,27 +428,27 @@ public class MapFunctions {
         float heightSilver = height / 4;
         float heightGold = height - height / 3f;
         float modifier = 0.9f;
-        for (int x = 0; x < map.GetUpperBound(0); x++) {
-            for (int y = 0; y < height; y++) {
+        for(int x = 0; x < map.GetUpperBound(0); x++) {
+            for(int y = 0; y < height; y++) {
                 float noise = Mathf.PerlinNoise(x * modifier, y * modifier);
-                if (map[x, y] > 0) {
+                if(map[x, y] > 0) {
                     // copper
-                    if (noise > 0.6f && noise < 0.630f && y > heightCopper) {
+                    if(noise > 0.6f && noise < 0.630f && y > heightCopper) {
                         map[x, y] = 4;
                         copper_count++;
                     }
                     // iron
-                    if (noise > 0.3f && noise < 0.315f && y > heightIron && y < height - heightIron) {
+                    if(noise > 0.3f && noise < 0.315f && y > heightIron && y < height - heightIron) {
                         map[x, y] = 5;
                         iron_count++;
                     }
                     // silver
-                    if (noise > 0.5f && noise < 0.510f && y > heightSilver) {
+                    if(noise > 0.5f && noise < 0.510f && y > heightSilver) {
                         map[x, y] = 6;
                         silver_count++;
                     }
                     // gold
-                    if (noise > 0.7f && noise < 0.705f && y < heightGold) {
+                    if(noise > 0.7f && noise < 0.705f && y < heightGold) {
                         map[x, y] = 7;
                         gold_count++;
                     }
@@ -359,22 +469,22 @@ public class MapFunctions {
     public static int[,] GenerateNoiseMap(float scale, Wave[] waves, int[,] map) {
         // create an empty noise map with the mapDepth and mapWidth coordinates
 
-        for (int y = 0; y < map.GetUpperBound(1); y++) {
-            for (int x = 0; x < map.GetUpperBound(0); x++) {
+        for(int y = 0; y < map.GetUpperBound(1); y++) {
+            for(int x = 0; x < map.GetUpperBound(0); x++) {
                 // calculate sample indices based on the coordinates, the scale and the offset
                 float sampleX = x / scale;
                 float sampleY = y / scale;
 
                 float noise = 0f;
                 float normalization = 0f;
-                foreach (Wave wave in waves) {
+                foreach(Wave wave in waves) {
                     // generate noise value using PerlinNoise for a given Wave
                     noise += wave.amplitude * Mathf.PerlinNoise(sampleX * wave.frequency + wave.seed, sampleY * wave.frequency + wave.seed);
                     normalization += wave.amplitude;
                 }
                 // normalize the noise value so that it is within 0 and 1
                 noise /= normalization;
-                if (noise < 0.5f && map[x, y] == 0) {
+                if(noise < 0.5f && map[x, y] == 0) {
                     map[x, y] = 1;
                 }
             }
@@ -389,20 +499,20 @@ public class MapFunctions {
         var max = rand.Next(mapHeight - 200, mapHeight - 100);
         int lastHeight = Random.Range(min, max);
 
-        for (int x = 0; x < map.GetUpperBound(0); x++) {
+        for(int x = 0; x < map.GetUpperBound(0); x++) {
             int nextMove = rand.Next(4);
             //If heads, and we aren't near the bottom, minus some height
-            if (nextMove == 0 && lastHeight > 3) {
+            if(nextMove == 0 && lastHeight > 3) {
                 lastHeight--;
             }
 
             //If tails, and we aren't near the top, add some height
-            else if (nextMove == 2 && lastHeight < mapHeight - 200) {
+            else if(nextMove == 2 && lastHeight < mapHeight - 200) {
                 lastHeight++;
             }
 
             //Circle through from the lastheight to the bottom
-            for (int y = lastHeight; y >= 0; y--) {
+            for(int y = lastHeight; y >= 0; y--) {
                 map[x, y] = 1;
                 wallMap[x, y] = 37; // toDo voir a changer le fond selon les biomes !!
             }
@@ -425,15 +535,15 @@ public class MapFunctions {
         int sectionWidth = 0;
 
         //Work through the array width
-        for (int x = 0; x <= map.GetUpperBound(0); x++) {
+        for(int x = 0; x <= map.GetUpperBound(0); x++) {
             //Determine the next move
             nextMove = rand.Next(2);
 
             //Only change the height if we have used the current height more than the minimum required section width
-            if (nextMove == 0 && lastHeight > 0 && sectionWidth > minSectionWidth) {
+            if(nextMove == 0 && lastHeight > 0 && sectionWidth > minSectionWidth) {
                 lastHeight--;
                 sectionWidth = 0;
-            } else if (nextMove == 1 && lastHeight < map.GetUpperBound(1) && sectionWidth > minSectionWidth) {
+            } else if(nextMove == 1 && lastHeight < map.GetUpperBound(1) && sectionWidth > minSectionWidth) {
                 lastHeight++;
                 sectionWidth = 0;
             }
@@ -441,7 +551,7 @@ public class MapFunctions {
             sectionWidth++;
 
             //Work our way from the height down to 0
-            for (int y = lastHeight; y >= 0; y--) {
+            for(int y = lastHeight; y >= 0; y--) {
                 map[x, y] = 1;
             }
         }
@@ -468,19 +578,19 @@ public class MapFunctions {
         //Increase our floor count
         floorCount++;
 
-        while (floorCount < reqFloorAmount) {
+        while(floorCount < reqFloorAmount) {
             //Determine our next direction
             int randDir = rand.Next(4);
 
-            switch (randDir) {
+            switch(randDir) {
                 case 0: //Up
                     //Ensure that the edges are still tiles
-                    if ((floorY + 1) < map.GetUpperBound(1) - 1) {
+                    if((floorY + 1) < map.GetUpperBound(1) - 1) {
                         //Move the y up one
                         floorY++;
 
                         //Check if that piece is currently still a tile
-                        if (map[floorX, floorY] == 1) {
+                        if(map[floorX, floorY] == 1) {
                             //Change it to not a tile
                             map[floorX, floorY] = 0;
                             //Increase floor count
@@ -490,11 +600,11 @@ public class MapFunctions {
                     break;
                 case 1: //Down
                     //Ensure that the edges are still tiles
-                    if ((floorY - 1) > 1) {
+                    if((floorY - 1) > 1) {
                         //Move the y down one
                         floorY--;
                         //Check if that piece is currently still a tile
-                        if (map[floorX, floorY] == 1) {
+                        if(map[floorX, floorY] == 1) {
                             //Change it to not a tile
                             map[floorX, floorY] = 0;
                             //Increase the floor count
@@ -504,11 +614,11 @@ public class MapFunctions {
                     break;
                 case 2: //Right
                     //Ensure that the edges are still tiles
-                    if ((floorX + 1) < map.GetUpperBound(0) - 1) {
+                    if((floorX + 1) < map.GetUpperBound(0) - 1) {
                         //Move the x to the right
                         floorX++;
                         //Check if that piece is currently still a tile
-                        if (map[floorX, floorY] == 1) {
+                        if(map[floorX, floorY] == 1) {
                             //Change it to not a tile
                             map[floorX, floorY] = 0;
                             //Increase the floor count
@@ -518,11 +628,11 @@ public class MapFunctions {
                     break;
                 case 3: //Left
                     //Ensure that the edges are still tiles
-                    if ((floorX - 1) > 1) {
+                    if((floorX - 1) > 1) {
                         //Move the x to the left
                         floorX--;
                         //Check if that piece is currently still a tile
-                        if (map[floorX, floorY] == 1) {
+                        if(map[floorX, floorY] == 1) {
                             //Change it to not a tile
                             map[floorX, floorY] = 0;
                             //Increase the floor count
@@ -554,21 +664,21 @@ public class MapFunctions {
         //Increase our floor count
         floorCount++;
 
-        while (floorCount < reqFloorAmount) {
+        while(floorCount < reqFloorAmount) {
             //Determine our next direction
             int randDir = rand.Next(8);
 
-            switch (randDir) {
+            switch(randDir) {
                 case 0: //North-West
                     //Ensure we don't go off the map
-                    if ((floorY + 1) < map.GetUpperBound(1) && (floorX - 1) > 0) {
+                    if((floorY + 1) < map.GetUpperBound(1) && (floorX - 1) > 0) {
                         //Move the y up 
                         floorY++;
                         //Move the x left
                         floorX--;
 
                         //Check if the position is a tile
-                        if (map[floorX, floorY] == 1) {
+                        if(map[floorX, floorY] == 1) {
                             //Change it to not a tile
                             map[floorX, floorY] = 0;
                             //Increase floor count
@@ -578,12 +688,12 @@ public class MapFunctions {
                     break;
                 case 1: //North
                     //Ensure we don't go off the map
-                    if ((floorY + 1) < map.GetUpperBound(1)) {
+                    if((floorY + 1) < map.GetUpperBound(1)) {
                         //Move the y up
                         floorY++;
 
                         //Check if the position is a tile
-                        if (map[floorX, floorY] == 1) {
+                        if(map[floorX, floorY] == 1) {
                             //Change it to not a tile
                             map[floorX, floorY] = 0;
                             //Increase the floor count
@@ -593,14 +703,14 @@ public class MapFunctions {
                     break;
                 case 2: //North-East
                     //Ensure we don't go off the map
-                    if ((floorY + 1) < map.GetUpperBound(1) && (floorX + 1) < map.GetUpperBound(0)) {
+                    if((floorY + 1) < map.GetUpperBound(1) && (floorX + 1) < map.GetUpperBound(0)) {
                         //Move the y up
                         floorY++;
                         //Move the x right
                         floorX++;
 
                         //Check if the position is a tile
-                        if (map[floorX, floorY] == 1) {
+                        if(map[floorX, floorY] == 1) {
                             //Change it to not a tile
                             map[floorX, floorY] = 0;
                             //Increase the floor count
@@ -610,12 +720,12 @@ public class MapFunctions {
                     break;
                 case 3: //East
                     //Ensure we don't go off the map
-                    if ((floorX + 1) < map.GetUpperBound(0)) {
+                    if((floorX + 1) < map.GetUpperBound(0)) {
                         //Move the x right
                         floorX++;
 
                         //Check if the position is a tile
-                        if (map[floorX, floorY] == 1) {
+                        if(map[floorX, floorY] == 1) {
                             //Change it to not a tile
                             map[floorX, floorY] = 0;
                             //Increase the floor count
@@ -625,14 +735,14 @@ public class MapFunctions {
                     break;
                 case 4: //South-East
                     //Ensure we don't go off the map
-                    if ((floorY - 1) > 0 && (floorX + 1) < map.GetUpperBound(0)) {
+                    if((floorY - 1) > 0 && (floorX + 1) < map.GetUpperBound(0)) {
                         //Move the y down
                         floorY--;
                         //Move the x right
                         floorX++;
 
                         //Check if the position is a tile
-                        if (map[floorX, floorY] == 1) {
+                        if(map[floorX, floorY] == 1) {
                             //Change it to not a tile
                             map[floorX, floorY] = 0;
                             //Increase the floor count
@@ -642,12 +752,12 @@ public class MapFunctions {
                     break;
                 case 5: //South
                     //Ensure we don't go off the map
-                    if ((floorY - 1) > 0) {
+                    if((floorY - 1) > 0) {
                         //Move the y down
                         floorY--;
 
                         //Check if the position is a tile
-                        if (map[floorX, floorY] == 1) {
+                        if(map[floorX, floorY] == 1) {
                             //Change it to not a tile
                             map[floorX, floorY] = 0;
                             //Increase the floor count
@@ -657,14 +767,14 @@ public class MapFunctions {
                     break;
                 case 6: //South-West
                     //Ensure we don't go off the map
-                    if ((floorY - 1) > 0 && (floorX - 1) > 0) {
+                    if((floorY - 1) > 0 && (floorX - 1) > 0) {
                         //Move the y down
                         floorY--;
                         //move the x left
                         floorX--;
 
                         //Check if the position is a tile
-                        if (map[floorX, floorY] == 1) {
+                        if(map[floorX, floorY] == 1) {
                             //Change it to not a tile
                             map[floorX, floorY] = 0;
                             //Increase the floor count
@@ -674,12 +784,12 @@ public class MapFunctions {
                     break;
                 case 7: //West
                     //Ensure we don't go off the map
-                    if ((floorX - 1) > 0) {
+                    if((floorX - 1) > 0) {
                         //Move the x left
                         floorX--;
 
                         //Check if the position is a tile
-                        if (map[floorX, floorY] == 1) {
+                        if(map[floorX, floorY] == 1) {
                             //Change it to not a tile
                             map[floorX, floorY] = 0;
                             //Increase the floor count
@@ -700,48 +810,48 @@ public class MapFunctions {
         System.Random rand = new System.Random(Time.time.GetHashCode());
 
         //Create the first part of the tunnel
-        for (int i = -tunnelWidth; i <= tunnelWidth; i++) {
+        for(int i = -tunnelWidth; i <= tunnelWidth; i++) {
             map[startPosX + i, 0] = 0;
         }
 
         //Cycle through the array
-        for (int y = 1; y < map.GetUpperBound(1); y++) {
+        for(int y = 1; y < map.GetUpperBound(1); y++) {
             //Check if we can change the roughness
-            if (rand.Next(0, 100) > roughness) {
+            if(rand.Next(0, 100) > roughness) {
 
                 //Get the amount we will change for the width
                 int widthChange = Random.Range(-maxPathWidth, maxPathWidth);
                 tunnelWidth += widthChange;
 
                 //Check to see we arent making the path too small
-                if (tunnelWidth < minPathWidth) {
+                if(tunnelWidth < minPathWidth) {
                     tunnelWidth = minPathWidth;
                 }
 
                 //Check that the path width isnt over our maximum
-                if (tunnelWidth > maxPathWidth) {
+                if(tunnelWidth > maxPathWidth) {
                     tunnelWidth = maxPathWidth;
                 }
             }
 
             //Check if we can change the windyness
-            if (rand.Next(0, 100) > windyness) {
+            if(rand.Next(0, 100) > windyness) {
                 //Get the amount we will change for the x position
                 int xChange = Random.Range(-maxPathChange, maxPathChange);
                 startPosX += xChange;
 
                 //Check we arent too close to the left side of the map
-                if (startPosX < maxPathWidth) {
+                if(startPosX < maxPathWidth) {
                     startPosX = maxPathWidth;
                 }
                 //Check we arent too close to the right side of the map
-                if (startPosX > (map.GetUpperBound(0) - maxPathWidth)) {
+                if(startPosX > (map.GetUpperBound(0) - maxPathWidth)) {
                     startPosX = map.GetUpperBound(0) - maxPathWidth;
                 }
             }
 
             //Work through the width of the tunnel
-            for (int i = -tunnelWidth; i <= tunnelWidth; i++) {
+            for(int i = -tunnelWidth; i <= tunnelWidth; i++) {
                 map[startPosX + i, y] = 0;
             }
         }
@@ -756,9 +866,9 @@ public class MapFunctions {
         int[,] map = new int[width, height];
 
         //Start looping through setting the cells.
-        for (int x = 0; x < map.GetUpperBound(0); x++) {
-            for (int y = 0; y < map.GetUpperBound(1); y++) {
-                if (edgesAreWalls && (x == 0 || x == map.GetUpperBound(0) - 1 || y == 0 || y == map.GetUpperBound(1) - 1)) {
+        for(int x = 0; x < map.GetUpperBound(0); x++) {
+            for(int y = 0; y < map.GetUpperBound(1); y++) {
+                if(edgesAreWalls && (x == 0 || x == map.GetUpperBound(0) - 1 || y == 0 || y == map.GetUpperBound(1) - 1)) {
                     //Set the cell to be active if edges are walls
                     map[x, y] = 1;
                 } else {

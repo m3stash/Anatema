@@ -114,7 +114,7 @@ public class LightService : MonoBehaviour {
     private static bool IsOutOfBoundMap(int x, int y) {
         return (x < 0 || x > maxW) || (y < 0 || y > maxH);
     }
-    private static bool IsOutOfBound(int x, int y) {
+    public static bool IsOutOfBound(int x, int y) { // TODO replace with WorldManager.instance.IsOutOfBound()
         return (x < 0 || x > maxW) || (y < 0 || y > maxH);
     }
     private static int GetAmountLight(int tile, int wallTile, int lastLight) {

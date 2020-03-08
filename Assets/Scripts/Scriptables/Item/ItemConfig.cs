@@ -39,11 +39,18 @@ public class ItemConfig : ScriptableObject {
 
     /////////////////////////////////////
 
-    [Header("Common Settings")]
+    [Header("Pose Settings")]
 
     [SerializeField] private bool placeable;
 
     [SerializeField] private ItemColliderConfig colliderConfig;
+
+    [SerializeField] private float minPosY;
+
+    [SerializeField] private float maxPosY;
+
+    [Tooltip("Used to check this item can be posed on the wall map")]
+    [SerializeField] private bool checkWallValidity;
 
     /////////////////////////////////////
 
@@ -89,6 +96,18 @@ public class ItemConfig : ScriptableObject {
 
     public bool IsStackable() {
         return this.stackable;
+    }
+
+    public float GetMinPosY() {
+        return this.minPosY;
+    }
+
+    public float GetMaxPosY() {
+        return this.maxPosY;
+    }
+
+    public bool NeedToCheckWallValidity() {
+        return this.checkWallValidity;
     }
 
     public int GetStackLimit() {

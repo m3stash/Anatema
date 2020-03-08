@@ -133,6 +133,10 @@ public class WorldManager : MonoBehaviour {
         item.Destroy(); // Todo refactor when add dropable system
     }
 
+    public bool IsOutOfBound(int x, int y) {
+        return (x < 0 || x > (this.worldSizeX - 1)) || (y < 0 || y > (this.worldSizeY - 1));
+    }
+
     public void DeleteTile(int x, int y) {
         var id = tilesWorldMap[x, y];
         Chunk currentChunk = ManageChunkTile(x, y, 0);
