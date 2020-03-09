@@ -150,7 +150,8 @@ public class MapFunctions {
         int newTreeGap = -1;
         int xEnd = widthMap - 5;
         int xStart = 5;
-        for(int x = xStart; x < xEnd; x++) {
+        int[] ids = new int[] { 31, 48, 49 };
+        for (int x = xStart; x < xEnd; x++) {
             if(x < newTreeGap) {
                 continue;
             }
@@ -184,7 +185,7 @@ public class MapFunctions {
                 if(WorldManager.tilesWorldMap[x, y - 1] == 1) {
                     if(CheckCanPoseItem(itemConf, x, y)) {
                         SetItemInObjectsMap(itemConf, x, y);
-                        WorldManager.objectsMap[x, y] = 31; // toDo refacto plus tard pour les différents ID d'arbre
+                        WorldManager.objectsMap[x, y] = ids[rand.Next(0, ids.Length)];
                         var newXGap = x + Random.Range(5, 8);
                         newTreeGap = newXGap < xEnd ? newXGap : -1;
                     }

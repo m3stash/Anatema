@@ -49,7 +49,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 93b08cd0859fa94479ce85e6f5446818, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -132,7 +132,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 93b08cd0859fa94479ce85e6f5446818, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -176,8 +176,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 087d63dbd8950a14ab0d56012cc2e7a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  digParticle: {fileID: 8578199165565181692, guid: 0d176ace631ae884c8c67273e78eae82,
-    type: 3}
   orderedStateSprites:
   - {fileID: 21300000, guid: fb51124582275e84c8febce57e87ee6b, type: 3}
   - {fileID: 21300000, guid: 5a94bc374d31aeb46a91741fb1947810, type: 3}
@@ -186,3 +184,4 @@ MonoBehaviour:
   maxDurability: 0
   currentDurability: 0
   statePartitionSize: 0
+  renderer: {fileID: 0}

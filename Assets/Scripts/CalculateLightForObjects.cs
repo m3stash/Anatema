@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class CalculateLightForObjects : MonoBehaviour {
 
+    [SerializeField] bool hasChildSpriteRender;
     private Color color;
     private Renderer render;
+    private Renderer []renders;
     private int oldShadow;
     private int oldLight;
 
     private void Start() {
+        if (hasChildSpriteRender) {
+            renders = gameObject.GetComponentsInChildren<Renderer>();
+        }
         render = gameObject.GetComponent<Renderer>();
     }
 
@@ -32,7 +37,13 @@ public class CalculateLightForObjects : MonoBehaviour {
         }
         if (l > 1 || oldL > 1)
             return;
-        render.material.color = Color.Lerp(new Color(oldL, oldL, oldL, 1), new Color(l, l, l, 1), Time.deltaTime * 100);
+        if (hasChildSpriteRender) {
+            for(var i = 0; i < renders.Length; i++) {
+                renders[i].material.color = Color.Lerp(new Color(oldL, oldL, oldL, 1), new Color(l, l, l, 1), Time.deltaTime * 100);
+            }
+        } else {
+            render.material.color = Color.Lerp(new Color(oldL, oldL, oldL, 1), new Color(l, l, l, 1), Time.deltaTime * 100);
+        }
         oldShadow = newShadow;
         oldLight = newLight;
     }
