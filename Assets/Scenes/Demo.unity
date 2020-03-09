@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -256,7 +256,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 93b08cd0859fa94479ce85e6f5446818, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -353,7 +353,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &427346270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -754,7 +754,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &722424047
 Transform:
   m_ObjectHideFlags: 0
@@ -1349,11 +1349,9 @@ MonoBehaviour:
   startHour: 12
   durationDayOnMinute: 1
   currentHour: 0
-  sphere: {fileID: 735276733}
-  moon:
-  - {fileID: 1151369036}
-  - {fileID: 1210886142}
-  sun: {fileID: 27418812}
+  sphere: {fileID: 0}
+  moon: []
+  sun: {fileID: 0}
 --- !u!1 &1151369036
 GameObject:
   m_ObjectHideFlags: 0
@@ -1389,7 +1387,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 93b08cd0859fa94479ce85e6f5446818, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1581,7 +1579,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 93b08cd0859fa94479ce85e6f5446818, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6711,7 +6709,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1517578377
 Transform:
   m_ObjectHideFlags: 0
@@ -7145,7 +7143,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 93b08cd0859fa94479ce85e6f5446818, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7693,7 +7691,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2063991688
 Transform:
   m_ObjectHideFlags: 0
@@ -7896,7 +7894,7 @@ PrefabInstance:
     - target: {fileID: 5241601021040083780, guid: da741aeca4e38934c8ba0a1a415f126e,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.453125
+      value: 0.45312548
       objectReference: {fileID: 0}
     - target: {fileID: 5241601021144882319, guid: da741aeca4e38934c8ba0a1a415f126e,
         type: 3}

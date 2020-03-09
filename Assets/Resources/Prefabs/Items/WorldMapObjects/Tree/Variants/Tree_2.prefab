@@ -313,7 +313,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8482830418861525488}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
   m_Name: 
@@ -415,6 +415,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Offset.y
       value: 3.1599379
+      objectReference: {fileID: 0}
+    - target: {fileID: -520448024099445226, guid: 72245d82a8215ed43a30b1393dd0d5eb,
+        type: 3}
+      propertyPath: hasChildSpriteRender
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 323620726239770702, guid: 72245d82a8215ed43a30b1393dd0d5eb,
         type: 3}

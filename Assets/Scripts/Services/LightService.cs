@@ -121,7 +121,10 @@ public class LightService : MonoBehaviour {
         if (tile > 0) {
             return lastLight + 10 < 100 ? lastLight + 10 : 100;
         }
-        return lastLight + 5 < 100 ? lastLight + 5 : 100;
+        if (wallTile > 0) {
+            return lastLight + 5 < 100 ? lastLight + 5 : 100;
+        }
+        return lastLight + 4 < 100 ? lastLight + 4 : 100;
     }
 
     public static void Init() {

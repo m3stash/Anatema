@@ -35,15 +35,19 @@ public class CalculateLightForObjects : MonoBehaviour {
             l = 1 - newShadow * 0.01f;
             oldL = 1 - oldShadow * 0.01f;
         }
+        
         if (l > 1 || oldL > 1)
             return;
         if (hasChildSpriteRender) {
             for(var i = 0; i < renders.Length; i++) {
-                renders[i].material.color = Color.Lerp(new Color(oldL, oldL, oldL, 1), new Color(l, l, l, 1), Time.deltaTime * 100);
+                renders[i].material.color = new Color(l, l, l, 1);
+                // renders[i].material.color = Color.Lerp(new Color(oldL, oldL, oldL, 1), new Color(l, l, l, 1), Time.deltaTime * 100);
             }
         } else {
-            render.material.color = Color.Lerp(new Color(oldL, oldL, oldL, 1), new Color(l, l, l, 1), Time.deltaTime * 100);
+            render.material.color = new Color(l, l, l, 1);
+            // render.material.color = Color.Lerp(new Color(oldL, oldL, oldL, 1), new Color(l, l, l, 1), Time.deltaTime * 100);
         }
+
         oldShadow = newShadow;
         oldLight = newLight;
     }
