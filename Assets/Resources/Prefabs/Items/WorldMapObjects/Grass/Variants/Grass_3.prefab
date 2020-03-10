@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1544646775992737071}
   - component: {fileID: 7492722777047586481}
-  - component: {fileID: 1072258833576579052}
   m_Layer: 24
   m_Name: grass_3_3
   m_TagString: Untagged
@@ -26,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1854789920754946525}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.004, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3988325239784066852}
@@ -83,25 +82,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &1072258833576579052
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1854789920754946525}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ddea7990ddc92ef4e80d279482a425b3, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6723304797804722839
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,7 +108,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6723304797804722839}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.15, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3988325239784066852}
@@ -214,7 +194,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7981226617537715206}
   - component: {fileID: 4311207220839002779}
-  - component: {fileID: 5844120615536087285}
   m_Layer: 24
   m_Name: grass_3_2
   m_TagString: Untagged
@@ -230,7 +209,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7452286980216982757}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.17000002, y: -0.003, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3988325239784066852}
@@ -287,25 +266,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &5844120615536087285
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7452286980216982757}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ddea7990ddc92ef4e80d279482a425b3, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &1993634256878333987
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -313,6 +273,27 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7396411919609048300, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 4188489494856570134, guid: b372a54bf9444cf46bf427d4e5c034c1,
+        type: 3}
+    - target: {fileID: -7396411919609048300, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.91
+      objectReference: {fileID: 0}
+    - target: {fileID: -7396411919609048300, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.44
+      objectReference: {fileID: 0}
+    - target: {fileID: -7396411919609048300, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2198146187288449751, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
         type: 3}
       propertyPath: m_Sprite
@@ -447,22 +428,47 @@ PrefabInstance:
     - target: {fileID: 8893410724610722279, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
         type: 3}
       propertyPath: m_Size.x
-      value: 0.751646
+      value: 0.9762548
       objectReference: {fileID: 0}
     - target: {fileID: 8893410724610722279, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
         type: 3}
       propertyPath: m_Size.y
-      value: 0.45024788
+      value: 0.5144218
       objectReference: {fileID: 0}
     - target: {fileID: 8893410724610722279, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
         type: 3}
       propertyPath: m_Offset.x
-      value: 0.4750766
+      value: -0.0062278956
       objectReference: {fileID: 0}
     - target: {fileID: 8893410724610722279, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
         type: 3}
       propertyPath: m_Offset.y
-      value: 0.22462869
+      value: 0.25671566
+      objectReference: {fileID: 0}
+    - target: {fileID: 8893410724610722279, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 0.91
+      objectReference: {fileID: 0}
+    - target: {fileID: 8893410724610722279, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 0.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 8893410724610722279, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.x
+      value: 0.91
+      objectReference: {fileID: 0}
+    - target: {fileID: 8893410724610722279, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.y
+      value: 0.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 8893410724610722279, guid: 3f9e4ba60a54b214aa32a825dd9ecc39,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.adaptiveTilingThreshold
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6546073565240245380, guid: 3f9e4ba60a54b214aa32a825dd9ecc39, type: 3}
