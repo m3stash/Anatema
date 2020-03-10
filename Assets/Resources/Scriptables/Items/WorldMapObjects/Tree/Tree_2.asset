@@ -26,7 +26,7 @@ MonoBehaviour:
   stackable: 0
   stackLimit: 0
   placeable: 1
-  colliderConfig: {fileID: 0}
+  colliderConfig: {fileID: 11400000, guid: 44a8953bfc33e4dd0a7e4af22797e549, type: 2}
   minPosY: 0
   maxPosY: 0
   checkWallValidity: 1

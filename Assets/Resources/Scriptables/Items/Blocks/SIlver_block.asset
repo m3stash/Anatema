@@ -20,13 +20,16 @@ MonoBehaviour:
   lootParticlePrefab: {fileID: 2375911006704059128, guid: 925a7cd7c4a6e4ef894368ef75bd4599,
     type: 3}
   itemType: 0
-  icon: {fileID: 21300000, guid: 8a7ed6184d58e5646a3a163b18f02d96, type: 3}
+  icon: {fileID: 21300000, guid: 31f3e389802a2ec4788d0a398402d10f, type: 3}
   pooleable: 1
   poolSize: 10
   stackable: 1
   stackLimit: 5
   placeable: 1
   colliderConfig: {fileID: 11400000, guid: 057046e81e2e8e84fb7accb6dd94bc82, type: 2}
+  minPosY: 0
+  maxPosY: 0
+  checkWallValidity: 0
   emitLight: 0
   scale: {x: 0.5, y: 0.5}
   blockType: 3
