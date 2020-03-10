@@ -19,8 +19,8 @@ public class CalculateLightForObjects : MonoBehaviour {
     }
 
     void Update() {
-        if (!render.isVisible)
-            return;
+        /*if (!render.isVisible)
+            return;*/
         int x = (int)transform.position.x;
         // int y = (int)transform.position.y;
         int y = Mathf.RoundToInt(transform.position.y);
