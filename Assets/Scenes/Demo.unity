@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -493,8 +493,6 @@ GameObject:
   - component: {fileID: 631963169}
   - component: {fileID: 631963168}
   - component: {fileID: 631963173}
-  - component: {fileID: 631963172}
-  - component: {fileID: 631963171}
   - component: {fileID: 631963170}
   - component: {fileID: 631963174}
   - component: {fileID: 631963175}
@@ -551,37 +549,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryLayout: {fileID: 1775979071}
   defaultLayout: {fileID: 514918314}
---- !u!114 &631963171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 631963167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d82f193aa6154affb049c9632b28e0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  size: 32
---- !u!114 &631963172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 631963167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5153969bdfc244cd78af568699309a8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  toolbarConfigs:
-  - {fileID: 11400000, guid: f20ed99c662c04f3f94890b43938f076, type: 2}
-  - {fileID: 11400000, guid: 0d83ed4d0e0ab15428f2f6c53cf3c474, type: 2}
-  - {fileID: 11400000, guid: 06f3ad1bd3dff47ffabb657b601f0f88, type: 2}
-  currentToolbar: {fileID: 11400000, guid: f20ed99c662c04f3f94890b43938f076, type: 2}
-  currentSelectedIdx: 0
 --- !u!114 &631963173
 MonoBehaviour:
   m_ObjectHideFlags: 0
