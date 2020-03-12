@@ -20,7 +20,7 @@ public class MapFunctions {
     /// <param name="originX">Origin position X to pose item</param>
     /// <param name="originY">Origin position Y to pose item</param>
     /// <returns></returns>
-    private static bool CheckCanPoseItem(ItemConfig itemConfig, int originX, int originY) {
+    public static bool CheckCanPoseItem(ItemConfig itemConfig, int originX, int originY) {
         bool allIsValid = true;
 
         System.Tuple<int, int, bool> validityCheck = new System.Tuple<int, int, bool>(0, 0, true);
