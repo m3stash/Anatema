@@ -1,12 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class CommonService {
+﻿public class CommonService {
     
-    public static bool ArrayContains<T>(T[] unallowedBlockTypes, T typeToCompare) {
-        for(int i = 0; i < unallowedBlockTypes.Length; i++) {
-            if(unallowedBlockTypes[i].Equals(typeToCompare)) {
+    public static bool ArrayContains<T>(T[] array, T typeToCompare) {
+        for(int i = 0; i < array.Length; i++) {
+            if(array[i].Equals(typeToCompare)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+    public static bool ArrayNotContains<T>(T[] array, T typeToCompare) {
+        for(int i = 0; i < array.Length; i++) {
+            if(array[i].Equals(typeToCompare)) {
                 return false;
             }
         }

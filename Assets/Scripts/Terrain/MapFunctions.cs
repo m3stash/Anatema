@@ -115,7 +115,7 @@ public class MapFunctions {
             // Check if block type is valid to pose over it
             if(neighbourItemId > 0) {
                 BlockConfig blockConfig = (BlockConfig)ItemManager.instance.GetItemWithId(neighbourItemId);
-                contactValid = CommonService.ArrayContains(unallowedBlockTypes, blockConfig.GetBlockType());
+                contactValid = CommonService.ArrayNotContains(unallowedBlockTypes, blockConfig.GetBlockType());
             }
 
             allContacts += 1;
