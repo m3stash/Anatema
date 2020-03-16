@@ -10,15 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f62d149e3397f5048916e7a211d39af6, type: 3}
-  m_Name: Mountain
+  m_Name: WorldMapConfig
   m_EditorClassIdentifier: 
-  waves:
-  - seed: 200
-    frequency: 1
-    amplitude: 1
-  - seed: 600
-    frequency: 0.5
-    amplitude: 2
-  - seed: 900
-    frequency: 0.25
-    amplitude: 4
+  mapType: 0
+  mapWidth: 4046
+  mapHeight: 1024
+  chunkSize: 16
+  top: {fileID: 11400000, guid: 768d4a772f7d9914db6343a0f0239dc4, type: 2}
+  middle: {fileID: 11400000, guid: d7033e3eb6d93014cb09540efd545ab6, type: 2}
+  bottom: {fileID: 11400000, guid: a6b4274080f0b1e49a197c2f464a0cfb, type: 2}

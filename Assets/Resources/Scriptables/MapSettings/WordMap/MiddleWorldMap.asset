@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b2350eba7f22114087412512dbcf40d, type: 3}
-  m_Name: BottomLayer
+  m_Name: MiddleWorldMap
   m_EditorClassIdentifier: 
-  algorithm: 2
+  algorithm: 9
   randomSeed: 1
   seed: 0
   fillAmount: 0
   smoothAmount: 0
   clearAmount: 0
   interval: 1
-  minPathWidth: 0
-  maxPathWidth: 0
-  maxPathChange: 0
-  roughness: 0
-  windyness: 0
+  minPathWidth: 5
+  maxPathWidth: 5
+  maxPathChange: 5
+  roughness: 30
+  windyness: 8
   edgesAreWalls: 0
-  modifier: 0.11
+  modifier: 0

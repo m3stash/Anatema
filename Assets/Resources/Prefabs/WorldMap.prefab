@@ -10,11 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3346800735364998949}
   - component: {fileID: 3346800735364998950}
-  - component: {fileID: 3346800735364998948}
   - component: {fileID: 3346800735364998955}
-  - component: {fileID: 3346800735364998954}
   - component: {fileID: 3346800735364998953}
-  - component: {fileID: 3346800735364998959}
   - component: {fileID: 1965106345}
   m_Layer: 0
   m_Name: WorldMap
@@ -22,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3346800735364998949
 Transform:
   m_ObjectHideFlags: 0
@@ -51,20 +48,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldSizeX: 4096
   worldSizeY: 1024
+  chunkSizeField: 16
   tilebase_cfg: {fileID: 11400000, guid: 8de01285302aeef4194095a421a046a0, type: 2}
-  chunkSize: 16
---- !u!114 &3346800735364998948
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3346800735364998951}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7b961354836f984abdd17b36868c6e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  worldManagerIsInit: 0
 --- !u!114 &3346800735364998955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,19 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af1c2acb5a8e9294589a7a41a2b805ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfPool: 80
---- !u!114 &3346800735364998954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3346800735364998951}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a0e23edce6247a41a3b6b7402e4b517, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  poolSize: 80
 --- !u!156049354 &3346800735364998953
 Grid:
   m_ObjectHideFlags: 0
@@ -102,18 +76,6 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
---- !u!114 &3346800735364998959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3346800735364998951}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1051b78ec73ed94eb89019ba29b9234, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1965106345
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,6 +7,12 @@ public class LightService : MonoBehaviour {
     private static int maxW;
     private static int maxH;
 
+    public static LightService instance;
+
+    private void Awake() {
+        instance = this;
+    }
+
     public static void RecursivAddNewLight(int x, int y, int lastLight) {
         if (IsOutOfBound(x, y))
             return;

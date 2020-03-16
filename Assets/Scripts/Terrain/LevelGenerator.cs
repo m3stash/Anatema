@@ -1,16 +1,15 @@
 ﻿using UnityEngine;
 public class LevelGenerator : MonoBehaviour {
 
-    public void GenerateTilesWorldMap(int[,] worldMap, int[,] wallTilesMap, int[,] objectsMap) {
-        MapSettings middleMapSettings = Instantiate((MapSettings)Resources.Load("Scriptables/MapSettings/MiddleLayer"));
-        MapSettings bottomMapSettings = Instantiate((MapSettings)Resources.Load("Scriptables/MapSettings/BottomLayer"));
-        MapSettings topMapSettings = Instantiate((MapSettings)Resources.Load("Scriptables/MapSettings/TopLayer"));
-        Montains mountain = Instantiate((Montains)Resources.Load("Scriptables/MapSettings/Mountain"));
+    public static LevelGenerator instance;
+    private void Awake() {
+        instance = this;
+    }
+    public void GenerateMap(int[,] worldMap, int[,] wallTilesMap, MapSettings topMapSettings, MapSettings middleMapSettings, MapSettings bottomMapSettings) {
         int seed = UnityEngine.Random.Range(0, 9999);
         worldMap = MapFunctions.RandomWalkTop(worldMap, wallTilesMap, seed);
         // worldMap = MapFunctions.GenerateMountain(worldMap, wallTilesMap, seed, mountain.waves);
         worldMap = MapFunctions.PerlinNoiseCave(worldMap, bottomMapSettings.modifier);
-
         // Création des 3 tunnels 
         var startPosX = worldMap.GetUpperBound(0) / 6;
         worldMap = MapFunctions.DirectionalTunnel(worldMap, middleMapSettings.minPathWidth, middleMapSettings.maxPathWidth,
@@ -25,11 +24,11 @@ public class LevelGenerator : MonoBehaviour {
         MapFunctions.GenerateIrons(worldMap);
         // toDO attention à générer les colines avant les arbres!
         // add trees
-        MapFunctions.AddTrees();
+        MapFunctions.AddTrees(); // GENERATE ITEM
         // add grass
         MapFunctions.AddGrassOntop(worldMap, wallTilesMap);
         // add grass world object
-        MapFunctions.AddGrasses();
+        MapFunctions.AddGrasses(); // GENERATE ITEM
     }
     public void GenerateObjectsWorldMap(int[,] map) { }
     private bool IsOnBound(int x, int y, int BoundX, int boundY) {

@@ -463,36 +463,6 @@ public class MapFunctions {
         return map;
     }
 
-    public static int[,] GenerateMountain(int[,] map, int[,] wallMap, float seed, Wave[] waves) {
-        return GenerateNoiseMap(3, waves, map);
-    }
-
-    public static int[,] GenerateNoiseMap(float scale, Wave[] waves, int[,] map) {
-        // create an empty noise map with the mapDepth and mapWidth coordinates
-
-        for(int y = 0; y < map.GetUpperBound(1); y++) {
-            for(int x = 0; x < map.GetUpperBound(0); x++) {
-                // calculate sample indices based on the coordinates, the scale and the offset
-                float sampleX = x / scale;
-                float sampleY = y / scale;
-
-                float noise = 0f;
-                float normalization = 0f;
-                foreach(Wave wave in waves) {
-                    // generate noise value using PerlinNoise for a given Wave
-                    noise += wave.amplitude * Mathf.PerlinNoise(sampleX * wave.frequency + wave.seed, sampleY * wave.frequency + wave.seed);
-                    normalization += wave.amplitude;
-                }
-                // normalize the noise value so that it is within 0 and 1
-                noise /= normalization;
-                if(noise < 0.5f && map[x, y] == 0) {
-                    map[x, y] = 1;
-                }
-            }
-        }
-        return map;
-    }
-
     public static int[,] RandomWalkTop(int[,] map, int[,] wallMap, float seed) {
         System.Random rand = new System.Random(seed.GetHashCode());
         var mapHeight = map.GetUpperBound(1);

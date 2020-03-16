@@ -10,9 +10,7 @@ public class WorldManager : MonoBehaviour {
 
     private ChunkService chunkService;
     private LightService lightService;
-    private LevelGenerator levelGenerator;
     private GameObject player;
-    private Sprite[] block_sprites;
     public static int[,] tilesLightMap;
     public static int[,] tilesShadowMap;
     public static int[,] tilesWorldMap;
@@ -20,16 +18,13 @@ public class WorldManager : MonoBehaviour {
     public static int[,] objectsMap;
     public static int[,] dynamicLight;
     public static Dictionary<int, TileBase> tilebaseDictionary;
-
     [Header("Main Settings")]
-    [SerializeField] private int worldSizeX;
-    [SerializeField] private int worldSizeY;
-    [SerializeField] private int chunkSizeField;
+    [SerializeField] private int worldSizeX; // TO DO A ENLEVER AVANT LE MERGE N'A PLUS RIEN A FAIRE ICI!!!
+    [SerializeField] private int worldSizeY; // TO DO A ENLEVER AVANT LE MERGE N'A PLUS RIEN A FAIRE ICI!!!
+    [SerializeField] private int chunkSizeField; // TO DO A ENLEVER AVANT LE MERGE N'A PLUS RIEN A FAIRE ICI!!!
+    [SerializeField] private static int chunkSize; // TO DO A ENLEVER AVANT LE MERGE N'A PLUS RIEN A FAIRE ICI!!!
     [SerializeField] private TileBase_cfg tilebase_cfg;
-    [SerializeField] private static int chunkSize;
 
-    [Header("Debug Settings")]
-    [SerializeField] private bool saveWorldToJson;
     public bool worldManagerIsInit = false;
     public static WorldManager instance;
     // event
@@ -52,46 +47,18 @@ public class WorldManager : MonoBehaviour {
 
     void Start() {
         chunkSize = chunkSizeField;
-        // InitFolders();
         InitResources();
-        CreateWorldMap();
-        CreateLightMap();
         CreatePlayer();
-        LightService.Init();
+        LightService.Init(); // TO DO A ENLEVER AVANT LE MERGE N'A PLUS RIEN A FAIRE ICI!!!
         chunkService.Init(tilebaseDictionary, player);
         GetPlayer(player);
         worldManagerIsInit = true;
     }
     private void InitResources() {
         chunkService = gameObject.GetComponent<ChunkService>();
-        levelGenerator = gameObject.GetComponent<LevelGenerator>();
-        lightService = gameObject.GetComponent<LightService>();
-        block_sprites = Resources.LoadAll<Sprite>("Sprites/blocks");
         tilebaseDictionary = tilebase_cfg.GetDico();
     }
-    private void CreateLightMap() {
-        tilesLightMap = new int[worldSizeX, worldSizeY];
-        for(var x = 0; x < worldSizeX; x++) {
-            for(var y = 0; y < worldSizeY; y++) {
-                tilesLightMap[x, y] = 100;
-            }
-        }
-        tilesShadowMap = new int[worldSizeX, worldSizeY];
-        levelGenerator.GenerateWorldLight(tilesLightMap, tilesShadowMap, tilesWorldMap, wallTilesMap);
-    }
 
-    private void CreateWorldMap() {
-        tilesWorldMap = new int[worldSizeX, worldSizeY];
-        wallTilesMap = new int[worldSizeX, worldSizeY];
-        objectsMap = new int[worldSizeX, worldSizeY];
-        dynamicLight = new int[worldSizeX, worldSizeY];
-        levelGenerator.GenerateTilesWorldMap(tilesWorldMap, wallTilesMap, objectsMap);
-        chunkService.CreateChunksFromMaps(tilesWorldMap);
-        if(saveWorldToJson) {
-            // for test with html canvas map render
-            FileManager.SaveToJson(new ConvertWorldMapToJson(tilesWorldMap, wallTilesMap, objectsMap), "worldMap"); 
-        }
-    }
     private void CreatePlayer() {
         player = Instantiate((GameObject)Resources.Load("Prefabs/Characters/Player/Player"), new Vector3(0, 0, 0), transform.rotation);
         GameObject.FindObjectOfType<CinemachineVirtualCamera>().Follow = player.transform;
@@ -100,7 +67,7 @@ public class WorldManager : MonoBehaviour {
     public void AddItem(Vector2Int pos, InventoryItemData item) {
         // Fill objects map with item id for origin cell and -1 for adjacent cells
         foreach(CellCollider cell in item.GetConfig().GetColliderConfig().GetCellColliders()) {
-            WorldManager.objectsMap[pos.x + cell.GetRelativePosition().x, pos.y + cell.GetRelativePosition().y] = cell.IsOrigin() ? item.GetConfig().GetId() : -1;
+            objectsMap[pos.x + cell.GetRelativePosition().x, pos.y + cell.GetRelativePosition().y] = cell.IsOrigin() ? item.GetConfig().GetId() : -1;
         }
 
         ItemManager.instance.CreateItem(item.GetConfig().GetId(), ItemStatus.ACTIVE, new Vector3(pos.x, pos.y, 0));

@@ -7733,10 +7733,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1965106345, guid: 41de9baee7b18384084a60e85753b5a1, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3346800735364998949, guid: 41de9baee7b18384084a60e85753b5a1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7792,38 +7788,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3346800735364998950, guid: 41de9baee7b18384084a60e85753b5a1,
-        type: 3}
-      propertyPath: chunkSizeField
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 3346800735364998950, guid: 41de9baee7b18384084a60e85753b5a1,
-        type: 3}
-      propertyPath: saveWorldToJson
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3346800735364998951, guid: 41de9baee7b18384084a60e85753b5a1,
         type: 3}
       propertyPath: m_Name
       value: WorldMap
       objectReference: {fileID: 0}
-    - target: {fileID: 3346800735364998951, guid: 41de9baee7b18384084a60e85753b5a1,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3346800735364998955, guid: 41de9baee7b18384084a60e85753b5a1,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3346800735364998955, guid: 41de9baee7b18384084a60e85753b5a1,
-        type: 3}
-      propertyPath: poolSize
-      value: 80
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3346800735364998948, guid: 41de9baee7b18384084a60e85753b5a1, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41de9baee7b18384084a60e85753b5a1, type: 3}
 --- !u!1001 &5241601021591495835
 PrefabInstance:

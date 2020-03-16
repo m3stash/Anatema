@@ -10,11 +10,12 @@ public class MainMenuManagement: MonoBehaviour {
     public Canvas canvas;
 
     public void NewGame() {
-        SceneManager.LoadScene("Demo", LoadSceneMode.Single);
+        GameMaster.instance.CreateNewWorlds();
+        // SceneManager.LoadScene("Demo", LoadSceneMode.Single);
     }
 
     public void Continue() {
-        
+        // toDO voir a appeler le gameMaster et charger la scene correspondant a la map sur laquelle nous sommes!
     }
 
     private void Start() {
