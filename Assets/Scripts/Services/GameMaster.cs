@@ -23,11 +23,24 @@ public class GameMaster : MonoBehaviour {
     public Dictionary<MapType, MapSerialisable> mapDatabase;
 
     private void Awake() {
-        instance = this;
+        if (instance == null) {
+            DontDestroyOnLoad(gameObject);
+            instance = this;
+        } else if (instance != this) {
+            Destroy(gameObject);
+        }
     }
 
     private void Start() {
-        
+        ItemManager.instance.Init();
+    }
+
+    public MapSerialisable GetMapDatabaseByMapType(MapType mapype) {
+        MapSerialisable mapConf;
+        if(mapDatabase.TryGetValue(mapype, out mapConf)) {
+            return mapConf;
+        }
+        return null;
     }
 
     public void CreateNewWorlds() {
@@ -37,7 +50,7 @@ public class GameMaster : MonoBehaviour {
             MapSerialisable newMap = new MapSerialisable();
             GenerateMapService.instance.CreateMaps(mapConfigs[i].GetMapWidth(), mapConfigs[i].GetMapHeight(), mapConfigs[i].GetChunkSize(), newMap);
             mapDatabase.Add(mapConfigs[i].GetMapType(), newMap);
-            LevelGenerator.instance.GenerateMap(newMap.tilesWorldMap, newMap.wallTilesMap, mapConfigs[i].GetMapSettingsTop(), mapConfigs[i].GetMapSettingsMiddle(), mapConfigs[i].GetMapSettingsBottom());
+            LevelGenerator.instance.GenerateMap(newMap, mapConfigs[i].GetMapSettingsTop(), mapConfigs[i].GetMapSettingsMiddle(), mapConfigs[i].GetMapSettingsBottom());
         }
     }
 

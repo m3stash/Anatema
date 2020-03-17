@@ -11,7 +11,7 @@ public class MainMenuManagement: MonoBehaviour {
 
     public void NewGame() {
         GameMaster.instance.CreateNewWorlds();
-        // SceneManager.LoadScene("Demo", LoadSceneMode.Single);
+        SceneManager.LoadScene("Demo", LoadSceneMode.Single);
     }
 
     public void Continue() {

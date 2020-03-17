@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -652,7 +652,6 @@ GameObject:
   - component: {fileID: 715308897}
   - component: {fileID: 715308898}
   - component: {fileID: 715308899}
-  - component: {fileID: 715308900}
   - component: {fileID: 715308901}
   - component: {fileID: 715308902}
   - component: {fileID: 715308903}
@@ -703,24 +702,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 779a67a9494b01347ab78d9783e43096, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &715308900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 715308896}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5153969bdfc244cd78af568699309a8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  toolbarConfigs:
-  - {fileID: 11400000, guid: f20ed99c662c04f3f94890b43938f076, type: 2}
-  - {fileID: 11400000, guid: 0d83ed4d0e0ab15428f2f6c53cf3c474, type: 2}
-  - {fileID: 11400000, guid: 06f3ad1bd3dff47ffabb657b601f0f88, type: 2}
-  currentToolbar: {fileID: 11400000, guid: f20ed99c662c04f3f94890b43938f076, type: 2}
-  currentSelectedIdx: 0
 --- !u!114 &715308901
 MonoBehaviour:
   m_ObjectHideFlags: 0

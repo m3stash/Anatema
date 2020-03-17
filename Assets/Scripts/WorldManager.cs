@@ -8,6 +8,8 @@ using Cinemachine;
 
 public class WorldManager : MonoBehaviour {
 
+    public static WorldManager instance;
+
     private ChunkService chunkService;
     private LightService lightService;
     private GameObject player;
@@ -19,14 +21,12 @@ public class WorldManager : MonoBehaviour {
     public static int[,] dynamicLight;
     public static Dictionary<int, TileBase> tilebaseDictionary;
     [Header("Main Settings")]
-    [SerializeField] private int worldSizeX; // TO DO A ENLEVER AVANT LE MERGE N'A PLUS RIEN A FAIRE ICI!!!
-    [SerializeField] private int worldSizeY; // TO DO A ENLEVER AVANT LE MERGE N'A PLUS RIEN A FAIRE ICI!!!
-    [SerializeField] private int chunkSizeField; // TO DO A ENLEVER AVANT LE MERGE N'A PLUS RIEN A FAIRE ICI!!!
-    [SerializeField] private static int chunkSize; // TO DO A ENLEVER AVANT LE MERGE N'A PLUS RIEN A FAIRE ICI!!!
-    [SerializeField] private TileBase_cfg tilebase_cfg;
-
-    public bool worldManagerIsInit = false;
-    public static WorldManager instance;
+    private int worldSizeX;
+    private int worldSizeY;
+    private static int chunkSize;
+    [SerializeField] public TileBase_cfg tilebase_cfg;
+    [SerializeField] private MapType mapType;
+    private bool worldManagerIsInit = false;
     // event
     public delegate void LightEventHandler();
     public static event LightEventHandler RefreshLight;
@@ -37,6 +37,10 @@ public class WorldManager : MonoBehaviour {
         FileManager.ManageFolder("chunk-data");
     } */
 
+    public bool MapIsInit() {
+        return worldManagerIsInit;
+    }
+
     public static int GetChunkSize() {
         return chunkSize;
     }
@@ -45,8 +49,21 @@ public class WorldManager : MonoBehaviour {
         instance = this;
     }
 
+    private void GetAndSetValueFromMapSerialisable() {
+        MapSerialisable mapConf = GameMaster.instance.GetMapDatabaseByMapType(mapType);
+        tilesLightMap = mapConf.tilesLightMap;
+        tilesShadowMap = mapConf.tilesShadowMap;
+        tilesWorldMap = mapConf.tilesWorldMap;
+        wallTilesMap = mapConf.wallTilesMap;
+        objectsMap = mapConf.objectsMap;
+        dynamicLight = mapConf.dynamicLight;
+        worldSizeX = mapConf.mapWidth;
+        worldSizeY = mapConf.mapHeight;
+        chunkSize = mapConf.chunkSize;
+    }
+
     void Start() {
-        chunkSize = chunkSizeField;
+        GetAndSetValueFromMapSerialisable();
         InitResources();
         CreatePlayer();
         LightService.Init(); // TO DO A ENLEVER AVANT LE MERGE N'A PLUS RIEN A FAIRE ICI!!!
@@ -66,7 +83,7 @@ public class WorldManager : MonoBehaviour {
 
     public void AddItem(Vector2Int pos, InventoryItemData item) {
         // Fill objects map with item id for origin cell and -1 for adjacent cells
-        foreach(CellCollider cell in item.GetConfig().GetColliderConfig().GetCellColliders()) {
+        foreach (CellCollider cell in item.GetConfig().GetColliderConfig().GetCellColliders()) {
             objectsMap[pos.x + cell.GetRelativePosition().x, pos.y + cell.GetRelativePosition().y] = cell.IsOrigin() ? item.GetConfig().GetId() : -1;
         }
 
@@ -83,7 +100,7 @@ public class WorldManager : MonoBehaviour {
         int posY = (int)item.transform.position.y;
 
         // Delete lights if item can emit light
-        if(item.GetConfig().CanEmitLight()) {
+        if (item.GetConfig().CanEmitLight()) {
             LightService.RecursivDeleteLight(posX, posY, true);
             RefreshLight();
         }
@@ -92,7 +109,7 @@ public class WorldManager : MonoBehaviour {
         ItemManager.instance.CreateItem(objectsMap[posX, posY], ItemStatus.PICKABLE, new Vector3(posX + 0.5f, posY + 0.5f));
 
         // Remove allocations from objectsMap array
-        foreach(CellCollider cellToCheck in item.GetConfig().GetColliderConfig().GetCellColliders()) {
+        foreach (CellCollider cellToCheck in item.GetConfig().GetColliderConfig().GetCellColliders()) {
             objectsMap[posX + cellToCheck.GetRelativePosition().x, posY + cellToCheck.GetRelativePosition().y] = 0;
         }
 
@@ -139,41 +156,41 @@ public class WorldManager : MonoBehaviour {
         int chunkPosX = (int)x / chunkSize;
         int chunkPosY = (int)y / chunkSize;
         // top //
-        if(yTopInMap) {
+        if (yTopInMap) {
             Chunk topChunk = chunkService.GetChunk(chunkPosX, chunkPosY + 1);
             // if diagonal left top
-            if(xLeftInMap) {
+            if (xLeftInMap) {
                 Chunk leftChunk = chunkService.GetChunk(chunkPosX - 1, chunkPosY);
                 Chunk diagLeftTopChunk = chunkService.GetChunk(chunkPosX - 1, chunkPosY + 1);
-                if(leftChunk) {
+                if (leftChunk) {
                     leftChunk.tilemapTile.RefreshTile(new Vector3Int(rightBoundMap, topBoundMap, 0));
                     leftChunk.tilemapTile.RefreshTile(new Vector3Int(rightBoundMap, topBoundMap - 1, 0));
                 }
-                if(diagLeftTopChunk) {
+                if (diagLeftTopChunk) {
                     diagLeftTopChunk.tilemapTile.RefreshTile(new Vector3Int(rightBoundMap, 0, 0));
                 }
-                if(topChunk) {
+                if (topChunk) {
                     topChunk.tilemapTile.RefreshTile(new Vector3Int(0, 0, 0));
                     topChunk.tilemapTile.RefreshTile(new Vector3Int(1, 0, 0));
                 }
-            } else if(xRightInMap) {
+            } else if (xRightInMap) {
                 // if diagonal right top
                 Chunk rightChunk = chunkService.GetChunk(chunkPosX + 1, chunkPosY);
                 Chunk diagRightTopChunk = chunkService.GetChunk(chunkPosX + 1, chunkPosY + 1);
-                if(rightChunk) {
+                if (rightChunk) {
                     rightChunk.tilemapTile.RefreshTile(new Vector3Int(0, topBoundMap, 0));
                     rightChunk.tilemapTile.RefreshTile(new Vector3Int(0, topBoundMap - 1, 0));
                 }
-                if(diagRightTopChunk) {
+                if (diagRightTopChunk) {
                     diagRightTopChunk.tilemapTile.RefreshTile(new Vector3Int(0, 0, 0));
                 }
-                if(topChunk) {
+                if (topChunk) {
                     topChunk.tilemapTile.RefreshTile(new Vector3Int(rightBoundMap, 0, 0));
                     topChunk.tilemapTile.RefreshTile(new Vector3Int(rightBoundMap - 1, 0, 0));
                 }
             } else {
                 // if just top
-                if(topChunk) {
+                if (topChunk) {
                     topChunk.tilemapTile.RefreshTile(new Vector3Int(posXInMap, 0, 0));
                     topChunk.tilemapTile.RefreshTile(new Vector3Int(posXInMap - 1, 0, 0));
                     topChunk.tilemapTile.RefreshTile(new Vector3Int(posXInMap + 1, 0, 0));
@@ -185,42 +202,42 @@ public class WorldManager : MonoBehaviour {
             tilemap.RefreshTile(new Vector3Int(posXInMap + 1, posYInMap + 1, 0));
             tilemap.RefreshTile(new Vector3Int(posXInMap - 1, posYInMap + 1, 0));
         }
-        if(yBottomInMap) {
+        if (yBottomInMap) {
             // bottom //
             Chunk bottomChunk = chunkService.GetChunk(chunkPosX, chunkPosY - 1);
-            if(xLeftInMap) {
+            if (xLeftInMap) {
                 // if diagonal left bottom
                 Chunk leftBottomChunk = chunkService.GetChunk(chunkPosX - 1, chunkPosY);
                 Chunk diagLeftBottomChunk = chunkService.GetChunk(chunkPosX - 1, chunkPosY - 1);
-                if(leftBottomChunk) {
+                if (leftBottomChunk) {
                     leftBottomChunk.tilemapTile.RefreshTile(new Vector3Int(rightBoundMap, 0, 0));
                     leftBottomChunk.tilemapTile.RefreshTile(new Vector3Int(rightBoundMap, 1, 0));
                 }
-                if(diagLeftBottomChunk) {
+                if (diagLeftBottomChunk) {
                     diagLeftBottomChunk.tilemapTile.RefreshTile(new Vector3Int(rightBoundMap, topBoundMap, 0));
                 }
-                if(bottomChunk) {
+                if (bottomChunk) {
                     bottomChunk.tilemapTile.RefreshTile(new Vector3Int(0, topBoundMap, 0));
                     bottomChunk.tilemapTile.RefreshTile(new Vector3Int(1, topBoundMap, 0));
                 }
-            } else if(xRightInMap) {
+            } else if (xRightInMap) {
                 // if diagonal right bottom
                 Chunk rightBottomChunk = chunkService.GetChunk(chunkPosX + 1, chunkPosY);
                 Chunk diagRightBottomChunk = chunkService.GetChunk(chunkPosX + 1, chunkPosY - 1);
-                if(rightBottomChunk) {
+                if (rightBottomChunk) {
                     rightBottomChunk.RefreshTile(new Vector3Int(0, 0, 0));
                     rightBottomChunk.RefreshTile(new Vector3Int(0, 1, 0));
                 }
-                if(diagRightBottomChunk) {
+                if (diagRightBottomChunk) {
                     diagRightBottomChunk.RefreshTile(new Vector3Int(0, topBoundMap, 0));
                 }
-                if(bottomChunk) {
+                if (bottomChunk) {
                     bottomChunk.RefreshTile(new Vector3Int(rightBoundMap, topBoundMap, 0));
                     bottomChunk.RefreshTile(new Vector3Int(rightBoundMap - 1, topBoundMap, 0));
                 }
             } else {
                 // just bottom //
-                if(bottomChunk) {
+                if (bottomChunk) {
                     bottomChunk.tilemapTile.RefreshTile(new Vector3Int(posXInMap, topBoundMap, 0));
                     bottomChunk.tilemapTile.RefreshTile(new Vector3Int(posXInMap - 1, topBoundMap, 0));
                     bottomChunk.tilemapTile.RefreshTile(new Vector3Int(posXInMap + 1, topBoundMap, 0));
@@ -232,10 +249,10 @@ public class WorldManager : MonoBehaviour {
             tilemap.RefreshTile(new Vector3Int(posXInMap - 1, posYInMap - 1, 0));
             tilemap.RefreshTile(new Vector3Int(posXInMap + 1, posYInMap - 1, 0));
         }
-        if(xLeftInMap) {
+        if (xLeftInMap) {
             // just left //
             Chunk leftChunk = chunkService.GetChunk(chunkPosX - 1, chunkPosY);
-            if(leftChunk) {
+            if (leftChunk) {
                 leftChunk.tilemapTile.RefreshTile(new Vector3Int(rightBoundMap, posYInMap, 0));
                 leftChunk.tilemapTile.RefreshTile(new Vector3Int(rightBoundMap, posYInMap - 1, 0));
                 leftChunk.tilemapTile.RefreshTile(new Vector3Int(rightBoundMap, posYInMap + 1, 0));
@@ -243,10 +260,10 @@ public class WorldManager : MonoBehaviour {
         } else {
             tilemap.RefreshTile(new Vector3Int(posXInMap - 1, posYInMap, 0));
         }
-        if(xRightInMap) {
+        if (xRightInMap) {
             // just right
             Chunk rightChunk = chunkService.GetChunk(chunkPosX + 1, chunkPosY);
-            if(rightChunk) {
+            if (rightChunk) {
                 rightChunk.tilemapTile.RefreshTile(new Vector3Int(0, posYInMap, 0));
                 rightChunk.tilemapTile.RefreshTile(new Vector3Int(0, posYInMap - 1, 0));
                 rightChunk.tilemapTile.RefreshTile(new Vector3Int(0, posYInMap + 1, 0));

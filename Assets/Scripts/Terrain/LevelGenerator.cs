@@ -5,30 +5,30 @@ public class LevelGenerator : MonoBehaviour {
     private void Awake() {
         instance = this;
     }
-    public void GenerateMap(int[,] worldMap, int[,] wallTilesMap, MapSettings topMapSettings, MapSettings middleMapSettings, MapSettings bottomMapSettings) {
+    public void GenerateMap(MapSerialisable mapConfig, MapSettings topMapSettings, MapSettings middleMapSettings, MapSettings bottomMapSettings) {
         int seed = UnityEngine.Random.Range(0, 9999);
-        worldMap = MapFunctions.RandomWalkTop(worldMap, wallTilesMap, seed);
+        mapConfig.tilesWorldMap = MapFunctions.RandomWalkTop(mapConfig.tilesWorldMap, mapConfig.wallTilesMap, seed);
         // worldMap = MapFunctions.GenerateMountain(worldMap, wallTilesMap, seed, mountain.waves);
-        worldMap = MapFunctions.PerlinNoiseCave(worldMap, bottomMapSettings.modifier);
+        mapConfig.tilesWorldMap = MapFunctions.PerlinNoiseCave(mapConfig.tilesWorldMap, bottomMapSettings.modifier);
         // Création des 3 tunnels 
-        var startPosX = worldMap.GetUpperBound(0) / 6;
-        worldMap = MapFunctions.DirectionalTunnel(worldMap, middleMapSettings.minPathWidth, middleMapSettings.maxPathWidth,
+        var startPosX = mapConfig.tilesWorldMap.GetUpperBound(0) / 6;
+        mapConfig.tilesWorldMap = MapFunctions.DirectionalTunnel(mapConfig.tilesWorldMap, middleMapSettings.minPathWidth, middleMapSettings.maxPathWidth,
             middleMapSettings.maxPathChange, middleMapSettings.roughness, middleMapSettings.windyness, startPosX);
-        var startPosX2 = worldMap.GetUpperBound(0) / 2;
-        worldMap = MapFunctions.DirectionalTunnel(worldMap, middleMapSettings.minPathWidth, middleMapSettings.maxPathWidth,
+        var startPosX2 = mapConfig.tilesWorldMap.GetUpperBound(0) / 2;
+        mapConfig.tilesWorldMap = MapFunctions.DirectionalTunnel(mapConfig.tilesWorldMap, middleMapSettings.minPathWidth, middleMapSettings.maxPathWidth,
             middleMapSettings.maxPathChange, middleMapSettings.roughness, middleMapSettings.windyness, startPosX2);
-        var startPosX3 = worldMap.GetUpperBound(0) * 0.80f;
-        worldMap = MapFunctions.DirectionalTunnel(worldMap, middleMapSettings.minPathWidth, middleMapSettings.maxPathWidth,
+        var startPosX3 = mapConfig.tilesWorldMap.GetUpperBound(0) * 0.80f;
+        mapConfig.tilesWorldMap = MapFunctions.DirectionalTunnel(mapConfig.tilesWorldMap, middleMapSettings.minPathWidth, middleMapSettings.maxPathWidth,
             middleMapSettings.maxPathChange, middleMapSettings.roughness, middleMapSettings.windyness, (int)startPosX3);
         // generate irons
-        MapFunctions.GenerateIrons(worldMap);
+        MapFunctions.GenerateIrons(mapConfig.tilesWorldMap);
         // toDO attention à générer les colines avant les arbres!
         // add trees
-        MapFunctions.AddTrees(); // GENERATE ITEM
+        MapFunctions.AddTreesItems(mapConfig.tilesWorldMap, mapConfig.objectsMap, mapConfig.wallTilesMap);
         // add grass
-        MapFunctions.AddGrassOntop(worldMap, wallTilesMap);
+        MapFunctions.AddGrassOntop(mapConfig.tilesWorldMap, mapConfig.wallTilesMap);
         // add grass world object
-        MapFunctions.AddGrasses(); // GENERATE ITEM
+        MapFunctions.AddGrassesItems(mapConfig.tilesWorldMap, mapConfig.objectsMap, mapConfig.wallTilesMap);
     }
     public void GenerateObjectsWorldMap(int[,] map) { }
     private bool IsOnBound(int x, int y, int BoundX, int boundY) {

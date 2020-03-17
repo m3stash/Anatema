@@ -30,7 +30,7 @@ public class ChunkService : MonoBehaviour {
     private int oldPlayerPosY;
 
     public void FixedUpdate() {
-        if (!WorldManager.instance.worldManagerIsInit)
+        if (!WorldManager.instance.MapIsInit())
             return;
         currentPlayerChunkX = (int)player.transform.position.x / WorldManager.GetChunkSize();
         currentPlayerChunkY = (int)player.transform.position.y / WorldManager.GetChunkSize();

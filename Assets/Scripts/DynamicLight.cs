@@ -39,7 +39,7 @@ public class DynamicLight : MonoBehaviour {
     }
 
     private void OnDisable() {
-        if (WorldManager.instance != null && WorldManager.instance.worldManagerIsInit) {
+        if (WorldManager.instance != null && WorldManager.instance.MapIsInit()) {
             WorldManager.dynamicLight[oldPosX, oldPosY] = 0;
             LightService.RecursivDeleteLight((int)transform.position.x, Mathf.RoundToInt(transform.position.y), true);
         }

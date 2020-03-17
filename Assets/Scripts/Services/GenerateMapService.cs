@@ -12,8 +12,7 @@ public class GenerateMapService : MonoBehaviour {
     }
 
     public void CreateMaps(int mapWidth, int mapHeight, int chunkSize, MapSerialisable map) {
-        
-        CreateWorldMap(map, mapWidth, mapHeight, chunkSize);
+        SetMapConf(map, mapWidth, mapHeight, chunkSize);
         CreateLightMap(map, mapWidth, mapHeight, chunkSize);
     }
 
@@ -28,7 +27,10 @@ public class GenerateMapService : MonoBehaviour {
         LevelGenerator.instance.GenerateWorldLight(map.tilesLightMap, map.tilesShadowMap, map.tilesWorldMap, map.wallTilesMap);
     }
 
-    private void CreateWorldMap(MapSerialisable map, int mapWidth, int mapHeight, int chunkSize) {
+    private void SetMapConf(MapSerialisable map, int mapWidth, int mapHeight, int chunkSize) {
+        map.mapWidth = mapWidth;
+        map.mapHeight = mapHeight;
+        map.chunkSize = chunkSize;
         map.tilesWorldMap = new int[mapWidth, mapHeight];
         map.wallTilesMap = new int[mapWidth, mapHeight];
         map.objectsMap = new int[mapWidth, mapHeight];
