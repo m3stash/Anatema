@@ -30,8 +30,8 @@ public class Chunk : MonoBehaviour {
         }
     }
     private void OnItemMoved(Item item) {
-        int itemPosX = (int)item.transform.position.x / WorldManager.GetChunkSize();
-        int itemPosY = (int)item.transform.position.y / WorldManager.GetChunkSize();
+        int itemPosX = (int)item.transform.position.x / WorldManager.instance.GetChunkSize();
+        int itemPosY = (int)item.transform.position.y / WorldManager.instance.GetChunkSize();
         int itemIdxFound = this.items.FindIndex(elem => elem.GetInstanceID() == item.GetInstanceID());
 
         // Add item to this chunk if it's inside position interval and it's not already referenced
@@ -59,9 +59,9 @@ public class Chunk : MonoBehaviour {
     }
 
     private void GenerateObjectsMap() {
-        for (var x = 0; x < WorldManager.GetChunkSize(); x++) {
-            for (var y = 0; y < WorldManager.GetChunkSize(); y++) {
-                int currId = WorldManager.objectsMap[worldPosition.x + x, worldPosition.y + y];
+        for (var x = 0; x < WorldManager.instance.GetChunkSize(); x++) {
+            for (var y = 0; y < WorldManager.instance.GetChunkSize(); y++) {
+                int currId = WorldManager.instance.objectsMap[worldPosition.x + x, worldPosition.y + y];
                 if (currId > 0) {
                     Item item = ItemManager.instance.CreateItem(currId, ItemStatus.ACTIVE, new Vector3(worldPosition.x + x, worldPosition.y + y));
                     this.items.Add(item);
@@ -74,14 +74,14 @@ public class Chunk : MonoBehaviour {
         /*if (!render || !render.isVisible)
             return;*/
         var intensity = CycleDay.GetIntensity();
-        for (var x = 0; x < WorldManager.GetChunkSize(); x++) {
-            for (var y = 0; y < WorldManager.GetChunkSize(); y++) {
+        for (var x = 0; x < WorldManager.instance.GetChunkSize(); x++) {
+            for (var y = 0; y < WorldManager.instance.GetChunkSize(); y++) {
                 Vector3Int vec3 = new Vector3Int(x, y, 0);
                 int worldX = worldPosition.x + x;
                 int worldY = worldPosition.y + y;
-                if (WorldManager.tilesWorldMap[worldX, worldY] > 0 || WorldManager.wallTilesMap[worldX, worldY] > 0) {
-                    var shadow = WorldManager.tilesShadowMap[worldX, worldY] + intensity;
-                    var light = WorldManager.tilesLightMap[worldX, worldY];
+                if (WorldManager.instance.tilesWorldMap[worldX, worldY] > 0 || WorldManager.instance.wallTilesMap[worldX, worldY] > 0) {
+                    var shadow = WorldManager.instance.tilesShadowMap[worldX, worldY] + intensity;
+                    var light = WorldManager.instance.tilesLightMap[worldX, worldY];
                     float l;
                     if (light <= shadow) {
                         l = 1 - light * 0.01f;
@@ -120,11 +120,11 @@ public class Chunk : MonoBehaviour {
             positions[index] = new Vector3Int(x, y, 0);
             int posX = worldPosition.x + x;
             int posY = worldPosition.y + y;
-            var tileBaseIndex = WorldManager.tilesWorldMap[posX, posY];
+            var tileBaseIndex = WorldManager.instance.tilesWorldMap[posX, posY];
             if (tileBaseIndex > 0) {
                 tileArray[index] = ChunkService.tilebaseDictionary[tileBaseIndex];
             }
-            var tileWallIndex = WorldManager.wallTilesMap[posX, posY];
+            var tileWallIndex = WorldManager.instance.wallTilesMap[posX, posY];
             if (tileWallIndex > 0) {
                 tileArrayWall[index] = ChunkService.tilebaseDictionary[tileWallIndex];
             }
@@ -133,7 +133,7 @@ public class Chunk : MonoBehaviour {
         tilemapWall.SetTiles(positions, tileArrayWall);
     }
     void Start() {
-        chunkSize = WorldManager.GetChunkSize();
+        chunkSize = WorldManager.instance.GetChunkSize();
         this.items = new List<Item>();
         render = tilemapTile.GetComponent<Renderer>();
         // !! call just one time afer instanciate !!

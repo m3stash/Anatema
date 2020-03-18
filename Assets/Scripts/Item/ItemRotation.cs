@@ -22,16 +22,16 @@ public class ItemRotation : MonoBehaviour {
     /// Used to apply correct sprite renderer in function of collision
     /// </summary>
     public void RefreshUI() {
-        if(rightCollisionSprite && WorldManager.tilesWorldMap[(int)this.transform.position.x + 1, (int)this.transform.position.y] > 0) {
+        if(rightCollisionSprite && WorldManager.instance.tilesWorldMap[(int)this.transform.position.x + 1, (int)this.transform.position.y] > 0) {
             this.renderer.sprite = this.rightCollisionSprite;
             this.collisionSide = Direction.RIGHT;
-        } else if(leftCollisionSprite && WorldManager.tilesWorldMap[(int)this.transform.position.x - 1, (int)this.transform.position.y] > 0) {
+        } else if(leftCollisionSprite && WorldManager.instance.tilesWorldMap[(int)this.transform.position.x - 1, (int)this.transform.position.y] > 0) {
             this.renderer.sprite = this.leftCollisionSprite;
             this.collisionSide = Direction.LEFT;
-        } else if(topCollisionSprite && WorldManager.tilesWorldMap[(int)this.transform.position.x, (int)this.transform.position.y + 1] > 0) {
+        } else if(topCollisionSprite && WorldManager.instance.tilesWorldMap[(int)this.transform.position.x, (int)this.transform.position.y + 1] > 0) {
             this.renderer.sprite = this.topCollisionSprite;
             this.collisionSide = Direction.TOP;
-        } else if(bottomCollisionSprite && WorldManager.tilesWorldMap[(int)this.transform.position.x, (int)this.transform.position.y - 1] > 0) {
+        } else if(bottomCollisionSprite && WorldManager.instance.tilesWorldMap[(int)this.transform.position.x, (int)this.transform.position.y - 1] > 0) {
             this.renderer.sprite = this.bottomCollisionSprite;
             this.collisionSide = Direction.BOTTOM;
         }

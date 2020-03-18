@@ -5,34 +5,45 @@ public class LevelGenerator : MonoBehaviour {
     private void Awake() {
         instance = this;
     }
-    public void GenerateMap(MapSerialisable mapConfig, MapSettings topMapSettings, MapSettings middleMapSettings, MapSettings bottomMapSettings) {
+    public void GenerateMap(MapSerialisable mapSerialisable, MapConfig mapConfig) {
+
+        MapSettings bottomMapSettings = mapConfig.GetMapSettingsBottom();
+        MapSettings middleMapSettings = mapConfig.GetMapSettingsMiddle();
+        MapSettings topMapSettings = mapConfig.GetMapSettingsTop();
         int seed = UnityEngine.Random.Range(0, 9999);
-        mapConfig.tilesWorldMap = MapFunctions.RandomWalkTop(mapConfig.tilesWorldMap, mapConfig.wallTilesMap, seed);
-        // worldMap = MapFunctions.GenerateMountain(worldMap, wallTilesMap, seed, mountain.waves);
-        mapConfig.tilesWorldMap = MapFunctions.PerlinNoiseCave(mapConfig.tilesWorldMap, bottomMapSettings.modifier);
-        // Création des 3 tunnels 
-        var startPosX = mapConfig.tilesWorldMap.GetUpperBound(0) / 6;
-        mapConfig.tilesWorldMap = MapFunctions.DirectionalTunnel(mapConfig.tilesWorldMap, middleMapSettings.minPathWidth, middleMapSettings.maxPathWidth,
-            middleMapSettings.maxPathChange, middleMapSettings.roughness, middleMapSettings.windyness, startPosX);
-        var startPosX2 = mapConfig.tilesWorldMap.GetUpperBound(0) / 2;
-        mapConfig.tilesWorldMap = MapFunctions.DirectionalTunnel(mapConfig.tilesWorldMap, middleMapSettings.minPathWidth, middleMapSettings.maxPathWidth,
-            middleMapSettings.maxPathChange, middleMapSettings.roughness, middleMapSettings.windyness, startPosX2);
-        var startPosX3 = mapConfig.tilesWorldMap.GetUpperBound(0) * 0.80f;
-        mapConfig.tilesWorldMap = MapFunctions.DirectionalTunnel(mapConfig.tilesWorldMap, middleMapSettings.minPathWidth, middleMapSettings.maxPathWidth,
-            middleMapSettings.maxPathChange, middleMapSettings.roughness, middleMapSettings.windyness, (int)startPosX3);
-        // generate irons
-        MapFunctions.GenerateIrons(mapConfig.tilesWorldMap);
-        // toDO attention à générer les colines avant les arbres!
-        // add trees
-        MapFunctions.AddTreesItems(mapConfig.tilesWorldMap, mapConfig.objectsMap, mapConfig.wallTilesMap);
-        // add grass
-        MapFunctions.AddGrassOntop(mapConfig.tilesWorldMap, mapConfig.wallTilesMap);
-        // add grass world object
-        MapFunctions.AddGrassesItems(mapConfig.tilesWorldMap, mapConfig.objectsMap, mapConfig.wallTilesMap);
+
+        // Generate Top terrain
+        mapSerialisable.tilesWorldMap = MapFunctions.RandomWalkTop(mapSerialisable.tilesWorldMap, mapSerialisable.wallTilesMap, seed);
+        // Generate Caves
+        mapSerialisable.tilesWorldMap = MapFunctions.PerlinNoiseCave(mapSerialisable.tilesWorldMap, bottomMapSettings.modifier);
+        // Generate 3 tunnels
+        GenerateTunnels(mapSerialisable, middleMapSettings);
+        // Generate Irons Tiles
+        MapFunctions.GenerateIrons(mapSerialisable.tilesWorldMap);
+        // Generate Trees Items
+        MapFunctions.AddTreesItems(mapSerialisable.tilesWorldMap, mapSerialisable.objectsMap, mapSerialisable.wallTilesMap);
+        // Generate Grass Tiles 
+        MapFunctions.AddGrassOntop(mapSerialisable.tilesWorldMap, mapSerialisable.wallTilesMap);
+        // Generate grasses Items
+        MapFunctions.AddGrassesItems(mapSerialisable.tilesWorldMap, mapSerialisable.objectsMap, mapSerialisable.wallTilesMap);
     }
+
+    private void GenerateTunnels(MapSerialisable mapSerialisable, MapSettings middleMapSettings) {
+        // 3 tunnels
+        var startPosX = mapSerialisable.tilesWorldMap.GetUpperBound(0) / 6;
+        mapSerialisable.tilesWorldMap = MapFunctions.DirectionalTunnel(mapSerialisable.tilesWorldMap, middleMapSettings.minPathWidth, middleMapSettings.maxPathWidth,
+            middleMapSettings.maxPathChange, middleMapSettings.roughness, middleMapSettings.windyness, startPosX);
+        var startPosX2 = mapSerialisable.tilesWorldMap.GetUpperBound(0) / 2;
+        mapSerialisable.tilesWorldMap = MapFunctions.DirectionalTunnel(mapSerialisable.tilesWorldMap, middleMapSettings.minPathWidth, middleMapSettings.maxPathWidth,
+            middleMapSettings.maxPathChange, middleMapSettings.roughness, middleMapSettings.windyness, startPosX2);
+        var startPosX3 = mapSerialisable.tilesWorldMap.GetUpperBound(0) * 0.80f;
+        mapSerialisable.tilesWorldMap = MapFunctions.DirectionalTunnel(mapSerialisable.tilesWorldMap, middleMapSettings.minPathWidth, middleMapSettings.maxPathWidth,
+            middleMapSettings.maxPathChange, middleMapSettings.roughness, middleMapSettings.windyness, (int)startPosX3);
+    }
+
     public void GenerateObjectsWorldMap(int[,] map) { }
     private bool IsOnBound(int x, int y, int BoundX, int boundY) {
-        if(x < 0 || x > BoundX || y < 0 || y > boundY) {
+        if (x < 0 || x > BoundX || y < 0 || y > boundY) {
             return false;
         }
         return true;
@@ -77,38 +88,38 @@ public class LevelGenerator : MonoBehaviour {
         }
     }*/
 
-    public void GenerateWorldLight(int[,] tilesLightMap, int[,] tilesShadowMap, int[,] tilesWorldMap, int[,] wallTilesMap) {
+    public void GenerateWorldLight(int[,] tilesShadowMap, int[,] tilesWorldMap, int[,] wallTilesMap) {
         var boundX = tilesWorldMap.GetUpperBound(0);
         var boundY = tilesWorldMap.GetUpperBound(1);
         // toDo a implémenter la tilemap background
-        for(var x = 0; x < tilesWorldMap.GetUpperBound(0); x++) {
+        for (var x = 0; x < tilesWorldMap.GetUpperBound(0); x++) {
             // top to bottom
-            for(var y = boundY; y > 0; y--) {
-                if(tilesWorldMap[x, y] == 0 && !IsOutOfBound(x, y - 1, tilesWorldMap) && tilesWorldMap[x, y - 1] > 0 || tilesWorldMap[x, y - 1] <= 255) {
+            for (var y = boundY; y > 0; y--) {
+                if (tilesWorldMap[x, y] == 0 && !IsOutOfBound(x, y - 1, tilesWorldMap) && tilesWorldMap[x, y - 1] > 0 || tilesWorldMap[x, y - 1] <= 255) {
                     tilesShadowMap[x, y - 1] = GetAmountLight(tilesWorldMap[x, y - 1], wallTilesMap[x, y - 1], tilesShadowMap[x, y]);
                 }
             }
             // bottom to top
-            for(var y = 0; y < boundY; y++) {
-                if(tilesWorldMap[x, y] == 0 && !IsOutOfBound(x, y + 1, tilesWorldMap) && tilesWorldMap[x, y + 1] > 0 || tilesWorldMap[x, y + 1] <= 255) {
+            for (var y = 0; y < boundY; y++) {
+                if (tilesWorldMap[x, y] == 0 && !IsOutOfBound(x, y + 1, tilesWorldMap) && tilesWorldMap[x, y + 1] > 0 || tilesWorldMap[x, y + 1] <= 255) {
                     var newLight = GetAmountLight(tilesWorldMap[x, y + 1], wallTilesMap[x, y + 1], tilesShadowMap[x, y]);
                     var topLight = tilesShadowMap[x, y + 1];
                     tilesShadowMap[x, y + 1] = newLight <= topLight ? newLight : topLight;
                 }
             }
         }
-        for(var y = boundY; y > 0; y--) {
+        for (var y = boundY; y > 0; y--) {
             // left to right
-            for(var x = 0; x < boundX; x++) {
-                if(tilesWorldMap[x, y] == 0 && !IsOutOfBound(x + 1, y, tilesWorldMap) && tilesWorldMap[x + 1, y] > 0 || tilesWorldMap[x + 1, y] <= 255) {
+            for (var x = 0; x < boundX; x++) {
+                if (tilesWorldMap[x, y] == 0 && !IsOutOfBound(x + 1, y, tilesWorldMap) && tilesWorldMap[x + 1, y] > 0 || tilesWorldMap[x + 1, y] <= 255) {
                     var newLight = GetAmountLight(tilesWorldMap[x + 1, y], wallTilesMap[x + 1, y], tilesShadowMap[x, y]);
                     var rightLight = tilesShadowMap[x + 1, y];
                     tilesShadowMap[x + 1, y] = newLight <= rightLight ? newLight : rightLight;
                 }
             }
             // right to left
-            for(var x = boundX; x > 0; x--) {
-                if(tilesWorldMap[x, y] == 0 && !IsOutOfBound(x - 1, y, tilesWorldMap) && tilesWorldMap[x - 1, y] > 0 || tilesWorldMap[x - 1, y] <= 255) {
+            for (var x = boundX; x > 0; x--) {
+                if (tilesWorldMap[x, y] == 0 && !IsOutOfBound(x - 1, y, tilesWorldMap) && tilesWorldMap[x - 1, y] > 0 || tilesWorldMap[x - 1, y] <= 255) {
                     var newLight = GetAmountLight(tilesWorldMap[x - 1, y], wallTilesMap[x - 1, y], tilesShadowMap[x, y]);
                     var rightLight = tilesShadowMap[x - 1, y];
                     tilesShadowMap[x - 1, y] = newLight <= rightLight ? newLight : rightLight;
@@ -122,14 +133,14 @@ public class LevelGenerator : MonoBehaviour {
     }
 
     private int GetAmountLight(int tile, int wallTile, int lastLight) { // TODO REFACTO pour utiliser le light service !!!!!!!!!!!!
-        if(tile == 0 && wallTile == 0) {
+        if (tile == 0 && wallTile == 0) {
             return 0;
         }
         int newLight = 0;
-        if(tile > 0) {
+        if (tile > 0) {
             newLight = lastLight + 10;
         } else {
-            if(wallTile > 0) {
+            if (wallTile > 0) {
                 newLight = lastLight + 5;
             } else {
                 return 0;

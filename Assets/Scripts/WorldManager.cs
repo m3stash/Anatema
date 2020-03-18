@@ -10,20 +10,20 @@ public class WorldManager : MonoBehaviour {
 
     public static WorldManager instance;
 
+    public Dictionary<int, TileBase> tilebaseDictionary;
     private ChunkService chunkService;
     private LightService lightService;
     private GameObject player;
-    public static int[,] tilesLightMap;
-    public static int[,] tilesShadowMap;
-    public static int[,] tilesWorldMap;
-    public static int[,] wallTilesMap;
-    public static int[,] objectsMap;
-    public static int[,] dynamicLight;
-    public static Dictionary<int, TileBase> tilebaseDictionary;
-    [Header("Main Settings")]
+    public int[,] tilesLightMap;
+    public int[,] tilesShadowMap;
+    public int[,] tilesWorldMap;
+    public int[,] wallTilesMap;
+    public int[,] objectsMap;
+    public int[,] dynamicLight;
     private int worldSizeX;
     private int worldSizeY;
-    private static int chunkSize;
+    private int chunkSize;
+    [Header("Main Settings")]
     [SerializeField] public TileBase_cfg tilebase_cfg;
     [SerializeField] private MapType mapType;
     private bool worldManagerIsInit = false;
@@ -37,16 +37,22 @@ public class WorldManager : MonoBehaviour {
         FileManager.ManageFolder("chunk-data");
     } */
 
+    private void Awake() {
+        instance = this;
+        GetComponents();
+    }
+
     public bool MapIsInit() {
         return worldManagerIsInit;
     }
 
-    public static int GetChunkSize() {
+    public int GetChunkSize() {
         return chunkSize;
     }
 
-    private void Awake() {
-        instance = this;
+    public void GetComponents() {
+        chunkService = gameObject.GetComponent<ChunkService>();
+        lightService = GetComponent<LightService>();
     }
 
     private void GetAndSetValueFromMapSerialisable() {
@@ -63,22 +69,18 @@ public class WorldManager : MonoBehaviour {
     }
 
     void Start() {
-        GetAndSetValueFromMapSerialisable();
-        InitResources();
-        CreatePlayer();
-        LightService.Init(); // TO DO A ENLEVER AVANT LE MERGE N'A PLUS RIEN A FAIRE ICI!!!
-        chunkService.Init(tilebaseDictionary, player);
-        GetPlayer(player);
-        worldManagerIsInit = true;
-    }
-    private void InitResources() {
-        chunkService = gameObject.GetComponent<ChunkService>();
         tilebaseDictionary = tilebase_cfg.GetDico();
+        GetAndSetValueFromMapSerialisable();
+        CreatePlayer();
+        lightService.Init();
+        chunkService.Init(tilebaseDictionary, player);
+        worldManagerIsInit = true;
+        GetPlayer(player);
     }
 
     private void CreatePlayer() {
         player = Instantiate((GameObject)Resources.Load("Prefabs/Characters/Player/Player"), new Vector3(0, 0, 0), transform.rotation);
-        GameObject.FindObjectOfType<CinemachineVirtualCamera>().Follow = player.transform;
+        FindObjectOfType<CinemachineVirtualCamera>().Follow = player.transform; // toDo bouger er utiliser le GetPlayer event!
     }
 
     public void AddItem(Vector2Int pos, InventoryItemData item) {
@@ -101,7 +103,7 @@ public class WorldManager : MonoBehaviour {
 
         // Delete lights if item can emit light
         if (item.GetConfig().CanEmitLight()) {
-            LightService.RecursivDeleteLight(posX, posY, true);
+            lightService.RecursivDeleteLight(posX, posY, true);
             RefreshLight();
         }
 
@@ -118,7 +120,7 @@ public class WorldManager : MonoBehaviour {
     }
 
     public bool IsOutOfBound(int x, int y) {
-        return (x < 0 || x > (this.worldSizeX - 1)) || (y < 0 || y > (this.worldSizeY - 1));
+        return (x < 0 || x > (worldSizeX - 1)) || (y < 0 || y > (worldSizeY - 1));
     }
 
     public void DeleteTile(int x, int y) {

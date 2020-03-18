@@ -217,8 +217,8 @@ public class BuildSelector : MonoBehaviour
 
         foreach (CellCollider cell in cellsToCheck) {
             // Check if position is free on tileMap and objectMap
-            bool objectMapValid = WorldManager.objectsMap[originX + cell.GetRelativePosition().x, originY + cell.GetRelativePosition().y] == 0;
-            bool tilesWorlMapValid = WorldManager.tilesWorldMap[originX + cell.GetRelativePosition().x, originY + cell.GetRelativePosition().y] == 0;
+            bool objectMapValid = WorldManager.instance.objectsMap[originX + cell.GetRelativePosition().x, originY + cell.GetRelativePosition().y] == 0;
+            bool tilesWorlMapValid = WorldManager.instance.tilesWorldMap[originX + cell.GetRelativePosition().x, originY + cell.GetRelativePosition().y] == 0;
 
             if (!objectMapValid || !tilesWorlMapValid) {
                 allIsValid = false;
@@ -229,7 +229,7 @@ public class BuildSelector : MonoBehaviour
 
             // Check left cell if a contact has been set
             if (mandatoriesContactValid && cell.GetLeftContactType() != ContactType.NONE) {
-                bool leftContactValid = WorldManager.tilesWorldMap[originX + cell.GetRelativePosition().x - 1, originY + cell.GetRelativePosition().y] > 0;
+                bool leftContactValid = WorldManager.instance.tilesWorldMap[originX + cell.GetRelativePosition().x - 1, originY + cell.GetRelativePosition().y] > 0;
                 allContacts += 1;
                 validContacts += leftContactValid ? 1 : 0;
 
@@ -240,7 +240,7 @@ public class BuildSelector : MonoBehaviour
 
             // Check right cell if a contact has been set
             if (mandatoriesContactValid && cell.GetRightContactType() != ContactType.NONE) {
-                bool rightContactValid = WorldManager.tilesWorldMap[originX + cell.GetRelativePosition().x + 1, originY + cell.GetRelativePosition().y] > 0;
+                bool rightContactValid = WorldManager.instance.tilesWorldMap[originX + cell.GetRelativePosition().x + 1, originY + cell.GetRelativePosition().y] > 0;
                 allContacts += 1;
                 validContacts += rightContactValid ? 1 : 0;
 
@@ -251,7 +251,7 @@ public class BuildSelector : MonoBehaviour
 
             // Check top cell if a contact has been set
             if (mandatoriesContactValid && cell.GetTopContactType() != ContactType.NONE) {
-                bool topContactValid = WorldManager.tilesWorldMap[originX + cell.GetRelativePosition().x, originY + cell.GetRelativePosition().y + 1] > 0;
+                bool topContactValid = WorldManager.instance.tilesWorldMap[originX + cell.GetRelativePosition().x, originY + cell.GetRelativePosition().y + 1] > 0;
                 allContacts += 1;
                 validContacts += topContactValid ? 1 : 0;
 
@@ -262,7 +262,7 @@ public class BuildSelector : MonoBehaviour
 
             // Check bottom cell if a contact has been set
             if (mandatoriesContactValid && cell.GetBottomContactType() != ContactType.NONE) {
-                bool bottomContactValid = WorldManager.tilesWorldMap[originX + cell.GetRelativePosition().x, originY + cell.GetRelativePosition().y - 1] > 0;
+                bool bottomContactValid = WorldManager.instance.tilesWorldMap[originX + cell.GetRelativePosition().x, originY + cell.GetRelativePosition().y - 1] > 0;
                 allContacts += 1;
                 validContacts += bottomContactValid ? 1 : 0;
 

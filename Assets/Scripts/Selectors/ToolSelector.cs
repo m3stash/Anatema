@@ -165,7 +165,7 @@ public class ToolSelector : MonoBehaviour {
                 y = Mathf.FloorToInt(hit.point.y);
             }
 
-            if(WorldManager.tilesWorldMap[x, y] > 0) {
+            if(WorldManager.instance.tilesWorldMap[x, y] > 0) {
                 this.digSelector.transform.position = new Vector3(x + 0.5f, y + 0.5f);
                 this.digSelector.gameObject.SetActive(true);
 
@@ -176,7 +176,7 @@ public class ToolSelector : MonoBehaviour {
                     if(this.selectedTilePosition != new Vector2Int(x, y)) {
                         this.digTime = 0f;
                         this.currentTileDurability = 0;
-                        this.currentTileConfig = (BlockConfig)ItemManager.instance.GetItemWithId(WorldManager.tilesWorldMap[x, y]);
+                        this.currentTileConfig = (BlockConfig)ItemManager.instance.GetItemWithId(WorldManager.instance.tilesWorldMap[x, y]);
                     }
 
                     this.selectedTile = true;
@@ -267,7 +267,7 @@ public class ToolSelector : MonoBehaviour {
     /// <param name="posY"></param>
     /// <returns></returns>
     private bool TileCanBeDestroyed(int posX, int posY) {
-        int itemIdToCompare = WorldManager.objectsMap[posX, posY + 1];
+        int itemIdToCompare = WorldManager.instance.objectsMap[posX, posY + 1];
 
         for(int i = 0; i < this.notAllowedItemIds.Length; i++) {
             if(this.notAllowedItemIds[i] == itemIdToCompare) {

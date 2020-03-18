@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour {
 
     private void Awake() {
         instance = this;
-
         this.toolSelector = GetComponent<ToolSelector>();
         this.toolSelector.enabled = false;
     }
