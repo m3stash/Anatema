@@ -1,23 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
-public class MainMenuManagement: MonoBehaviour {
+public class MainMenuManagement : MonoBehaviour {
 
-    public Canvas canvas;
+    [SerializeField] private GameObject saveSlotPannel;
+    [SerializeField] private GameObject buttonPannel;
+    public static MainMenuManagement instance;
+    private void Awake() {
+        instance = this;
+    }
+
+    void Start() {
+    }
+
+    public void GoToMainMenu() {
+        buttonPannel.SetActive(true);
+        saveSlotPannel.SetActive(false);
+    }
 
     public void NewGame() {
         GameMaster.instance.NewGame();
     }
 
     public void Continue() {
+        buttonPannel.SetActive(false);
+        saveSlotPannel.SetActive(true);
         // toDO voir a appeler le gameMaster et charger la scene correspondant a la map sur laquelle nous sommes!
-    }
-
-    private void Start() {
-        // canvas = GameObject.Find("Main_UI").GetComponent<Canvas>();
     }
 
 }

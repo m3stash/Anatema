@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WorldMapConfig
   m_EditorClassIdentifier: 
   mapType: 0
-  mapWidth: 4046
+  mapWidth: 4096
   mapHeight: 1024
   chunkSize: 16
   top: {fileID: 11400000, guid: 768d4a772f7d9914db6343a0f0239dc4, type: 2}

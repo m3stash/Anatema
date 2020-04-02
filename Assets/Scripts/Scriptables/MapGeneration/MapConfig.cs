@@ -4,7 +4,7 @@ using UnityEngine;
 
 [System.Serializable]
 public enum MapType {
-    WORLDMAP
+    WORLDMAP,
 }
 
 [CreateAssetMenu(fileName = "MapConfig", menuName = "Map/New Configuration")]
@@ -18,9 +18,16 @@ public class MapConfig : ScriptableObject {
     [SerializeField] private MapSettings top;
     [SerializeField] private MapSettings middle;
     [SerializeField] private MapSettings bottom;
+    private int mapSeed;
 
     public MapType GetMapType() {
         return mapType;
+    }
+    public void SetMapSeed(int mapSeed) {
+        this.mapSeed = mapSeed;
+    }
+    public int GetMapSeed() {
+        return mapSeed;
     }
 
     public int GetMapWidth() {
@@ -40,10 +47,10 @@ public class MapConfig : ScriptableObject {
     }
 
     public MapSettings GetMapSettingsBottom() {
-        return middle;
+        return bottom;
     }
 
     public MapSettings GetMapSettingsMiddle() {
-        return bottom;
+        return middle;
     }
 }

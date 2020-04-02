@@ -334,10 +334,10 @@ public class MapFunctions {
         return map;
     }
 
-    public static int[,] PerlinNoiseCave(int[,] map, float modifier) {
+    public static void PerlinNoiseCave(int[,] map, MapSettings mapSettings) {
+        float modifier = mapSettings.modifier;
         int maxHeight = map.GetUpperBound(1);
         float rand = Random.Range(0, 1);
-
         for (int x = 0; x < map.GetUpperBound(0); x++) {
             for (int y = 0; y < maxHeight; y++) {
                 modifier = 0.04f;
@@ -354,7 +354,6 @@ public class MapFunctions {
                 }
             }
         }
-
 
         /*for (int x = 0; x < map.GetUpperBound(0); x++) {
             for (int y = 0; y < maxHeight; y++) {
@@ -387,8 +386,6 @@ public class MapFunctions {
                 map[x, y] = newPoint;
             }
         }*/
-
-        return map;
     }
 
     public static int[,] GenerateIrons(int[,] map) {
@@ -429,20 +426,19 @@ public class MapFunctions {
                 }
             }
         }
-        Debug.Log("Cooper => " + copper_count);
+        /*Debug.Log("Cooper => " + copper_count);
         Debug.Log("Iron => " + iron_count);
         Debug.Log("Silver => " + silver_count);
-        Debug.Log("Gold => " + gold_count);
+        Debug.Log("Gold => " + gold_count);*/
         return map;
     }
 
-    public static int[,] RandomWalkTop(int[,] map, int[,] wallMap, float seed) {
+    public static void RandomWalkTop(int[,] map, int[,] wallMap, float seed) {
         System.Random rand = new System.Random(seed.GetHashCode());
         var mapHeight = map.GetUpperBound(1);
         var min = rand.Next(mapHeight - 300, mapHeight - 200);
         var max = rand.Next(mapHeight - 200, mapHeight - 100);
         int lastHeight = Random.Range(min, max);
-
         for (int x = 0; x < map.GetUpperBound(0); x++) {
             int nextMove = rand.Next(4);
             //If heads, and we aren't near the bottom, minus some height
@@ -461,8 +457,6 @@ public class MapFunctions {
                 wallMap[x, y] = 37; // toDo voir a changer le fond selon les biomes !!
             }
         }
-
-        return map;
     }
 
 

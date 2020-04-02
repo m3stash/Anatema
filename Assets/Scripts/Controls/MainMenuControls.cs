@@ -101,8 +101,8 @@ public class @MainMenuControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b540f14f-e020-4260-815e-dca439fec1f5"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""id"": ""e117476c-5559-4d59-9ca7-52eb93f75c89"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -220,6 +220,17 @@ public class @MainMenuControls : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""a8de3d62-996a-4fe7-95a2-7d50c87bf918"",
                     ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7f12f667-026d-43b5-b5c9-48313ce7dcb9"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
