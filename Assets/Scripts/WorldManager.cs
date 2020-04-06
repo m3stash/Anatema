@@ -80,7 +80,7 @@ public class WorldManager : MonoBehaviour {
 
     private void CreatePlayer() {
         player = Instantiate((GameObject)Resources.Load("Prefabs/Characters/Player/Player"), new Vector3(0, 0, 0), transform.rotation);
-        FindObjectOfType<CinemachineVirtualCamera>().Follow = player.transform; // toDo bouger er utiliser le GetPlayer event!
+        FindObjectOfType<CinemachineVirtualCamera>().Follow = player.transform;
     }
 
     public void AddItem(Vector2Int pos, InventoryItemData item) {

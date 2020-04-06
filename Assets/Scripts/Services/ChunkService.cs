@@ -8,103 +8,107 @@ public class ChunkService : MonoBehaviour {
     public int poolSize;
     private GameObject player;
     private Camera playerCam;
-    private int[,][,] tilesMapChunks;
     public static Dictionary<int, TileBase> tilebaseDictionary;
     private Transform worldMapTransform;
-    private float waitingTimeAfterCreateChunk = 0.1f;
     private ChunkPool pool;
-    private int halfChunk;
     private int boundX;
     private int boundY;
     private int currentPlayerChunkX;
     private int currentPlayerChunkY;
+    private int chunkSize;
     private readonly int maxChunkGapWithPlayerX = 6;
     private readonly int maxChunkGapWithPlayerY = 4;
-    private string chunkDirectory = "chunk-data";
-    private ChunkDataModel[,] cacheChunkData;
-    private int chunkXLength;
-    private int chunkYLength;
-    private int oldPosX;
-    private int oldPosY;
-    private int oldPlayerPosX;
-    private int oldPlayerPosY;
+    private int oldPosX = -1;
+    private int oldPosY = -1;
 
     public void FixedUpdate() {
         if (!WorldManager.instance.MapIsInit())
             return;
-        currentPlayerChunkX = (int)player.transform.position.x / WorldManager.instance.GetChunkSize();
-        currentPlayerChunkY = (int)player.transform.position.y / WorldManager.instance.GetChunkSize();
-        if ((oldPosX != currentPlayerChunkX || oldPosY != currentPlayerChunkY)) {
-            this.pool.DeactivateTooFarChunks(new Vector2(currentPlayerChunkX, currentPlayerChunkY), new Vector2(maxChunkGapWithPlayerX, maxChunkGapWithPlayerY));
+        currentPlayerChunkX = (int)player.transform.position.x / chunkSize;
+        currentPlayerChunkY = (int)player.transform.position.y / chunkSize;
+        if (oldPosX != currentPlayerChunkX || oldPosY != currentPlayerChunkY) {
+            if ((oldPosX != currentPlayerChunkX || oldPosY != currentPlayerChunkY)) {
+                this.pool.DeactivateTooFarChunks(new Vector2(currentPlayerChunkX, currentPlayerChunkY), new Vector2(maxChunkGapWithPlayerX, maxChunkGapWithPlayerY));
+            }
+            if (currentPlayerChunkX > oldPosX) { // right
+                StartPool(currentPlayerChunkX, currentPlayerChunkY, Direction.RIGHT);
+            } else if (currentPlayerChunkX < oldPosX) { // left
+                StartPool(currentPlayerChunkX, currentPlayerChunkY, Direction.LEFT);
+            }
+            if (currentPlayerChunkY > oldPosY) { // top
+                StartPool(currentPlayerChunkX, currentPlayerChunkY, Direction.TOP);
+            } else if (currentPlayerChunkY < oldPosY) { // bottom
+                StartPool(currentPlayerChunkX, currentPlayerChunkY, Direction.BOTTOM);
+            }
+            oldPosX = currentPlayerChunkX;
+            oldPosY = currentPlayerChunkY;
         }
-        if (currentPlayerChunkX > oldPosX) { // right
-            StartPool(currentPlayerChunkX, currentPlayerChunkY, Direction.RIGHT);
-        } else if (currentPlayerChunkX < oldPosX) { // left
-            StartPool(currentPlayerChunkX, currentPlayerChunkY, Direction.LEFT);
-        }
-        if (currentPlayerChunkY > oldPosY) { // top
-            StartPool(currentPlayerChunkX, currentPlayerChunkY, Direction.TOP);
-        } else if (currentPlayerChunkY < oldPosY) { // bottom
-            StartPool(currentPlayerChunkX, currentPlayerChunkY, Direction.BOTTOM);
-        }
-        oldPosX = currentPlayerChunkX;
-        oldPosY = currentPlayerChunkY;
     }
 
     public Chunk GetChunk(int posX, int posY) {
-        return this.pool.GetChunk(new Vector2(posX, posY));
+        return pool.GetChunk(new Vector2(posX, posY));
     }
+
     public void Init(Dictionary<int, TileBase> _tilebaseDictionary, GameObject player) {
+        chunkSize = WorldManager.instance.GetChunkSize();
         boundX = WorldManager.instance.tilesWorldMap.GetUpperBound(0);
         boundY = WorldManager.instance.tilesWorldMap.GetUpperBound(1);
         playerCam = player.GetComponentInChildren<Camera>();
-        halfChunk = WorldManager.instance.GetChunkSize() / 2;
         this.player = player;
         worldMapTransform = GameObject.FindGameObjectWithTag("WorldMap").gameObject.transform;
         tilebaseDictionary = _tilebaseDictionary;
-        cacheChunkData = new ChunkDataModel[boundX, boundY];
-        CreatePoolChunk(20, 52);
+        Vector2Int spanwPlayer = CheckStartPlayerStartPosition(boundX / 2);
+        Vector2Int chunkPosStart = new Vector2Int(spanwPlayer.x / chunkSize, spanwPlayer.y / chunkSize);
+        CreatePoolChunk(chunkPosStart, spanwPlayer);
     }
-    public void CreateChunksFromMaps(int[,] tilesMap) {
-        chunkXLength = (tilesMap.GetUpperBound(0) + 1) / WorldManager.instance.GetChunkSize();
-        chunkYLength = (tilesMap.GetUpperBound(1) + 1) / WorldManager.instance.GetChunkSize();
-        int[,][,] tilesMapChunksArray = new int[chunkXLength, chunkYLength][,];
-        for (var chkX = 0; chkX < chunkXLength; chkX++) {
-            for (var chkY = 0; chkY < chunkYLength; chkY++) {
-                int[,] tileMap = new int[WorldManager.instance.GetChunkSize(), WorldManager.instance.GetChunkSize()];
-                for (var x = 0; x < WorldManager.instance.GetChunkSize(); x++) {
-                    for (var y = 0; y < WorldManager.instance.GetChunkSize(); y++) {
-                        tileMap[x, y] = tilesMap[(chkX * WorldManager.instance.GetChunkSize()) + x, (chkY * WorldManager.instance.GetChunkSize()) + y];
-                    }
+
+    public Vector2Int CheckStartPlayerStartPosition(int posX) {
+        for (var y = boundY; y >= 0; y--) {
+            int currentTile = WorldManager.instance.tilesWorldMap[posX, y];
+            if (currentTile == 2 || currentTile == 1) {
+                if (PlayerHavePlaceToSpawn(posX, y + 2)) {
+                    return new Vector2Int(posX, y + 1);
                 }
-                tilesMapChunksArray[chkX, chkY] = tileMap;
+                break;
             }
         }
-        tilesMapChunks = tilesMapChunksArray;
+        return CheckStartPlayerStartPosition(posX + 1);
     }
-    public void CreatePoolChunk(int xStart, int yStart) {
-        this.pool = this.gameObject.AddComponent<ChunkPool>();
-        this.pool.Setup(worldMapTransform, poolSize);
 
-        // voir à améliorer ça pour faire de l'auto calc sur la range
-        for (var x = xStart - 4; x < xStart + 5; x++) {
-            for (var y = yStart - 3; y < yStart + 4; y++) {
+    private bool PlayerHavePlaceToSpawn(int x, int y) {
+        bool allIsVoid = true;
+        for (var newX = x - 1; newX <= x + 1; newX++) {
+            for (var newY = y - 1; newY <= y + 1; newY++) {
+                if (WorldManager.instance.tilesWorldMap[newX, newY] > 0) {
+                    allIsVoid = false;
+                }
+            }
+        }
+        return allIsVoid;
+    }
+
+    public void CreatePoolChunk(Vector2Int chunkPosStart, Vector2Int spanwPlayer) {
+        pool = gameObject.AddComponent<ChunkPool>();
+        pool.Setup(worldMapTransform, poolSize);
+        for (var x = chunkPosStart.x - 4; x < chunkPosStart.x + 5; x++) {
+            for (var y = chunkPosStart.y - 3; y < chunkPosStart.y + 4; y++) {
                 StartCoroutine(ManageChunkFromPool(new Vector2Int(x, y)));
             }
         }
-        // spawn player on center start chunk
-        oldPosX = xStart;
-        oldPosY = yStart;
-        oldPlayerPosX = xStart * WorldManager.instance.GetChunkSize() + (WorldManager.instance.GetChunkSize() / 2);
-        oldPlayerPosY = yStart * WorldManager.instance.GetChunkSize() + (WorldManager.instance.GetChunkSize() / 2);
-        player.transform.position = new Vector3(xStart * WorldManager.instance.GetChunkSize() + (WorldManager.instance.GetChunkSize() / 2), yStart * WorldManager.instance.GetChunkSize() + (WorldManager.instance.GetChunkSize() / 2), 0);
+        SetPlayerPosition(spanwPlayer);
+    }
+
+    private void SetPlayerPosition(Vector2Int spanwPlayer) {
+        oldPosX = spanwPlayer.x;
+        oldPosY = spanwPlayer.y;
+        player.transform.position = new Vector3(spanwPlayer.x, spanwPlayer.y, player.transform.position.z);
     }
 
     private IEnumerator ManageChunkFromPool(Vector2Int chunkPos) {
-        Chunk ck = this.pool.GetOne();
+        Chunk ck = pool.GetOne();
         GameObject chunkGo = ck.gameObject;
         ck.chunkPosition = chunkPos;
-        ck.worldPosition = new Vector2Int(chunkPos.x * WorldManager.instance.GetChunkSize(), chunkPos.y * WorldManager.instance.GetChunkSize());
+        ck.worldPosition = new Vector2Int(chunkPos.x * chunkSize, chunkPos.y * chunkSize);
         chunkGo.transform.position = new Vector3(ck.worldPosition.x, ck.worldPosition.y, 0);
         ck.tileMapTileMapScript.Init(ck.worldPosition.x, ck.worldPosition.y, WorldManager.instance.tilesWorldMap, boundX, boundY);
         ck.wallTileMapScript.Init(ck.worldPosition.x, ck.worldPosition.y, WorldManager.instance.wallTilesMap, boundX, boundY);
@@ -179,9 +183,10 @@ public class ChunkService : MonoBehaviour {
                 break;
         }
     }
+
     private void CheckIfChunkLoaded(List<Vector2Int> chunksToVerify) {
         chunksToVerify.ForEach(chunkToVerify => {
-            if (!this.pool.IsChunkExists(chunkToVerify)) {
+            if (!pool.IsChunkExists(chunkToVerify)) {
                 StartCoroutine(ManageChunkFromPool(chunkToVerify));
             }
         });

@@ -86,9 +86,9 @@ public class GameMaster : MonoBehaviour {
 
     private IEnumerator LoadScene() {
         Loader.instance.SetLoaderValue(100);
-        yield return new WaitForSeconds(waitTime);
-        loader.SetActive(false);
         SceneManager.LoadSceneAsync("WorldMap", LoadSceneMode.Single);
+        yield return new WaitForSeconds(1);
+        loader.SetActive(false);
     }
 
     private IEnumerator GenerateMap(MapSerialisable newMap, MapConfig mapConfig, int percentValue, int currentPercent) {
