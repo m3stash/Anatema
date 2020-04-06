@@ -7,7 +7,7 @@ using UnityEngine.Experimental.Rendering.Universal;
 
 public class CycleDay : MonoBehaviour {
     // [SerializeField] private Light AmbiantLight;
-    [SerializeField] private Light2D AmbiantLight;
+    [SerializeField] private Light2D ambiantLight;
     [SerializeField] private int startHour = 8;
     [SerializeField] private int durationDayOnMinute;
     [SerializeField] private int currentHour = 0;
@@ -45,6 +45,7 @@ public class CycleDay : MonoBehaviour {
         return intensity;
     }
     public void ConvertTime() {
+        ambiantLight.GetComponentInChildren<Light2D>();
         int durationOnSecond = durationDayOnMinute * 60;
         convertedInRealSecond = secondInDay / durationOnSecond;
     }
@@ -52,8 +53,8 @@ public class CycleDay : MonoBehaviour {
         return timerDay;
     }
     void Update() {
-        AmbiantLight.color = Color.Lerp(AmbiantLight.color, newColor, Time.deltaTime);
-        AmbiantLight.intensity = Mathf.Lerp(AmbiantLight.intensity, AmbiantIntensity, Time.deltaTime);
+        ambiantLight.color = Color.Lerp(ambiantLight.color, newColor, Time.deltaTime);
+        ambiantLight.intensity = Mathf.Lerp(ambiantLight.intensity, AmbiantIntensity, Time.deltaTime);
         /*moonMat[0].color = Color.Lerp(moonMat[0].color, new Color(moonMat[0].color.a, moonMat[0].color.b, moonMat[1].color.g, moonIntensity), Time.deltaTime);
         moonLight[0].intensity = Mathf.Lerp(moonLight[0].intensity, moonIntensity, Time.deltaTime);
         moonMat[1].color = Color.Lerp(moonMat[1].color, new Color(moonMat[1].color.a, moonMat[1].color.b, moonMat[1].color.g, moonIntensity), Time.deltaTime);

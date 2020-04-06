@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour {
-    [Header("Fields to complete")]
+    [Header("Don't touch it")]
     [SerializeField] private GameObject worldManager;
     [SerializeField] private BuildSelector tileSelectorPrefab;
 

@@ -11,6 +11,7 @@ public class Chunk : MonoBehaviour {
     public TileMapScript wallTileMapScript;
     public Tilemap tilemapTile;
     public Tilemap tilemapWall;
+    [Header("Don't touch it")]
     public GameObject player;
     public Vector2Int chunkPosition;
     public Vector2Int worldPosition;
@@ -61,7 +62,7 @@ public class Chunk : MonoBehaviour {
     private void GenerateObjectsMap() {
         for (var x = 0; x < WorldManager.instance.GetChunkSize(); x++) {
             for (var y = 0; y < WorldManager.instance.GetChunkSize(); y++) {
-                int currId = WorldManager.instance.objectsMap[worldPosition.x + x, worldPosition.y + y];
+                int currId = WorldManager.instance.worldMapObject[worldPosition.x + x, worldPosition.y + y];
                 if (currId > 0) {
                     Item item = ItemManager.instance.CreateItem(currId, ItemStatus.ACTIVE, new Vector3(worldPosition.x + x, worldPosition.y + y));
                     this.items.Add(item);
@@ -79,9 +80,9 @@ public class Chunk : MonoBehaviour {
                 Vector3Int vec3 = new Vector3Int(x, y, 0);
                 int worldX = worldPosition.x + x;
                 int worldY = worldPosition.y + y;
-                if (WorldManager.instance.tilesWorldMap[worldX, worldY] > 0 || WorldManager.instance.wallTilesMap[worldX, worldY] > 0) {
-                    var shadow = WorldManager.instance.tilesShadowMap[worldX, worldY] + intensity;
-                    var light = WorldManager.instance.tilesLightMap[worldX, worldY];
+                if (WorldManager.instance.worldMapTile[worldX, worldY] > 0 || WorldManager.instance.worldMapWall[worldX, worldY] > 0) {
+                    var shadow = WorldManager.instance.worldMapShadow[worldX, worldY] + intensity;
+                    var light = WorldManager.instance.worldMapLight[worldX, worldY];
                     float l;
                     if (light <= shadow) {
                         l = 1 - light * 0.01f;
@@ -120,13 +121,13 @@ public class Chunk : MonoBehaviour {
             positions[index] = new Vector3Int(x, y, 0);
             int posX = worldPosition.x + x;
             int posY = worldPosition.y + y;
-            var tileBaseIndex = WorldManager.instance.tilesWorldMap[posX, posY];
+            var tileBaseIndex = WorldManager.instance.worldMapTile[posX, posY];
             if (tileBaseIndex > 0) {
-                tileArray[index] = ChunkService.tilebaseDictionary[tileBaseIndex];
+                tileArray[index] = ChunkManager.tilebaseDictionary[tileBaseIndex];
             }
-            var tileWallIndex = WorldManager.instance.wallTilesMap[posX, posY];
+            var tileWallIndex = WorldManager.instance.worldMapWall[posX, posY];
             if (tileWallIndex > 0) {
-                tileArrayWall[index] = ChunkService.tilebaseDictionary[tileWallIndex];
+                tileArrayWall[index] = ChunkManager.tilebaseDictionary[tileWallIndex];
             }
         }
         tilemapTile.SetTiles(positions, tileArray);

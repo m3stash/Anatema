@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f62d149e3397f5048916e7a211d39af6, type: 3}
   m_Name: WorldMapConfig
   m_EditorClassIdentifier: 
-  mapType: 0
+  worldName: WorldMap
   mapWidth: 4096
   mapHeight: 1024
   chunkSize: 16

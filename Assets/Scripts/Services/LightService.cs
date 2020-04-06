@@ -11,17 +11,17 @@ public class LightService : MonoBehaviour {
 
     public void Init() {
         instance = this;
-        maxW = WorldManager.instance.tilesLightMap.GetUpperBound(0);
-        maxH = WorldManager.instance.tilesLightMap.GetUpperBound(1);
+        maxW = WorldManager.instance.worldMapLight.GetUpperBound(0);
+        maxH = WorldManager.instance.worldMapLight.GetUpperBound(1);
     }
 
     public void RecursivAddNewLight(int x, int y, int lastLight) {
         if (IsOutOfBound(x, y))
             return;
-        int newLight = GetAmountLight(WorldManager.instance.tilesWorldMap[x, y], WorldManager.instance.wallTilesMap[x, y], lastLight);
-        if (newLight == 100 || newLight >= WorldManager.instance.tilesLightMap[x, y])
+        int newLight = GetAmountLight(WorldManager.instance.worldMapTile[x, y], WorldManager.instance.worldMapWall[x, y], lastLight);
+        if (newLight == 100 || newLight >= WorldManager.instance.worldMapLight[x, y])
             return;
-        WorldManager.instance.tilesLightMap[x, y] = newLight;
+        WorldManager.instance.worldMapLight[x, y] = newLight;
         RecursivAddNewLight(x + 1, y, newLight);
         RecursivAddNewLight(x, y + 1, newLight);
         RecursivAddNewLight(x - 1, y, newLight);
@@ -30,14 +30,14 @@ public class LightService : MonoBehaviour {
     public void RecursivDeleteLight(int x, int y, bool toDelete) {
         if (IsOutOfBound(x, y))
             return;
-        var minLight = GetNeightboorMinOpacity(WorldManager.instance.tilesLightMap, x, y);
-        int newLight = GetAmountLight(WorldManager.instance.tilesWorldMap[x, y], WorldManager.instance.wallTilesMap[x, y], minLight);
-        if (newLight <= WorldManager.instance.tilesLightMap[x, y] && !toDelete)
+        var minLight = GetNeightboorMinOpacity(WorldManager.instance.worldMapLight, x, y);
+        int newLight = GetAmountLight(WorldManager.instance.worldMapLight[x, y], WorldManager.instance.worldMapLight[x, y], minLight);
+        if (newLight <= WorldManager.instance.worldMapLight[x, y] && !toDelete)
             return;
         var isLight = IsLight(x, y);
         if (!toDelete && isLight)
             return;
-        WorldManager.instance.tilesLightMap[x, y] = newLight;
+        WorldManager.instance.worldMapLight[x, y] = newLight;
         RecursivDeleteLight(x + 1, y, false);
         RecursivDeleteLight(x, y + 1, false);
         RecursivDeleteLight(x - 1, y, false);
@@ -46,23 +46,23 @@ public class LightService : MonoBehaviour {
     public void RecursivDeleteShadow(int x, int y) {
         if (IsOutOfBound(x, y))
             return;
-        var wallTileMap = WorldManager.instance.wallTilesMap[x, y];
-        var tileWorldMap = WorldManager.instance.tilesWorldMap[x, y];
-        var tileLightMap = WorldManager.instance.tilesLightMap[x, y];
-        var tileShadowMap = WorldManager.instance.tilesShadowMap[x, y];
-        var shadowOpacity = GetNeightboorMinOpacity(WorldManager.instance.tilesShadowMap, x, y);
+        var wallTileMap = WorldManager.instance.worldMapWall[x, y];
+        var tileWorldMap = WorldManager.instance.worldMapTile[x, y];
+        var tileLightMap = WorldManager.instance.worldMapLight[x, y];
+        var tileShadowMap = WorldManager.instance.worldMapShadow[x, y];
+        var shadowOpacity = GetNeightboorMinOpacity(WorldManager.instance.worldMapShadow, x, y);
         int newShadow = GetAmountLight(tileWorldMap, wallTileMap, shadowOpacity);
-        var lightOpacity = GetNeightboorMinOpacity(WorldManager.instance.tilesLightMap, x, y);
+        var lightOpacity = GetNeightboorMinOpacity(WorldManager.instance.worldMapLight, x, y);
         int newLight = GetAmountLight(tileWorldMap, wallTileMap, lightOpacity);
         bool badNewShadow = newShadow >= tileShadowMap;
         bool badNewLight = newLight >= tileLightMap;
         if (badNewShadow && badNewLight)
             return;
         if (!badNewShadow) {
-            WorldManager.instance.tilesShadowMap[x, y] = newShadow;
+            WorldManager.instance.worldMapShadow[x, y] = newShadow;
         }
         if (!badNewLight) {
-            WorldManager.instance.tilesLightMap[x, y] = newLight;
+            WorldManager.instance.worldMapLight[x, y] = newLight;
         }
         RecursivDeleteShadow(x + 1, y);
         RecursivDeleteShadow(x, y + 1);
@@ -71,30 +71,30 @@ public class LightService : MonoBehaviour {
     }
 
     public bool IsLight(int x, int y) {
-        return WorldManager.instance.objectsMap[x, y] == 16 || WorldManager.instance.dynamicLight[x, y] == 1;
+        return WorldManager.instance.worldMapObject[x, y] == 16 || WorldManager.instance.worldMapDynamicLight[x, y] == 1;
     }
 
     public void RecursivAddShadow(int x, int y) {
-        var tileWorldMap = WorldManager.instance.tilesWorldMap[x, y];
-        var wallTileMap = WorldManager.instance.wallTilesMap[x, y];
-        var tileLightMap = WorldManager.instance.tilesLightMap[x, y];
+        var tileWorldMap = WorldManager.instance.worldMapTile[x, y];
+        var wallTileMap = WorldManager.instance.worldMapWall[x, y];
+        var tileLightMap = WorldManager.instance.worldMapLight[x, y];
         var isLight = IsLight(x, y);
         if (isLight || IsOutOfBound(x, y) || (tileWorldMap == 0 && wallTileMap == 0))
             return;
-        var tileShadowMap = WorldManager.instance.tilesShadowMap[x, y];
-        var shadowOpacity = GetNeightboorMinOpacity(WorldManager.instance.tilesShadowMap, x, y);
+        var tileShadowMap = WorldManager.instance.worldMapShadow[x, y];
+        var shadowOpacity = GetNeightboorMinOpacity(WorldManager.instance.worldMapShadow, x, y);
         int newShadow = GetAmountLight(tileWorldMap, wallTileMap, shadowOpacity);
-        var lightOpacity = GetNeightboorMinOpacity(WorldManager.instance.tilesLightMap, x, y);
+        var lightOpacity = GetNeightboorMinOpacity(WorldManager.instance.worldMapLight, x, y);
         int newLight = GetAmountLight(tileWorldMap, wallTileMap, lightOpacity);
         bool badNewShadow = newShadow <= tileShadowMap;
         bool badNewLight = newLight <= tileLightMap;
         if (newLight <= tileLightMap && newShadow <= tileShadowMap)
             return;
         if (!badNewShadow) {
-            WorldManager.instance.tilesShadowMap[x, y] = newShadow;
+            WorldManager.instance.worldMapShadow[x, y] = newShadow;
         }
         if (!badNewLight) {
-            WorldManager.instance.tilesLightMap[x, y] = newLight;
+            WorldManager.instance.worldMapLight[x, y] = newLight;
         }
         RecursivAddShadow(x + 1, y);
         RecursivAddShadow(x, y + 1);

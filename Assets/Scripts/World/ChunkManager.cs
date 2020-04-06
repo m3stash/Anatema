@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class ChunkService : MonoBehaviour {
+public class ChunkManager : MonoBehaviour {
 
     public int poolSize;
     private GameObject player;
@@ -26,6 +26,10 @@ public class ChunkService : MonoBehaviour {
             return;
         currentPlayerChunkX = (int)player.transform.position.x / chunkSize;
         currentPlayerChunkY = (int)player.transform.position.y / chunkSize;
+        if(oldPosX == - 1 && oldPosY == -1) {
+            oldPosX = currentPlayerChunkX;
+            oldPosY = currentPlayerChunkY;
+        }
         if (oldPosX != currentPlayerChunkX || oldPosY != currentPlayerChunkY) {
             if ((oldPosX != currentPlayerChunkX || oldPosY != currentPlayerChunkY)) {
                 this.pool.DeactivateTooFarChunks(new Vector2(currentPlayerChunkX, currentPlayerChunkY), new Vector2(maxChunkGapWithPlayerX, maxChunkGapWithPlayerY));
@@ -51,11 +55,10 @@ public class ChunkService : MonoBehaviour {
 
     public void Init(Dictionary<int, TileBase> _tilebaseDictionary, GameObject player) {
         chunkSize = WorldManager.instance.GetChunkSize();
-        boundX = WorldManager.instance.tilesWorldMap.GetUpperBound(0);
-        boundY = WorldManager.instance.tilesWorldMap.GetUpperBound(1);
+        boundX = WorldManager.instance.worldMapTile.GetUpperBound(0);
+        boundY = WorldManager.instance.worldMapTile.GetUpperBound(1);
         playerCam = player.GetComponentInChildren<Camera>();
         this.player = player;
-        worldMapTransform = GameObject.FindGameObjectWithTag("WorldMap").gameObject.transform;
         tilebaseDictionary = _tilebaseDictionary;
         Vector2Int spanwPlayer = CheckStartPlayerStartPosition(boundX / 2);
         Vector2Int chunkPosStart = new Vector2Int(spanwPlayer.x / chunkSize, spanwPlayer.y / chunkSize);
@@ -64,7 +67,7 @@ public class ChunkService : MonoBehaviour {
 
     public Vector2Int CheckStartPlayerStartPosition(int posX) {
         for (var y = boundY; y >= 0; y--) {
-            int currentTile = WorldManager.instance.tilesWorldMap[posX, y];
+            int currentTile = WorldManager.instance.worldMapTile[posX, y];
             if (currentTile == 2 || currentTile == 1) {
                 if (PlayerHavePlaceToSpawn(posX, y + 2)) {
                     return new Vector2Int(posX, y + 1);
@@ -79,7 +82,7 @@ public class ChunkService : MonoBehaviour {
         bool allIsVoid = true;
         for (var newX = x - 1; newX <= x + 1; newX++) {
             for (var newY = y - 1; newY <= y + 1; newY++) {
-                if (WorldManager.instance.tilesWorldMap[newX, newY] > 0) {
+                if (WorldManager.instance.worldMapTile[newX, newY] > 0) {
                     allIsVoid = false;
                 }
             }
@@ -89,7 +92,7 @@ public class ChunkService : MonoBehaviour {
 
     public void CreatePoolChunk(Vector2Int chunkPosStart, Vector2Int spanwPlayer) {
         pool = gameObject.AddComponent<ChunkPool>();
-        pool.Setup(worldMapTransform, poolSize);
+        pool.Setup(WorldManager.instance.getMapGo().transform, poolSize);
         for (var x = chunkPosStart.x - 4; x < chunkPosStart.x + 5; x++) {
             for (var y = chunkPosStart.y - 3; y < chunkPosStart.y + 4; y++) {
                 StartCoroutine(ManageChunkFromPool(new Vector2Int(x, y)));
@@ -110,8 +113,8 @@ public class ChunkService : MonoBehaviour {
         ck.chunkPosition = chunkPos;
         ck.worldPosition = new Vector2Int(chunkPos.x * chunkSize, chunkPos.y * chunkSize);
         chunkGo.transform.position = new Vector3(ck.worldPosition.x, ck.worldPosition.y, 0);
-        ck.tileMapTileMapScript.Init(ck.worldPosition.x, ck.worldPosition.y, WorldManager.instance.tilesWorldMap, boundX, boundY);
-        ck.wallTileMapScript.Init(ck.worldPosition.x, ck.worldPosition.y, WorldManager.instance.wallTilesMap, boundX, boundY);
+        ck.tileMapTileMapScript.Init(ck.worldPosition.x, ck.worldPosition.y, WorldManager.instance.worldMapTile, boundX, boundY);
+        ck.wallTileMapScript.Init(ck.worldPosition.x, ck.worldPosition.y, WorldManager.instance.worldMapWall, boundX, boundY);
         chunkGo.SetActive(true);
         yield return new WaitForSeconds(0.1f);
     }

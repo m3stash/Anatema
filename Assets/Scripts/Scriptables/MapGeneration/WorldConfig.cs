@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public enum MapType {
-    WORLDMAP,
-}
 
-[CreateAssetMenu(fileName = "MapConfig", menuName = "Map/New Configuration")]
-public class MapConfig : ScriptableObject {
-    [SerializeField] private MapType mapType;
+[CreateAssetMenu(fileName = "WorldConfig", menuName = "World/New Configuration")]
+public class WorldConfig : ScriptableObject {
+    [SerializeField] private string worldName;
     [Header("Main Settings")]
     [SerializeField] private int mapWidth;
     [SerializeField] private int mapHeight;
@@ -20,21 +17,21 @@ public class MapConfig : ScriptableObject {
     [SerializeField] private MapSettings bottom;
     private int mapSeed;
 
-    public MapType GetMapType() {
-        return mapType;
+    public string GetWorldName() {
+        return worldName;
     }
-    public void SetMapSeed(int mapSeed) {
+    public void SetWorldSeed(int mapSeed) {
         this.mapSeed = mapSeed;
     }
-    public int GetMapSeed() {
+    public int GetWorldSeed() {
         return mapSeed;
     }
 
-    public int GetMapWidth() {
+    public int GetWorldWidth() {
         return mapWidth;
     }
 
-    public int GetMapHeight() {
+    public int GetWorldHeight() {
         return mapHeight;
     }
 
@@ -42,15 +39,15 @@ public class MapConfig : ScriptableObject {
         return chunkSize;
     }
 
-    public MapSettings GetMapSettingsTop() {
+    public MapSettings GetWorldSettingsTop() {
         return top;
     }
 
-    public MapSettings GetMapSettingsBottom() {
+    public MapSettings GetWorldSettingsBottom() {
         return bottom;
     }
 
-    public MapSettings GetMapSettingsMiddle() {
+    public MapSettings GetWorldSettingsMiddle() {
         return middle;
     }
 }

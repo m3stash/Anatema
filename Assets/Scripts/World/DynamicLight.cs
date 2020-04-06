@@ -21,26 +21,26 @@ public class DynamicLight : MonoBehaviour {
         int newPosY = Mathf.RoundToInt(transform.position.y);
 
         if (oldPosX != newPosX || oldPosY != newPosY) {
-            WorldManager.instance.dynamicLight[oldPosX, oldPosY] = 0;
+            WorldManager.instance.worldMapDynamicLight[oldPosX, oldPosY] = 0;
             LightService.instance.RecursivDeleteLight(oldPosX, oldPosY, true);
             LightService.instance.RecursivAddNewLight(newPosX, newPosY, 0);
-            WorldManager.instance.dynamicLight[newPosX, newPosY] = 1;
+            WorldManager.instance.worldMapDynamicLight[newPosX, newPosY] = 1;
             RefreshLight();
             oldPosX = newPosX;
             oldPosY = newPosY;
         } else {
-            WorldManager.instance.dynamicLight[newPosX, newPosY] = 1;
+            WorldManager.instance.worldMapDynamicLight[newPosX, newPosY] = 1;
         }
     }
 
     private void OnEnable() {
         oldPosX = (int)transform.position.x;
-        oldPosY = (int)transform.position.x;
+        oldPosY = Mathf.RoundToInt(transform.position.y);
     }
 
     private void OnDisable() {
         if (WorldManager.instance != null && WorldManager.instance.MapIsInit()) {
-            WorldManager.instance.dynamicLight[oldPosX, oldPosY] = 0;
+            WorldManager.instance.worldMapDynamicLight[oldPosX, oldPosY] = 0;
             LightService.instance.RecursivDeleteLight((int)transform.position.x, Mathf.RoundToInt(transform.position.y), true);
         }
     }

@@ -24,8 +24,8 @@ public class CalculateLightForObjects : MonoBehaviour {
         int x = (int)transform.position.x;
         // int y = (int)transform.position.y;
         int y = Mathf.RoundToInt(transform.position.y);
-        int newShadow = WorldManager.instance.tilesShadowMap[x, y] + CycleDay.GetIntensity();
-        int newLight = WorldManager.instance.tilesLightMap[x, y];
+        int newShadow = WorldManager.instance.worldMapShadow[x, y] + CycleDay.GetIntensity();
+        int newLight = WorldManager.instance.worldMapLight[x, y];
         float l;
         float oldL;
         if (newLight < newShadow) {
@@ -41,41 +41,12 @@ public class CalculateLightForObjects : MonoBehaviour {
         if (hasChildSpriteRender) {
             for(var i = 0; i < renders.Length; i++) {
                 renders[i].material.color = new Color(l, l, l, 1);
-                // renders[i].material.color = Color.Lerp(new Color(oldL, oldL, oldL, 1), new Color(l, l, l, 1), Time.deltaTime * 100);
             }
         } else {
             render.material.color = new Color(l, l, l, 1);
-            // render.material.color = Color.Lerp(new Color(oldL, oldL, oldL, 1), new Color(l, l, l, 1), Time.deltaTime * 100);
         }
 
         oldShadow = newShadow;
         oldLight = newLight;
     }
-
-    /*
-    void Update() {
-        if (!render.isVisible)
-            return;
-        int x = (int)transform.position.x;
-        int y = (int)transform.position.y;
-        int newShadow = WorldManager.tilesShadowMap[x, y] + CycleDay.GetIntensity();
-        int newLight = WorldManager.tilesLightMap[x, y];
-        if (oldShadow != newShadow || oldLight != newLight) {
-            float l;
-            float oldL;
-            if (newLight <= newShadow) {
-                l = 1 - newLight * 0.01f;
-                oldL = 1 - oldLight * 0.01f;
-            } else {
-                l = 1 - newShadow * 0.01f;
-                oldL = 1 - oldShadow * 0.01f;
-            }
-            // Debug.Log("Light "+l);
-            // Debug.Log("oldL " + oldL);
-            render.material.color = Color.Lerp(new Color(oldL, oldL, oldL, 1), new Color(l, l, l, 1), Time.deltaTime * 1000);
-            oldShadow = newShadow;
-            oldLight = newLight;
-        }
-    }
-     */
 }
