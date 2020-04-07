@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 [System.Serializable]
 public class MapSerialisable {
@@ -14,7 +15,22 @@ public class MapSerialisable {
     public int mapWidth;
     public int mapHeight;
     public int chunkSize;
-    public delegate void Action<in T>(T obj);
+}
+
+[System.Serializable]
+public class SaveData {
+
+    public int saveSlot;
+    public DateTime datetime;
+    public float gameTime;
+    public Dictionary<string, MapSerialisable> mapDatabase;
+
+    public SaveData(int saveSlot, DateTime datetime, float gameTime, Dictionary<string, MapSerialisable> mapDatabase) {
+        this.saveSlot = saveSlot;
+        this.datetime = datetime;
+        this.gameTime = gameTime;
+        this.mapDatabase = mapDatabase;
+    }
 }
 
 public class GameMaster : MonoBehaviour {
@@ -23,6 +39,10 @@ public class GameMaster : MonoBehaviour {
     [SerializeField] private GameObject loader;
     public Dictionary<string, MapSerialisable> mapDatabase;
     private float waitTime = 0.3f;
+    private bool sceneIsLoad = false;
+    private float gameTime;
+    private int saveSlot;
+    private string savePath = "saves/save_";
 
     [Header("Debug options")]
     [SerializeField] private bool saveWorldToJson;
@@ -36,6 +56,30 @@ public class GameMaster : MonoBehaviour {
         }
     }
 
+    private void Update() {
+        // Debug.Log(System.Math.Round(Time.time, 2).ToString());
+        ;        // Debug.Log(DateTime.Now.ToString());
+        if (sceneIsLoad) {
+            gameTime += Time.time;
+        }
+    }
+    public void NewGame() {
+        SceneManager.LoadSceneAsync("Loader");
+        StartCoroutine(StartGeneration());
+    }
+
+    public void Continue(int saveSlot) {
+        SceneManager.LoadSceneAsync("Loader");
+        StartCoroutine(LoadWorld(saveSlot));
+    }
+    private IEnumerator LoadScene() {
+        Loader.instance.SetLoaderValue(100);
+        SceneManager.LoadSceneAsync("WorldMap", LoadSceneMode.Single);
+        yield return new WaitForSeconds(1);
+        loader.SetActive(false);
+        sceneIsLoad = true;
+    }
+
     public MapSerialisable GetMapDatabaseByMapName(string worldName) {
         if (mapDatabase.TryGetValue(worldName, out MapSerialisable mapConf)) {
             return mapConf;
@@ -43,19 +87,38 @@ public class GameMaster : MonoBehaviour {
         return null;
     }
 
-    public void NewGame() {
-        SceneManager.LoadSceneAsync("Loader");
-        StartCoroutine(StartGeneration());
+    private string GetSavePath(int saveSlot) {
+        return "/" + savePath + saveSlot + "/save_" + saveSlot + ".data";
     }
 
+    private IEnumerator LoadWorld(int saveSlot) {
+        loader.SetActive(true);
+        Loader.instance.SetLoaderValue(5);
+        Loader.instance.SetCurrentAction("Chargement du monde", "Initialisation");
+        yield return new WaitForSeconds(waitTime);
+        ItemManager.instance.Init();
+        SaveData saveData = FileManager.GetFile<SaveData>(GetSavePath(saveSlot));
+        mapDatabase = saveData.mapDatabase;
+        gameTime = saveData.gameTime;
+        saveSlot = saveData.saveSlot;
+        Loader.instance.SetLoaderValue(5);
+        yield return StartCoroutine(LoadScene());
+    }
 
     private IEnumerator StartGeneration() {
+        gameTime = 0;
         loader.SetActive(true);
         Loader.instance.SetCurrentAction("Création du monde", "Initialisation");
         yield return new WaitForSeconds(waitTime);
         ItemManager.instance.Init();
         mapDatabase = new Dictionary<string, MapSerialisable>();
         StartCoroutine(StartCreate());
+    }
+    private void Save(int saveSlot) {
+        FileManager.ManageFolder("saves");
+        FileManager.ManageFolder(savePath + saveSlot);
+        SaveData saveData = new SaveData(saveSlot, DateTime.Now, gameTime, mapDatabase);
+        FileManager.Save(saveData, GetSavePath(saveSlot));
     }
 
     private IEnumerator StartCreate() {
@@ -65,7 +128,7 @@ public class GameMaster : MonoBehaviour {
         Loader.instance.SetCurrentAction("Création du monde", "Génération des maps");
         yield return new WaitForSeconds(waitTime);
         WorldConfig[] WorldConfigs = Resources.LoadAll<WorldConfig>("Scriptables/WorldsSettings/");
-        if(WorldConfigs.Length == 0) {
+        if (WorldConfigs.Length == 0) {
             Debug.Log("Warning no worldsSettings found");
         }
         for (var i = 0; i < WorldConfigs.Length; i++) {
@@ -77,6 +140,7 @@ public class GameMaster : MonoBehaviour {
             yield return StartCoroutine(GenerateMap(newMap, WorldConfigs[i], createMapValuePercent / WorldConfigs.Length + 1, currentPercent));
         }
         // CreateJsonForDebugTool(mapDatabase[0]);
+        Save(0); // toDo a remove juste pour le test !!!!
         yield return StartCoroutine(LoadScene());
     }
 
@@ -85,13 +149,6 @@ public class GameMaster : MonoBehaviour {
         if (saveWorldToJson) {
             FileManager.SaveToJson(new ConvertWorldMapToJson(newMap.worldMapTile, newMap.worldMapWall, newMap.worldMapObject), "worldMap");
         }
-    }
-
-    private IEnumerator LoadScene() {
-        Loader.instance.SetLoaderValue(100);
-        SceneManager.LoadSceneAsync("WorldMap", LoadSceneMode.Single);
-        yield return new WaitForSeconds(1);
-        loader.SetActive(false);
     }
 
     private IEnumerator GenerateMap(MapSerialisable newMap, WorldConfig worldConfigs, int percentValue, int currentPercent) {

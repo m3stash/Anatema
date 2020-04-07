@@ -24,7 +24,7 @@ public class MainMenuManagement : MonoBehaviour {
     public void Continue() {
         buttonPannel.SetActive(false);
         saveSlotPannel.SetActive(true);
-        // toDO voir a appeler le gameMaster et charger la scene correspondant a la map sur laquelle nous sommes!
+        GameMaster.instance.Continue(0); // toDo voir à récupérer ça selon le slot de save choisi !!
     }
 
 }
