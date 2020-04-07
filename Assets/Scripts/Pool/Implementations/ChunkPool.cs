@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 public class ChunkPool : Pool<Chunk> {
 
     public void Setup(Transform parent, int poolSize) {
-        GameObject obj = Instantiate((GameObject)Resources.Load("Prefabs/Chunk"), new Vector3(0, 0, 0), transform.rotation);
+        GameObject obj = Instantiate((GameObject)Resources.Load("Prefabs/World/Chunk"), new Vector3(0, 0, 0), transform.rotation);
         obj.transform.parent = parent;
 
         Chunk chunk = obj.GetComponent<Chunk>();

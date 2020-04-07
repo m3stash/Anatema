@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour {
-    [Header("Fields to complete")]
+    [Header("Don't touch it")]
     [SerializeField] private GameObject worldManager;
     [SerializeField] private BuildSelector tileSelectorPrefab;
 
@@ -20,15 +20,12 @@ public class GameManager : MonoBehaviour {
 
     private void Awake() {
         instance = this;
-
         this.toolSelector = GetComponent<ToolSelector>();
         this.toolSelector.enabled = false;
     }
 
     private void Start() {
-        ItemManager.instance.Init();
         worldManager.SetActive(true);
-        // GameObject.FindGameObjectWithTag("WorldMap").gameObject.SetActive(true);
         InputManager.gameplayControls.Shortcuts.build.performed += BuildModeTriggered;
         InputManager.gameplayControls.Shortcuts.tool.performed += ToolModeTriggered;
         InputManager.gameplayControls.Shortcuts.weapon.performed += WeaponModeTriggered;

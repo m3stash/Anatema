@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f62d149e3397f5048916e7a211d39af6, type: 3}
+  m_Name: WorldMapConfig
+  m_EditorClassIdentifier: 
+  worldName: WorldMap
+  mapWidth: 4096
+  mapHeight: 1024
+  chunkSize: 16
+  top: {fileID: 11400000, guid: 768d4a772f7d9914db6343a0f0239dc4, type: 2}
+  middle: {fileID: 11400000, guid: d7033e3eb6d93014cb09540efd545ab6, type: 2}
+  bottom: {fileID: 11400000, guid: a6b4274080f0b1e49a197c2f464a0cfb, type: 2}
