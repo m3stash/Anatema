@@ -10,7 +10,32 @@ PrefabInstance:
     - target: {fileID: 2553005576762921490, guid: 15e3a8a15b0027b419637f9be6225acf,
         type: 3}
       propertyPath: m_Name
-      value: Button
+      value: Options
+      objectReference: {fileID: 0}
+    - target: {fileID: 2553005576762921492, guid: 15e3a8a15b0027b419637f9be6225acf,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2553005576762921492, guid: 15e3a8a15b0027b419637f9be6225acf,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: NewGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 2553005576762921492, guid: 15e3a8a15b0027b419637f9be6225acf,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2553005576762921492, guid: 15e3a8a15b0027b419637f9be6225acf,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2553005576762921492, guid: 15e3a8a15b0027b419637f9be6225acf,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2553005576762921493, guid: 15e3a8a15b0027b419637f9be6225acf,
         type: 3}
@@ -70,12 +95,12 @@ PrefabInstance:
     - target: {fileID: 2553005576762921493, guid: 15e3a8a15b0027b419637f9be6225acf,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -483
+      value: -485
       objectReference: {fileID: 0}
     - target: {fileID: 2553005576762921493, guid: 15e3a8a15b0027b419637f9be6225acf,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 326
+      value: 314
       objectReference: {fileID: 0}
     - target: {fileID: 2553005576762921493, guid: 15e3a8a15b0027b419637f9be6225acf,
         type: 3}
@@ -116,6 +141,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2553005576990258708, guid: 15e3a8a15b0027b419637f9be6225acf,
+        type: 3}
+      propertyPath: m_Text
+      value: Options
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 15e3a8a15b0027b419637f9be6225acf, type: 3}

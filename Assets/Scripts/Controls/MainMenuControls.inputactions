@@ -2,7 +2,7 @@
     "name": "MainMenuControls",
     "maps": [
         {
-            "name": "Main",
+            "name": "LeftMenu",
             "id": "1a6a29cc-7420-419f-8131-95d97ef1ddef",
             "actions": [
                 {
@@ -111,7 +111,7 @@
             ]
         },
         {
-            "name": "Continue",
+            "name": "StartMenu",
             "id": "0e3639c6-fd52-4acf-bbff-f1c84032eb33",
             "actions": [
                 {
@@ -149,7 +149,7 @@
             ],
             "bindings": [
                 {
-                    "name": "2D Vector",
+                    "name": "Keyboard",
                     "id": "184ee08a-4aa7-4655-b7a1-75159d2356b8",
                     "path": "2DVector",
                     "interactions": "",
@@ -228,7 +228,7 @@
                 {
                     "name": "",
                     "id": "8707f7ab-ee5b-4215-880d-595094990ec4",
-                    "path": "<Keyboard>/backspace",
+                    "path": "<Keyboard>/delete",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -244,6 +244,33 @@
                     "processors": "",
                     "groups": "",
                     "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "OptionsMenu",
+            "id": "0cc92ba5-b4ab-4a03-ad19-e28bbd224087",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "009a4f6c-f948-467f-a0b6-64ad513899f7",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b08f3112-2c54-4c11-8a52-a8eea1545c50",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

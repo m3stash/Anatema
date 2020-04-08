@@ -5,8 +5,7 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(LayoutManager))]
 [RequireComponent(typeof(CursorManager))]
-public class InputManager : MonoBehaviour
-{
+public class InputManager : MonoBehaviour {
     [SerializeField] private bool mouseEnabled = true;
     [SerializeField] private Layout currentLayout;
 
@@ -133,15 +132,13 @@ public class InputManager : MonoBehaviour
     }
 }
 
-public enum Layout
-{
+public enum Layout {
     DEFAULT,
     INVENTORY,
     MENU
 }
 
-public enum InputType
-{
+public enum InputType {
     MOUSE,
     CONTROLLER
 }

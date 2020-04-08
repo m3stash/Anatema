@@ -2,29 +2,43 @@
 
 public class MainMenuManagement : MonoBehaviour {
 
-    [SerializeField] private GameObject saveSlotPannel;
-    [SerializeField] private GameObject buttonPannel;
+    [SerializeField] private GameObject leftMenuUI;
+    [SerializeField] private GameObject StartMenuUI;
     public static MainMenuManagement instance;
+    private SaveData[] saves;
     private void Awake() {
         instance = this;
     }
 
     void Start() {
+        StartMenuUI.SetActive(false);
+        leftMenuUI.SetActive(true);
+        InputMainMenuManager.instance.SetLayout(MainMenuLayout.LEFTMENU);
     }
 
     public void GoToMainMenu() {
-        buttonPannel.SetActive(true);
-        saveSlotPannel.SetActive(false);
+        leftMenuUI.SetActive(true);
+        StartMenuUI.SetActive(false);
+        InputMainMenuManager.instance.SetLayout(MainMenuLayout.LEFTMENU);
     }
 
-    public void NewGame() {
-        GameMaster.instance.NewGame();
+    public void StartMenu() {
+        InputMainMenuManager.instance.SetLayout(MainMenuLayout.STARTMENU);
+        leftMenuUI.SetActive(false);
+        StartMenuUI.SetActive(true);
+        if (saves == null) {
+            saves = GameMaster.instance.GetSaves();
+            for (var i = 0; i < saves.Length; i++) {
+                StartMenuUI.transform.GetChild(i).GetComponent<StartMenuSlot>().SetValue(saves[i], i);
+            }
+        }
     }
 
-    public void Continue() {
-        buttonPannel.SetActive(false);
-        saveSlotPannel.SetActive(true);
-        GameMaster.instance.Continue(0); // toDo voir à récupérer ça selon le slot de save choisi !!
+    public void Quit() {
+
     }
 
+    public void Options() {
+
+    }
 }

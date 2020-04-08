@@ -61,16 +61,16 @@ public class WorldManager : MonoBehaviour {
     }
 
     private void GetAndSetValueFromMapSerialisable() {
-        MapSerialisable mapConf = GameMaster.instance.GetMapDatabaseByMapName(worldConfig.GetWorldName());
-        worldMapLight = mapConf.worldMapLight;
-        worldMapShadow = mapConf.worldMapShadow;
-        worldMapTile = mapConf.worldMapTile;
-        worldMapWall = mapConf.worldMapWall;
-        worldMapObject = mapConf.worldMapObject;
-        worldMapDynamicLight = mapConf.worldMapDynamicLight;
-        worldSizeX = mapConf.mapWidth;
-        worldSizeY = mapConf.mapHeight;
-        chunkSize = mapConf.chunkSize;
+        MapSerialisable mapSerialisable = GameMaster.instance.GetWorldData();
+        worldMapLight = mapSerialisable.worldMapLight;
+        worldMapShadow = mapSerialisable.worldMapShadow;
+        worldMapTile = mapSerialisable.worldMapTile;
+        worldMapWall = mapSerialisable.worldMapWall;
+        worldMapObject = mapSerialisable.worldMapObject;
+        worldMapDynamicLight = mapSerialisable.worldMapDynamicLight;
+        worldSizeX = mapSerialisable.mapConf.mapWidth;
+        worldSizeY = mapSerialisable.mapConf.mapHeight;
+        chunkSize = mapSerialisable.mapConf.chunkSize;
     }
 
     void Start() {

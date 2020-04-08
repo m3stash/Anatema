@@ -12,24 +12,45 @@ public class MapSerialisable {
     public int[,] worldMapWall;
     public int[,] worldMapObject;
     public int[,] worldMapDynamicLight;
+    public MapConf mapConf;
+}
+public class MapSerialisableTest {
+    public string worldMapLight;
+    public string worldMapShadow;
+    public string worldMapTile;
+    public string worldMapWall;
+    public string worldMapObject;
+    public string worldMapDynamicLight;
+    public MapConf mapConf;
+}
+
+[System.Serializable]
+public class MapConf {
     public int mapWidth;
     public int mapHeight;
     public int chunkSize;
+    public int seed;
+    public MapConf(int mapWidth, int mapHeight, int chunkSize, int seed) {
+        this.mapWidth = mapWidth;
+        this.mapHeight = mapHeight;
+        this.chunkSize = chunkSize;
+        this.seed = seed;
+    }
 }
 
 [System.Serializable]
 public class SaveData {
 
     public int saveSlot;
-    public DateTime datetime;
+    public DateTime dateLastSave;
     public float gameTime;
-    public Dictionary<string, MapSerialisable> mapDatabase;
+    public string currentWorld;
 
-    public SaveData(int saveSlot, DateTime datetime, float gameTime, Dictionary<string, MapSerialisable> mapDatabase) {
+    public SaveData(int saveSlot, DateTime dateLastSave, float gameTime, /*Dictionary<string, MapSerialisable> mapDatabase,*/ string currentWorld) {
         this.saveSlot = saveSlot;
-        this.datetime = datetime;
+        this.dateLastSave = dateLastSave;
         this.gameTime = gameTime;
-        this.mapDatabase = mapDatabase;
+        this.currentWorld = currentWorld;
     }
 }
 
@@ -43,6 +64,14 @@ public class GameMaster : MonoBehaviour {
     private float gameTime;
     private int saveSlot;
     private string savePath = "saves/save_";
+    private string currentWorld;
+    private MapSerialisable worldData;
+    private int mapWidth;
+    private int mapHeight;
+    private int chunkSize;
+    private MapConf mapConf;
+    private SaveData[] saves;
+    // private List<string> WorldList;
 
     [Header("Debug options")]
     [SerializeField] private bool saveWorldToJson;
@@ -54,11 +83,10 @@ public class GameMaster : MonoBehaviour {
         } else if (instance != this) {
             Destroy(gameObject);
         }
+        SetCurrentSaves();
     }
 
     private void Update() {
-        // Debug.Log(System.Math.Round(Time.time, 2).ToString());
-        ;        // Debug.Log(DateTime.Now.ToString());
         if (sceneIsLoad) {
             gameTime += Time.time;
         }
@@ -68,9 +96,9 @@ public class GameMaster : MonoBehaviour {
         StartCoroutine(StartGeneration());
     }
 
-    public void Continue(int saveSlot) {
-        SceneManager.LoadSceneAsync("Loader");
-        StartCoroutine(LoadWorld(saveSlot));
+    public void Continue() {
+        // SceneManager.LoadSceneAsync("Loader");
+        // StartCoroutine(LoadWorld(saveSlot));
     }
     private IEnumerator LoadScene() {
         Loader.instance.SetLoaderValue(100);
@@ -80,15 +108,23 @@ public class GameMaster : MonoBehaviour {
         sceneIsLoad = true;
     }
 
-    public MapSerialisable GetMapDatabaseByMapName(string worldName) {
-        if (mapDatabase.TryGetValue(worldName, out MapSerialisable mapConf)) {
-            return mapConf;
-        }
-        return null;
+    public MapSerialisable GetWorldData() {
+        return worldData;
     }
 
-    private string GetSavePath(int saveSlot) {
-        return "/" + savePath + saveSlot + "/save_" + saveSlot + ".data";
+    public string GetSavePath(int saveSlot) {
+        return "/" + savePath + saveSlot + "/save_" + saveSlot;
+    }
+
+    private void SetCurrentSaves() {
+        saves = new SaveData[3];
+        saves[0] = FileManager.GetFile<SaveData>(GetSavePath(0) + ".data");
+        saves[1] = FileManager.GetFile<SaveData>(GetSavePath(1) + ".data");
+        saves[2] = FileManager.GetFile<SaveData>(GetSavePath(2) + ".data");
+    }
+
+    public SaveData[] GetSaves() {
+        return saves;
     }
 
     private IEnumerator LoadWorld(int saveSlot) {
@@ -97,12 +133,12 @@ public class GameMaster : MonoBehaviour {
         Loader.instance.SetCurrentAction("Chargement du monde", "Initialisation");
         yield return new WaitForSeconds(waitTime);
         ItemManager.instance.Init();
-        SaveData saveData = FileManager.GetFile<SaveData>(GetSavePath(saveSlot));
-        mapDatabase = saveData.mapDatabase;
+        SaveData saveData = FileManager.GetFile<SaveData>(GetSavePath(saveSlot) + ".data");
+        currentWorld = saveData.currentWorld;
         gameTime = saveData.gameTime;
         saveSlot = saveData.saveSlot;
-        Loader.instance.SetLoaderValue(5);
-        yield return StartCoroutine(LoadScene());
+        mapConf = FileManager.GetFile<MapConf>(GetSavePath(saveSlot) + "_" + currentWorld + ".infos.data");
+        StartCoroutine(LoadMapFiles(saveSlot, currentWorld));
     }
 
     private IEnumerator StartGeneration() {
@@ -117,13 +153,12 @@ public class GameMaster : MonoBehaviour {
     private void Save(int saveSlot) {
         FileManager.ManageFolder("saves");
         FileManager.ManageFolder(savePath + saveSlot);
-        SaveData saveData = new SaveData(saveSlot, DateTime.Now, gameTime, mapDatabase);
-        FileManager.Save(saveData, GetSavePath(saveSlot));
+        SaveData saveData = new SaveData(saveSlot, DateTime.Now, gameTime, /*mapDatabase,*/ currentWorld);
+        FileManager.Save(saveData, GetSavePath(saveSlot) + ".data");
     }
 
     private IEnumerator StartCreate() {
         int currentPercent = 5;
-        int createMapValuePercent = 80; // représentation en % de ce que représente la création de la map par rapport aux autres tâches
         Loader.instance.SetLoaderValue(currentPercent);
         Loader.instance.SetCurrentAction("Création du monde", "Génération des maps");
         yield return new WaitForSeconds(waitTime);
@@ -132,17 +167,40 @@ public class GameMaster : MonoBehaviour {
             Debug.Log("Warning no worldsSettings found");
         }
         for (var i = 0; i < WorldConfigs.Length; i++) {
-            WorldConfigs[i].SetWorldSeed(UnityEngine.Random.Range(0, 9999));
-            MapSerialisable newMap = new MapSerialisable();
-            GenerateMapService.instance.CreateMaps(WorldConfigs[i], newMap);
+            int seed = UnityEngine.Random.Range(0, 9999);
+            MapSerialisable worldData = new MapSerialisable();
+            GenerateMapService.instance.CreateMaps(WorldConfigs[i], worldData, seed);
             // toDo voir pour afficher un message si le map type n'a pas été renseigné correctement ou en doublon!
-            mapDatabase.Add(WorldConfigs[i].GetWorldName(), newMap);
-            yield return StartCoroutine(GenerateMap(newMap, WorldConfigs[i], createMapValuePercent / WorldConfigs.Length + 1, currentPercent));
+            string worldName = WorldConfigs[i].GetWorldName();
+            if (WorldConfigs[i].IsWorldMap()) {
+                currentWorld = worldName;
+                this.worldData = worldData;
+            } else {
+                Debug.Log("Warning no boolean default worldmap set in World Setting !!!");
+            }
+            FileManager.ManageFolder(savePath + saveSlot);
+            // (XXX / WorldConfigs.Length + 1) = représentation en % de ce que représente la création de la map par rapport aux autres tâches
+            // int currentPercentCalc = 
+            yield return StartCoroutine(GenerateMapService.instance.GenerateMap(worldData, WorldConfigs[i], 20 / WorldConfigs.Length, currentPercent));
+            yield return StartCoroutine(GenerateMapService.instance.SaveMapFiles(saveSlot, worldName, worldData, 80 / WorldConfigs.Length, 20));
+            MapConf MapConf = new MapConf(WorldConfigs[i].GetWorldWidth(), WorldConfigs[i].GetWorldHeight(), WorldConfigs[i].GetChunkSize(), seed);
+            FileManager.Save(MapConf, GetSavePath(saveSlot) + "_" + worldName + ".infos.data");
         }
         // CreateJsonForDebugTool(mapDatabase[0]);
-        Save(0); // toDo a remove juste pour le test !!!!
+        Save(saveSlot);
         yield return StartCoroutine(LoadScene());
     }
+
+    private IEnumerator LoadMapFiles(int saveSlot, string worldName) {
+        Loader.instance.SetCurrentAction("Chargement du monde", "Initialisation");
+        worldData = new MapSerialisable();
+        worldData.mapConf = new MapConf(mapConf.mapWidth, mapConf.mapHeight, mapConf.chunkSize, mapConf.seed);
+        Loader.instance.SetLoaderValue(10);
+        yield return new WaitForSeconds(waitTime);
+        yield return StartCoroutine(GenerateMapService.instance.LoadMapFromFiles(worldData, saveSlot, worldName, 90, 10));
+        yield return StartCoroutine(LoadScene());
+    }
+
 
     private void CreateJsonForDebugTool(MapSerialisable newMap) {
         // Create Json for html canvas map render Debug tool
@@ -150,19 +208,4 @@ public class GameMaster : MonoBehaviour {
             FileManager.SaveToJson(new ConvertWorldMapToJson(newMap.worldMapTile, newMap.worldMapWall, newMap.worldMapObject), "worldMap");
         }
     }
-
-    private IEnumerator GenerateMap(MapSerialisable newMap, WorldConfig worldConfigs, int percentValue, int currentPercent) {
-        // toDo voir à creer une liste d'Action afin de boucler dessus pour dynamiser numberOfTask par son length !
-        int numberOfTask = percentValue / 8;
-        yield return StartCoroutine(GenerateMapService.instance.GenerateTerrain(newMap, worldConfigs, currentPercent += numberOfTask));
-        yield return StartCoroutine(GenerateMapService.instance.GenerateCaves(newMap, worldConfigs, currentPercent += numberOfTask));
-        yield return StartCoroutine(GenerateMapService.instance.GenerateTunnels(newMap, worldConfigs, currentPercent += numberOfTask));
-        yield return StartCoroutine(GenerateMapService.instance.GenerateIrons(newMap, worldConfigs, currentPercent += numberOfTask));
-        yield return StartCoroutine(GenerateMapService.instance.GenerateTrees(newMap, worldConfigs, currentPercent += numberOfTask));
-        yield return StartCoroutine(GenerateMapService.instance.GenerateGrassTiles(newMap, worldConfigs, currentPercent += numberOfTask));
-        yield return StartCoroutine(GenerateMapService.instance.GenerateGrasses(newMap, worldConfigs, currentPercent += numberOfTask));
-        yield return StartCoroutine(GenerateMapService.instance.GenerateLightMap(newMap, worldConfigs, currentPercent += numberOfTask));
-        yield return new WaitForSeconds(waitTime);
-    }
-
 }
