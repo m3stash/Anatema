@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5019608, g: 0.043137256, b: 0, a: 1}
+  m_Color: {r: 0.5019608, g: 0.043137256, b: 0, a: 0.88235295}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5, g: 0.043070555, b: 0, a: 0.99215686}
+  m_Color: {r: 0.5, g: 0.043070555, b: 0, a: 0.88235295}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -392,7 +392,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3516386492734157690
 RectTransform:
   m_ObjectHideFlags: 0
@@ -439,6 +439,9 @@ MonoBehaviour:
   bottom: {fileID: 3516386491245350910}
   slotButton: {fileID: 5411096285009998623}
   deleteButton: {fileID: 3527022957256394693}
+  defaultSprite: {fileID: 21300000, guid: 96d90094f468ae9418a2f062e52c128f, type: 3}
+  corrupteDataSprite: {fileID: 21300000, guid: 1be264f696e233f4dacda9384de0746e, type: 3}
+  noDataSprite: {fileID: 21300000, guid: fbc77b60b315cd94ea8f3635d88f515a, type: 3}
 --- !u!1 &5411096285009998623
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,7 +547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5019608, g: 0.043137256, b: 0, a: 1}
+  m_Color: {r: 0.5019608, g: 0.043137256, b: 0, a: 0.88235295}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -566,6 +569,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3516386492734157690}
     m_Modifications:
+    - target: {fileID: 820193931925169716, guid: 2306d693fd57b684cb594a18f42c00af,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.14901961
+      objectReference: {fileID: 0}
+    - target: {fileID: 820193931925169716, guid: 2306d693fd57b684cb594a18f42c00af,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.13725491
+      objectReference: {fileID: 0}
+    - target: {fileID: 820193931925169716, guid: 2306d693fd57b684cb594a18f42c00af,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.13725491
+      objectReference: {fileID: 0}
     - target: {fileID: 820193931925169717, guid: 2306d693fd57b684cb594a18f42c00af,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Globalization;
 using System;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class StartMenuSlot : MonoBehaviour {
     [SerializeField] private GameObject top;
@@ -11,15 +13,19 @@ public class StartMenuSlot : MonoBehaviour {
     [SerializeField] private GameObject bottom;
     [SerializeField] private GameObject slotButton;
     [SerializeField] private GameObject deleteButton;
+    [SerializeField] Sprite defaultSprite;
+    [SerializeField] Sprite corrupteDataSprite;
+    [SerializeField] Sprite noDataSprite;
+    private bool isNewGame = false;
     private int slotNumber;
     private String[] cultureNames = { "en-US", "en-GB", "fr-FR" };  // toDO dynamiser ça plus tard avec le choix de la langue dans le menu option !
     private Button slot;
     private Button delete;
     private CultureInfo culture;
-    public delegate void SlotSelected(StartMenuSlot slot);
-    public static SlotSelected OnSelect;
+    public delegate void SlotSelect(StartMenuSlot slot);
+    public static SlotSelect OnSelect;
     public delegate void SlotDelete(StartMenuSlot slot);
-    public static SlotSelected OnDelete;
+    public static SlotSelect OnDelete;
 
     private void Awake() {
         var culture = new CultureInfo("fr-FR");
@@ -33,8 +39,13 @@ public class StartMenuSlot : MonoBehaviour {
         });
     }
 
-    private void Start() {
+    private void OnDestroy() {
+        DisableListeners();
+    }
 
+    private void DisableListeners() {
+        slot.onClick.RemoveAllListeners();
+        delete.onClick.RemoveAllListeners();
     }
 
     public int GetSlotNumber() {
@@ -43,6 +54,9 @@ public class StartMenuSlot : MonoBehaviour {
 
     public GameObject GetTop() {
         return top;
+    }
+    public bool IsNewGame() {
+        return isNewGame;
     }
 
     public GameObject GetBottom() {
@@ -55,22 +69,34 @@ public class StartMenuSlot : MonoBehaviour {
 
     public void SetValue(SaveData saveData, int slotNumber) {
         this.slotNumber = slotNumber;
-        top.GetComponentInChildren<Text>().text = "Save (" + slotNumber + ")";
+        InitValue();
         //var mm = (Math.Floor(playTime / 60) % 60).ToString();
         //var hh = Math.Floor(playTime / 60 / 60).ToString();
         //fileExist.transform.Find("gameTime").GetComponent<UnityEngine.UI.Text>().text = hh + " hour " + mm + " min";
         // top.GetComponent<Text>().text = 
         if (saveData != null) {
-            bottom.GetComponentInChildren<Text>().text = saveData.dateLastSave.ToString(culture);
-        } else {
-           Disable();
+            if (GenerateMapService.instance.VerifyAllFileExists(slotNumber, saveData.currentWorld)) {
+                isNewGame = false;
+                center.GetComponentInChildren<Image>().sprite = defaultSprite;
+                top.GetComponentInChildren<Text>().text = "Partie (" + slotNumber + ")";
+                bottom.GetComponentInChildren<Text>().text = saveData.dateLastSave.ToString(culture);
+                delete.interactable = true;
+            } else {
+                InitValue();
+                top.GetComponentInChildren<Text>().text = "Corrupte Data";
+                center.GetComponentInChildren<Image>().sprite = corrupteDataSprite;
+                delete.interactable = true;
+            }
         }
-
     }
 
-    public void Disable() {
-        center.GetComponent<Image>().color = new Color(0, 0, 0, 0.5f);
+
+    public void InitValue() {
+        isNewGame = true;
+        center.GetComponentInChildren<Image>().sprite = noDataSprite;
+        top.GetComponentInChildren<Text>().text = "Nouvelle Partie";
+        bottom.GetComponentInChildren<Text>().text = "";
         delete.interactable = false;
-        slot.interactable = false;
     }
+
 }

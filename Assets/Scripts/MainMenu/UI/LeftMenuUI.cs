@@ -25,7 +25,7 @@ public class LeftMenuUI : MonoBehaviour {
         });
 
         quitButton.onClick.AddListener(() => {
-            // quit
+            MainMenuManagement.instance.Quit();
         });
     }
 

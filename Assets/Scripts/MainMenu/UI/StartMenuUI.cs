@@ -6,23 +6,7 @@ using UnityEngine.InputSystem;
 
 public class StartMenuUI : MonoBehaviour {
 
-    // [SerializeField] private Button continueButton;
-    // [SerializeField] private Button newGameButton;
     private Vector2 lastMoveDirection;
-
-    private void Awake() {
-        // continueButton = continueButton.GetComponent<Button>();
-        // newGameButton = newGameButton.GetComponent<Button>();
-    }
-    void Start() {
-        /*continueButton.onClick.AddListener(() => {
-            MainMenuManagement.instance.Continue();
-        });
-
-        newGameButton.onClick.AddListener(() => {
-            MainMenuManagement.instance.NewGame();
-        });*/
-    }
 
     private void OnEnable() {
         EnablePerformed();
@@ -33,34 +17,25 @@ public class StartMenuUI : MonoBehaviour {
 
     private void OnDestroy() {
         DisablePerformed();
-        DisableListeners();
     }
 
     private void EnablePerformed() {
         InputMainMenuManager.instance.mainMenuControls.StartMenu.Navigate.performed += Navigate;
         InputMainMenuManager.instance.mainMenuControls.StartMenu.Cancel.performed += Cancel;
-        InputMainMenuManager.instance.mainMenuControls.StartMenu.Select.performed += Select;
         StartMenuSlot.OnSelect += SelectSlot;
-        // InputMainMenuManager.instance.mainMenuControls.LoadSave.Delete.performed += Delete;
+        StartMenuSlot.OnDelete += DeleteSlot;
     }
 
     private void DisablePerformed() {
         InputMainMenuManager.instance.mainMenuControls.StartMenu.Navigate.performed -= Navigate;
         InputMainMenuManager.instance.mainMenuControls.StartMenu.Cancel.performed -= Cancel;
-        InputMainMenuManager.instance.mainMenuControls.StartMenu.Select.performed -= Select;
-        // InputMainMenuManager.instance.mainMenuControls.LoadSave.Delete.performed -= Delete;
-    }
-
-    private void DisableListeners() {
-        // continueButton.onClick.RemoveAllListeners();
-        // newGameButton.onClick.RemoveAllListeners();
     }
 
     private void Navigate(InputAction.CallbackContext ctx) {
         Vector2 direction = ctx.ReadValue<Vector2>();
         if (direction != lastMoveDirection) {
-            Debug.Log(direction.ToString());
-            lastMoveDirection = direction;
+            // Debug.Log(direction.ToString());
+            // lastMoveDirection = direction;
         }
     }
 
@@ -69,11 +44,17 @@ public class StartMenuUI : MonoBehaviour {
     }
 
     private void SelectSlot(StartMenuSlot slot) {
-        Debug.Log(slot.GetSlotNumber());
+        if (slot.IsNewGame()) {
+            GameMaster.instance.NewGame(slot.GetSlotNumber());
+        } else {
+            GameMaster.instance.LoadSave(slot.GetSlotNumber());
+        }
+        
+    }
+    private void DeleteSlot(StartMenuSlot slot) {
+        int slotNumber = slot.GetSlotNumber();
+        GameMaster.instance.DeleteSave(slotNumber);
+        slot.InitValue();
     }
 
-    private void Select(InputAction.CallbackContext ctx) {
-        // GameMaster.instance.NewGame();
-        // Debug.Log("Select");
-    }
 }

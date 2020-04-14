@@ -866,6 +866,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: StartMenuSlot
       objectReference: {fileID: 0}
+    - target: {fileID: 3516386492734157691, guid: 6e80cb35ba2477f47820c20c3bec85ca,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e80cb35ba2477f47820c20c3bec85ca, type: 3}
 --- !u!224 &764466708 stripped
@@ -1115,6 +1120,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: StartMenuSlot (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3516386492734157691, guid: 6e80cb35ba2477f47820c20c3bec85ca,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5553877372628066703, guid: 6e80cb35ba2477f47820c20c3bec85ca,
         type: 3}
@@ -1818,6 +1828,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftMenuUI: {fileID: 1882957302}
   StartMenuUI: {fileID: 622276958}
+  background: {fileID: 611279079}
 --- !u!1 &1738811826
 GameObject:
   m_ObjectHideFlags: 0
@@ -2228,6 +2239,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: StartMenuSlot (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3516386492734157691, guid: 6e80cb35ba2477f47820c20c3bec85ca,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5553877372628066703, guid: 6e80cb35ba2477f47820c20c3bec85ca,
         type: 3}

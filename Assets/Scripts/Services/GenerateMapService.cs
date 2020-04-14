@@ -2,13 +2,31 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+
+public enum WORLDMAPTYPES {
+    WORLDMAPLIGHT,
+    WORLDMAPSHADOW,
+    WORLDMAPTILE,
+    WORLDMAPWALL,
+    WORLDMAPOBJECT,
+    WORLDMAPDYNAMICLIGHT
+}
+
 public class GenerateMapService : MonoBehaviour {
 
     public static GenerateMapService instance;
     private float waitTime = 0.3f;
+    private Dictionary<WORLDMAPTYPES, string> worldMapTypesDico;
 
     private void Awake() {
         instance = this;
+        worldMapTypesDico = new Dictionary<WORLDMAPTYPES, string>();
+        worldMapTypesDico.Add(WORLDMAPTYPES.WORLDMAPLIGHT, "worldMapLight");
+        worldMapTypesDico.Add(WORLDMAPTYPES.WORLDMAPSHADOW, "worldMapShadow");
+        worldMapTypesDico.Add(WORLDMAPTYPES.WORLDMAPTILE, "worldMapTile");
+        worldMapTypesDico.Add(WORLDMAPTYPES.WORLDMAPWALL, "worldMapWall");
+        worldMapTypesDico.Add(WORLDMAPTYPES.WORLDMAPOBJECT, "worldMapObject");
+        worldMapTypesDico.Add(WORLDMAPTYPES.WORLDMAPDYNAMICLIGHT, "worldMapDynamicLight");
     }
 
     public void Generate3Tunnels(MapSerialisable map, WorldConfig worldConfig) {
@@ -77,23 +95,23 @@ public class GenerateMapService : MonoBehaviour {
     }
 
     public IEnumerator LoadMapFromFiles(MapSerialisable worldData, int saveSlot, string worldName, int percentValue, int currentPercent) {
-        int numberOfTask = percentValue / 6;
-        yield return StartCoroutine(GetMapFile(saveSlot, worldName, "worldMapLight", worldData, currentPercent += numberOfTask));
-        yield return StartCoroutine(GetMapFile(saveSlot, worldName, "worldMapShadow", worldData, currentPercent += numberOfTask));
-        yield return StartCoroutine(GetMapFile(saveSlot, worldName, "worldMapTile", worldData, currentPercent += numberOfTask));
-        yield return StartCoroutine(GetMapFile(saveSlot, worldName, "worldMapWall", worldData, currentPercent += numberOfTask));
-        yield return StartCoroutine(GetMapFile(saveSlot, worldName, "worldMapObject", worldData, currentPercent += numberOfTask));
-        yield return StartCoroutine(GetMapFile(saveSlot, worldName, "worldMapDynamicLight", worldData, currentPercent += numberOfTask));
+        int numberOfTask = percentValue / worldMapTypesDico.Count;
+        yield return StartCoroutine(GetMapFile(saveSlot, worldName, WORLDMAPTYPES.WORLDMAPLIGHT, worldData, currentPercent += numberOfTask));
+        yield return StartCoroutine(GetMapFile(saveSlot, worldName, WORLDMAPTYPES.WORLDMAPSHADOW, worldData, currentPercent += numberOfTask));
+        yield return StartCoroutine(GetMapFile(saveSlot, worldName, WORLDMAPTYPES.WORLDMAPTILE, worldData, currentPercent += numberOfTask));
+        yield return StartCoroutine(GetMapFile(saveSlot, worldName, WORLDMAPTYPES.WORLDMAPWALL, worldData, currentPercent += numberOfTask));
+        yield return StartCoroutine(GetMapFile(saveSlot, worldName, WORLDMAPTYPES.WORLDMAPOBJECT, worldData, currentPercent += numberOfTask));
+        yield return StartCoroutine(GetMapFile(saveSlot, worldName, WORLDMAPTYPES.WORLDMAPDYNAMICLIGHT, worldData, currentPercent += numberOfTask));
     }
 
     public IEnumerator SaveMapFiles(int saveSlot, string worldName, MapSerialisable worldData, int percentValue, int currentPercent) {
-        int numberOfTask = percentValue / 6;
-        yield return StartCoroutine(SaveMapFile(saveSlot, worldName, "worldMapLight", worldData.worldMapLight, currentPercent += numberOfTask));
-        yield return StartCoroutine(SaveMapFile(saveSlot, worldName, "worldMapShadow", worldData.worldMapShadow, currentPercent += numberOfTask));
-        yield return StartCoroutine(SaveMapFile(saveSlot, worldName, "worldMapTile", worldData.worldMapTile, currentPercent += numberOfTask));
-        yield return StartCoroutine(SaveMapFile(saveSlot, worldName, "worldMapWall", worldData.worldMapWall, currentPercent += numberOfTask));
-        yield return StartCoroutine(SaveMapFile(saveSlot, worldName, "worldMapObject", worldData.worldMapObject, currentPercent += numberOfTask));
-        yield return StartCoroutine(SaveMapFile(saveSlot, worldName, "worldMapDynamicLight", worldData.worldMapDynamicLight, currentPercent += numberOfTask));
+        int numberOfTask = percentValue / worldMapTypesDico.Count;
+        yield return StartCoroutine(SaveMapFile(saveSlot, worldName, WORLDMAPTYPES.WORLDMAPLIGHT, worldData.worldMapLight, currentPercent += numberOfTask));
+        yield return StartCoroutine(SaveMapFile(saveSlot, worldName, WORLDMAPTYPES.WORLDMAPSHADOW, worldData.worldMapShadow, currentPercent += numberOfTask));
+        yield return StartCoroutine(SaveMapFile(saveSlot, worldName, WORLDMAPTYPES.WORLDMAPTILE, worldData.worldMapTile, currentPercent += numberOfTask));
+        yield return StartCoroutine(SaveMapFile(saveSlot, worldName, WORLDMAPTYPES.WORLDMAPWALL, worldData.worldMapWall, currentPercent += numberOfTask));
+        yield return StartCoroutine(SaveMapFile(saveSlot, worldName, WORLDMAPTYPES.WORLDMAPOBJECT, worldData.worldMapObject, currentPercent += numberOfTask));
+        yield return StartCoroutine(SaveMapFile(saveSlot, worldName, WORLDMAPTYPES.WORLDMAPDYNAMICLIGHT, worldData.worldMapDynamicLight, currentPercent += numberOfTask));
     }
 
     private static short[,] ConvertToShort2dArray(int[,] intArr) {
@@ -120,34 +138,44 @@ public class GenerateMapService : MonoBehaviour {
         return result;
     }
 
-    private IEnumerator SaveMapFile(int saveSlot, string worldName, string name, int[,] map, int loaderValue) {
-        Loader.instance.SetCurrentAction("Création du monde", "Création des fichiers de savegarde pour la map " + name);
+    private IEnumerator SaveMapFile(int saveSlot, string worldName, WORLDMAPTYPES worldMapType, int[,] map, int loaderValue) {
+        Loader.instance.SetCurrentAction("Création du monde", "Création des fichiers de savegarde pour la map " + worldMapTypesDico[worldMapType]);
         short[,] convertedMap = ConvertToShort2dArray(map);
-        FileManager.Save(convertedMap, GameMaster.instance.GetSavePath(saveSlot) + "_" + worldName + "." + name + ".map.data");
+        FileManager.Save(convertedMap, GameMaster.instance.GetSavePath(saveSlot) + "_" + worldName + "." + worldMapTypesDico[worldMapType] + ".map.data");
         Loader.instance.SetLoaderValue(loaderValue);
         yield return new WaitForSeconds(waitTime);
     }
 
-    public IEnumerator GetMapFile(int saveSlot, string worldName, string name, MapSerialisable worldData, int loaderValue) {
-        Loader.instance.SetCurrentAction("Chargement du monde", "Initialisation de la map " + name);
-        int[,] convertedValues = ConvertToInt2dArray(FileManager.GetFile<short[,]>(GameMaster.instance.GetSavePath(saveSlot) + "_" + worldName + "." + name + ".map.data"));
-        switch (name) {
-            case "worldMapLight":
+    public bool VerifyAllFileExists(int saveSlot, string worldName) {
+        bool allExist = true;
+        foreach (KeyValuePair<WORLDMAPTYPES, string> entry in worldMapTypesDico) {
+            if(!FileManager.CheckFileExist(GameMaster.instance.GetSavePath(saveSlot) + "_" + worldName + "." + entry.Value + ".map.data")) {
+                allExist = false;
+            }
+        }
+        return allExist;
+    }
+
+    public IEnumerator GetMapFile(int saveSlot, string worldName, WORLDMAPTYPES worlMapType, MapSerialisable worldData, int loaderValue) {
+        Loader.instance.SetCurrentAction("Chargement du monde", "Initialisation de la map " + worldMapTypesDico[worlMapType]);
+        int[,] convertedValues = ConvertToInt2dArray(FileManager.GetFile<short[,]>(GameMaster.instance.GetSavePath(saveSlot) + "_" + worldName + "." + worldMapTypesDico[worlMapType] + ".map.data"));
+        switch (worlMapType) {
+            case WORLDMAPTYPES.WORLDMAPLIGHT:
                 worldData.worldMapLight = convertedValues;
                 break;
-            case "worldMapShadow":
+            case WORLDMAPTYPES.WORLDMAPSHADOW:
                 worldData.worldMapShadow = convertedValues;
                 break;
-            case "worldMapTile":
+            case WORLDMAPTYPES.WORLDMAPTILE:
                 worldData.worldMapTile = convertedValues;
                 break;
-            case "worldMapWall":
+            case WORLDMAPTYPES.WORLDMAPWALL:
                 worldData.worldMapWall = convertedValues;
                 break;
-            case "worldMapObject":
+            case WORLDMAPTYPES.WORLDMAPOBJECT:
                 worldData.worldMapObject = convertedValues;
                 break;
-            case "worldMapDynamicLight":
+            case WORLDMAPTYPES.WORLDMAPDYNAMICLIGHT:
                 worldData.worldMapDynamicLight = convertedValues;
                 break;
         }

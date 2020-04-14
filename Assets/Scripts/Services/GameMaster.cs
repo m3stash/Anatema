@@ -71,6 +71,7 @@ public class GameMaster : MonoBehaviour {
     private int chunkSize;
     private MapConf mapConf;
     private SaveData[] saves;
+    private bool saveInProgress = false;
     // private List<string> WorldList;
 
     [Header("Debug options")]
@@ -91,15 +92,21 @@ public class GameMaster : MonoBehaviour {
             gameTime += Time.time;
         }
     }
-    public void NewGame() {
+    public void NewGame(int currentSlot) {
+        saveSlot = currentSlot;
         SceneManager.LoadSceneAsync("Loader");
-        StartCoroutine(StartGeneration());
+        StartCoroutine(StartGeneration(currentSlot));
     }
 
-    public void Continue() {
-        // SceneManager.LoadSceneAsync("Loader");
-        // StartCoroutine(LoadWorld(saveSlot));
+    public void LoadSave(int currentSlot) {
+        saveSlot = currentSlot;
+        SceneManager.LoadSceneAsync("Loader");
+        StartCoroutine(LoadWorld(currentSlot));
     }
+    public void DeleteSave(int slot) {
+        FileManager.DeleteFile("/saves/save_" + saveSlot);
+    }
+
     private IEnumerator LoadScene() {
         Loader.instance.SetLoaderValue(100);
         SceneManager.LoadSceneAsync("WorldMap", LoadSceneMode.Single);
@@ -127,28 +134,28 @@ public class GameMaster : MonoBehaviour {
         return saves;
     }
 
-    private IEnumerator LoadWorld(int saveSlot) {
+    private IEnumerator LoadWorld(int currentSlot) {
         loader.SetActive(true);
         Loader.instance.SetLoaderValue(5);
         Loader.instance.SetCurrentAction("Chargement du monde", "Initialisation");
         yield return new WaitForSeconds(waitTime);
         ItemManager.instance.Init();
-        SaveData saveData = FileManager.GetFile<SaveData>(GetSavePath(saveSlot) + ".data");
+        SaveData saveData = FileManager.GetFile<SaveData>(GetSavePath(currentSlot) + ".data");
         currentWorld = saveData.currentWorld;
         gameTime = saveData.gameTime;
-        saveSlot = saveData.saveSlot;
-        mapConf = FileManager.GetFile<MapConf>(GetSavePath(saveSlot) + "_" + currentWorld + ".infos.data");
+        mapConf = FileManager.GetFile<MapConf>(GetSavePath(currentSlot) + "_" + currentWorld + ".infos.data");
         StartCoroutine(LoadMapFiles(saveSlot, currentWorld));
     }
 
-    private IEnumerator StartGeneration() {
+    private IEnumerator StartGeneration(int slotNumber) {
+        saveInProgress = true;
         gameTime = 0;
         loader.SetActive(true);
         Loader.instance.SetCurrentAction("Création du monde", "Initialisation");
         yield return new WaitForSeconds(waitTime);
         ItemManager.instance.Init();
         mapDatabase = new Dictionary<string, MapSerialisable>();
-        StartCoroutine(StartCreate());
+        StartCoroutine(StartCreate(slotNumber));
     }
     private void Save(int saveSlot) {
         FileManager.ManageFolder("saves");
@@ -157,7 +164,7 @@ public class GameMaster : MonoBehaviour {
         FileManager.Save(saveData, GetSavePath(saveSlot) + ".data");
     }
 
-    private IEnumerator StartCreate() {
+    private IEnumerator StartCreate(int slotNumber) {
         int currentPercent = 5;
         Loader.instance.SetLoaderValue(currentPercent);
         Loader.instance.SetCurrentAction("Création du monde", "Génération des maps");
@@ -178,16 +185,17 @@ public class GameMaster : MonoBehaviour {
             } else {
                 Debug.Log("Warning no boolean default worldmap set in World Setting !!!");
             }
-            FileManager.ManageFolder(savePath + saveSlot);
+            FileManager.ManageFolder(savePath + slotNumber);
             // (XXX / WorldConfigs.Length + 1) = représentation en % de ce que représente la création de la map par rapport aux autres tâches
             // int currentPercentCalc = 
             yield return StartCoroutine(GenerateMapService.instance.GenerateMap(worldData, WorldConfigs[i], 20 / WorldConfigs.Length, currentPercent));
-            yield return StartCoroutine(GenerateMapService.instance.SaveMapFiles(saveSlot, worldName, worldData, 80 / WorldConfigs.Length, 20));
+            yield return StartCoroutine(GenerateMapService.instance.SaveMapFiles(slotNumber, worldName, worldData, 80 / WorldConfigs.Length, 20));
             MapConf MapConf = new MapConf(WorldConfigs[i].GetWorldWidth(), WorldConfigs[i].GetWorldHeight(), WorldConfigs[i].GetChunkSize(), seed);
-            FileManager.Save(MapConf, GetSavePath(saveSlot) + "_" + worldName + ".infos.data");
+            FileManager.Save(MapConf, GetSavePath(slotNumber) + "_" + worldName + ".infos.data");
         }
         // CreateJsonForDebugTool(mapDatabase[0]);
-        Save(saveSlot);
+        Save(slotNumber);
+        saveInProgress = false;
         yield return StartCoroutine(LoadScene());
     }
 
@@ -199,6 +207,13 @@ public class GameMaster : MonoBehaviour {
         yield return new WaitForSeconds(waitTime);
         yield return StartCoroutine(GenerateMapService.instance.LoadMapFromFiles(worldData, saveSlot, worldName, 90, 10));
         yield return StartCoroutine(LoadScene());
+    }
+
+    private void OnDestroy() {
+        // if stop during file creation prossessing then => delete folder save!
+        if (saveInProgress) {
+            DeleteSave(saveSlot);
+        }
     }
 
 

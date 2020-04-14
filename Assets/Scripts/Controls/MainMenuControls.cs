@@ -137,7 +137,7 @@ public class @MainMenuControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Select"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""559aa832-a1e7-4a32-aed7-9fd9511f405e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
