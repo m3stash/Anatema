@@ -72,6 +72,7 @@ public class GameMaster : MonoBehaviour {
     private MapConf mapConf;
     private SaveData[] saves;
     private bool saveInProgress = false;
+    private DialogModal dialogModal;
     // private List<string> WorldList;
 
     [Header("Debug options")]
@@ -85,6 +86,7 @@ public class GameMaster : MonoBehaviour {
             Destroy(gameObject);
         }
         SetCurrentSaves();
+
     }
 
     private void Update() {

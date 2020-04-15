@@ -1,35 +1,32 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
 public class MainMenuManagement : MonoBehaviour {
 
     [SerializeField] private GameObject leftMenuUI;
     [SerializeField] private GameObject StartMenuUI;
-    [SerializeField] private GameObject background;
     public static MainMenuManagement instance;
-    public Image backgroundSprite;
     private SaveData[] saves;
+
     private void Awake() {
         instance = this;
     }
 
-    void Start() {
+    private void ActiveLeftMenu() {
         StartMenuUI.SetActive(false);
-        leftMenuUI.SetActive(true);
         InputMainMenuManager.instance.SetLayout(MainMenuLayout.LEFTMENU);
-        backgroundSprite = background.GetComponent<Image>();
     }
 
-    public void GoToMainMenu() {
-        SetBackgroundColor(false);
-        leftMenuUI.SetActive(true);
-        StartMenuUI.SetActive(false);
-        InputMainMenuManager.instance.SetLayout(MainMenuLayout.LEFTMENU);
+    void Start() {
+        ActiveLeftMenu();
+    }
+
+    public void MainMenu() {
+        ActiveLeftMenu();
     }
 
     public void StartMenu() {
-        SetBackgroundColor(true);
         InputMainMenuManager.instance.SetLayout(MainMenuLayout.STARTMENU);
-        leftMenuUI.SetActive(false);
         StartMenuUI.SetActive(true);
         if (saves == null) {
             saves = GameMaster.instance.GetSaves();
@@ -39,19 +36,23 @@ public class MainMenuManagement : MonoBehaviour {
         }
     }
 
+    public void ShowDialogModal(bool showModal) {
+        if (showModal) {
+            InputMainMenuManager.instance.SetLayout(MainMenuLayout.DIALOGMODAL);
+        } else {
+            InputMainMenuManager.instance.SetLayout(InputMainMenuManager.instance.GetLastMenuLayout());
+        }
+    }
+
     public void Quit() {
+        StartMenuUI.SetActive(false);
+        // InputMainMenuManager.instance.SetLayout(MainMenuLayout.QUIT);
         Application.Quit();
     }
 
     public void Options() {
-
+        StartMenuUI.SetActive(false);
+        // InputMainMenuManager.instance.SetLayout(MainMenuLayout.OPTIONS);
     }
 
-    private void SetBackgroundColor(bool revert) {
-        if (revert) {
-            backgroundSprite.color = new Color(255, 255, 255, 0.5f);
-        } else {
-            backgroundSprite.color = new Color(255, 255, 255, 1f);
-        }
-    }
 }
