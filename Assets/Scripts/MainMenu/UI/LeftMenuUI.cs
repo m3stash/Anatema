@@ -16,23 +16,38 @@ public class LeftMenuUI : MonoBehaviour {
         optionsButton = optionsButton.GetComponent<Button>();
         quitButton = quitButton.GetComponent<Button>();
         SetButtonState(startButton);
-    }
-    void Start() {
-        startButton.onClick.AddListener(() => SetStartMenu());
-        optionsButton.onClick.AddListener(() => SetOptionMenu());
-        quitButton.onClick.AddListener(() => SetQuit());
+        SetButtonColors(startButton);
+        SetButtonColors(optionsButton);
+        SetButtonColors(quitButton);
     }
 
     private void OnEnable() {
         EnablePerformed();
+        EnableListeners();
     }
+
     private void OnDisable() {
         DisablePerformed();
+        DisableListeners();
     }
 
     private void OnDestroy() {
         DisablePerformed();
         DisableListeners();
+    }
+
+    private void SetButtonColors(Button button) {
+        ColorBlock colorBlock = button.colors;
+        colorBlock.normalColor = new Color(1, 1, 1, 0);
+        colorBlock.selectedColor = new Color(0.7843137f, 0.1568628f, 0.1568628f, 0.8f);
+        colorBlock.highlightedColor = new Color(0.5960785f, 0.1372549f, 0.1372549f, 1f);
+        button.colors = colorBlock;
+    }
+
+    private void SetNormalColor() {
+        ColorBlock colorBlock = currentSelectedButton.colors;
+        colorBlock.normalColor = new Color(0.7843137f, 0.1568628f, 0.1568628f, 0.8f);
+        currentSelectedButton.colors = colorBlock;
     }
 
     private void EnablePerformed() {
@@ -47,6 +62,12 @@ public class LeftMenuUI : MonoBehaviour {
         InputMainMenuManager.instance.mainMenuControls.LeftMenu.Select.performed -= Select;
     }
 
+    private void EnableListeners() {
+        startButton.onClick.AddListener(() => SetStartMenu());
+        optionsButton.onClick.AddListener(() => SetOptionMenu());
+        quitButton.onClick.AddListener(() => SetQuit());
+    }
+
     private void DisableListeners() {
         startButton.onClick.RemoveAllListeners();
         optionsButton.onClick.RemoveAllListeners();
@@ -54,21 +75,24 @@ public class LeftMenuUI : MonoBehaviour {
     }
 
     private void SetButtonState(Button button) {
+        SetButtonColors(startButton);
+        SetButtonColors(optionsButton);
+        SetButtonColors(quitButton);
         button.Select();
         currentSelectedButton = button;
-        button.GetComponent<Image>().color = new Color(200, 40, 40, 0.7f);
+        SetNormalColor();
     }
 
     private void Navigate(InputAction.CallbackContext ctx) {
         Selectable neighbour = CommonService.GetNeighboorSelectable(ctx.ReadValue<Vector2>(), currentSelectedButton);
         if (neighbour) {
-            // EventSystem.current.SetSelectedGameObject(startButton.gameObject);
             Button button = neighbour.GetComponent<Button>();
             SetButtonState(button);
         }
     }
 
     void Update() {
+        // for preserve selection => clicking anywhere makes you lose button focus !
         if (Input.GetMouseButtonDown(0)) {
             currentSelectedButton.Select();
         }
@@ -79,18 +103,7 @@ public class LeftMenuUI : MonoBehaviour {
     }
 
     private void Select(InputAction.CallbackContext ctx) {
-        MainMenuLayout layout = currentSelectedButton.GetComponent<MainMenuButton>().GetLayoutType();
-        switch (layout) {
-            case MainMenuLayout.STARTMENU:
-                SetStartMenu();
-                break;
-            case MainMenuLayout.OPTIONS:
-                SetOptionMenu();
-                break;
-            case MainMenuLayout.QUIT:
-                SetQuit();
-                break;
-        }
+        currentSelectedButton.onClick.Invoke();
     }
 
     private void SetStartMenu() {

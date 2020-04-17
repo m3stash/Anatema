@@ -40,8 +40,8 @@ public class DialogModalService : MonoBehaviour {
     }
 
     public void OnModalClose(bool status) {
-        callbackAction?.Invoke(status);
         Destroy(dialogModalGo);
+        callbackAction?.Invoke(status);
     }
 
     private void Create(DialogModalConf conf) {

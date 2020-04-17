@@ -293,17 +293,6 @@
                 },
                 {
                     "name": "",
-                    "id": "7f12f667-026d-43b5-b5c9-48313ce7dcb9",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Select",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "8707f7ab-ee5b-4215-880d-595094990ec4",
                     "path": "<Keyboard>/delete",
                     "interactions": "",
@@ -519,17 +508,6 @@
                     "name": "",
                     "id": "ce70f9d3-e3ca-4e31-9b63-ba7030c4eb57",
                     "path": "<Keyboard>/enter",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Select",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "739b409d-00bb-4845-80b8-81e1a30bccdd",
-                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

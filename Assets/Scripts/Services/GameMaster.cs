@@ -106,7 +106,7 @@ public class GameMaster : MonoBehaviour {
         StartCoroutine(LoadWorld(currentSlot));
     }
     public void DeleteSave(int slot) {
-        FileManager.DeleteFile("/saves/save_" + saveSlot);
+        FileManager.DeleteFile("/saves/save_" + slot);
     }
 
     private IEnumerator LoadScene() {

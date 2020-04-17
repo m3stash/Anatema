@@ -22,7 +22,7 @@ public class StartMenuSlot : MonoBehaviour {
     private Button slot;
     private Button delete;
     private CultureInfo culture;
-    public delegate void SlotSelect(StartMenuSlot slot);
+    public delegate void SlotSelect(StartMenuSlot slot, Button button);
     public static SlotSelect OnSelect;
     public delegate void SlotDelete(StartMenuSlot slot);
     public static SlotSelect OnDelete;
@@ -30,17 +30,55 @@ public class StartMenuSlot : MonoBehaviour {
     private void Awake() {
         var culture = new CultureInfo("fr-FR");
         slot = slotButton.gameObject.GetComponent<Button>();
-        slot.onClick.AddListener(() => {
-            OnSelect?.Invoke(this);
-        });
         delete = deleteButton.gameObject.GetComponent<Button>();
-        delete.onClick.AddListener(() => {
-            OnDelete?.Invoke(this);
-        });
+        SetButtonColors();
+        SetDeleteButtonColors();
     }
 
     private void OnDestroy() {
         DisableListeners();
+    }
+
+    private void OnEnable() {
+        EnableListeners();
+    }
+
+    private void OnDisable() {
+        DisableListeners();
+    }
+
+    public Button GetSlotButton() {
+        return slot;
+    }
+
+    private void SetButtonColors() {
+        ColorBlock colorBlock = slot.colors;
+        colorBlock.normalColor = new Color(0.2641509f, 0.2641509f, 0.2641509f, 0.9f);
+        colorBlock.selectedColor = new Color(0.03921569f, 0.03921569f, 0.03921569f, 0.8f);
+        colorBlock.highlightedColor = new Color(0.03921569f, 0.03921569f, 0.03921569f, 0.8f);
+        slot.colors = colorBlock;
+    }
+
+    private void SetDeleteButtonColors() {
+        delete.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+        ColorBlock colorBlock = delete.colors;
+        colorBlock.normalColor = new Color(0.1490196f, 0.1372549f, 0.1372549f, 0.8f);
+        colorBlock.selectedColor = new Color(0.1490196f, 0.1372549f, 0.1372549f, 1);
+        colorBlock.highlightedColor = new Color(0.1490196f, 0.1372549f, 0.1372549f, 1);
+        colorBlock.disabledColor = new Color(0.1490196f, 0.1372549f, 0.1372549f, 0.5f);
+        delete.colors = colorBlock;
+    }
+
+    private void EnableListeners() {
+        
+        slot.onClick.AddListener(() => {
+            OnSelect?.Invoke(this, slot);
+        });
+
+        delete.onClick.AddListener(() => {
+            OnDelete?.Invoke(this, delete);
+        });
+
     }
 
     private void DisableListeners() {
