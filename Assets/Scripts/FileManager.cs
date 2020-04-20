@@ -23,6 +23,10 @@ public static class FileManager {
         return default(T);
     }
 
+    public static bool CheckFileExist(string paths) {
+        return File.Exists(Application.persistentDataPath + paths);
+    }
+
     public static void ManageFolder(string folder) {
         if (!Directory.Exists(folder)) {
             Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, folder));
@@ -31,6 +35,10 @@ public static class FileManager {
 
     public static void SaveToJson(object entity, string filename) {
         System.IO.File.WriteAllText(Application.persistentDataPath + "/" + filename + ".json", JsonUtility.ToJson(entity));
+    }
+
+    public static void DeleteFile(string path) {
+        Directory.Delete(Application.persistentDataPath + path, true);
     }
 
 }

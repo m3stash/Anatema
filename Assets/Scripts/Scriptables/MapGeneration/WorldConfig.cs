@@ -15,16 +15,15 @@ public class WorldConfig : ScriptableObject {
     [SerializeField] private MapSettings top;
     [SerializeField] private MapSettings middle;
     [SerializeField] private MapSettings bottom;
-    private int mapSeed;
+    [Header("Only for WorldMap !")]
+    [SerializeField] private bool isWorldMap;
+
+    public bool IsWorldMap() {
+        return isWorldMap;
+    }
 
     public string GetWorldName() {
         return worldName;
-    }
-    public void SetWorldSeed(int mapSeed) {
-        this.mapSeed = mapSeed;
-    }
-    public int GetWorldSeed() {
-        return mapSeed;
     }
 
     public int GetWorldWidth() {

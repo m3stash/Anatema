@@ -1,30 +1,58 @@
 ﻿using UnityEngine;
-
+using UnityEngine.UI;
+using System;
 public class MainMenuManagement : MonoBehaviour {
 
-    [SerializeField] private GameObject saveSlotPannel;
-    [SerializeField] private GameObject buttonPannel;
+    [SerializeField] private GameObject leftMenuUI;
+    [SerializeField] private GameObject StartMenuUI;
     public static MainMenuManagement instance;
+    private SaveData[] saves;
+
     private void Awake() {
         instance = this;
     }
 
+    private void ActiveLeftMenu() {
+        StartMenuUI.SetActive(false);
+        InputMainMenuManager.instance.SetLayout(MainMenuLayout.LEFTMENU);
+    }
+
     void Start() {
+        ActiveLeftMenu();
     }
 
-    public void GoToMainMenu() {
-        buttonPannel.SetActive(true);
-        saveSlotPannel.SetActive(false);
+    public void MainMenu() {
+        ActiveLeftMenu();
     }
 
-    public void NewGame() {
-        GameMaster.instance.NewGame();
+    public void StartMenu() {
+        InputMainMenuManager.instance.SetLayout(MainMenuLayout.STARTMENU);
+        StartMenuUI.SetActive(true);
+        if (saves == null) {
+            saves = GameMaster.instance.GetSaves();
+            for (var i = 0; i < saves.Length; i++) {
+                StartMenuUI.transform.GetChild(i).GetComponent<StartMenuSlot>().SetValue(saves[i], i);
+            }
+        }
     }
 
-    public void Continue() {
-        buttonPannel.SetActive(false);
-        saveSlotPannel.SetActive(true);
-        // toDO voir a appeler le gameMaster et charger la scene correspondant a la map sur laquelle nous sommes!
+    public void ShowDialogModal(bool showModal) {
+        if (showModal) {
+            InputMainMenuManager.instance.SetLayout(MainMenuLayout.DIALOGMODAL);
+        } else {
+            InputMainMenuManager.instance.SetLayout(InputMainMenuManager.instance.GetLastMenuLayout());
+        }
+    }
+
+    public void Quit() {
+        StartMenuUI.SetActive(false);
+        // InputMainMenuManager.instance.SetLayout(MainMenuLayout.QUIT);
+        Application.Quit();
+    }
+
+    public void Options() {
+        StartMenuUI.SetActive(false);
+        // InputMainMenuManager.instance.SetLayout(MainMenuLayout.OPTIONS);
     }
 
 }

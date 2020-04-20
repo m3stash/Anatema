@@ -9,77 +9,68 @@ using UnityEngine.InputSystem;
 public class InputMainMenuManager : MonoBehaviour {
 
     public static InputMainMenuManager instance;
-    private MainMenuControls mainMenuControls;
-    [SerializeField] private Button continueButton;
-    [SerializeField] private Button newGameButton;
+    public MainMenuControls mainMenuControls;
+    private MainMenuLayout currentLayout;
+    private MainMenuLayout lastLayout;
 
     private void Awake() {
         instance = this;
-        // Init layout controls
         mainMenuControls = new MainMenuControls();
         mainMenuControls.Enable();
-        continueButton = continueButton.GetComponent<Button>();
-        newGameButton = newGameButton.GetComponent<Button>();
+        currentLayout = MainMenuLayout.LEFTMENU;
+        lastLayout = MainMenuLayout.LEFTMENU;
     }
 
     private void Start() {
-
-        EnableMainControls();
-
-        continueButton.onClick.AddListener(() => {
-            MainMenuManagement.instance.Continue();
-        });
-
-        newGameButton.onClick.AddListener(() => {
-            MainMenuManagement.instance.NewGame();
-        });
-    }
-
-    private void EnableMainControls() {
-        mainMenuControls.Main.Enable();
-        // mainMenuControls.Main.Navigate.performed += FunctXXX;
-        mainMenuControls.Main.Cancel.performed += Cancel;
-        mainMenuControls.Main.Select.performed += Select;
-    }
-
-    private void Cancel(InputAction.CallbackContext ctx) {
-        MainMenuManagement.instance.GoToMainMenu();
-    }
-
-    private void Select(InputAction.CallbackContext ctx) {
-        // Debug.Log("Select");
-    }
-
-    private void EnableContinueControls() {
-        mainMenuControls.Continue.Enable();
-        // mainMenuControls.Continue.Navigate.performed += FunctXXX;
-        // mainMenuControls.Continue.Select.performed += FunctXXX;
-        // mainMenuControls.Continue.Delete.performed += FunctXXX;
-        // mainMenuControls.Continue.Cancel.performed += FunctXXX;
-    }
-
-    private void DisableAllControls() {
-        CleanDelegates();
-        mainMenuControls.Disable();
-        mainMenuControls.Continue.Disable();
-    }
-    private void CleanDelegates() {
-        // mainMenuControls.Main.Navigate.performed -= FunctXXX;
-        mainMenuControls.Main.Cancel.performed -= Cancel;
-        mainMenuControls.Main.Select.performed -= Select;
-        // mainMenuControls.Continue.Navigate.performed -= FunctXXX;
-        // mainMenuControls.Continue.Select.performed -= FunctXXX;
-        // mainMenuControls.Continue.Delete.performed -= FunctXXX;
-        // mainMenuControls.Continue.Cancel.performed -= FunctXXX;
+        // active descative les menu !!
+        mainMenuControls.LeftMenu.Enable();
+        mainMenuControls.StartMenu.Enable();
+        mainMenuControls.OptionsMenu.Enable();
+        mainMenuControls.DialogModal.Enable();
     }
 
     private void OnDestroy() {
-        DisableAllControls();
-        DisableListeners();
+        DisableLayouts();
+        mainMenuControls.Disable();
     }
 
-    private void DisableListeners() {
-        continueButton.onClick.RemoveAllListeners();
-        newGameButton.onClick.RemoveAllListeners();
+    private void DisableLayouts() {
+        mainMenuControls.LeftMenu.Disable();
+        mainMenuControls.StartMenu.Disable();
+        mainMenuControls.OptionsMenu.Disable();
+        mainMenuControls.DialogModal.Disable();
     }
+
+    public void SetLayout(MainMenuLayout layout) {
+        lastLayout = currentLayout;
+        DisableLayouts();
+        switch (layout) {
+            case MainMenuLayout.LEFTMENU:
+                mainMenuControls.LeftMenu.Enable();
+                break;
+            case MainMenuLayout.STARTMENU:
+                mainMenuControls.StartMenu.Enable();
+                break;
+            case MainMenuLayout.OPTIONS:
+                mainMenuControls.OptionsMenu.Enable();
+                break;
+            case MainMenuLayout.DIALOGMODAL:
+                mainMenuControls.DialogModal.Enable();
+                break;
+        }
+        currentLayout = layout;
+    }
+
+    // for set the last layout before opening modal
+    public MainMenuLayout GetLastMenuLayout() {
+        return lastLayout;
+    }
+}
+
+public enum MainMenuLayout {
+    LEFTMENU,
+    STARTMENU,
+    OPTIONS,
+    DIALOGMODAL,
+    QUIT,
 }
