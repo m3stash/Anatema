@@ -157,7 +157,8 @@ public class MapFunctions {
                 continue;
             }
             // from top to bottom
-            for (int y = heightMap - 50; y > heightMap - 300; y--) {
+            // for (int y = heightMap - 50; y > heightMap - 300; y--) {
+            for (int y = heightMap - 50; y > heightMap - heightMap / 3; y--) {
                 if (tilesMap[x, y - 1] == 1) {
                     if (CheckCanPoseItem(itemConf, x, y, tilesMap, objectsMap, wallsMap)) {
                         SetItemInObjectsMap(itemConf, x, y, objectsMap);
@@ -180,7 +181,8 @@ public class MapFunctions {
             if (x < newGap)
                 continue;
             int deepCount = 0;
-            for (int y = heightMap - 1; y > heightMap - 300; y--) {
+            // for (int y = heightMap - 1; y > heightMap - 300; y--) {
+            for (int y = heightMap - 1; y > heightMap - heightMap / 3; y--) {
                 if (deepCount == 15)
                     break;
                 if (tilesMap[x, y] == 2) {
@@ -205,7 +207,8 @@ public class MapFunctions {
         int maxDeep = 15;
         for (int x = 0; x < widthMap; x++) {
             int deepCount = 0;
-            for (int y = heightMap - 1; y > heightMap - 300; y--) {
+            // for (int y = heightMap - 1; y > heightMap - 300; y--) {
+            for (int y = heightMap - 1; y > heightMap - heightMap / 3; y--) {
                 if (deepCount > maxDeep)
                     break;
                 var topNeightboorTile = map[x, y + 1];
@@ -436,8 +439,10 @@ public class MapFunctions {
     public static void RandomWalkTop(int[,] map, int[,] wallMap, float seed) {
         System.Random rand = new System.Random(seed.GetHashCode());
         var mapHeight = map.GetUpperBound(1);
-        var min = rand.Next(mapHeight - 300, mapHeight - 200);
-        var max = rand.Next(mapHeight - 200, mapHeight - 100);
+        // var min = rand.Next(mapHeight - 300, mapHeight - 200);
+        // var max = rand.Next(mapHeight - 200, mapHeight - 100);
+        var min = rand.Next(mapHeight - mapHeight / 3, mapHeight - mapHeight / 5);
+        var max = rand.Next(mapHeight - mapHeight / 5, mapHeight - mapHeight / 10);
         int lastHeight = Random.Range(min, max);
         for (int x = 0; x < map.GetUpperBound(0); x++) {
             int nextMove = rand.Next(4);
@@ -447,7 +452,7 @@ public class MapFunctions {
             }
 
             //If tails, and we aren't near the top, add some height
-            else if (nextMove == 2 && lastHeight < mapHeight - 200) {
+            else if (nextMove == 2 && lastHeight < mapHeight - mapHeight / 5) {
                 lastHeight++;
             }
 

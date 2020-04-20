@@ -52,7 +52,7 @@ public class Chunk : MonoBehaviour {
     /// </summary>
     /// <param name="item"></param>
     private void OnItemDestroyed(Item item) {
-        int itemIdxFound = this.items.FindIndex(elem => elem.GetInstanceID() == item.GetInstanceID());
+        int itemIdxFound = items.FindIndex(elem => elem.GetInstanceID() == item.GetInstanceID());
 
         if (itemIdxFound != -1) {
             this.items.RemoveAt(itemIdxFound);

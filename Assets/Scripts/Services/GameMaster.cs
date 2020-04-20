@@ -58,7 +58,6 @@ public class GameMaster : MonoBehaviour {
 
     public static GameMaster instance;
     [SerializeField] private GameObject loader;
-    public Dictionary<string, MapSerialisable> mapDatabase;
     private float waitTime = 0.3f;
     private bool sceneIsLoad = false;
     private float gameTime;
@@ -94,6 +93,24 @@ public class GameMaster : MonoBehaviour {
             gameTime += Time.time;
         }
     }
+    public void DebugWorld() {
+        StartCoroutine(StartDebugWOrld());
+    }
+
+    private IEnumerator StartDebugWOrld() {
+        loader.SetActive(true);
+        ItemManager.instance.Init();
+        WorldConfig config = Resources.Load<WorldConfig>("Scriptables/WorldSettings/WorldMapDebug/WorldMapDebugConfig");
+        MapSerialisable worldData = new MapSerialisable();
+        GenerateMapService.instance.CreateMaps(config, worldData, 0);
+        yield return StartCoroutine(GenerateMapService.instance.GenerateMap(worldData, config, 100, 100));
+        MapConf MapConf = new MapConf(config.GetWorldWidth(), config.GetWorldHeight(), config.GetChunkSize(), 0);
+        this.worldData = worldData;
+        SceneManager.LoadSceneAsync("WorldMapDebug", LoadSceneMode.Single);
+        loader.SetActive(false);
+        sceneIsLoad = true;
+    }
+
     public void NewGame(int currentSlot) {
         saveSlot = currentSlot;
         SceneManager.LoadSceneAsync("Loader");
@@ -156,13 +173,12 @@ public class GameMaster : MonoBehaviour {
         Loader.instance.SetCurrentAction("Création du monde", "Initialisation");
         yield return new WaitForSeconds(waitTime);
         ItemManager.instance.Init();
-        mapDatabase = new Dictionary<string, MapSerialisable>();
         StartCoroutine(StartCreate(slotNumber));
     }
     private void Save(int saveSlot) {
         FileManager.ManageFolder("saves");
         FileManager.ManageFolder(savePath + saveSlot);
-        SaveData saveData = new SaveData(saveSlot, DateTime.Now, gameTime, /*mapDatabase,*/ currentWorld);
+        SaveData saveData = new SaveData(saveSlot, DateTime.Now, gameTime, currentWorld);
         FileManager.Save(saveData, GetSavePath(saveSlot) + ".data");
     }
 
@@ -171,7 +187,7 @@ public class GameMaster : MonoBehaviour {
         Loader.instance.SetLoaderValue(currentPercent);
         Loader.instance.SetCurrentAction("Création du monde", "Génération des maps");
         yield return new WaitForSeconds(waitTime);
-        WorldConfig[] WorldConfigs = Resources.LoadAll<WorldConfig>("Scriptables/WorldsSettings/");
+        WorldConfig[] WorldConfigs = Resources.LoadAll<WorldConfig>("Scriptables/WorldSettings/");
         if (WorldConfigs.Length == 0) {
             Debug.Log("Warning no worldsSettings found");
         }

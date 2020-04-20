@@ -36,7 +36,7 @@ public class BackgroundParallaxManager : MonoBehaviour {
     }
 
     public void Update() {
-        if (!player)
+        /*if (!player)
             return;
         x = 0f;
         y = 0f;
@@ -44,7 +44,7 @@ public class BackgroundParallaxManager : MonoBehaviour {
             float newDist = camera.transform.position.y - oldPosY;
             y = newDist;
             oldPosY = camera.transform.position.y;
-        }
+        }*/
         bool ifEqualX = Mathf.Approximately(camera.transform.position.x, oldPosX);
         if (!ifEqualX) {
             float newDist = camera.transform.position.x - oldPosX;

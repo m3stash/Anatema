@@ -10,6 +10,7 @@ public class WorldConfig : ScriptableObject {
     [Header("Main Settings")]
     [SerializeField] private int mapWidth;
     [SerializeField] private int mapHeight;
+    [Header("only multiple of 16 !")]
     [SerializeField] private int chunkSize;
     [Header("Generation Settings")]
     [SerializeField] private MapSettings top;

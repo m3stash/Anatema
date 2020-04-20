@@ -21,7 +21,6 @@ public class ChunkPool : Pool<Chunk> {
                 return true;
             }
         }
-
         return false;
     }
 

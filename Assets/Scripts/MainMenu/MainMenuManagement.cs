@@ -52,6 +52,7 @@ public class MainMenuManagement : MonoBehaviour {
 
     public void Options() {
         StartMenuUI.SetActive(false);
+        GameMaster.instance.DebugWorld();
         // InputMainMenuManager.instance.SetLayout(MainMenuLayout.OPTIONS);
     }
 
