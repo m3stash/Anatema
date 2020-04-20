@@ -16,16 +16,12 @@ public class BackgroundParallaxManager : MonoBehaviour {
     public static BackgroundParallaxManager instance;
 
     private void OnEnable() {
-        WorldManager.GetPlayer += SetPlayer;
+        SetPlayer();
     }
 
-    private void OnDestroy() {
-        WorldManager.GetPlayer -= SetPlayer;
-    }
-    private void SetPlayer(GameObject player) {
-        // var cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+    private void SetPlayer() {
+        player = GameManager.instance.GetPlayer();
         camera = Camera.main.gameObject;
-        this.player = player;
         rg2d = player.GetComponent<Rigidbody2D>();
         oldPosY = player.transform.position.y;
         oldPosX = player.transform.position.x;

@@ -7,58 +7,47 @@ public class ChunkManager : MonoBehaviour {
 
     public int poolSize;
     private GameObject player;
-    private Camera playerCam;
     public static Dictionary<int, TileBase> tilebaseDictionary;
     private Transform worldMapTransform;
     private ChunkPool pool;
     private int boundX;
     private int boundY;
-    private int currentPlayerChunkX;
-    private int currentPlayerChunkY;
     private int chunkSize;
     private readonly int maxChunkGapWithPlayerX = 6;
     private readonly int maxChunkGapWithPlayerY = 4;
-    private int oldPosX = -1;
-    private int oldPosY = -1;
+    private Vector2Int oldPos;
+    private Vector2Int currentPos;
 
     public void FixedUpdate() {
         if (!WorldManager.instance.MapIsInit())
             return;
-        currentPlayerChunkX = (int)player.transform.position.x / chunkSize;
-        currentPlayerChunkY = (int)player.transform.position.y / chunkSize;
-        if(oldPosX == - 1 && oldPosY == -1) {
-            oldPosX = currentPlayerChunkX;
-            oldPosY = currentPlayerChunkY;
-        }
-        if (oldPosX != currentPlayerChunkX || oldPosY != currentPlayerChunkY) {
-            if ((oldPosX != currentPlayerChunkX || oldPosY != currentPlayerChunkY)) {
-                this.pool.DeactivateTooFarChunks(new Vector2(currentPlayerChunkX, currentPlayerChunkY), new Vector2(maxChunkGapWithPlayerX, maxChunkGapWithPlayerY));
+        currentPos = new Vector2Int((int)player.transform.position.x / chunkSize, (int)player.transform.position.y / chunkSize);
+        if (oldPos.x != currentPos.x || oldPos.y != currentPos.y) {
+            pool.DeactivateTooFarChunks(currentPos, new Vector2(maxChunkGapWithPlayerX, maxChunkGapWithPlayerY));
+            if (currentPos.x > oldPos.x) {
+                StartPool(currentPos, Direction.RIGHT);
+            } else if (currentPos.x < oldPos.x) {
+                StartPool(currentPos, Direction.LEFT);
             }
-            if (currentPlayerChunkX > oldPosX) { // right
-                StartPool(currentPlayerChunkX, currentPlayerChunkY, Direction.RIGHT);
-            } else if (currentPlayerChunkX < oldPosX) { // left
-                StartPool(currentPlayerChunkX, currentPlayerChunkY, Direction.LEFT);
+            if (currentPos.y > oldPos.y) {
+                StartPool(currentPos, Direction.TOP);
+            } else if (currentPos.y < oldPos.y) {
+                StartPool(currentPos, Direction.BOTTOM);
             }
-            if (currentPlayerChunkY > oldPosY) { // top
-                StartPool(currentPlayerChunkX, currentPlayerChunkY, Direction.TOP);
-            } else if (currentPlayerChunkY < oldPosY) { // bottom
-                StartPool(currentPlayerChunkX, currentPlayerChunkY, Direction.BOTTOM);
-            }
-            oldPosX = currentPlayerChunkX;
-            oldPosY = currentPlayerChunkY;
+            oldPos.x = currentPos.x;
+            oldPos.y = currentPos.y;
         }
     }
 
     public Chunk GetChunk(int posX, int posY) {
-        return pool.GetChunk(new Vector2(posX, posY));
+        return pool.GetChunk(new Vector2Int(posX, posY));
     }
 
-    public void Init(Dictionary<int, TileBase> _tilebaseDictionary, GameObject player) {
+    public void Init(Dictionary<int, TileBase> _tilebaseDictionary) {
         chunkSize = WorldManager.instance.GetChunkSize();
         boundX = WorldManager.instance.worldMapTile.GetUpperBound(0);
         boundY = WorldManager.instance.worldMapTile.GetUpperBound(1);
-        playerCam = player.GetComponentInChildren<Camera>();
-        this.player = player;
+        player = GameManager.instance.GetPlayer();
         tilebaseDictionary = _tilebaseDictionary;
         Vector2Int spanwPlayer = CheckStartPlayerStartPosition(boundX / 2);
         Vector2Int chunkPosStart = new Vector2Int(spanwPlayer.x / chunkSize, spanwPlayer.y / chunkSize);
@@ -102,8 +91,7 @@ public class ChunkManager : MonoBehaviour {
     }
 
     private void SetPlayerPosition(Vector2Int spanwPlayer) {
-        oldPosX = spanwPlayer.x;
-        oldPosY = spanwPlayer.y;
+        oldPos = new Vector2Int(spanwPlayer.x, spanwPlayer.y);
         player.transform.position = new Vector3(spanwPlayer.x, spanwPlayer.y, player.transform.position.z);
     }
 
@@ -119,68 +107,68 @@ public class ChunkManager : MonoBehaviour {
         yield return new WaitForSeconds(0.1f);
     }
 
-    private void StartPool(int chunkIndexX, int chunkIndexY, Direction direction) {
+    private void StartPool(Vector2Int chunkIndex, Direction direction) {
         List<Vector2Int> chunksPos;
         switch (direction) {
             case Direction.TOP:
                 chunksPos = new List<Vector2Int> {
-                new Vector2Int(chunkIndexX, chunkIndexY + 1),
-                new Vector2Int(chunkIndexX + 1, chunkIndexY + 1),
-                new Vector2Int(chunkIndexX - 1, chunkIndexY + 1),
-                new Vector2Int(chunkIndexX + 2, chunkIndexY + 1),
-                new Vector2Int(chunkIndexX - 2, chunkIndexY + 1),
-                new Vector2Int(chunkIndexX, chunkIndexY + 2),
-                new Vector2Int(chunkIndexX + 1, chunkIndexY + 2),
-                new Vector2Int(chunkIndexX - 1, chunkIndexY + 2),
-                new Vector2Int(chunkIndexX + 2, chunkIndexY + 2),
-                new Vector2Int(chunkIndexX - 2, chunkIndexY + 2)
+                new Vector2Int(chunkIndex.x, chunkIndex.y + 1),
+                new Vector2Int(chunkIndex.x + 1, chunkIndex.y + 1),
+                new Vector2Int(chunkIndex.x - 1, chunkIndex.y + 1),
+                new Vector2Int(chunkIndex.x + 2, chunkIndex.y + 1),
+                new Vector2Int(chunkIndex.x - 2, chunkIndex.y + 1),
+                new Vector2Int(chunkIndex.x, chunkIndex.y + 2),
+                new Vector2Int(chunkIndex.x + 1, chunkIndex.y + 2),
+                new Vector2Int(chunkIndex.x - 1, chunkIndex.y + 2),
+                new Vector2Int(chunkIndex.x + 2, chunkIndex.y + 2),
+                new Vector2Int(chunkIndex.x - 2, chunkIndex.y + 2)
             };
                 CheckIfChunkLoaded(chunksPos);
                 break;
             case Direction.RIGHT:
                 chunksPos = new List<Vector2Int> {
-                    new Vector2Int(chunkIndexX + 1, chunkIndexY),
-                    new Vector2Int(chunkIndexX + 1, chunkIndexY + 1),
-                    new Vector2Int(chunkIndexX + 1, chunkIndexY - 1),
-                    new Vector2Int(chunkIndexX + 1, chunkIndexY + 2),
-                    new Vector2Int(chunkIndexX + 1, chunkIndexY - 2),
-                    new Vector2Int(chunkIndexX + 2, chunkIndexY),
-                    new Vector2Int(chunkIndexX + 2, chunkIndexY + 1),
-                    new Vector2Int(chunkIndexX + 2, chunkIndexY - 1),
-                    new Vector2Int(chunkIndexX + 2, chunkIndexY + 2),
-                    new Vector2Int(chunkIndexX + 2, chunkIndexY - 2)
+                    new Vector2Int(chunkIndex.x + 1, chunkIndex.y),
+                    new Vector2Int(chunkIndex.x + 1, chunkIndex.y + 1),
+                    new Vector2Int(chunkIndex.x + 1, chunkIndex.y - 1),
+                    new Vector2Int(chunkIndex.x + 1, chunkIndex.y + 2),
+                    new Vector2Int(chunkIndex.x + 1, chunkIndex.y - 2),
+                    new Vector2Int(chunkIndex.x + 2, chunkIndex.y),
+                    new Vector2Int(chunkIndex.x + 2, chunkIndex.y + 1),
+                    new Vector2Int(chunkIndex.x + 2, chunkIndex.y - 1),
+                    new Vector2Int(chunkIndex.x + 2, chunkIndex.y + 2),
+                    new Vector2Int(chunkIndex.x + 2, chunkIndex.y - 2)
                 };
                 CheckIfChunkLoaded(chunksPos);
                 break;
 
             case Direction.BOTTOM:
                 chunksPos = new List<Vector2Int> {
-                new Vector2Int(chunkIndexX, chunkIndexY - 1),
-                new Vector2Int(chunkIndexX - 1, chunkIndexY - 1),
-                new Vector2Int(chunkIndexX + 1, chunkIndexY - 1),
-                new Vector2Int(chunkIndexX + 2, chunkIndexY - 1),
-                new Vector2Int(chunkIndexX - 2, chunkIndexY - 1),
-                new Vector2Int(chunkIndexX, chunkIndexY - 2),
-                new Vector2Int(chunkIndexX - 1, chunkIndexY - 2),
-                new Vector2Int(chunkIndexX + 1, chunkIndexY - 2),
-                new Vector2Int(chunkIndexX + 2, chunkIndexY - 2),
-                new Vector2Int(chunkIndexX - 2, chunkIndexY - 2)
+                new Vector2Int(chunkIndex.x, chunkIndex.y - 1),
+                new Vector2Int(chunkIndex.x - 1, chunkIndex.y - 1),
+                new Vector2Int(chunkIndex.x + 1, chunkIndex.y - 1),
+                new Vector2Int(chunkIndex.x + 2, chunkIndex.y - 1),
+                new Vector2Int(chunkIndex.x - 2, chunkIndex.y - 1),
+                new Vector2Int(chunkIndex.x, chunkIndex.y - 2),
+                new Vector2Int(chunkIndex.x - 1, chunkIndex.y - 2),
+                new Vector2Int(chunkIndex.x + 1, chunkIndex.y - 2),
+                new Vector2Int(chunkIndex.x + 2, chunkIndex.y - 2),
+                new Vector2Int(chunkIndex.x - 2, chunkIndex.y - 2)
             };
                 CheckIfChunkLoaded(chunksPos);
                 break;
 
             case Direction.LEFT:
                 chunksPos = new List<Vector2Int> {
-                new Vector2Int(chunkIndexX - 1, chunkIndexY),
-                new Vector2Int(chunkIndexX - 1, chunkIndexY - 1),
-                new Vector2Int(chunkIndexX - 1, chunkIndexY + 1),
-                new Vector2Int(chunkIndexX - 1, chunkIndexY - 2),
-                new Vector2Int(chunkIndexX - 1, chunkIndexY + 2),
-                new Vector2Int(chunkIndexX - 2, chunkIndexY),
-                new Vector2Int(chunkIndexX - 2, chunkIndexY - 1),
-                new Vector2Int(chunkIndexX - 2, chunkIndexY + 1),
-                new Vector2Int(chunkIndexX - 2, chunkIndexY - 2),
-                new Vector2Int(chunkIndexX - 2, chunkIndexY + 2)
+                new Vector2Int(chunkIndex.x - 1, chunkIndex.y),
+                new Vector2Int(chunkIndex.x - 1, chunkIndex.y - 1),
+                new Vector2Int(chunkIndex.x - 1, chunkIndex.y + 1),
+                new Vector2Int(chunkIndex.x - 1, chunkIndex.y - 2),
+                new Vector2Int(chunkIndex.x - 1, chunkIndex.y + 2),
+                new Vector2Int(chunkIndex.x - 2, chunkIndex.y),
+                new Vector2Int(chunkIndex.x - 2, chunkIndex.y - 1),
+                new Vector2Int(chunkIndex.x - 2, chunkIndex.y + 1),
+                new Vector2Int(chunkIndex.x - 2, chunkIndex.y - 2),
+                new Vector2Int(chunkIndex.x - 2, chunkIndex.y + 2)
             };
                 CheckIfChunkLoaded(chunksPos);
                 break;

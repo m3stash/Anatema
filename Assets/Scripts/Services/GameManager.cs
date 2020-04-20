@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 public class GameManager : MonoBehaviour {
-    [Header("Don't touch it")]
     [SerializeField] private GameObject worldManager;
+    [SerializeField] private Camera mainCamera;
+    [Header("Don't touch it")]
     [SerializeField] private BuildSelector tileSelectorPrefab;
-
     [Header("Don't touch it")]
     [SerializeField] private GameMode gameMode = GameMode.DEFAULT;
     [SerializeField] private BuildSelector buildSelector;
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour {
 
     public delegate void GameModeChanged(GameMode gameMode);
     public static event GameModeChanged OnGameModeChanged;
+    private GameObject player;
 
     public static GameManager instance;
 
@@ -25,7 +27,13 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Start() {
-        worldManager.SetActive(true);
+        CreatePlayer();
+        mainCamera.gameObject.SetActive(true);
+        if (worldManager) {
+            worldManager.SetActive(true);
+        } else {
+            Debug.Log("Warning no world in gameManager!");
+        }
         InputManager.gameplayControls.Shortcuts.build.performed += BuildModeTriggered;
         InputManager.gameplayControls.Shortcuts.tool.performed += ToolModeTriggered;
         InputManager.gameplayControls.Shortcuts.weapon.performed += WeaponModeTriggered;
@@ -40,6 +48,15 @@ public class GameManager : MonoBehaviour {
         InputManager.gameplayControls.Shortcuts.build.performed -= BuildModeTriggered;
         InputManager.gameplayControls.Shortcuts.tool.performed -= ToolModeTriggered;
         InputManager.gameplayControls.Shortcuts.weapon.performed -= WeaponModeTriggered;
+    }
+
+    public GameObject GetPlayer() {
+        return player;
+    }
+
+    private void CreatePlayer() {
+        player = Instantiate((GameObject)Resources.Load("Prefabs/Characters/Player/Player"), new Vector3(0, 0, 0), transform.rotation);
+        FindObjectOfType<CinemachineVirtualCamera>().Follow = player.transform;
     }
 
     public void SetGameMode(GameMode gameMode) {

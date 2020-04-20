@@ -13,7 +13,6 @@ public class WorldManager : MonoBehaviour {
     public Dictionary<int, TileBase> tilebaseDictionary;
     private ChunkManager chunkManager;
     private LightService lightService;
-    private GameObject player;
     public int[,] worldMapLight;
     public int[,] worldMapShadow;
     public int[,] worldMapTile;
@@ -31,8 +30,6 @@ public class WorldManager : MonoBehaviour {
     // event
     public delegate void LightEventHandler();
     public static event LightEventHandler RefreshLight;
-    public delegate void PlayerLoaded(GameObject player);
-    public static event PlayerLoaded GetPlayer;
 
     /* private void InitFolders() {
         FileManager.ManageFolder("chunk-data");
@@ -76,18 +73,10 @@ public class WorldManager : MonoBehaviour {
     void Start() {
         tilebaseDictionary = tilebase_cfg.GetDico();
         GetAndSetValueFromMapSerialisable();
-        CreatePlayer();
         lightService.Init();
-        chunkManager.Init(tilebaseDictionary, player);
+        chunkManager.Init(tilebaseDictionary);
         worldManagerIsInit = true;
-        GetPlayer(player);
     }
-
-    private void CreatePlayer() {
-        player = Instantiate((GameObject)Resources.Load("Prefabs/Characters/Player/Player"), new Vector3(0, 0, 0), transform.rotation);
-        FindObjectOfType<CinemachineVirtualCamera>().Follow = player.transform;
-    }
-
     public void AddItem(Vector2Int pos, InventoryItemData item) {
         // Fill objects map with item id for origin cell and -1 for adjacent cells
         foreach (CellCollider cell in item.GetConfig().GetColliderConfig().GetCellColliders()) {
@@ -148,7 +137,7 @@ public class WorldManager : MonoBehaviour {
     }
     private Chunk ManageChunkTile(int x, int y, int id) {
         worldMapTile[x, y] = id;
-        return chunkManager.GetChunk((int)x / chunkSize, (int)y / chunkSize);
+        return chunkManager.GetChunk(x / chunkSize, y / chunkSize);
     }
     public void RefreshChunkNeightboorTiles(int x, int y, Tilemap tilemap) {
         var topBoundMap = chunkSize - 1;

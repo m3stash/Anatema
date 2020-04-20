@@ -10,15 +10,15 @@ public class InfinitParallax : MonoBehaviour {
     // Start is called before the first frame update
 
     private void OnEnable() {
-        WorldManager.GetPlayer += SetPlayer;
+        SetPlayer();
     }
 
     void Start() {
         this.widthGo = (int)this.repeatItems[0].GetComponent<SpriteRenderer>().bounds.size.x;
     }
 
-    private void SetPlayer(GameObject player) {
-        this.player = player;
+    private void SetPlayer() {
+        player = GameManager.instance.GetPlayer();
         playerOldposX = (int)player.transform.position.x;
     }
 
@@ -46,7 +46,4 @@ public class InfinitParallax : MonoBehaviour {
         }
     }
 
-    private void OnDestroy() {
-        WorldManager.GetPlayer -= SetPlayer;
-    }
 }

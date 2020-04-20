@@ -10,7 +10,7 @@ public class BuildSelector : MonoBehaviour
     [SerializeField] private GameObject gridCellPrefab;
     [SerializeField] private Vector2Int gridSize;
     [SerializeField] private GameObject selectorCellPrefab;
-    [SerializeField] private GameObject target;
+    [SerializeField] private GameObject player;
     [SerializeField] private bool showGrid;
 
     [Header("Don't touch it")]
@@ -50,7 +50,7 @@ public class BuildSelector : MonoBehaviour
         ToolbarManager.OnSelectedItemChanged += OnCurrentSelectedItemChanged;
 
         if (Player.instance) { // Todo should be deleted when orchestration where refactored
-            this.target = Player.instance.gameObject;
+            player = Player.instance.gameObject;
         }
 
         this.ManageGridDisplay();
@@ -132,12 +132,12 @@ public class BuildSelector : MonoBehaviour
         }
     }
 
-    private void MoveToTarget() {
-        if (this.target && Vector3.Distance(this.target.transform.position, this.transform.position) > 0.5f) {
-            this.transform.position = new Vector3((int)this.target.transform.position.x + 0.5f, (int)this.target.transform.position.y + 0.5f);
+    private void MoveToPlayer() {
+        if (player && Vector3.Distance(player.transform.position, transform.position) > 0.5f) {
+            transform.position = new Vector3((int)player.transform.position.x + 0.5f, (int)player.transform.position.y + 0.5f);
 
-            if (this.previewItemRenderer) {
-                this.CheckPreviewItemValidity((int)this.previewItemRenderer.transform.position.x, (int)this.previewItemRenderer.transform.position.y);
+            if (previewItemRenderer) {
+                CheckPreviewItemValidity((int)previewItemRenderer.transform.position.x, (int)previewItemRenderer.transform.position.y);
             }
         }
     }
@@ -308,10 +308,10 @@ public class BuildSelector : MonoBehaviour
         }
 
         if (this.selector.transform.position != new Vector3(x + 0.5f, y + 0.5f)) {
-            if (x <= (int)this.target.transform.position.x + 0.5f + this.halfGridWidth &&
-                x >= (int)this.target.transform.position.x - 0.5f - this.halfGridWidth &&
-                y >= (int)this.target.transform.position.y - 0.5f - this.halfGridHeight &&
-                y <= (int)this.target.transform.position.y + 0.5f + this.halfGridHeight) {
+            if (x <= (int)player.transform.position.x + 0.5f + this.halfGridWidth &&
+                x >= (int)player.transform.position.x - 0.5f - this.halfGridWidth &&
+                y >= (int)player.transform.position.y - 0.5f - this.halfGridHeight &&
+                y <= (int)player.transform.position.y + 0.5f + this.halfGridHeight) {
 
                 this.selector.transform.position = new Vector2(x + 0.5f, y + 0.5f);
 
@@ -329,7 +329,7 @@ public class BuildSelector : MonoBehaviour
 
 
     private void Update() {
-        this.MoveToTarget();
+        this.MoveToPlayer();
 
         // Manage selector tile for mouse
         if (InputManager.instance.IsMouseEnabled()) {

@@ -24,11 +24,9 @@ public class CloudsGenerator : MonoBehaviour {
     private float maxDistance; // represend the size of camera on X axis
 
     private void OnEnable() {
-        WorldManager.GetPlayer += SetPlayer;
+        SetCameraInfos();
     }
-    private void OnDisable() {
-        WorldManager.GetPlayer -= SetPlayer;
-    }
+
     void Start() {
         activeClouds = new List<GameObject>();
         availableClouds = new List<GameObject>();
@@ -59,7 +57,7 @@ public class CloudsGenerator : MonoBehaviour {
             yield return new WaitForSeconds(1);
         }
     }
-    private void SetPlayer(GameObject player) {
+    private void SetCameraInfos() {
         camera = Camera.main;
         var rightCam = camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x;
         var leftCam = camera.ScreenToWorldPoint(new Vector3(0, 0, 0)).x;

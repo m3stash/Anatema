@@ -25,8 +25,8 @@ public class ChunkPool : Pool<Chunk> {
         return false;
     }
 
-    public Chunk GetChunk(Vector2 pos) {
-        return this.usedObjects.Find(chunk => chunk.chunkPosition.x == pos.x && chunk.chunkPosition.y == pos.y);
+    public Chunk GetChunk(Vector2Int pos) {
+        return usedObjects.Find(chunk => chunk.chunkPosition.x == pos.x && chunk.chunkPosition.y == pos.y);
     }
 
     public void DeactivateTooFarChunks(Vector2 origin, Vector2 gap) {
