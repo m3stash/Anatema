@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WorldMapDebug.unity
     guid: d310a3d0929d0e544ae4ab0aa885d5da
+  - enabled: 1
+    path: Assets/Scenes/Animation.unity
+    guid: 6e81bcf25e02ecb4baccc7c662d953b1
   m_configObjects: {}
