@@ -6,39 +6,34 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour {
 
+    public static Player instance;
+    private Rigidbody2D rg2d;
+    private Animator animator;
+
     private float speed = 10f;
-    [SerializeField]
-    private readonly float jumpForces = 200f;
     private Vector3 m_Velocity = Vector3.zero;
-    // [Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;
     private float m_MovementSmoothing = .05f;
     //private static int maxHealth = 75;
 
-    // References
-    public Rigidbody2D rg2d;
-    private Animator anim;
-
     private float getAxis;
-
-    /*public Color colorStart = Color.black;
-    public Color colorEnd = Color.white;
-    public float duration = 1.0F;*/
-
-    public static Player instance;
     private Vector3 localScale;
+    private bool onGround;
+    private bool jump = false;
+    const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
+    [SerializeField] private LayerMask m_WhatIsGround;
 
     private void Awake() {
-        if(instance == null) {
+        if (instance == null) {
             instance = this;
         } else {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 
     void Start() {
         //toolbar = GameObject.FindGameObjectWithTag("InventoryToolbar").GetComponent<InventoryToolbar>();
         rg2d = gameObject.GetComponent<Rigidbody2D>();
-        anim = gameObject.GetComponent<Animator>();
+        animator = gameObject.GetComponent<Animator>();
         localScale = gameObject.GetComponent<Transform>().localScale;
         InputManager.gameplayControls.Player.Move.performed += SetGetAxis;
         InputManager.gameplayControls.Player.Jump.performed += Jump;
@@ -50,10 +45,9 @@ public class Player : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        if(collision.CompareTag("Pickable")) {
+        if (collision.CompareTag("Pickable")) {
             Item itemToAdd = collision.GetComponent<Item>();
-
-            if(InventoryManager.instance.AddItem(itemToAdd)) {
+            if (InventoryManager.instance.AddItem(itemToAdd)) {
                 itemToAdd.Destroy();
             }
         }
@@ -64,39 +58,63 @@ public class Player : MonoBehaviour {
     }
 
     private void Jump(InputAction.CallbackContext ctx) {
-        rg2d.AddForce(Vector2.up * jumpForces);
+        if (onGround) {
+            jump = true;
+            rg2d.velocity = new Vector2(rg2d.velocity.x, 7);
+            animator.SetTrigger("Jump");
+        }
+        /*if (Input.GetButtonDown("Jump") && grounded) {
+            velocity.y = jumpTakeOffSpeed;
+        } else if (Input.GetButtonUp("Jump")) {
+            if (velocity.y > 0) {
+                velocity.y = velocity.y * 0.5f;
+            }
+        }*/
+        // animator.SetBool("grounded", grounded);
+        // animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
+    }
+
+    private void FixedUpdate() {
+        onGround = false;
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, k_GroundedRadius, m_WhatIsGround);
+        for (int i = 0; i < colliders.Length; i++) {
+            if (colliders[i].gameObject != gameObject) {
+                onGround = true;
+            }
+        }
+        /*if (jump && onGround) {
+            animator.SetBool("Jump", false);
+            jump = false;
+        }*/
     }
 
     void Update() {
-        /*float lerp = Mathf.PingPong(Time.time, duration) / duration;
-        RenderSettings.skybox.SetColor("_Tint", Color.Lerp(colorStart, colorEnd, lerp));*/
-
-        this.DetectPickableItemsInArea();
+        onGround = false;
+        
+        DetectPickableItemsInArea();
 
         int direction = 0;
 
-        if(getAxis < -0.1f) { 
+        if (getAxis < -0.1f) {
             transform.localScale = new Vector3(-localScale.x, localScale.y, localScale.z);
             direction = -1;
         }
 
-        if(getAxis > 0.1f) {
+        if (getAxis > 0.1f) {
             transform.localScale = new Vector3(localScale.x, localScale.y, localScale.z);
             direction = 1;
         }
-
-
-
         Vector3 targetVelocity = new Vector2(direction * 10f, rg2d.velocity.y);
         // And then smoothing it out and applying it to the character
+        animator.SetFloat("Speed", Mathf.Abs(direction * 20f));
         rg2d.velocity = Vector3.SmoothDamp(rg2d.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 
         // limit speed of player
-        if(rg2d.velocity.x > speed) {
+        if (rg2d.velocity.x > speed) {
             rg2d.velocity = new Vector2(speed, rg2d.velocity.y);
         }
 
-        if(rg2d.velocity.x < -speed) {
+        if (rg2d.velocity.x < -speed) {
             rg2d.velocity = new Vector2(-speed, rg2d.velocity.y);
         }
 
@@ -105,12 +123,12 @@ public class Player : MonoBehaviour {
     private void DetectPickableItemsInArea() {
         Collider2D[] itemsCollider = Physics2D.OverlapCircleAll(this.transform.position, 1f, (1 << 14));
 
-        for(int i = 0; i < itemsCollider.Length; i++) {
-            if(itemsCollider[i].CompareTag("Pickable")) {
+        for (int i = 0; i < itemsCollider.Length; i++) {
+            if (itemsCollider[i].CompareTag("Pickable")) {
                 bool canAddItem = InventoryManager.instance.CanAddItem(itemsCollider[i].GetComponent<Item>());
                 Attractor attractor = itemsCollider[i].GetComponent<Attractor>();
 
-                if(canAddItem) {
+                if (canAddItem) {
                     attractor.Setup(this.transform, 5f);
                 } else {
                     attractor.Reset();

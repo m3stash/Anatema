@@ -14,7 +14,7 @@ public class DynamicLight : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        if (!render.isVisible)
+        if (render && !render.isVisible)
             return;
         int newPosX = (int)transform.position.x;
         // var newPosY = (int)(transform.position.y);

@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 8647171350632440337}
   m_Layer: 10
   m_Name: Tilemap
-  m_TagString: Untagged
+  m_TagString: WorldMap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -452,7 +452,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   m_ShapePathHash: 1268118805
   m_Mesh: {fileID: 0}
-  m_InstanceId: 57666
+  m_InstanceId: 84430
 --- !u!114 &8647171350632440337
 MonoBehaviour:
   m_ObjectHideFlags: 0
