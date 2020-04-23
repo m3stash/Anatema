@@ -63,7 +63,8 @@ public class Player : MonoBehaviour {
         if (onGround) {
             jump = true;
             rg2d.velocity = new Vector2(rg2d.velocity.x, 7);
-            animator.SetTrigger("Jump");
+            // animator.SetTrigger("Jump");
+            animator.SetBool("Jump", true);
         }
         /*if (Input.GetButtonDown("Jump") && grounded) {
             velocity.y = jumpTakeOffSpeed;
