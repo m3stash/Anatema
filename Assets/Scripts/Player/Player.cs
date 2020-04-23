@@ -20,6 +20,7 @@ public class Player : MonoBehaviour {
     private bool onGround;
     private bool jump = false;
     const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
+    private float currentPosY;
     [SerializeField] private LayerMask m_WhatIsGround;
 
     private void Awake() {
@@ -31,6 +32,7 @@ public class Player : MonoBehaviour {
     }
 
     void Start() {
+        // currentPosY = transform.position.y;
         //toolbar = GameObject.FindGameObjectWithTag("InventoryToolbar").GetComponent<InventoryToolbar>();
         rg2d = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponent<Animator>();
@@ -75,11 +77,15 @@ public class Player : MonoBehaviour {
     }
 
     private void FixedUpdate() {
+        // currentPosY = transform.position.y;
         onGround = false;
+        animator.SetBool("OnGround", onGround);
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, k_GroundedRadius, m_WhatIsGround);
         for (int i = 0; i < colliders.Length; i++) {
             if (colliders[i].gameObject != gameObject) {
                 onGround = true;
+                animator.SetBool("OnGround", true);
+                jump = false;
             }
         }
         /*if (jump && onGround) {
@@ -90,7 +96,11 @@ public class Player : MonoBehaviour {
 
     void Update() {
         onGround = false;
-        
+        // calculer sur la pos Y ?
+        if (rg2d.velocity.y > 0 && rg2d.velocity.y < 3) {
+            Debug.Log(rg2d.velocity.y);
+            animator.SetBool("Jump", false);
+        }
         DetectPickableItemsInArea();
 
         int direction = 0;
