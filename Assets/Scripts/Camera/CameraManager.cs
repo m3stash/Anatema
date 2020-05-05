@@ -29,11 +29,11 @@ public class CameraManager : MonoBehaviour {
 
     void Start() {
         this.framingTransposer.m_ScreenY = this.defaultScreenY;
-        InputManager.gameplayControls.Camera.LookVertical.performed += OnLookingVertically;
+        // InputManager.gameplayControls.Camera.LookVertical.performed += OnLookingVertically;
     }
 
     private void OnDestroy() {
-        InputManager.gameplayControls.Camera.LookVertical.performed -= OnLookingVertically;
+        // InputManager.gameplayControls.Camera.LookVertical.performed -= OnLookingVertically;
     }
 
     private void Update() {

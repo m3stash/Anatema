@@ -100,7 +100,7 @@ public class ChunkManager : MonoBehaviour {
 
     private void SetPlayerPosition(Vector2Int spanwPlayer) {
         oldPos = new Vector2Int(spanwPlayer.x, spanwPlayer.y);
-        player.transform.position = new Vector3(spanwPlayer.x, spanwPlayer.y, player.transform.position.z);
+        player.transform.position = new Vector3(spanwPlayer.x + 0.5f, spanwPlayer.y, player.transform.position.z);
     }
 
     private IEnumerator ManageChunkFromPool(Vector2Int chunkPos) {
