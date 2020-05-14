@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TreeEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,24 +11,28 @@ public class Player : MonoBehaviour {
     private Animator animator;
     private PlayerCollision collisions;
 
-    private float speed = 10f;
-    private Vector2 m_Velocity = Vector2.zero;
+    private float speed = 9f;
     private float m_MovementSmoothing = .05f;
+    private Vector2 m_Velocity = Vector2.zero;
 
     private Vector2 moveDirection;
     private Vector3 localScale;
     // toDo remettre tout en private apres juste pour debug!
-    public bool canDoubleJump;
     public bool vMove;
     public bool hMove;
-    public bool isGrab;
-    public bool canGrab; // se suspendre à un mur
-    public bool canClimb; // enjember un mur
-    public bool onWallClimb;
-    public int facingDirection;
-    private bool stopVelocity;
-    private bool stopLocalScale;
     private Transform playerTransform;
+    private float currentSpeed;
+    public int facingDirection;
+    private bool resetTransformAfterClimb;
+    private bool noAnimationInProgress;
+    /* Peu effectuer une action */
+    public bool canDoubleJump;
+    public bool canGrab; // peu se suspendre à un mur
+    public bool canClimb; // peu enjember un mur
+    /* actions en cours */
+    public bool onWallClimb;
+    public bool onGrab;
+    public bool onWallClimbLeft;
 
     private void Awake() {
         if (instance == null) {
@@ -59,7 +64,7 @@ public class Player : MonoBehaviour {
     }
 
     private void Jump(InputAction.CallbackContext ctx) {
-        if (collisions.OnGround()) {
+        if (collisions.OnGround() && !onWallClimb && !onWallClimbLeft) {
             rg2d.velocity = new Vector2(rg2d.velocity.x, 7);
             animator.SetTrigger("JumpTrigger");
         }
@@ -75,25 +80,34 @@ public class Player : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-
-        if (collisions.OnGround()) {
-            canDoubleJump = true;
-        } else {
-            if (!canDoubleJump) {
-                // Debug.Log("DOUBLE JUMP");
-            }
-        }
-
-        OnGrab();
-        SetLocalScale();
         SetVelocity();
+        ManageGrab();
     }
 
     void Update() {
 
-        if (collisions.OnGround()) {
-            onWallClimb = false;
+        if (!onWallClimb && !onWallClimbLeft && !onGrab) {
+            noAnimationInProgress = true;
+        } else {
+            noAnimationInProgress = false;
         }
+
+        if (collisions.OnGround()) {
+            canDoubleJump = true;
+        } else {
+            canDoubleJump = false;
+        }
+
+        if (resetTransformAfterClimb) {
+            if (facingDirection > 0) {
+                playerTransform.position = new Vector3((int)playerTransform.position.x + 1.5f, (int)playerTransform.position.y + 3, playerTransform.position.z);
+            } else {
+                playerTransform.position = new Vector3((int)playerTransform.position.x - 0.5f, (int)playerTransform.position.y + 3, playerTransform.position.z);
+            }
+            resetTransformAfterClimb = false;
+        }
+
+        SetLocalScale();
 
         if (moveDirection.x > 0 || moveDirection.x < 0) {
             hMove = true;
@@ -107,15 +121,12 @@ public class Player : MonoBehaviour {
             vMove = false;
         }
 
+
         if (collisions.CanGrab() && collisions.OnHandWall() && collisions.OnGround()) {
             canClimb = true;
         } else {
             canClimb = false;
         }
-
-        // OnGrab();
-
-        // SetLocalScale();
 
         DetectPickableItemsInArea();
 
@@ -133,17 +144,20 @@ public class Player : MonoBehaviour {
     }
 
     private void SetAnimators() {
-        animator.SetFloat("Speed", Mathf.Abs(moveDirection.x * 20f));
+        animator.SetFloat("Speed", currentSpeed);
         animator.SetBool("OnGround", collisions.OnGround());
         animator.SetBool("WallClimb", onWallClimb);
-        animator.SetBool("WallGrab", isGrab);
+        animator.SetBool("WallClimbLeft", onWallClimbLeft);
+        animator.SetBool("WallGrab", onGrab);
     }
 
     private void SetVelocity() {
-        if (stopVelocity || isGrab || onWallClimb)
+        currentSpeed = 0;
+        if (onGrab || onWallClimb || onWallClimbLeft)
             return;
         Vector2 targetVelocity;
         if (hMove) {
+            currentSpeed = Mathf.Abs(moveDirection.x * 20f);
             targetVelocity = new Vector2(moveDirection.x * speed, rg2d.velocity.y);
         } else {
             targetVelocity = new Vector2(0, rg2d.velocity.y);
@@ -152,7 +166,7 @@ public class Player : MonoBehaviour {
     }
 
     private void SetLocalScale() {
-        if (stopLocalScale)
+        if (onWallClimb || onWallClimbLeft)
             return;
         if (moveDirection.x > 0) {
             transform.localScale = new Vector2(localScale.x, localScale.y);
@@ -164,73 +178,66 @@ public class Player : MonoBehaviour {
         }
     }
 
-    private void SetGrab(bool grad) {
-        if (grad) {
-            isGrab = true;
-            rg2d.gravityScale = 0;
-            rg2d.velocity = new Vector2(rg2d.velocity.x, 0);
-            Debug.Log(facingDirection);
-            if (facingDirection > 0) {
-                playerTransform.position = new Vector3((int)playerTransform.position.x + 0.5f, (int)playerTransform.position.y + 0.5f);
-            } else {
-                playerTransform.position = new Vector3((int)playerTransform.position.x, (int)playerTransform.position.y + 0.5f);
-            }
-        } else {
-            isGrab = false;
-            rg2d.gravityScale = 1;
-        }
-        onWallClimb = false;
-        stopVelocity = false;
-        stopLocalScale = false;
+    private void StopGrab() {
+        onGrab = false;
+        rg2d.gravityScale = 1;
     }
 
-    private void OnGrab() {
-        if (onWallClimb)
+    private void ManageGrab() {
+        if (onWallClimb || onWallClimbLeft)
             return;
         if (collisions.CanGrab() && collisions.OnHandWall() && !collisions.OnGround()) {
             canGrab = true;
         } else {
             canGrab = false;
         }
-        if (!isGrab) {
-            if (canGrab && hMove && moveDirection.x == facingDirection) {
-                SetGrab(true);
+        if (!onGrab) {
+            if (canGrab && hMove) {
+                onGrab = true;
+                rg2d.gravityScale = 0;
+                rg2d.velocity = new Vector2(rg2d.velocity.x, 0);
+                if (facingDirection > 0) {
+                    playerTransform.position = new Vector3((int)playerTransform.position.x + 1, (int)playerTransform.position.y + 0.5f, playerTransform.position.z);
+                } else {
+                    playerTransform.position = new Vector3((int)playerTransform.position.x, (int)playerTransform.position.y + 0.5f, playerTransform.position.z);
+                }
+                animator.SetTrigger("WallGrabTrigger");
             }
         } else {
-            if (isGrab && !canGrab) {
-                SetGrab(false);
-                return;
-            }
             if (hMove) {
-                if (moveDirection.x == facingDirection) {
-                    // Debug.Log("GRIND");
-                }
-                if (moveDirection.x != facingDirection) {
-                    SetGrab(false);
+                if (!canGrab) {
+                    StopGrab();
                 }
             }
             if (vMove) {
                 if (moveDirection.y > 0) {
-                    onWallClimb = true;
-                    stopVelocity = true;
-                    stopLocalScale = true;
+                    if (facingDirection > 0) {
+                        onWallClimb = true;
+                    } else {
+                        onWallClimbLeft = true;
+                    }
                     // to Do penser à checker si le perso peut ou non passer!!!
                 }
                 if (moveDirection.y < 0) {
-                    SetGrab(false);
+                    StopGrab();
                 }
             }
         }
     }
 
-    // call by animation
+    // call by animation climb (left or right)
     public void TriggerClimbAnimationFinished() {
-        SetGrab(false);
-        if (facingDirection > 0) {
-            playerTransform.position = new Vector3((int)playerTransform.position.x + 1.5f, (int)playerTransform.position.y + 3f);
-        } else {
-            // playerTransform.position = new Vector3((int)playerTransform.position.x - 0.5f, (int)playerTransform.position.y + 3f);
-        }
+        StopGrab();
+        onWallClimb = false;
+        onWallClimbLeft = false;
+        transform.position = new Vector3(0, 0, transform.position.z);
+        resetTransformAfterClimb = true;
+        /*
+         * @param { resetTransformAfterClime }
+         * pour reset la postion du player a zéro apres la fin de l'anim.
+         * En effet seule la position de l'anim a bougée pas celle tu container Player!
+         * Cela évite aussi de voir l'effet de clignotement lors de la remise a zéro du container
+         */
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {

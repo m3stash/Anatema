@@ -6,11 +6,9 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public class @GameplayControls : IInputActionCollection, IDisposable
-{
+public class @GameplayControls : IInputActionCollection, IDisposable {
     private InputActionAsset asset;
-    public @GameplayControls()
-    {
+    public @GameplayControls() {
         asset = InputActionAsset.FromJson(@"{
     ""name"": ""GameplayControls"",
     ""maps"": [
@@ -1382,47 +1380,39 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         m_ToolSelector_LookDirection = m_ToolSelector.FindAction("LookDirection", throwIfNotFound: true);
     }
 
-    public void Dispose()
-    {
+    public void Dispose() {
         UnityEngine.Object.Destroy(asset);
     }
 
-    public InputBinding? bindingMask
-    {
+    public InputBinding? bindingMask {
         get => asset.bindingMask;
         set => asset.bindingMask = value;
     }
 
-    public ReadOnlyArray<InputDevice>? devices
-    {
+    public ReadOnlyArray<InputDevice>? devices {
         get => asset.devices;
         set => asset.devices = value;
     }
 
     public ReadOnlyArray<InputControlScheme> controlSchemes => asset.controlSchemes;
 
-    public bool Contains(InputAction action)
-    {
+    public bool Contains(InputAction action) {
         return asset.Contains(action);
     }
 
-    public IEnumerator<InputAction> GetEnumerator()
-    {
+    public IEnumerator<InputAction> GetEnumerator() {
         return asset.GetEnumerator();
     }
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
+    IEnumerator IEnumerable.GetEnumerator() {
         return GetEnumerator();
     }
 
-    public void Enable()
-    {
+    public void Enable() {
         asset.Enable();
     }
 
-    public void Disable()
-    {
+    public void Disable() {
         asset.Disable();
     }
 
@@ -1431,8 +1421,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Move;
-    public struct PlayerActions
-    {
+    public struct PlayerActions {
         private @GameplayControls m_Wrapper;
         public PlayerActions(@GameplayControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
@@ -1442,10 +1431,8 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
-        public void SetCallbacks(IPlayerActions instance)
-        {
-            if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
-            {
+        public void SetCallbacks(IPlayerActions instance) {
+            if (m_Wrapper.m_PlayerActionsCallbackInterface != null) {
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
@@ -1454,8 +1441,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
-            if (instance != null)
-            {
+            if (instance != null) {
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
@@ -1476,8 +1462,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
     private readonly InputAction m_TileSelector_HorizontalMove;
     private readonly InputAction m_TileSelector_VerticalMove;
     private readonly InputAction m_TileSelector_Click;
-    public struct TileSelectorActions
-    {
+    public struct TileSelectorActions {
         private @GameplayControls m_Wrapper;
         public TileSelectorActions(@GameplayControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @PressClick => m_Wrapper.m_TileSelector_PressClick;
@@ -1491,10 +1476,8 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(TileSelectorActions set) { return set.Get(); }
-        public void SetCallbacks(ITileSelectorActions instance)
-        {
-            if (m_Wrapper.m_TileSelectorActionsCallbackInterface != null)
-            {
+        public void SetCallbacks(ITileSelectorActions instance) {
+            if (m_Wrapper.m_TileSelectorActionsCallbackInterface != null) {
                 @PressClick.started -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnPressClick;
                 @PressClick.performed -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnPressClick;
                 @PressClick.canceled -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnPressClick;
@@ -1515,8 +1498,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 @Click.canceled -= m_Wrapper.m_TileSelectorActionsCallbackInterface.OnClick;
             }
             m_Wrapper.m_TileSelectorActionsCallbackInterface = instance;
-            if (instance != null)
-            {
+            if (instance != null) {
                 @PressClick.started += instance.OnPressClick;
                 @PressClick.performed += instance.OnPressClick;
                 @PressClick.canceled += instance.OnPressClick;
@@ -1544,8 +1526,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Core;
     private ICoreActions m_CoreActionsCallbackInterface;
     private readonly InputAction m_Core_Position;
-    public struct CoreActions
-    {
+    public struct CoreActions {
         private @GameplayControls m_Wrapper;
         public CoreActions(@GameplayControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Position => m_Wrapper.m_Core_Position;
@@ -1554,17 +1535,14 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(CoreActions set) { return set.Get(); }
-        public void SetCallbacks(ICoreActions instance)
-        {
-            if (m_Wrapper.m_CoreActionsCallbackInterface != null)
-            {
+        public void SetCallbacks(ICoreActions instance) {
+            if (m_Wrapper.m_CoreActionsCallbackInterface != null) {
                 @Position.started -= m_Wrapper.m_CoreActionsCallbackInterface.OnPosition;
                 @Position.performed -= m_Wrapper.m_CoreActionsCallbackInterface.OnPosition;
                 @Position.canceled -= m_Wrapper.m_CoreActionsCallbackInterface.OnPosition;
             }
             m_Wrapper.m_CoreActionsCallbackInterface = instance;
-            if (instance != null)
-            {
+            if (instance != null) {
                 @Position.started += instance.OnPosition;
                 @Position.performed += instance.OnPosition;
                 @Position.canceled += instance.OnPosition;
@@ -1582,8 +1560,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Inventory_DeleteItem;
     private readonly InputAction m_Inventory_Cancel;
     private readonly InputAction m_Inventory_Interact;
-    public struct InventoryActions
-    {
+    public struct InventoryActions {
         private @GameplayControls m_Wrapper;
         public InventoryActions(@GameplayControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Navigate => m_Wrapper.m_Inventory_Navigate;
@@ -1597,10 +1574,8 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(InventoryActions set) { return set.Get(); }
-        public void SetCallbacks(IInventoryActions instance)
-        {
-            if (m_Wrapper.m_InventoryActionsCallbackInterface != null)
-            {
+        public void SetCallbacks(IInventoryActions instance) {
+            if (m_Wrapper.m_InventoryActionsCallbackInterface != null) {
                 @Navigate.started -= m_Wrapper.m_InventoryActionsCallbackInterface.OnNavigate;
                 @Navigate.performed -= m_Wrapper.m_InventoryActionsCallbackInterface.OnNavigate;
                 @Navigate.canceled -= m_Wrapper.m_InventoryActionsCallbackInterface.OnNavigate;
@@ -1621,8 +1596,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 @Interact.canceled -= m_Wrapper.m_InventoryActionsCallbackInterface.OnInteract;
             }
             m_Wrapper.m_InventoryActionsCallbackInterface = instance;
-            if (instance != null)
-            {
+            if (instance != null) {
                 @Navigate.started += instance.OnNavigate;
                 @Navigate.performed += instance.OnNavigate;
                 @Navigate.canceled += instance.OnNavigate;
@@ -1650,8 +1624,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Toolbar;
     private IToolbarActions m_ToolbarActionsCallbackInterface;
     private readonly InputAction m_Toolbar_Navigate;
-    public struct ToolbarActions
-    {
+    public struct ToolbarActions {
         private @GameplayControls m_Wrapper;
         public ToolbarActions(@GameplayControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Navigate => m_Wrapper.m_Toolbar_Navigate;
@@ -1660,17 +1633,14 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(ToolbarActions set) { return set.Get(); }
-        public void SetCallbacks(IToolbarActions instance)
-        {
-            if (m_Wrapper.m_ToolbarActionsCallbackInterface != null)
-            {
+        public void SetCallbacks(IToolbarActions instance) {
+            if (m_Wrapper.m_ToolbarActionsCallbackInterface != null) {
                 @Navigate.started -= m_Wrapper.m_ToolbarActionsCallbackInterface.OnNavigate;
                 @Navigate.performed -= m_Wrapper.m_ToolbarActionsCallbackInterface.OnNavigate;
                 @Navigate.canceled -= m_Wrapper.m_ToolbarActionsCallbackInterface.OnNavigate;
             }
             m_Wrapper.m_ToolbarActionsCallbackInterface = instance;
-            if (instance != null)
-            {
+            if (instance != null) {
                 @Navigate.started += instance.OnNavigate;
                 @Navigate.performed += instance.OnNavigate;
                 @Navigate.canceled += instance.OnNavigate;
@@ -1686,8 +1656,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Shortcuts_weapon;
     private readonly InputAction m_Shortcuts_potion;
     private readonly InputAction m_Shortcuts_tool;
-    public struct ShortcutsActions
-    {
+    public struct ShortcutsActions {
         private @GameplayControls m_Wrapper;
         public ShortcutsActions(@GameplayControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @build => m_Wrapper.m_Shortcuts_build;
@@ -1699,10 +1668,8 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(ShortcutsActions set) { return set.Get(); }
-        public void SetCallbacks(IShortcutsActions instance)
-        {
-            if (m_Wrapper.m_ShortcutsActionsCallbackInterface != null)
-            {
+        public void SetCallbacks(IShortcutsActions instance) {
+            if (m_Wrapper.m_ShortcutsActionsCallbackInterface != null) {
                 @build.started -= m_Wrapper.m_ShortcutsActionsCallbackInterface.OnBuild;
                 @build.performed -= m_Wrapper.m_ShortcutsActionsCallbackInterface.OnBuild;
                 @build.canceled -= m_Wrapper.m_ShortcutsActionsCallbackInterface.OnBuild;
@@ -1717,8 +1684,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 @tool.canceled -= m_Wrapper.m_ShortcutsActionsCallbackInterface.OnTool;
             }
             m_Wrapper.m_ShortcutsActionsCallbackInterface = instance;
-            if (instance != null)
-            {
+            if (instance != null) {
                 @build.started += instance.OnBuild;
                 @build.performed += instance.OnBuild;
                 @build.canceled += instance.OnBuild;
@@ -1740,8 +1706,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Camera;
     private ICameraActions m_CameraActionsCallbackInterface;
     private readonly InputAction m_Camera_LookVertical;
-    public struct CameraActions
-    {
+    public struct CameraActions {
         private @GameplayControls m_Wrapper;
         public CameraActions(@GameplayControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @LookVertical => m_Wrapper.m_Camera_LookVertical;
@@ -1750,17 +1715,14 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(CameraActions set) { return set.Get(); }
-        public void SetCallbacks(ICameraActions instance)
-        {
-            if (m_Wrapper.m_CameraActionsCallbackInterface != null)
-            {
+        public void SetCallbacks(ICameraActions instance) {
+            if (m_Wrapper.m_CameraActionsCallbackInterface != null) {
                 @LookVertical.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnLookVertical;
                 @LookVertical.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnLookVertical;
                 @LookVertical.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnLookVertical;
             }
             m_Wrapper.m_CameraActionsCallbackInterface = instance;
-            if (instance != null)
-            {
+            if (instance != null) {
                 @LookVertical.started += instance.OnLookVertical;
                 @LookVertical.performed += instance.OnLookVertical;
                 @LookVertical.canceled += instance.OnLookVertical;
@@ -1775,8 +1737,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
     private readonly InputAction m_ToolSelector_PressClick;
     private readonly InputAction m_ToolSelector_ReleaseClick;
     private readonly InputAction m_ToolSelector_LookDirection;
-    public struct ToolSelectorActions
-    {
+    public struct ToolSelectorActions {
         private @GameplayControls m_Wrapper;
         public ToolSelectorActions(@GameplayControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @PressClick => m_Wrapper.m_ToolSelector_PressClick;
@@ -1787,10 +1748,8 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(ToolSelectorActions set) { return set.Get(); }
-        public void SetCallbacks(IToolSelectorActions instance)
-        {
-            if (m_Wrapper.m_ToolSelectorActionsCallbackInterface != null)
-            {
+        public void SetCallbacks(IToolSelectorActions instance) {
+            if (m_Wrapper.m_ToolSelectorActionsCallbackInterface != null) {
                 @PressClick.started -= m_Wrapper.m_ToolSelectorActionsCallbackInterface.OnPressClick;
                 @PressClick.performed -= m_Wrapper.m_ToolSelectorActionsCallbackInterface.OnPressClick;
                 @PressClick.canceled -= m_Wrapper.m_ToolSelectorActionsCallbackInterface.OnPressClick;
@@ -1802,8 +1761,7 @@ public class @GameplayControls : IInputActionCollection, IDisposable
                 @LookDirection.canceled -= m_Wrapper.m_ToolSelectorActionsCallbackInterface.OnLookDirection;
             }
             m_Wrapper.m_ToolSelectorActionsCallbackInterface = instance;
-            if (instance != null)
-            {
+            if (instance != null) {
                 @PressClick.started += instance.OnPressClick;
                 @PressClick.performed += instance.OnPressClick;
                 @PressClick.canceled += instance.OnPressClick;
@@ -1817,13 +1775,11 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         }
     }
     public ToolSelectorActions @ToolSelector => new ToolSelectorActions(this);
-    public interface IPlayerActions
-    {
+    public interface IPlayerActions {
         void OnJump(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
     }
-    public interface ITileSelectorActions
-    {
+    public interface ITileSelectorActions {
         void OnPressClick(InputAction.CallbackContext context);
         void OnReleaseClick(InputAction.CallbackContext context);
         void OnNavigate(InputAction.CallbackContext context);
@@ -1831,12 +1787,10 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         void OnVerticalMove(InputAction.CallbackContext context);
         void OnClick(InputAction.CallbackContext context);
     }
-    public interface ICoreActions
-    {
+    public interface ICoreActions {
         void OnPosition(InputAction.CallbackContext context);
     }
-    public interface IInventoryActions
-    {
+    public interface IInventoryActions {
         void OnNavigate(InputAction.CallbackContext context);
         void OnChangeStepper(InputAction.CallbackContext context);
         void OnDropItem(InputAction.CallbackContext context);
@@ -1844,23 +1798,19 @@ public class @GameplayControls : IInputActionCollection, IDisposable
         void OnCancel(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
     }
-    public interface IToolbarActions
-    {
+    public interface IToolbarActions {
         void OnNavigate(InputAction.CallbackContext context);
     }
-    public interface IShortcutsActions
-    {
+    public interface IShortcutsActions {
         void OnBuild(InputAction.CallbackContext context);
         void OnWeapon(InputAction.CallbackContext context);
         void OnPotion(InputAction.CallbackContext context);
         void OnTool(InputAction.CallbackContext context);
     }
-    public interface ICameraActions
-    {
+    public interface ICameraActions {
         void OnLookVertical(InputAction.CallbackContext context);
     }
-    public interface IToolSelectorActions
-    {
+    public interface IToolSelectorActions {
         void OnPressClick(InputAction.CallbackContext context);
         void OnReleaseClick(InputAction.CallbackContext context);
         void OnLookDirection(InputAction.CallbackContext context);
