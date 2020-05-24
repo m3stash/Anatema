@@ -28,11 +28,13 @@ public class Player : MonoBehaviour {
     /* Peu effectuer une action */
     public bool canDoubleJump;
     public bool canGrab; // peu se suspendre à un mur
-    public bool canClimb; // peu enjember un mur
+    public bool canClimbJump; // peu enjember un mur
     /* actions en cours */
     public bool onWallClimb;
     public bool onGrab;
     public bool onWallClimbLeft;
+    public bool onCrouch;
+    public bool onClimbJump;
 
     private void Awake() {
         if (instance == null) {
@@ -82,6 +84,7 @@ public class Player : MonoBehaviour {
     private void FixedUpdate() {
         SetVelocity();
         ManageGrab();
+        ManageClimb();
     }
 
     void Update() {
@@ -121,11 +124,17 @@ public class Player : MonoBehaviour {
             vMove = false;
         }
 
+        if(moveDirection.y < 0 && collisions.OnGround() && currentSpeed == 0) {
+            onCrouch = true;
+        } else {
+            onCrouch = false;
+        }
+
 
         if (collisions.CanGrab() && collisions.OnHandWall() && collisions.OnGround()) {
-            canClimb = true;
+            canClimbJump = true;
         } else {
-            canClimb = false;
+            canClimbJump = false;
         }
 
         DetectPickableItemsInArea();
@@ -149,6 +158,8 @@ public class Player : MonoBehaviour {
         animator.SetBool("WallClimb", onWallClimb);
         animator.SetBool("WallClimbLeft", onWallClimbLeft);
         animator.SetBool("WallGrab", onGrab);
+        animator.SetBool("Crouch", onCrouch);
+        animator.SetBool("ClimbJump", onClimbJump);
     }
 
     private void SetVelocity() {
@@ -156,6 +167,9 @@ public class Player : MonoBehaviour {
         if (onGrab || onWallClimb || onWallClimbLeft)
             return;
         Vector2 targetVelocity;
+        if (onCrouch) {
+            onCrouch = false;
+        }
         if (hMove) {
             currentSpeed = Mathf.Abs(moveDirection.x * 20f);
             targetVelocity = new Vector2(moveDirection.x * speed, rg2d.velocity.y);
@@ -221,6 +235,16 @@ public class Player : MonoBehaviour {
                 if (moveDirection.y < 0) {
                     StopGrab();
                 }
+            }
+        }
+    }
+
+    private void ManageClimb() {
+        if (hMove) {
+            if (facingDirection > 0) {
+                onClimbJump = true;
+            } else {
+                // onWallClimbLeft = true;
             }
         }
     }
