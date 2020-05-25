@@ -24,6 +24,7 @@ public class Player : MonoBehaviour {
     private float currentSpeed;
     public int facingDirection;
     private bool resetTransformAfterClimb;
+    private bool resetTransformAfterJumpClimb;
     private bool noAnimationInProgress;
     /* Peu effectuer une action */
     public bool canDoubleJump;
@@ -84,7 +85,7 @@ public class Player : MonoBehaviour {
     private void FixedUpdate() {
         SetVelocity();
         ManageGrab();
-        ManageClimb();
+        ManageClimbJump();
     }
 
     void Update() {
@@ -99,6 +100,15 @@ public class Player : MonoBehaviour {
             canDoubleJump = true;
         } else {
             canDoubleJump = false;
+        }
+
+        if (resetTransformAfterJumpClimb) {
+            if (facingDirection > 0) {
+                playerTransform.position = new Vector3((int)playerTransform.position.x + 1.5f, Mathf.Round(playerTransform.position.y + 1), playerTransform.position.z);
+            } else {
+                playerTransform.position = new Vector3((int)playerTransform.position.x - 0.5f, Mathf.Round(playerTransform.position.y + 1), playerTransform.position.z);
+            }
+            resetTransformAfterJumpClimb = false;
         }
 
         if (resetTransformAfterClimb) {
@@ -130,8 +140,7 @@ public class Player : MonoBehaviour {
             onCrouch = false;
         }
 
-
-        if (collisions.CanGrab() && collisions.OnHandWall() && collisions.OnGround()) {
+        if (collisions.OnGround() && !collisions.IsTopCollision() && !collisions.IsMiddleCollision() && collisions.IsBottomCollision()) {
             canClimbJump = true;
         } else {
             canClimbJump = false;
@@ -239,14 +248,19 @@ public class Player : MonoBehaviour {
         }
     }
 
-    private void ManageClimb() {
-        if (hMove) {
-            if (facingDirection > 0) {
-                onClimbJump = true;
-            } else {
-                // onWallClimbLeft = true;
-            }
+    private void ManageClimbJump() {
+        if (onClimbJump) {
+            return;
         }
+        if (hMove && canClimbJump) {
+            onClimbJump = true;
+        }
+    }
+
+    public void TriggerAnimationClimbJumpFinished() {
+        onClimbJump = false;
+        transform.position = new Vector3(0, 0, transform.position.z);
+        resetTransformAfterJumpClimb = true;
     }
 
     // call by animation climb (left or right)
