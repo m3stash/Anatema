@@ -25,7 +25,6 @@ public class Player : MonoBehaviour {
     public int facingDirection;
     private bool resetTransformAfterClimb;
     private bool resetTransformAfterJumpClimb;
-    private bool noAnimationInProgress;
     /* Peu effectuer une action */
     public bool canDoubleJump;
     public bool canGrab; // peu se suspendre à un mur
@@ -33,9 +32,9 @@ public class Player : MonoBehaviour {
     /* actions en cours */
     public bool onWallClimb;
     public bool onGrab;
-    public bool onWallClimbLeft;
     public bool onCrouch;
     public bool onClimbJump;
+    public bool onJump;
 
     private void Awake() {
         if (instance == null) {
@@ -67,9 +66,11 @@ public class Player : MonoBehaviour {
     }
 
     private void Jump(InputAction.CallbackContext ctx) {
-        if (collisions.OnGround() && !onWallClimb && !onWallClimbLeft) {
+        if (collisions.OnGround() && !onWallClimb && !onClimbJump) {
+            rg2d.gravityScale = 1;
             rg2d.velocity = new Vector2(rg2d.velocity.x, 7);
             animator.SetTrigger("JumpTrigger");
+            onJump = true;
         }
         /*if (Input.GetButtonDown("Jump") && grounded) {
             velocity.y = jumpTakeOffSpeed;
@@ -84,24 +85,9 @@ public class Player : MonoBehaviour {
 
     private void FixedUpdate() {
         SetVelocity();
-        ManageGrab();
-        ManageClimbJump();
     }
 
-    void Update() {
-
-        if (!onWallClimb && !onWallClimbLeft && !onGrab) {
-            noAnimationInProgress = true;
-        } else {
-            noAnimationInProgress = false;
-        }
-
-        if (collisions.OnGround()) {
-            canDoubleJump = true;
-        } else {
-            canDoubleJump = false;
-        }
-
+    private void ManageResetPositionAfterAnimations() {
         if (resetTransformAfterJumpClimb) {
             if (facingDirection > 0) {
                 playerTransform.position = new Vector3((int)playerTransform.position.x + 1.5f, Mathf.Round(playerTransform.position.y + 1), playerTransform.position.z);
@@ -109,6 +95,7 @@ public class Player : MonoBehaviour {
                 playerTransform.position = new Vector3((int)playerTransform.position.x - 0.5f, Mathf.Round(playerTransform.position.y + 1), playerTransform.position.z);
             }
             resetTransformAfterJumpClimb = false;
+            onClimbJump = false;
         }
 
         if (resetTransformAfterClimb) {
@@ -118,9 +105,17 @@ public class Player : MonoBehaviour {
                 playerTransform.position = new Vector3((int)playerTransform.position.x - 0.5f, (int)playerTransform.position.y + 3, playerTransform.position.z);
             }
             resetTransformAfterClimb = false;
+            onWallClimb = false;
         }
+    }
 
-        SetLocalScale();
+    private void ManageBooleans() {
+
+        if (collisions.OnGround()) {
+            canDoubleJump = true;
+        } else {
+            canDoubleJump = false;
+        }
 
         if (moveDirection.x > 0 || moveDirection.x < 0) {
             hMove = true;
@@ -134,7 +129,7 @@ public class Player : MonoBehaviour {
             vMove = false;
         }
 
-        if(moveDirection.y < 0 && collisions.OnGround() && currentSpeed == 0) {
+        if (moveDirection.y < 0 && collisions.OnGround() && currentSpeed == 0) {
             onCrouch = true;
         } else {
             onCrouch = false;
@@ -145,9 +140,25 @@ public class Player : MonoBehaviour {
         } else {
             canClimbJump = false;
         }
+        ManageClimbJump();
+        ManageGrab();
+    }
 
+    void Update() {
+
+        if (!onGrab && !onJump) {
+            if (!collisions.OnGround()) {
+                rg2d.gravityScale = 3;
+            } else {
+                rg2d.gravityScale = 1;
+            }
+        }
+
+        // respect order of functions calls !!!
+        ManageBooleans();
+        ManageResetPositionAfterAnimations();
+        SetLocalScale();
         DetectPickableItemsInArea();
-
         SetAnimators();
         /*if (wallGrab) {
             rg2d.gravityScale = 0;
@@ -165,7 +176,6 @@ public class Player : MonoBehaviour {
         animator.SetFloat("Speed", currentSpeed);
         animator.SetBool("OnGround", collisions.OnGround());
         animator.SetBool("WallClimb", onWallClimb);
-        animator.SetBool("WallClimbLeft", onWallClimbLeft);
         animator.SetBool("WallGrab", onGrab);
         animator.SetBool("Crouch", onCrouch);
         animator.SetBool("ClimbJump", onClimbJump);
@@ -173,7 +183,7 @@ public class Player : MonoBehaviour {
 
     private void SetVelocity() {
         currentSpeed = 0;
-        if (onGrab || onWallClimb || onWallClimbLeft)
+        if (onWallClimb || onClimbJump || onGrab)
             return;
         Vector2 targetVelocity;
         if (onCrouch) {
@@ -189,7 +199,7 @@ public class Player : MonoBehaviour {
     }
 
     private void SetLocalScale() {
-        if (onWallClimb || onWallClimbLeft)
+        if (onWallClimb || onClimbJump || onGrab)
             return;
         if (moveDirection.x > 0) {
             transform.localScale = new Vector2(localScale.x, localScale.y);
@@ -207,7 +217,7 @@ public class Player : MonoBehaviour {
     }
 
     private void ManageGrab() {
-        if (onWallClimb || onWallClimbLeft)
+        if (onClimbJump || onWallClimb)
             return;
         if (collisions.CanGrab() && collisions.OnHandWall() && !collisions.OnGround()) {
             canGrab = true;
@@ -234,12 +244,8 @@ public class Player : MonoBehaviour {
             }
             if (vMove) {
                 if (moveDirection.y > 0) {
-                    if (facingDirection > 0) {
-                        onWallClimb = true;
-                    } else {
-                        onWallClimbLeft = true;
-                    }
-                    // to Do penser à checker si le perso peut ou non passer!!!
+                    onWallClimb = true;
+                    // to Do penser à checker si le perso peut ou non passer !!!!!!!!!!!!!!!!!!
                 }
                 if (moveDirection.y < 0) {
                     StopGrab();
@@ -249,7 +255,7 @@ public class Player : MonoBehaviour {
     }
 
     private void ManageClimbJump() {
-        if (onClimbJump) {
+        if (onClimbJump || onWallClimb) {
             return;
         }
         if (hMove && canClimbJump) {
@@ -258,24 +264,24 @@ public class Player : MonoBehaviour {
     }
 
     public void TriggerAnimationClimbJumpFinished() {
-        onClimbJump = false;
-        transform.position = new Vector3(0, 0, transform.position.z);
         resetTransformAfterJumpClimb = true;
     }
 
-    // call by animation climb (left or right)
+    public void TriggerJumpFinished() {
+        onJump = false;
+    }
+
+
+    /**
+     * @param { resetTransformAfterClime }
+     * pour reset la postion du player a zéro apres la fin de l'anim.
+     * En effet seule la position de l'anim a bougée pas celle tu container Player!
+     * Cela évite aussi de voir l'effet de clignotement lors de la remise a zéro du container
+     */
     public void TriggerClimbAnimationFinished() {
         StopGrab();
-        onWallClimb = false;
-        onWallClimbLeft = false;
-        transform.position = new Vector3(0, 0, transform.position.z);
         resetTransformAfterClimb = true;
-        /*
-         * @param { resetTransformAfterClime }
-         * pour reset la postion du player a zéro apres la fin de l'anim.
-         * En effet seule la position de l'anim a bougée pas celle tu container Player!
-         * Cela évite aussi de voir l'effet de clignotement lors de la remise a zéro du container
-         */
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
