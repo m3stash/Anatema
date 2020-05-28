@@ -13,7 +13,7 @@ public class DynamicLight : MonoBehaviour {
         render = gameObject.GetComponent<Renderer>();
     }
 
-    private void FixedUpdate() {
+    private void Update() {
         if (render && !render.isVisible)
             return;
         int newPosX = (int)transform.position.x;

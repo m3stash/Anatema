@@ -11,7 +11,6 @@ public class Attractor : MonoBehaviour {
         this.rb = this.GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update() {
         if(this.target && this.rb) {
             Vector2 direction = new Vector2(target.position.x - this.transform.position.x, target.position.y - this.transform.position.y);

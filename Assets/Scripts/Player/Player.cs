@@ -1,8 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TreeEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
+public class ActionsInProgress {
+    public bool stopGrab = false;
+    public bool onClimbJump = false;
+    public bool onJump = false;
+
+    public void Init() {
+        stopGrab = false;
+        onClimbJump = false;
+        onJump = false;
+    }
+}
 
 public class Player : MonoBehaviour {
 
@@ -11,16 +22,16 @@ public class Player : MonoBehaviour {
     private Animator animator;
     private PlayerCollision collisions;
 
-    private float speed = 9f;
+    private float speed = 18f;
     private float m_MovementSmoothing = .05f;
     private Vector2 m_Velocity = Vector2.zero;
+    const int defaultGravityScale = 3;
 
     private Vector2 moveDirection;
     private Vector3 localScale;
     // toDo remettre tout en private apres juste pour debug!
     public bool vMove;
     public bool hMove;
-    private Transform playerTransform;
     private float currentSpeed;
     public int facingDirection;
     private bool resetTransformAfterClimb;
@@ -33,8 +44,12 @@ public class Player : MonoBehaviour {
     public bool onWallClimb;
     public bool onGrab;
     public bool onCrouch;
-    public bool onClimbJump;
-    public bool onJump;
+    public bool onFall;
+    public float onFallTime;
+    // public bool onClimbJump;
+    // public bool onJump;
+
+    public ActionsInProgress actionsInProgress;
 
     private void Awake() {
         if (instance == null) {
@@ -42,16 +57,16 @@ public class Player : MonoBehaviour {
         } else {
             Destroy(gameObject);
         }
+        actionsInProgress = new ActionsInProgress();
     }
 
     void Start() {
-        playerTransform = GetComponentsInParent<Transform>()[1];
         collisions = GetComponent<PlayerCollision>();
         //toolbar = GameObject.FindGameObjectWithTag("InventoryToolbar").GetComponent<InventoryToolbar>();
         // rg2d = gameObject.GetComponent<Rigidbody2D>();
-        rg2d = GetComponentInParent<Rigidbody2D>();
-        animator = gameObject.GetComponent<Animator>();
-        localScale = gameObject.GetComponent<Transform>().localScale;
+        rg2d = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        localScale = GetComponent<Transform>().localScale;
         InputManager.gameplayControls.Player.Jump.performed += Jump;
         InputManager.gameplayControls.Player.Move.performed += Move;
     }
@@ -66,11 +81,11 @@ public class Player : MonoBehaviour {
     }
 
     private void Jump(InputAction.CallbackContext ctx) {
-        if (collisions.OnGround() && !onWallClimb && !onClimbJump) {
-            rg2d.gravityScale = 1;
-            rg2d.velocity = new Vector2(rg2d.velocity.x, 7);
+        if (collisions.OnGround() && !onWallClimb && !actionsInProgress.onClimbJump) {
+            rg2d.gravityScale = defaultGravityScale;
+            rg2d.velocity = new Vector2(rg2d.velocity.x, 18);
             animator.SetTrigger("JumpTrigger");
-            onJump = true;
+            actionsInProgress.onJump = true;
         }
         /*if (Input.GetButtonDown("Jump") && grounded) {
             velocity.y = jumpTakeOffSpeed;
@@ -90,19 +105,19 @@ public class Player : MonoBehaviour {
     private void ManageResetPositionAfterAnimations() {
         if (resetTransformAfterJumpClimb) {
             if (facingDirection > 0) {
-                playerTransform.position = new Vector3((int)playerTransform.position.x + 1.5f, Mathf.Round(playerTransform.position.y + 1), playerTransform.position.z);
+                transform.position = new Vector3((int)transform.position.x + 1.5f, Mathf.Round(transform.position.y + 0.8f), transform.position.z);
             } else {
-                playerTransform.position = new Vector3((int)playerTransform.position.x - 0.5f, Mathf.Round(playerTransform.position.y + 1), playerTransform.position.z);
+                transform.position = new Vector3((int)transform.position.x - 0.5f, Mathf.Round(transform.position.y + 0.8f), transform.position.z);
             }
+            actionsInProgress.onClimbJump = false;
             resetTransformAfterJumpClimb = false;
-            onClimbJump = false;
         }
 
         if (resetTransformAfterClimb) {
             if (facingDirection > 0) {
-                playerTransform.position = new Vector3((int)playerTransform.position.x + 1.5f, (int)playerTransform.position.y + 3, playerTransform.position.z);
+                transform.position = new Vector3((int)transform.position.x + 1.5f, (int)transform.position.y + 3, transform.position.z);
             } else {
-                playerTransform.position = new Vector3((int)playerTransform.position.x - 0.5f, (int)playerTransform.position.y + 3, playerTransform.position.z);
+                transform.position = new Vector3((int)transform.position.x - 0.5f, (int)transform.position.y + 3, transform.position.z);
             }
             resetTransformAfterClimb = false;
             onWallClimb = false;
@@ -110,6 +125,12 @@ public class Player : MonoBehaviour {
     }
 
     private void ManageBooleans() {
+
+        if (!collisions.OnGround()) {
+            onFallTime += Time.deltaTime;
+        } else {
+            onFallTime = 0;
+        }
 
         if (collisions.OnGround()) {
             canDoubleJump = true;
@@ -140,26 +161,26 @@ public class Player : MonoBehaviour {
         } else {
             canClimbJump = false;
         }
-        ManageClimbJump();
-        ManageGrab();
+
     }
 
     void Update() {
 
-        if (!onGrab && !onJump) {
-            if (!collisions.OnGround()) {
-                rg2d.gravityScale = 3;
-            } else {
-                rg2d.gravityScale = 1;
-            }
-        }
-
         // respect order of functions calls !!!
         ManageBooleans();
+        ManageClimbJump();
+        ManageGrab();
         ManageResetPositionAfterAnimations();
         SetLocalScale();
         DetectPickableItemsInArea();
         SetAnimators();
+        if (!onGrab && !actionsInProgress.onJump) {
+            if (!collisions.OnGround()) {
+                rg2d.gravityScale = defaultGravityScale;
+            } else {
+                rg2d.gravityScale = 1;
+            }
+        }
         /*if (wallGrab) {
             rg2d.gravityScale = 0;
             rg2d.velocity = new Vector2(rg2d.velocity.x, 0);
@@ -167,31 +188,37 @@ public class Player : MonoBehaviour {
             float speedModifier = y > 0 ? 0.35f : 1;
             rg2d.velocity = new Vector2(rg2d.velocity.x, y * (speed * speedModifier));
         } else {
-            rg2d.gravityScale = 3;
+            rg2d.gravityScale = defaultGravityScale;
         }*/
 
     }
 
     private void SetAnimators() {
         animator.SetFloat("Speed", currentSpeed);
+        /*if (!actionsInProgress.onJump || !actionsInProgress.onClimbJump) {
+            animator.SetBool("OnGround", collisions.OnGround());
+        } else {
+            animator.SetBool("OnGround", true);
+        }*/
+        animator.SetBool("OnFall", onFallTime > 0.3f ? true : false);
         animator.SetBool("OnGround", collisions.OnGround());
         animator.SetBool("WallClimb", onWallClimb);
         animator.SetBool("WallGrab", onGrab);
         animator.SetBool("Crouch", onCrouch);
-        animator.SetBool("ClimbJump", onClimbJump);
+        animator.SetBool("ClimbJump", actionsInProgress.onClimbJump);
     }
 
     private void SetVelocity() {
         currentSpeed = 0;
-        if (onWallClimb || onClimbJump || onGrab)
+        if (onWallClimb || actionsInProgress.onClimbJump || onGrab)
             return;
         Vector2 targetVelocity;
         if (onCrouch) {
             onCrouch = false;
         }
         if (hMove) {
-            currentSpeed = Mathf.Abs(moveDirection.x * 20f);
-            targetVelocity = new Vector2(moveDirection.x * speed, rg2d.velocity.y);
+            currentSpeed = Mathf.Abs(moveDirection.x * 25f);
+            targetVelocity = new Vector2(moveDirection.x * currentSpeed, rg2d.velocity.y);
         } else {
             targetVelocity = new Vector2(0, rg2d.velocity.y);
         }
@@ -199,7 +226,7 @@ public class Player : MonoBehaviour {
     }
 
     private void SetLocalScale() {
-        if (onWallClimb || onClimbJump || onGrab)
+        if (onWallClimb || actionsInProgress.onClimbJump || onGrab)
             return;
         if (moveDirection.x > 0) {
             transform.localScale = new Vector2(localScale.x, localScale.y);
@@ -211,64 +238,68 @@ public class Player : MonoBehaviour {
         }
     }
 
-    private void StopGrab() {
-        onGrab = false;
-        rg2d.gravityScale = 1;
-    }
-
     private void ManageGrab() {
-        if (onClimbJump || onWallClimb)
+        if (actionsInProgress.onClimbJump || onWallClimb)
             return;
         if (collisions.CanGrab() && collisions.OnHandWall() && !collisions.OnGround()) {
             canGrab = true;
         } else {
             canGrab = false;
         }
-        if (!onGrab) {
+        if (!onGrab && !actionsInProgress.stopGrab) {
             if (canGrab && hMove) {
                 onGrab = true;
                 rg2d.gravityScale = 0;
                 rg2d.velocity = new Vector2(rg2d.velocity.x, 0);
                 if (facingDirection > 0) {
-                    playerTransform.position = new Vector3((int)playerTransform.position.x + 1, (int)playerTransform.position.y + 0.5f, playerTransform.position.z);
+                    transform.position = new Vector3((int)transform.position.x + 1, (int)transform.position.y + 0.5f, transform.position.z);
                 } else {
-                    playerTransform.position = new Vector3((int)playerTransform.position.x, (int)playerTransform.position.y + 0.5f, playerTransform.position.z);
+                    transform.position = new Vector3((int)transform.position.x, (int)transform.position.y + 0.5f, transform.position.z);
                 }
                 animator.SetTrigger("WallGrabTrigger");
             }
         } else {
-            if (hMove) {
+            /*if (hMove && !actionsInProgress.stopGrab) {
                 if (!canGrab) {
-                    StopGrab();
+                    StartCoroutine(StopGrab());
                 }
-            }
-            if (vMove) {
+            }*/
+            if (vMove && !actionsInProgress.stopGrab) {
                 if (moveDirection.y > 0) {
                     onWallClimb = true;
                     // to Do penser à checker si le perso peut ou non passer !!!!!!!!!!!!!!!!!!
                 }
                 if (moveDirection.y < 0) {
-                    StopGrab();
+                    StartCoroutine(StopGrab());
                 }
             }
         }
     }
 
+    private IEnumerator StopGrab() {
+        actionsInProgress.stopGrab = true;
+        rg2d.gravityScale = 1;
+        yield return new WaitForSeconds(0.2f);
+        onGrab = false;
+        actionsInProgress.stopGrab = false;
+    }
+
     private void ManageClimbJump() {
-        if (onClimbJump || onWallClimb) {
+        if (actionsInProgress.onClimbJump || onWallClimb) {
             return;
         }
-        if (hMove && canClimbJump) {
-            onClimbJump = true;
+        if (hMove && canClimbJump && (moveDirection.x > 0 && facingDirection > 0 || moveDirection.x < 0 && facingDirection < 0)) {
+            actionsInProgress.onClimbJump = true;
         }
     }
 
     public void TriggerAnimationClimbJumpFinished() {
+        rg2d.gravityScale = defaultGravityScale;
         resetTransformAfterJumpClimb = true;
     }
 
     public void TriggerJumpFinished() {
-        onJump = false;
+        actionsInProgress.onJump = false;
     }
 
 
@@ -279,7 +310,7 @@ public class Player : MonoBehaviour {
      * Cela évite aussi de voir l'effet de clignotement lors de la remise a zéro du container
      */
     public void TriggerClimbAnimationFinished() {
-        StopGrab();
+        StartCoroutine(StopGrab());
         resetTransformAfterClimb = true;
 
     }
@@ -300,15 +331,12 @@ public class Player : MonoBehaviour {
             if (itemsCollider[i].CompareTag("Pickable")) {
                 bool canAddItem = InventoryManager.instance.CanAddItem(itemsCollider[i].GetComponent<Item>());
                 Attractor attractor = itemsCollider[i].GetComponent<Attractor>();
-
                 if (canAddItem) {
-                    attractor.Setup(this.transform, 5f);
+                    attractor.Setup(transform, 5f);
                 } else {
                     attractor.Reset();
                 }
-
             }
         }
     }
-
 }
