@@ -81,7 +81,7 @@ public class Player : MonoBehaviour {
     }
 
     private void Jump(InputAction.CallbackContext ctx) {
-        if (collisions.OnGround() && !onWallClimb && !actionsInProgress.onClimbJump) {
+        if (collisions.OnGround() && !onWallClimb) {
             rg2d.gravityScale = defaultGravityScale;
             rg2d.velocity = new Vector2(rg2d.velocity.x, 18);
             animator.SetTrigger("JumpTrigger");
@@ -206,6 +206,7 @@ public class Player : MonoBehaviour {
         animator.SetBool("WallGrab", onGrab);
         animator.SetBool("Crouch", onCrouch);
         animator.SetBool("ClimbJump", actionsInProgress.onClimbJump);
+        animator.SetBool("Hmove", hMove);
     }
 
     private void SetVelocity() {
