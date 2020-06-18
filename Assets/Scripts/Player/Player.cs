@@ -87,15 +87,6 @@ public class Player : MonoBehaviour {
             animator.SetTrigger("JumpTrigger");
             actionsInProgress.onJump = true;
         }
-        /*if (Input.GetButtonDown("Jump") && grounded) {
-            velocity.y = jumpTakeOffSpeed;
-        } else if (Input.GetButtonUp("Jump")) {
-            if (velocity.y > 0) {
-                velocity.y = velocity.y * 0.5f;
-            }
-        }*/
-        // animator.SetBool("grounded", grounded);
-        // animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
     }
 
     private void FixedUpdate() {
