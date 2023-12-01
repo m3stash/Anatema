@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System;
-using UnityEngine.Experimental.Rendering.Universal;
+
 
 public class CycleDay : MonoBehaviour {
     // [SerializeField] private Light AmbiantLight;
-    [SerializeField] private Light2D ambiantLight;
+    [SerializeField] private UnityEngine.Rendering.Universal.Light2D ambiantLight;
     [SerializeField] private int startHour = 8;
     [SerializeField] private int durationDayOnMinute;
     [SerializeField] private int currentHour = 0;
@@ -45,7 +45,7 @@ public class CycleDay : MonoBehaviour {
         return intensity;
     }
     public void ConvertTime() {
-        ambiantLight.GetComponentInChildren<Light2D>();
+        ambiantLight.GetComponentInChildren<UnityEngine.Rendering.Universal.Light2D>();
         int durationOnSecond = durationDayOnMinute * 60;
         convertedInRealSecond = secondInDay / durationOnSecond;
     }

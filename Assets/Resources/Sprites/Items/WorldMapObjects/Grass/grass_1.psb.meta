@@ -21,9 +21,13 @@ ScriptedImporter:
     convertToNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
+    swizzle: 50462976
     isReadable: 0
     streamingMipmaps: 1
     streamingMipmapsPriority: 0
+    vTOnly: 0
+    ignoreMipmapLimit: 0
     nPOTScale: 1
     sRGBTexture: 1
     spriteMode: 2
@@ -42,6 +46,10 @@ ScriptedImporter:
     textureType: 8
     textureShape: 1
     singleChannelComponent: 0
+    flipbookRows: 0
+    flipbookColumns: 0
+    ignorePngGamma: 0
+    cookieMode: 0
     filterMode: 1
     aniso: 1
     mipBias: 0
@@ -62,6 +70,93 @@ ScriptedImporter:
     compressionQualitySet: 0
     textureFormatSet: 0
     applyGammaDecoding: 0
+  singleSpriteImportData:
+  - name: 
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    spriteID: 
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+    spritePosition: {x: 0, y: 0}
+  multiSpriteImportData: []
+  layeredSpriteImportData:
+  - name: Objet dynamique vectoriel
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 6
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 129
+      width: 63
+      height: 36
+    spriteID: 7758f64f64d530744989ff73e73a5d0d
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 129}
+    spritePosition: {x: 18, y: 0}
+  - name: Objet dynamique vectoriel_1
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 6
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 62
+      width: 55
+      height: 59
+    spriteID: 96f6fed586f3d124ba15aaea437aa2fe
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 62}
+    spritePosition: {x: 12, y: 0}
+  - name: Objet dynamique vectoriel_2
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 6
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 100
+      height: 50
+    spriteID: 50001772751a47b4183d80eae280dbb7
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 4}
+    spritePosition: {x: 0, y: 0}
   spriteImportData:
   - name: 
     originalName: 
@@ -75,7 +170,6 @@ ScriptedImporter:
       width: 0
       height: 0
     spriteID: 
-    internalID: 0
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -83,11 +177,10 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 0, y: 0}
-  mosaicSpriteImportData: []
+    spritePosition: {x: 0, y: 0}
   rigSpriteImportData:
-  - name: grass_1_1
+  - name: Objet dynamique vectoriel
     originalName: 
     pivot: {x: 0, y: 0}
     alignment: 6
@@ -99,7 +192,6 @@ ScriptedImporter:
       width: 63
       height: 36
     spriteID: 7758f64f64d530744989ff73e73a5d0d
-    internalID: 0
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -107,9 +199,9 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: -14, y: 129}
-  - name: grass_1_2
+    uvTransform: {x: 4, y: 129}
+    spritePosition: {x: 18, y: 0}
+  - name: Objet dynamique vectoriel_1
     originalName: 
     pivot: {x: 0, y: 0}
     alignment: 6
@@ -121,7 +213,6 @@ ScriptedImporter:
       width: 55
       height: 59
     spriteID: 96f6fed586f3d124ba15aaea437aa2fe
-    internalID: 0
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -129,9 +220,9 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: -8, y: 62}
-  - name: grass_1_3
+    uvTransform: {x: 4, y: 62}
+    spritePosition: {x: 12, y: 0}
+  - name: Objet dynamique vectoriel_2
     originalName: 
     pivot: {x: 0, y: 0}
     alignment: 6
@@ -143,7 +234,6 @@ ScriptedImporter:
       width: 100
       height: 50
     spriteID: 50001772751a47b4183d80eae280dbb7
-    internalID: 0
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -151,34 +241,53 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 4, y: 4}
+    spritePosition: {x: 0, y: 0}
+  sharedRigSpriteImportData: []
+  mosaicSpriteImportData: []
+  sharedRigCharacterData:
+    bones: []
+    parts: []
+    dimension: {x: 0, y: 0}
+    characterGroups: []
+    pivot: {x: 0, y: 0}
+    boneReadOnly: 0
+  characterData:
+    bones: []
+    parts: []
+    dimension: {x: 0, y: 0}
+    characterGroups: []
+    pivot: {x: 0, y: 0}
+    boneReadOnly: 0
   platformSettings: []
   mosaicLayers: 1
+  characterMode: 1
   documentPivot: {x: 0, y: 0}
   documentAlignment: 7
   importHiddenLayers: 0
-  importedTextureWidth: 128
-  importedTextureHeight: 256
-  documentSize: {x: 100, y: 100}
+  layerMappingOption: 2
+  generatePhysicsShape: 0
   paperDollMode: 0
   keepDupilcateSpriteName: 0
+  padding: 4
+  spriteSizeExpand: 0
+  skeletonAssetReferenceID: 
   spriteCategoryList:
     categories: []
-  textureActualWidth: 128
-  textureActualHeight: 256
   spritePackingTag: 
   resliceFromLayer: 0
-  characterMode: 1
-  mosaicPSDLayers: []
-  rigPSDLayers:
+  pSDLayerImportSetting: []
+  psdLayers:
   - name: Groupe 1
     spriteName: 
     isGroup: 1
     parentIndex: -1
-    spriteID: 00000000000000000000000000000000
+    spriteID: 83d341ab3f0344c9c9b40a9b5f351e11
     layerID: 13
     mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
   - name: Objet dynamique vectoriel
     spriteName: Objet dynamique vectoriel
     isGroup: 0
@@ -186,6 +295,9 @@ ScriptedImporter:
     spriteID: 7758f64f64d530744989ff73e73a5d0d
     layerID: 8
     mosaicPosition: {x: 4, y: 129}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
   - name: Objet dynamique vectoriel
     spriteName: Objet dynamique vectoriel_1
     isGroup: 0
@@ -193,6 +305,9 @@ ScriptedImporter:
     spriteID: 96f6fed586f3d124ba15aaea437aa2fe
     layerID: 6
     mosaicPosition: {x: 4, y: 62}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
   - name: Objet dynamique vectoriel
     spriteName: Objet dynamique vectoriel_2
     isGroup: 0
@@ -200,13 +315,58 @@ ScriptedImporter:
     spriteID: 50001772751a47b4183d80eae280dbb7
     layerID: 4
     mosaicPosition: {x: 4, y: 4}
-  characterData:
-    bones: []
-    parts: []
-    dimension: {x: 0, y: 0}
-    characterGroups: []
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  mosaicPSDLayers: []
+  rigPSDLayers:
+  - name: Groupe 1
+    spriteName: 
+    isGroup: 1
+    parentIndex: -1
+    spriteID: 83d341ab3f0344c9c9b40a9b5f351e11
+    layerID: 13
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 0
+  - name: Objet dynamique vectoriel
+    spriteName: Objet dynamique vectoriel
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 7758f64f64d530744989ff73e73a5d0d
+    layerID: 8
+    mosaicPosition: {x: 4, y: 129}
+    flatten: 0
+    isImported: 0
+    isVisible: 0
+  - name: Objet dynamique vectoriel
+    spriteName: Objet dynamique vectoriel_1
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 96f6fed586f3d124ba15aaea437aa2fe
+    layerID: 6
+    mosaicPosition: {x: 4, y: 62}
+    flatten: 0
+    isImported: 0
+    isVisible: 0
+  - name: Objet dynamique vectoriel
+    spriteName: Objet dynamique vectoriel_2
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 50001772751a47b4183d80eae280dbb7
+    layerID: 4
+    mosaicPosition: {x: 4, y: 4}
+    flatten: 0
+    isImported: 0
+    isVisible: 0
+  sharedRigPSDLayers: []
+  importFileNodeState: 1
+  platformSettingsDirtyTick: 0
+  spriteSizeExpandChanged: 0
   generateGOHierarchy: 0
   textureAssetName: grass_1 Texture
   prefabAssetName: grass_1 Prefab
   spriteLibAssetName: grass_1 Sprite Lib
+  skeletonAssetName: 
   secondarySpriteTextures: []

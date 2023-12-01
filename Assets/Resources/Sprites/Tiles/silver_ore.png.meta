@@ -153,7 +153,7 @@ TextureImporter:
       213: 5610825937107016284
     second: silver_ore_34
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -170,9 +170,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -182,8 +185,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -204,9 +207,15 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -251,7 +260,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a87a69b8e177054a0800000000000000
-      internalID: -6606649680277887094
+      internalID: 21300000
       vertices: []
       indices: 
       edges: []
@@ -272,7 +281,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 69392f09e9c59a8b0800000000000000
-      internalID: -5140475663560305770
+      internalID: 21300002
       vertices: []
       indices: 
       edges: []
@@ -293,7 +302,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 2cf6f5a23b6509c80800000000000000
-      internalID: -8318053184243273790
+      internalID: 21300004
       vertices: []
       indices: 
       edges: []
@@ -314,7 +323,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3ca46df6c98e69c90800000000000000
-      internalID: -7163282398697338173
+      internalID: 21300006
       vertices: []
       indices: 
       edges: []
@@ -335,7 +344,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 2025478ee5fcb1b80800000000000000
-      internalID: -8422910671532568062
+      internalID: 21300008
       vertices: []
       indices: 
       edges: []
@@ -356,7 +365,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 2cf8dea4f5d5d0550800000000000000
-      internalID: 6128657331781472194
+      internalID: 21300010
       vertices: []
       indices: 
       edges: []
@@ -377,7 +386,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: aef5ce5bcfe00fca0800000000000000
-      internalID: -5985267426228674582
+      internalID: 21300012
       vertices: []
       indices: 
       edges: []
@@ -398,7 +407,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 75ac19a09ee15dff0800000000000000
-      internalID: -12069437745018281
+      internalID: 21300014
       vertices: []
       indices: 
       edges: []
@@ -419,7 +428,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 38f6bf095503c0880800000000000000
-      internalID: -8643480440768073853
+      internalID: 21300016
       vertices: []
       indices: 
       edges: []
@@ -440,7 +449,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 1bfc78b93fbe41650800000000000000
-      internalID: 6202842018314964913
+      internalID: 21300018
       vertices: []
       indices: 
       edges: []
@@ -461,7 +470,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3ac41c65f909eb790800000000000000
-      internalID: -7512408114377700189
+      internalID: 21300020
       vertices: []
       indices: 
       edges: []
@@ -482,7 +491,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 236ef5e3043ef3810800000000000000
-      internalID: 1747365045506926130
+      internalID: 21300022
       vertices: []
       indices: 
       edges: []
@@ -503,7 +512,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d6764451ce3984600800000000000000
-      internalID: 452774404729104237
+      internalID: 21300024
       vertices: []
       indices: 
       edges: []
@@ -524,7 +533,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 5cb178927033338a0800000000000000
-      internalID: -6326656945670906939
+      internalID: 21300026
       vertices: []
       indices: 
       edges: []
@@ -545,7 +554,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e1d51ffc3495245d0800000000000000
-      internalID: -3079801047381615330
+      internalID: 21300028
       vertices: []
       indices: 
       edges: []
@@ -980,9 +989,44 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    nameFileIdTable:
+      silver_ore_0: 21300000
+      silver_ore_1: 21300002
+      silver_ore_10: 21300020
+      silver_ore_11: 21300022
+      silver_ore_12: 21300024
+      silver_ore_13: 21300026
+      silver_ore_14: 21300028
+      silver_ore_15: 21300030
+      silver_ore_16: 21300032
+      silver_ore_17: 21300034
+      silver_ore_18: 21300036
+      silver_ore_19: 21300038
+      silver_ore_2: 21300004
+      silver_ore_20: 21300040
+      silver_ore_21: -3376813902337258062
+      silver_ore_22: 2008095592168108860
+      silver_ore_23: 212931869092819419
+      silver_ore_24: -7433978578515031089
+      silver_ore_25: 1881877346211597194
+      silver_ore_26: -8255958045340309170
+      silver_ore_27: 6388901175097525699
+      silver_ore_28: 2831499033495622288
+      silver_ore_29: -3416132523542359514
+      silver_ore_3: 21300006
+      silver_ore_30: 8748756958073587199
+      silver_ore_31: 908332000752676318
+      silver_ore_32: -4395246705734801420
+      silver_ore_33: -9124046118479857352
+      silver_ore_34: 5610825937107016284
+      silver_ore_4: 21300008
+      silver_ore_5: 21300010
+      silver_ore_6: 21300012
+      silver_ore_7: 21300014
+      silver_ore_8: 21300016
+      silver_ore_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

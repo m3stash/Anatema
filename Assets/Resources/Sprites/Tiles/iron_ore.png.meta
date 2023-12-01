@@ -153,7 +153,7 @@ TextureImporter:
       213: 2827737617178691921
     second: iron_ore_34
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -170,9 +170,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -182,8 +185,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -204,9 +207,15 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -251,7 +260,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 04e4da085ef4b3cc0800000000000000
-      internalID: -3730300019221377472
+      internalID: 21300000
       vertices: []
       indices: 
       edges: []
@@ -272,7 +281,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b36860ab503af9880800000000000000
-      internalID: -8601977518263204293
+      internalID: 21300002
       vertices: []
       indices: 
       edges: []
@@ -293,7 +302,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8ee482f2d50031f40800000000000000
-      internalID: 5697898353776938728
+      internalID: 21300004
       vertices: []
       indices: 
       edges: []
@@ -314,7 +323,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8d49e7c75e70565a0800000000000000
-      internalID: -6528803402586090280
+      internalID: 21300006
       vertices: []
       indices: 
       edges: []
@@ -335,7 +344,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 2df0b3cfd4c10b910800000000000000
-      internalID: 1851010568119062482
+      internalID: 21300008
       vertices: []
       indices: 
       edges: []
@@ -356,7 +365,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6bbb31aab4c99a9e0800000000000000
-      internalID: -1609583543018341450
+      internalID: 21300010
       vertices: []
       indices: 
       edges: []
@@ -377,7 +386,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: dd42127ccc8156c60800000000000000
-      internalID: 7810676396537226461
+      internalID: 21300012
       vertices: []
       indices: 
       edges: []
@@ -398,7 +407,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 22b9b77b9c71e8050800000000000000
-      internalID: 5804603124861344546
+      internalID: 21300014
       vertices: []
       indices: 
       edges: []
@@ -419,7 +428,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 364c5fea23975eac0800000000000000
-      internalID: -3826519049790700445
+      internalID: 21300016
       vertices: []
       indices: 
       edges: []
@@ -440,7 +449,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 351267124dc7deeb0800000000000000
-      internalID: -4688954386486517421
+      internalID: 21300018
       vertices: []
       indices: 
       edges: []
@@ -461,7 +470,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0383d0b45d70e62f0800000000000000
-      internalID: -977835456424232912
+      internalID: 21300020
       vertices: []
       indices: 
       edges: []
@@ -482,7 +491,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 57583e1900dc84570800000000000000
-      internalID: 8451230103092036981
+      internalID: 21300022
       vertices: []
       indices: 
       edges: []
@@ -503,7 +512,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e8f793463d1236c30800000000000000
-      internalID: 4351358856773336974
+      internalID: 21300024
       vertices: []
       indices: 
       edges: []
@@ -524,7 +533,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 31c1246591b4a1900800000000000000
-      internalID: 655919267929267219
+      internalID: 21300026
       vertices: []
       indices: 
       edges: []
@@ -545,7 +554,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 5fbccba71b060d1e0800000000000000
-      internalID: -2175132304635278347
+      internalID: 21300028
       vertices: []
       indices: 
       edges: []
@@ -980,9 +989,44 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    nameFileIdTable:
+      iron_ore_0: 21300000
+      iron_ore_1: 21300002
+      iron_ore_10: 21300020
+      iron_ore_11: 21300022
+      iron_ore_12: 21300024
+      iron_ore_13: 21300026
+      iron_ore_14: 21300028
+      iron_ore_15: 21300030
+      iron_ore_16: 21300032
+      iron_ore_17: 21300034
+      iron_ore_18: 21300036
+      iron_ore_19: 21300038
+      iron_ore_2: 21300004
+      iron_ore_20: 21300040
+      iron_ore_21: 7215482318284816611
+      iron_ore_22: 3916425943694015041
+      iron_ore_23: 7140528899035582009
+      iron_ore_24: 7517442498937970200
+      iron_ore_25: 26810042706856232
+      iron_ore_26: -1126629032504277294
+      iron_ore_27: -3548798942383456789
+      iron_ore_28: 8050767158914469157
+      iron_ore_29: -4781114454188155052
+      iron_ore_3: 21300006
+      iron_ore_30: 652485720116195569
+      iron_ore_31: 4737577709136084447
+      iron_ore_32: 5162888358983538156
+      iron_ore_33: -7331261425038750259
+      iron_ore_34: 2827737617178691921
+      iron_ore_4: 21300008
+      iron_ore_5: 21300010
+      iron_ore_6: 21300012
+      iron_ore_7: 21300014
+      iron_ore_8: 21300016
+      iron_ore_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

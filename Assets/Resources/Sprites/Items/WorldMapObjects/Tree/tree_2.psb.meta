@@ -21,9 +21,13 @@ ScriptedImporter:
     convertToNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
+    swizzle: 50462976
     isReadable: 0
     streamingMipmaps: 1
     streamingMipmapsPriority: 0
+    vTOnly: 0
+    ignoreMipmapLimit: 0
     nPOTScale: 1
     sRGBTexture: 1
     spriteMode: 2
@@ -42,6 +46,10 @@ ScriptedImporter:
     textureType: 8
     textureShape: 1
     singleChannelComponent: 0
+    flipbookRows: 0
+    flipbookColumns: 0
+    ignorePngGamma: 0
+    cookieMode: 0
     filterMode: 1
     aniso: 1
     mipBias: 0
@@ -62,6 +70,135 @@ ScriptedImporter:
     compressionQualitySet: 0
     textureFormatSet: 0
     applyGammaDecoding: 0
+  singleSpriteImportData:
+  - name: 
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    spriteID: 
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+    spritePosition: {x: 0, y: 0}
+  multiSpriteImportData: []
+  layeredSpriteImportData:
+  - name: tree_2_feuillage_1
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 613
+      y: 4
+      width: 601
+      height: 512
+    spriteID: 02a90f8d37e56424eb7c189d3dcafa0d
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 613, y: 4}
+    spritePosition: {x: 0, y: 548}
+  - name: tree_2_feuillage_2
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 1222
+      y: 4
+      width: 601
+      height: 512
+    spriteID: 5eae307fccf67ff4eb5bb51b458c13a7
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 1222, y: 4}
+    spritePosition: {x: 599, y: 548}
+  - name: tree_2_feuillage_3
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 601
+      height: 641
+    spriteID: 303ed670d0a9c9441a18694af9984369
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 4}
+    spritePosition: {x: 299, y: 759}
+  - name: tree_2_feuillage_4
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 442
+      y: 653
+      width: 471
+      height: 401
+    spriteID: e37eac1f6ecd78e4a9a82c967e279c96
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 442, y: 653}
+    spritePosition: {x: 344, y: 558}
+  - name: tree_2_tronc
+    originalName: 
+    pivot: {x: 0.35, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 653
+      width: 430
+      height: 840
+    spriteID: 164fbdbd6a241c7488582dae596b64bc
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 653}
+    spritePosition: {x: 385, y: 0}
   spriteImportData:
   - name: 
     originalName: 
@@ -75,7 +212,6 @@ ScriptedImporter:
       width: 0
       height: 0
     spriteID: 
-    internalID: 0
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -83,9 +219,8 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 0, y: 0}
-  mosaicSpriteImportData: []
+    spritePosition: {x: 0, y: 0}
   rigSpriteImportData:
   - name: tree_2_feuillage_1
     originalName: 
@@ -99,7 +234,6 @@ ScriptedImporter:
       width: 601
       height: 512
     spriteID: 02a90f8d37e56424eb7c189d3dcafa0d
-    internalID: 0
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -107,8 +241,8 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: 613, y: -544}
+    uvTransform: {x: 613, y: 4}
+    spritePosition: {x: 0, y: 548}
   - name: tree_2_feuillage_2
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -121,7 +255,6 @@ ScriptedImporter:
       width: 601
       height: 512
     spriteID: 5eae307fccf67ff4eb5bb51b458c13a7
-    internalID: 0
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -129,8 +262,8 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: 623, y: -544}
+    uvTransform: {x: 1222, y: 4}
+    spritePosition: {x: 599, y: 548}
   - name: tree_2_feuillage_3
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -143,7 +276,6 @@ ScriptedImporter:
       width: 601
       height: 641
     spriteID: 303ed670d0a9c9441a18694af9984369
-    internalID: 0
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -151,8 +283,8 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: -295, y: -755}
+    uvTransform: {x: 4, y: 4}
+    spritePosition: {x: 299, y: 759}
   - name: tree_2_feuillage_4
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -165,7 +297,6 @@ ScriptedImporter:
       width: 471
       height: 401
     spriteID: e37eac1f6ecd78e4a9a82c967e279c96
-    internalID: 0
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -173,8 +304,8 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: 98, y: 95}
+    uvTransform: {x: 442, y: 653}
+    spritePosition: {x: 344, y: 558}
   - name: tree_2_tronc
     originalName: 
     pivot: {x: 0.35, y: 0}
@@ -187,7 +318,6 @@ ScriptedImporter:
       width: 430
       height: 840
     spriteID: 164fbdbd6a241c7488582dae596b64bc
-    internalID: 0
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -195,25 +325,93 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    parentGroupIndex: -1
-    uvTransform: {x: -381, y: 653}
+    uvTransform: {x: 4, y: 653}
+    spritePosition: {x: 385, y: 0}
+  sharedRigSpriteImportData: []
+  mosaicSpriteImportData: []
+  sharedRigCharacterData:
+    bones: []
+    parts: []
+    dimension: {x: 0, y: 0}
+    characterGroups: []
+    pivot: {x: 0, y: 0}
+    boneReadOnly: 0
+  characterData:
+    bones: []
+    parts: []
+    dimension: {x: 0, y: 0}
+    characterGroups: []
+    pivot: {x: 0, y: 0}
+    boneReadOnly: 0
   platformSettings: []
   mosaicLayers: 1
+  characterMode: 1
   documentPivot: {x: 0, y: 0}
   documentAlignment: 7
   importHiddenLayers: 0
-  importedTextureWidth: 2048
-  importedTextureHeight: 2048
-  documentSize: {x: 1200, y: 1400}
+  layerMappingOption: 2
+  generatePhysicsShape: 0
   paperDollMode: 0
   keepDupilcateSpriteName: 0
+  padding: 4
+  spriteSizeExpand: 0
+  skeletonAssetReferenceID: 
   spriteCategoryList:
     categories: []
-  textureActualWidth: 2048
-  textureActualHeight: 2048
   spritePackingTag: 
   resliceFromLayer: 0
-  characterMode: 1
+  pSDLayerImportSetting: []
+  psdLayers:
+  - name: tree_2_feuillage_1
+    spriteName: tree_2_feuillage_1
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 02a90f8d37e56424eb7c189d3dcafa0d
+    layerID: 26
+    mosaicPosition: {x: 613, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: tree_2_feuillage_2
+    spriteName: tree_2_feuillage_2
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 5eae307fccf67ff4eb5bb51b458c13a7
+    layerID: 24
+    mosaicPosition: {x: 1222, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: tree_2_feuillage_3
+    spriteName: tree_2_feuillage_3
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 303ed670d0a9c9441a18694af9984369
+    layerID: 28
+    mosaicPosition: {x: 4, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: tree_2_feuillage_4
+    spriteName: tree_2_feuillage_4
+    isGroup: 0
+    parentIndex: -1
+    spriteID: e37eac1f6ecd78e4a9a82c967e279c96
+    layerID: 22
+    mosaicPosition: {x: 442, y: 653}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: tree_2_tronc
+    spriteName: tree_2_tronc
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 164fbdbd6a241c7488582dae596b64bc
+    layerID: 20
+    mosaicPosition: {x: 4, y: 653}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
   mosaicPSDLayers: []
   rigPSDLayers:
   - name: tree_2_feuillage_1
@@ -223,6 +421,9 @@ ScriptedImporter:
     spriteID: 02a90f8d37e56424eb7c189d3dcafa0d
     layerID: 26
     mosaicPosition: {x: 613, y: 4}
+    flatten: 0
+    isImported: 0
+    isVisible: 0
   - name: tree_2_feuillage_2
     spriteName: tree_2_feuillage_2
     isGroup: 0
@@ -230,6 +431,9 @@ ScriptedImporter:
     spriteID: 5eae307fccf67ff4eb5bb51b458c13a7
     layerID: 24
     mosaicPosition: {x: 1222, y: 4}
+    flatten: 0
+    isImported: 0
+    isVisible: 0
   - name: tree_2_feuillage_3
     spriteName: tree_2_feuillage_3
     isGroup: 0
@@ -237,6 +441,9 @@ ScriptedImporter:
     spriteID: 303ed670d0a9c9441a18694af9984369
     layerID: 28
     mosaicPosition: {x: 4, y: 4}
+    flatten: 0
+    isImported: 0
+    isVisible: 0
   - name: tree_2_feuillage_4
     spriteName: tree_2_feuillage_4
     isGroup: 0
@@ -244,6 +451,9 @@ ScriptedImporter:
     spriteID: e37eac1f6ecd78e4a9a82c967e279c96
     layerID: 22
     mosaicPosition: {x: 442, y: 653}
+    flatten: 0
+    isImported: 0
+    isVisible: 0
   - name: tree_2_tronc
     spriteName: tree_2_tronc
     isGroup: 0
@@ -251,13 +461,16 @@ ScriptedImporter:
     spriteID: 164fbdbd6a241c7488582dae596b64bc
     layerID: 20
     mosaicPosition: {x: 4, y: 653}
-  characterData:
-    bones: []
-    parts: []
-    dimension: {x: 0, y: 0}
-    characterGroups: []
+    flatten: 0
+    isImported: 0
+    isVisible: 0
+  sharedRigPSDLayers: []
+  importFileNodeState: 1
+  platformSettingsDirtyTick: 0
+  spriteSizeExpandChanged: 0
   generateGOHierarchy: 0
   textureAssetName: tree_4 Texture
   prefabAssetName: tree_4 Prefab
   spriteLibAssetName: tree_4 Sprite Lib
+  skeletonAssetName: 
   secondarySpriteTextures: []
